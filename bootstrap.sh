@@ -15,13 +15,13 @@ do
 
         ;;
         l)
-            ln -sf $PWD/gitconfig       $HOME/.gitconfig
-            ln -sf $PWD/xprofile        $HOME/.xprofile  
             ln -sf $PWD/alacritty       $HOME/.config/alacritty 
             ln -sf $PWD/bottom          $HOME/.config/bottom
             ln -sf $PWD/bspwm           $HOME/.config/bspwm
             ln -sf $PWD/conky           $HOME/.config/conky
+            ln -sf $PWD/dunst           $HOME/.config/dunst
             ln -sf $PWD/eww             $HOME/.config/eww
+            ln -sf $PWD/git             $HOME/.config/git
             ln -sf $PWD/nvim            $HOME/.config/nvim
             ln -sf $PWD/openbox         $HOME/.config/openbox
             ln -sf $PWD/picom           $HOME/.config/picom
@@ -32,6 +32,8 @@ do
             ln -sf $PWD/tmux            $HOME/.config/tmux
             ln -sf $PWD/zathura         $HOME/.config/zathura
             ln -sf $PWD/zsh             $HOME/.config/zsh
+
+            ln -sf $PWD/xprofile        $HOME/.xprofile  
             ln -sf $PWD/themes/Adaptish $HOME/.themes/Adaptish
             ;;
         s)

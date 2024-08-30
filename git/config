@@ -1,0 +1,27 @@
+[user]
+    name = b_chirva
+    email = bchirva@gmail.com
+
+[color]
+    ui = true
+
+[alias]
+    hist = log --pretty=format:\"%h | %ad | %s%d [%an]\" --graph --date=format-local:\"%d %b %Y\"
+    go = checkout
+
+[merge]
+    tool = vimdiff
+    conflictstyle = diff3
+
+[mergetool]
+    prompt = false
+    keepBackup = true
+
+[mergetool "vimdiff"]
+    cmd = nvim -d $LOCAL $BASE $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+
+[diff]
+    tool = vimdiff
+
+[credential]
+	helper = cache --timeout 180
