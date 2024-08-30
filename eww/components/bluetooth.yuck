@@ -1,0 +1,33 @@
+(defpoll bluetooth_status
+    :initial '{"enabled": false}'
+    :interval "1s"
+    "scripts/bluetooth.sh status"
+)
+
+(defwidget bluetooth_button []
+    (button
+        :class "icon flat fill crop-right"
+        :onclick "scripts/bluetooth.sh menu"
+        :onrightclick "scripts/bluetooth.sh toggle"
+        :tooltip "Open bluetooth menu"
+        {bluetooth_status.enabled ? "󰂯" : "󰂲"}
+    )
+)
+
+(defwidget bluetooth_control []
+    (box 
+        :class "widget"
+        :orientation "h"
+        :valign "center"
+        :halign "fill"
+        :space-evenly false
+        :spacing 0
+
+        (bluetooth_button)
+        (label
+            :hexpand true
+            :justify "center"
+            :text {bluetooth_status.enabled ? "Enabled" : "Disabled"} 
+        )
+    )
+)

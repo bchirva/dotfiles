@@ -1,0 +1,37 @@
+local M = {{
+    none =           "NONE",
+    bg_buffer =      "{bg_base}",
+    bg_line =        "{bg_view}",
+    bg_popup =       "{bg_popup}",
+    bg_highlighted = "{bg_selected}",
+
+    fg_text =        "{fg_text}",
+    fg_highlighted = "{fg_highlighted}",
+    fg_faded =       "{fg_faded}",
+
+    black1 =         "{black}",
+    black2 =         "{black_variant}",
+    red1 =           "{red}",
+    red2 =           "{red_variant}",
+    green1 =         "{green}",
+    green2 =         "{green_variant}",
+    blue1 =          "{blue}",
+    blue2 =          "{blue_variant}",
+    yellow1 =        "{yellow}",
+    yellow2 =        "{yellow_variant}",
+    cyan1 =          "{cyan}",
+    cyan2 =          "{cyan_variant}",
+    magenta1 =       "{magenta}",
+    magenta2 =       "{magenta_variant}",
+
+    success =        "{color_success}",
+    on_success =     "{color_on_success}",
+    warning =        "{color_warning}",
+    on_warning =     "{color_on_warning}",
+    error =          "{color_error}",
+    on_error =       "{color_on_error}",
+    info =           "{color_accent}",
+    on_info =        "{color_on_accent}"
+}}
+
+return M

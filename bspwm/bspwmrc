@@ -1,0 +1,34 @@
+#!/bin/bash
+
+source $HOME/.config/bspwm/theme.sh
+
+dunst &
+sxhkd &
+#picom &
+setxkbmap -model pc105 -layout us,ru -option grp:alt_shift_toggle
+nitrogen --restore &
+#eww open main_bar
+#eww open aux_bar
+polybar -c $HOME/.config/polybar/config_bspwm.ini mainbar &
+polybar -c $HOME/.config/polybar/config_bspwm.ini auxbar &
+udiskie &
+#conky &
+
+bspc monitor DP-5 -d 1 2 3 4 5 
+bspc monitor HDMI-0 -d 1 2 3 4 5 
+
+bspc config window_gap           4
+bspc config split_ratio          0.5
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+bspc config border_width "3px"
+bspc config border_radius 8
+bspc config normal_border_color  "${BACKGROUND_COLOR}"
+bspc config focused_border_color "${ACCENT_COLOR}"
+
+#bspc rule -a appname desktop='^N' args=values
+bspc rule -a 'Steam' focus=off
+bspc rule -a 'Friends List' state=floating focus=off
+bspc rule -a 'Steam - News' state=floating focus=off
+bspc rule -a Zathura state=tiled

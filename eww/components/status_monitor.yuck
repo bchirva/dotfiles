@@ -1,0 +1,44 @@
+(defwindow status_monitor [monitor_name]
+    :monitor monitor_name
+    :geometry (geometry :x "0%"
+                        :y "40px"
+                        :width "25%"
+                        :height "300px"
+                        :anchor "top right")
+    :stacking "fg"
+    :windowtype "dialog"
+    :wm-ignore true
+
+    (box
+        :orientation "h"
+        :class "window popup"
+        :halign "fill"
+        :valign "fill"
+        :space-evenly true
+        :spacing 5
+
+        (box
+            :orientation "v"
+            :halign "fill"
+            :valign "fill"
+            :space-evenly false
+            :spacing 5
+            
+            (box
+                :orientation "h"
+                :class "widget widget-block"
+                :halign "fill"
+                :valign "center"
+                
+                (label
+                    :text "${today_is}"
+                )
+
+            )
+            (calendar_widget)
+            (weather)
+        )
+
+        (notifications)
+    )
+)

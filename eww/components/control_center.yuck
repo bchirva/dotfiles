@@ -1,0 +1,63 @@
+(defwindow control_center [monitor_name]
+    :monitor monitor_name
+    :geometry (geometry :x "0%"
+                        :y "40px"
+                        :width "300px"
+                        ;;:height "300px"
+                        :anchor "top right")
+    :stacking "fg"
+    :windowtype "dialog"
+    :wm-ignore true
+
+    (box 
+        :orientation "v"
+        :class "window popup"
+        :halign "fill"
+        :valign "start"
+        :space-evenly false
+        :spacing 5
+
+        (audio_control)
+        (network_control)
+        ;;(bluetooth_control)
+        (keyboard_control)
+
+        (box 
+            :orientation "h"
+            :valign "center"
+            :halign "end"
+            :space-evenly false
+            :spacing 5
+
+            (button 
+                :class "icon fill" 
+                :onclick "scripts/misc.sh colorschemes"
+                :tooltip "Change colorscheme"
+                ""
+            )
+
+            (button 
+                :class "icon fill" 
+                :onclick "scripts/misc.sh edit-configs"
+                :tooltip "Edit configs"
+                ""
+            )
+
+            (button 
+                :class "icon fill"
+                :onclick "scripts/misc.sh system-monitor"
+                :tooltip "Open system monitor"
+                ""
+            )
+
+            (button 
+                :class "icon fill" 
+                :onclick "scripts/misc.sh powermenu"
+                :tooltip "Exit"
+                "󰗼"
+            )
+        )
+    )
+)
+
+

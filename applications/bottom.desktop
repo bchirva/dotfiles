@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Bottom
+Comment=System monitor
+Path=/bin
+Exec=btm
+Icon=utilities-system-monitor
+Terminal=true
+Keywords=System;Monitor;Statistics

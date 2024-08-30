@@ -1,0 +1,41 @@
+(defwidget brightness_control []
+    (box 
+        :orientation "v" 
+        :class "widget widget-block"
+        :halign "fill"
+        :valign "start"
+        :spacing 5
+        
+        (box :orientation "h"
+            :valign "center" 
+            :halign "fill"
+            :space-evenly false
+            :spacing 5
+
+            (button 
+                :class "icon flat fill disabled"
+                :onclick "echo bright toggle"
+                :active false
+                "󰃠"
+            )
+
+            (scale 
+                :class "disabled"
+                :orientation "h"
+                :min 0
+                :max 101
+                :hexpand true
+                :value 50 
+                :onchange "echo bright {}%"
+                :active false
+            )
+
+            (button 
+                :class "icon flat fill" 
+                :onclick "scripts/misc.sh colorschemes"
+                :tooltip "Change colorscheme"
+                ""
+            )
+        )
+    )
+)

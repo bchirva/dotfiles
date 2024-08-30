@@ -1,0 +1,20 @@
+[Default Applications]
+text/plain=nvim.desktop
+
+text/html=firefox.desktop;
+text/xml=firefox.desktop;
+x-scheme-handler/http=firefox.desktop;
+x-scheme-handler/https=firefox.desktop;
+application/xhtml+xml=firefox.desktop;
+application/xhtml_xml=firefox.desktop;
+
+image/jpeg=gpicview.desktop;
+image/gif=gpicview.desktop;
+image/png=gpicview.desktop;
+image/webp=gpicview.desktop;
+
+image/svg+xml=org.inkscape.Inkscape.desktop;
+image/svg+xml-compressed=org.inkscape.Inkscape.desktop;
+image/svg-xml=gpicview.desktop;
+
+application/pdf=org.pwmt.zathura-pdf-poppler.desktop;

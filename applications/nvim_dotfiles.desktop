@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=System settings
+Comment=Edit config dotfiles
+Exec=nvim "$HOME/.config/"
+Icon=preferences
+Terminal=true

@@ -1,0 +1,8 @@
+set-option -g status-left "#[fg={bg_base},bg={color_accent}] 󰕮 #{{session_name}} #[fg={color_accent},bg={bg_view}] "
+set-option -g status-style bg={bg_view},fg={fg_text}
+set-option -g window-status-format '#{{window_name}} #[fg={color_warning}]#{{window_index}} '
+set-option -g window-status-current-format '#{{window_name}} #[fg={color_accent},bg={bg_view}]#[bg={color_accent},fg={bg_base}]#{{window_index}}#[fg={color_accent},bg={bg_view}]'
+#set-option -g status-right '#[fg={color_accent},bg={bg_view}]#[fg={bg_base},bg={color_accent}]   #{{session_name}} '
+set-option -g status-right ""
+
+

@@ -1,0 +1,37 @@
+[flags]
+rate = 1000
+temperature_type = "celsius"
+group_processes = true
+tree = true 
+dot_marker = true
+
+[[row]]
+    ratio=40
+    [[row.child]]
+        type="proc"
+        default=true
+    [[row.child]]
+        type="cpu"
+[[row]]
+    ratio=30
+    [[row.child]]
+        type="disk"
+    [[row.child]]
+        type="mem"
+[[row]]
+    ratio=30
+    [[row.child]]
+        type="temp"
+    [[row.child]]
+        type="net"
+
+[colors]
+table_header_color="blue"
+cpu_core_colors=["red", "green", "blue", "cyan"]
+avg_cpu_color="gray"
+all_cpu_color="white"
+ram_color="yellow"
+swap_color="magenta"
+rx_color="green"
+tx_color="cyan"
+

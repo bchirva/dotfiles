@@ -1,0 +1,12 @@
+[global]
+    frame_color = "{fg_text}"
+    background = "{bg_popup}"
+    foreground = "{fg_text}"
+
+[urgency_normal]
+    foreground = "{fg_highlighted}"
+    frame_color = "{color_accent}"
+
+[urgency_critical]
+    foreground = "{color_error}"
+    frame_color = "{color_error}"

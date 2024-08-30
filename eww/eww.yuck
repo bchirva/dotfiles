@@ -1,0 +1,13 @@
+(include "components/keyboard.yuck")
+(include "components/network.yuck")
+(include "components/audio.yuck")
+(include "components/calendar.yuck")
+(include "components/weather.yuck")
+(include "components/notifications.yuck")
+(include "components/bluetooth.yuck")
+(include "components/brightness.yuck")
+(include "components/workspaces.yuck")
+
+(include "components/control_center.yuck")
+(include "components/status_monitor.yuck")
+(include "components/bar.yuck")

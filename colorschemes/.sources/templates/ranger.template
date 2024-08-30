@@ -1,0 +1,11 @@
+from __future__ import (absolute_import, division, print_function)
+from ranger.gui.color import (
+    black, blue, cyan, green, magenta, red, white, yellow, default,
+    normal, bold, reverse, dim, BRIGHT,
+    default_colors,
+)
+
+ACCENT_COLOR_NAME  = {color_accent_name}
+WARNING_COLOR_NAME = {color_warning_name}
+ERROR_COLOR_NAME   = {color_error_name}
+SUCCESS_COLOR_NAME = {color_success_name}

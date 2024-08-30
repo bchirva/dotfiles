@@ -1,0 +1,33 @@
+(defpoll network_status
+    :initial '{"enabled": false, "connected": false, "type": "ethernet"}'
+    :interval "1s"
+    "scripts/network.sh status"
+)
+
+(defwidget network_button []
+    (button 
+        :class "flat fill icon"
+        :onclick "scripts/network.sh menu"
+        :onrightclick "scripts/network.sh toggle"
+        :tooltip "Open network menu"
+        { network_status.connected ? network_status.type == "wifi" ? "" : network_status.type == "ethernet" ? "󰈀" : "󰌙" : "󰌙" }
+    )
+)
+
+(defwidget network_control []
+    (box 
+        :class "widget"
+        :orientation "h"
+        :valign "center"
+        :halign "fill"
+        :space-evenly false
+        :spacing 0
+           
+        (network_button)
+        (label
+            :justify "center"
+            :hexpand true
+            :text { network_status.name != "null" ? "${network_status.name}" : "No connection" }
+        )
+    )
+)

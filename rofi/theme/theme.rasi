@@ -1,0 +1,104 @@
+@import "colors.rasi"
+
+* {
+    padding:            0;
+    margin:             0;
+    spacing:            0;
+    border:             0;
+    border-radius:      0.5em;
+
+    background-color:   @color-background-base;
+    text-color:         @color-foreground-text;
+    font:               "Hack Nerd Font 12";
+    
+    items-spacing:      0.25em;
+    items-padding:      0.5em;
+    corner-radius:      0.5em;
+}
+
+window {
+    transparency:       "real";
+    margin:             0;
+    border-radius:      0;
+    background-color:   transparent;
+}
+
+mainbox {
+    border-radius:      @corner-radius;
+}
+
+inputbar {
+    spacing:            @items-spacing;
+    padding:            @items-padding;
+    border-radius:      0.5em 0.5em 0 0;
+}
+
+prompt {
+    vertical-align:     0.5;
+    font:               "Hack Nerd Font Bold 12";
+    background-color:   inherit;
+    text-color:         @color-foreground-highlight;
+}
+
+entry {
+    padding:            @items-padding;
+    border-radius:      @corner-radius;
+    background-color:   transparent;
+    text-color:         @color-foreground-text;
+    cursor:             text;
+    placeholder:        "Search:";
+    placeholder-color:  @color-foreground-faded;
+}
+
+listview {
+    spacing:            @items-spacing;
+    padding:            0.3em;
+    margin:             @items-padding;
+    background-color:   @color-background-view;
+}
+
+element {
+    border-radius:      @corner-radius;
+    padding:            @items-padding;
+    cursor:             pointer;
+}
+
+element-text {
+    margin:             0 0 0 0.3em;
+    background-color:   transparent;
+    text-color:         inherit;
+    cursor:             pointer;
+}
+
+element normal.normal,
+element alternate.normal {
+    background-color:   transparent;
+    text-color:         @color-foreground-text;
+}
+
+element normal.urgent,
+element alternate.urgent {
+    background-color:   @color-error;
+    text-color:         @color-on-error;
+}
+
+element normal.active,
+element alternate.active {
+    background-color:   @color-background-selected;
+    text-color:         @color-foreground-highlight;
+}
+
+element selected.normal,
+element selected.urgent, 
+element selected.active {
+    background-color:   @color-accent;
+    text-color:         @color-on-accent;
+}
+
+scrollbar {
+    width:              0.2em;
+    background-color:   @color-background-focused;
+    handle-color:       @color-accent;
+    handle-width:       @items-spacing;
+}
+

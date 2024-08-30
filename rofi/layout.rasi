@@ -1,0 +1,88 @@
+@theme "./theme/theme.rasi"
+
+window {
+    location:           south west;
+    height:             calc(100% - 38px);
+    width:              500px;
+    fullscreen:         false;
+    transparency:       "real";
+}
+
+mainbox {
+    height:             100%;
+    border-radius:      0;
+    children:           [mode-switcher, inputbar, listview];
+}
+
+inputbar {
+    enabled:            true;
+    margin:             0.5em 0.5em 0;
+    border-radius:      @corner-radius;
+    background-color:   @color-background-view;
+    children:           [icon-search, entry];
+}
+
+icon-search {
+    enabled:            true;
+    expand:             false;
+    filename:           "search";
+    vertical-align:     0.5;
+    background-color:   inherit;
+}
+
+entry {
+    enabled:            true;
+    padding:            0;
+    border-radius:      0;
+}
+
+listview {
+    enabled:            true;
+    margin:             0.5em 0.5em 0;
+    columns:            1;
+    fixed-columns:      false;
+    circle:             true;
+    dynamic:            true;
+    scrollbar:          true;
+}
+
+element {
+    orientation:        horizontal;
+}
+
+element-icon {
+    size:               1.5em;
+    vertical-align:     0.5;
+    background-color:   transparent;
+    cursor:             pointer;
+}
+
+element-text {
+    margin:             0 0 0 1em;
+    vertical-align:     0.5;
+}
+
+mode-switcher {
+    enabled:            true;
+    width:              100%;
+    padding:            @items-padding;
+    spacing:            @items-spacing;
+    background-color:   @color-background-base;
+}
+
+button {
+    expand:             true;
+    padding:            @items-padding;
+    cursor:             pointer;
+    font:               "Hack Nerd Font Bold 12";
+    text-color:         @color-foreground-text;
+}
+
+button.normal {
+    background-color:   @color-background-view;
+}
+
+button.selected {
+    background-color:   @color-accent;
+    color:              @color-on-accent;
+}

@@ -1,0 +1,163 @@
+window.active.label.text.font:shadow=n
+window.inactive.label.text.font:shadow=n
+menu.items.font:shadow=n
+menu.title.text.font:shadow=n
+window.label.text.justify: center
+menu.title.text.justify: center
+
+# Size 
+padding.width: 7
+padding.height: 5
+
+border.width: 2
+menu.border.width: 1
+osd.border.width: 1
+
+window.handle.width: 0
+window.client.padding.width: 0
+
+menu.separator.width: 1
+menu.separator.padding.width: 0
+menu.separator.padding.height: 4
+
+
+# Active window
+window.active.border.color: {bg_base}
+window.active.text.justify: center
+
+window.active.title.bg: flat solid
+window.active.title.bg.color: {bg_base}
+window.active.title.separator.color: {bg_base}
+window.active.title.bg.highlight: 0
+window.active.title.bg.shadow: 0
+
+window.active.label.bg: parentrelative
+window.active.label.text.color: {fg_text}
+
+window.active.handle.bg: flat solid
+window.active.handle.bg.color: {bg_base}
+
+window.active.grip.bg: flat solid
+window.active.grip.bg.color: {bg_base}
+
+window.active.button.unpressed.bg: flat solid
+window.active.button.unpressed.bg.color: {bg_base}
+window.active.button.unpressed.image.color: {fg_faded}
+
+window.active.button.hover.bg: flat solid
+window.active.button.hover.bg.color: {bg_view}
+window.active.button.hover.image.color: {fg_text}
+
+window.active.button.pressed.bg: flat solid
+window.active.button.pressed.bg.color: {bg_selected}
+window.active.button.pressed.image.color: {fg_text}
+
+window.active.button.toggled.bg: flat solid
+window.active.button.toggled.bg.color: {bg_selected}
+window.active.button.toggled.image.color: {fg_text}
+window.active.button.toggled.hover.image.color: {fg_text}
+
+window.active.button.disabled.bg: flat solid
+window.active.button.disabled.bg.color: {bg_base}
+window.active.button.disabled.image.color: {fg_faded}
+
+# Inactive window
+window.inactive.border.color: {bg_base}
+window.inactive.text.justify: center
+
+window.inactive.title.bg: flat solid
+window.inactive.title.bg.color: {bg_base}
+window.inactive.title.separator.color: {bg_base}
+window.inactive.title.bg.highlight: 0
+window.inactive.title.bg.shadow: 0
+
+window.inactive.label.bg: parentrelative
+window.inactive.label.text.color: {fg_text}
+
+window.inactive.handle.bg: flat solid
+window.inactive.handle.bg.color: {bg_base}
+
+window.inactive.grip.bg: flat solid
+window.inactive.grip.bg.color: {bg_base}
+
+window.inactive.button.unpressed.bg: flat solid
+window.inactive.button.unpressed.bg.color: {bg_base}
+window.inactive.button.unpressed.image.color: {fg_faded}
+
+window.inactive.button.hover.bg: flat solid
+window.inactive.button.hover.bg.color: {bg_view}
+window.inactive.button.hover.image.color: {fg_text}
+
+window.inactive.button.pressed.bg: flat solid
+window.inactive.button.pressed.bg.color: {bg_selected}
+window.inactive.button.pressed.image.color: {fg_text}
+
+window.inactive.button.toggled.bg: flat solid
+window.inactive.button.toggled.bg.color: {bg_selected}
+window.inactive.button.toggled.image.color: {fg_text}
+window.inactive.button.toggled.hover.image.color: {fg_text}
+
+window.inactive.button.disabled.bg: flat solid
+window.inactive.button.disabled.bg.color: {bg_base}
+window.inactive.button.disabled.image.color: {fg_faded}
+
+# Menu
+menu.border.color: {bg_base}
+
+menu.title.bg: flat solid
+menu.title.bg.color: {bg_view}
+menu.title.text.color: {fg_text}
+
+menu.items.bg: flat solid
+menu.items.bg.color: {bg_view}
+menu.items.text.color: {fg_text}
+menu.items.disabled.text.color: {fg_faded}
+
+menu.items.active.bg: flat solid
+menu.items.active.bg.color: {bg_selected}
+menu.items.active.text.color: {fg_text}
+
+menu.separator.color: {bg_base}
+
+# OSD
+osd.border.color: {bg_base}
+
+osd.bg: flat solid
+osd.bg.color: {bg_base}
+osd.label.text.color: {fg_text}
+
+osd.active.label.bg: flat solid
+osd.active.label.bg.color: {bg_base}
+osd.active.label.text.color: {color_accent} 
+
+osd.inactive.label.bg: flat solid
+osd.inactive.label.bg.color: {bg_base}
+osd.inactive.label.text.color: {fg_faded} 
+
+osd.hilight.bg: flat solid
+osd.hilight.bg.color: {bg_focused}
+
+osd.unhilight.bg: flat solid
+osd.unhilight.bg.color: {bg_view}
+
+osd.button.unpressed.bg: flat border 
+osd.button.unpressed.bg.color: {bg_base}
+osd.button.unpressed.*.border.color: {bg_base}
+osd.button.unpressed.text.color: {fg_text}
+
+osd.button.hover.bg: flat solid border
+osd.button.hover.bg.color: {color_accent} 
+osd.button.hover.*.border.color: {color_accent} 
+osd.button.hover.text.color: {color_on_accent} 
+
+osd.button.pressed.bg: flat border 
+osd.button.pressed.bg.color: {color_accent}
+osd.button.pressed.*.border.color: {color_accent}
+osd.button.pressed.text.color: {color_on_accent}
+
+osd.button.focused.bg: flat solid border 
+osd.button.focused.bg.color: {color_accent}
+osd.button.focused.*.border.color: {color_accent}
+osd.button.focused.text.color: {color_on_accent}
+
+osd.button.focused.box.color: {color_accent}

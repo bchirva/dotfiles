@@ -1,0 +1,187 @@
+@import "theme";
+
+/* VARIABLES */
+$items-spacing:                 0.5rem;
+$border-width:                  2px;
+$main-font-size:                16px;
+$aux-font-size:                 12px;
+
+* {
+    all:                        unset;
+    padding:                    0;
+    margin:                     0;
+    font-family:                "Hack Nerd Font Mono";
+}
+
+/* WINDOWS */
+.window {
+    border-radius:              $items-spacing;
+    background-color:           $color-background-base;
+    color:                      $color-foreground-text;
+}
+
+.bar {
+    padding:                    calc(#{$items-spacing} / 3);
+
+    /* .icon { */
+    /*     font-size:              2rem; */
+    /*     padding:                calc(#{$items-spacing} * 0.25); */
+    /* } */
+}
+
+.popup {
+    font-size:                  $main-font-size;
+    padding:                    $items-spacing;
+}
+
+/* WIDGETS */
+.widget {
+    border-radius:              $items-spacing;
+    background-color:           $color-background-view;
+    font-size:                  $main-font-size;
+}
+
+.widget-block {
+    padding:                    $items-spacing;
+}
+
+tooltip {
+    padding:                    $items-spacing;
+    border-radius:              $items-spacing;
+    background-color:           $color-background-popup;
+}
+
+/* COMMON */
+.highlighted {
+    color:                      $color-accent;
+    font-weight:                bold;
+}
+
+.disabled {
+    background:                 repeating-linear-gradient(45deg, 
+                                    $color-background-base, 
+                                    $color-background-base calc(#{$border-width} * 2.5), 
+                                    $color-background-view calc(#{$border-width} * 2.5), 
+                                    $color-background-view calc(#{$border-width} * 5));
+    border:                     $border-width dashed $color-background-view;
+}
+
+.crop-top {
+    border-top-left-radius:     0;
+    border-top-right-radius:    0;
+}
+.crop-bottom{
+    border-bottom-left-radius:  0;
+    border-bottom-right-radius: 0;
+}
+.crop-left{
+    border-top-left-radius:     0;
+    border-bottom-left-radius:  0;
+}
+.crop-right{
+    border-top-right-radius:    0;
+    border-bottom-right-radius: 0;
+}
+
+/* BUTTONS */
+button {
+    min-width:              2rem;
+    padding:                $items-spacing;
+    margin:                 0;
+    border-radius:          $items-spacing;
+    border:                 $border-width solid transparent;
+    background-color:       $color-background-view;
+}
+
+.outline {
+    &:hover, &.selected{
+        border:             $border-width solid $color-accent;
+    }
+}
+
+.fill {
+    &:hover, &.selected{
+        color:              $color-on-accent;
+        background-color:   $color-accent;
+    }
+}
+
+.faded {
+    color:                  $color-background-focused;
+}
+
+.flat {
+    background-color:       transparent;
+}
+
+.icon {
+    padding:                calc(#{$items-spacing} / 2);
+    font-size:              2rem;
+    min-width:              2rem;
+}
+
+/* SLIDER */
+scale {
+    border-radius:              $items-spacing;
+}
+
+scale trough {
+    min-height:                 1rem;
+    min-width:                  10rem;
+    margin:                     0 $items-spacing;
+    border-radius:              1rem;
+    background-color:           $color-background-focused;
+
+    highlight {
+        border-radius:          1rem;
+        background-color:       $color-accent;
+    }
+
+    slider {
+        min-height:             1rem;
+        min-width:              1rem;
+        border-radius:          1rem;
+        background-color:       transparent;
+
+        &:hover {
+            background-color:   $color-foreground-highlight;
+        }
+    }
+}
+
+scale.disabled {
+    trough {
+        background-color:   transparent;
+        border:             $border-width dashed $color-background-base;
+    }
+    highlight {
+        background-color:   transparent;
+    }
+}
+
+/* CALENDAR */
+calendar {
+    & > * {
+        border-radius:  $items-spacing;
+    }
+}
+
+calendar.header {
+    font-weight:        bold;
+    background-color:   $color-background-view;
+}
+
+calendar.highlight {
+    font-weight:        bold;
+    color:              $color-accent;
+}
+
+calendar:selected {
+    font-weight:        bold;
+    color:              $color-on-accent;
+    background-color:   $color-accent;
+}
+
+calendar:indeterminate {
+    color:              $color-background-focused;
+}

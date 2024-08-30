@@ -1,0 +1,20 @@
+configuration {
+    modi: "drun,window";
+
+    window-format: "{c} ({t})";
+
+    display-drun: "󱇙 Applications";
+    display-window: " Windows";
+    display-filebrowser: " Files";
+
+    sidebar-mode: true;
+
+    show-icons: true;
+	icon-theme: "Papirus-Dark";
+	
+    me-select-entry: "";
+	me-accept-entry: "MousePrimary";
+}
+
+@theme "./layout.rasi"
+

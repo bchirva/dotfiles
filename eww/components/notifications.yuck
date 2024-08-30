@@ -1,0 +1,31 @@
+(defpoll notifications_list 
+    :initial "[]"
+    :interval "1s" 
+    "scripts/notifications.sh" )
+
+(defwidget notifications []
+    (box 
+        :orientation "v" 
+        :class "widget widget-block"
+        :halign "fill"
+        :valign "fill"
+        ;;:valign {arraylength(notifications_list) == 0 ? "start" : "fill"}
+        :spacing 5
+
+        (label
+            :visible {arraylength(notifications_list) == 0}
+            :class "label-icon"
+            :text "󰂚"
+        )
+        (label 
+            :visible {arraylength(notifications_list) == 0}
+            :valign "start"
+            :vexpand true
+            :text "No notifications..."
+        )
+    )
+)
+;; error  
+;; warning 
+;; info 
+;; success 

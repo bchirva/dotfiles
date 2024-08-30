@@ -1,0 +1,14 @@
+#!/bin/bash
+
+BACKGROUND_COLOR="{bg_base}"
+
+ACCENT_COLOR="{color_accent}"
+WARNING_COLOR="{color_warning}"
+ERROR_COLOR="{color_error}"
+SUCCESS_COLOR="{color_success}"
+
+ACCENT_COLOR_NAME="{color_accent_name}"
+WARNING_COLOR_NAME="{color_warning_name}"
+ERROR_COLOR_NAME="{color_error_name}"
+SUCCESS_COLOR_NAME="{color_success_name}"
+

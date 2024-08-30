@@ -1,0 +1,1 @@
+/home/chirva/Documents/config_dotfiles/colorschemes/active/theme.sh

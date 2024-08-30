@@ -1,0 +1,75 @@
+(defpoll sound_output 
+    :initial '{"volume": 100, "muted": false}'
+    :interval "100ms"
+    "scripts/audio.sh status output"
+)
+
+(defpoll sound_input
+    :initial '{"volume": 100, "muted": false}'
+    :interval "100ms"
+    "scripts/audio.sh status input"
+)
+
+(defwidget audio_output_button []
+    (button 
+        :class "icon flat fill"
+        :onclick "scripts/audio.sh choose output"
+        :onrightclick "scripts/audio.sh mute output"
+        :tooltip "Choose sound output device"
+        {sound_output.muted ? '󰝟' : ''}
+    )
+)
+
+(defwidget audio_input_button []
+    (button 
+        :class "icon flat fill"
+        :onclick "scripts/audio.sh choose input"
+        :onrightclick "scripts/audio.sh mute input"
+        :tooltip "Choose sound input device"
+        {sound_input.muted ? '' : ''}
+    )
+)
+
+(defwidget audio_control []
+    (box 
+        :orientation "v" 
+        :class "widget"
+        :halign "fill"
+        :valign "fill"
+        :spacing 0
+
+        (box :orientation "h"
+            :valign "center" 
+            :halign "fill"
+            :space-evenly false
+            :spacing 5
+
+            (audio_output_button)
+            (scale 
+                :orientation "h"
+                :min 0
+                :max 101
+                :hexpand true
+                :value {sound_output.volume}
+                :onchange "scripts/audio.sh level output {}"
+            )
+        )
+        (box :orientation "h"
+            :valign "center" 
+            :halign "fill"
+            :space-evenly false
+            :spacing 5
+
+            (audio_input_button)
+            (scale 
+                :orientation "h"
+                :min 0
+                :max 101
+                :hexpand true
+                :value {sound_input.volume} 
+                :onchange "scripts/audio.sh level input {}"
+            )
+        )
+    )
+)
+

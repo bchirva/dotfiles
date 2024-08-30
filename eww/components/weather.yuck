@@ -1,0 +1,87 @@
+(defpoll weather_data
+    :interval "1m"
+    "scripts/weather.sh")
+
+(defwidget weather []
+    (box
+        :orientation "h" 
+        :halign "fill"
+        :valign "fill"
+        :space-evenly false
+        :spacing 3
+        :space-evenly true
+
+        (box 
+            :class "widget widget-block crop-right"
+            :orientation "h" 
+            :halign "fill"
+            :valign "center"
+            :space-evenly false 
+            :spacing 0
+
+            (label 
+                :class "icon"
+                :text "${weather_data.icon}"
+            )  
+            (label
+                :text "${weather_data.description}"
+            )
+        )
+        (box 
+            :class "widget widget-block crop-left crop-right"
+            :orientation "h" 
+            :halign "fill"
+            :valign "fill"
+            :space-evenly false 
+            :spacing 5
+        
+            (label
+                :class "icon"
+                :text ""
+            )            
+            (label
+                :halign "end"
+                :text "${round(weather_data.temp, 0)}°C"
+            )
+        )
+
+        (box 
+            :class "widget widget-block crop-left crop-right"
+            :orientation "h" 
+            :halign "fill"
+            :valign "fill"
+            :space-evenly false 
+            :spacing 5
+        
+            (label
+                :class "icon"
+                :text " "
+            )            
+            (label
+                :halign "end"
+                :text "${weather_data.wind}m/s"
+            )
+        )
+
+        (box 
+            :class "widget widget-block crop-left"
+            :orientation "h" 
+            :halign "fill"
+            :valign "fill"
+            :space-evenly false 
+            :spacing 5
+        
+            (label
+                :class "icon"
+                :text ""
+            )            
+            (label
+                :halign "end"
+                :text "${weather_data.humidity}%"
+            )
+        )
+    )
+)
+;;󰖝       
+
+

@@ -1,0 +1,7 @@
+dunst &
+#picom &
+setxkbmap -model pc105 -layout us,ru -option grp:alt_shift_toggle
+nitrogen --restore &
+polybar -c $HOME/.config/polybar/config_openbox.ini
+udiskie &
+
