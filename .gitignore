@@ -3,3 +3,6 @@ zsh/.zshprofile
 zsh/.zshenv
 ssh/
 env
+
+**/__pycache__/
+
