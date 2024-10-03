@@ -2,6 +2,7 @@
 Type=Application
 Version=1.0
 Name=UI Colorscheme
+GenericName=Colorscheme chooser
 Comment=UI colorscheme swither
 Exec=/bin/bash -c "$HOME/.config/rofi/modules/rofi_colorscheme.sh"
 Icon=preferences-color

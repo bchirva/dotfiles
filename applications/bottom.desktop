@@ -2,6 +2,7 @@
 Type=Application
 Version=1.0
 Name=Bottom
+GenericName=System Monitor
 Comment=System monitor
 Path=/bin
 Exec=btm
