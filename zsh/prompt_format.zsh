@@ -5,6 +5,7 @@ source $ZDOTDIR/theme.sh
 #SEPARATOR_CHAR='»'
 SEPARATOR_CHAR=''
 GIT_BRANCH_CHAR=''
+GIT_TAG_CHAR=''
 GIT_DIFF_CHAR="~"
 PYTHON_CHAR=''
 
@@ -17,8 +18,14 @@ function git_prompt_block() {
     fi
 
     BRANCH=$(git status --branch 2>/dev/null | head -n 1 | awk '{print $NF}')
-    if [ "$(git status --short 2>/dev/null)" ]; then CHANGES=" (${GIT_DIFF_CHAR})"; fi
-    echo -en "${GIT_BRANCH_CHAR} ${BRANCH}%{$fg_bold[${ERROR_COLOR_NAME}]%}${CHANGES}%{$fg[${WARNING_COLOR_NAME}]%} ${SEPARATOR_CHAR} "
+    if [ ! -z "$BRANCH" ]; then BRANCH="${GIT_BRANCH_CHAR} ${BRANCH}"; else BRANCH=""; fi
+
+    TAG=$(git tag --points-at)
+    if [ ! -z "$TAG" ]; then TAG=" (${GIT_TAG_CHAR} ${TAG})"; else TAG=""; fi
+
+    if [ "$(git status --short 2>/dev/null)" ]; then CHANGES=" (${GIT_DIFF_CHAR})"; else CHANGES=""; fi
+
+    echo -en "${BRANCH}${TAG}%{$fg_bold[${ERROR_COLOR_NAME}]%}${CHANGES}%{$fg[${WARNING_COLOR_NAME}]%} ${SEPARATOR_CHAR} "
 }
 
 function venv_prompt_block() {
