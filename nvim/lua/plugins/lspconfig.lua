@@ -27,7 +27,7 @@ end
  ]]
 
  -- Default LSP
-local servers = { 'rust_analyzer', 'pyright', 'tsserver', 'cssls' }
+local servers = { 'rust_analyzer', 'pyright', 'ls_ts', 'cssls' }
 for _, lsp in pairs(servers) do
   lspconfig[lsp].setup {
     on_attach = lsp_keybindings,

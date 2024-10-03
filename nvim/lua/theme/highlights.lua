@@ -112,6 +112,17 @@ function M.setup()
         Title =         { fg = colors.green1 },                         -- titles for output from ":set all", ":autocmd" etc.
         Directory =     { fg = colors.blue1 },                          -- directory names (and other special names in listings)
 
+        -- Float windows
+        NormalFloat =           { bg = colors.bg_popup},
+        FloatBorder =           { fg = colors.fg_highlighted },
+        WinBar      =           { link = "NormalFloat"},
+        WinBarNC    =           { link = "NormalFloat"},
+
+        -- Trouble
+        TroubleNormal =         { link = "Normal" },
+        TroubleNormalNC =       { link = "Normal" },
+        TroubleIndent =         { link = "Normal" },
+
         -- NvimTree
         NvimTreeNormal =        { bg = colors.bg_buffer, fg = colors.fg_text },
         NvimTreeWinSeparator =  { bg = colors.bg_buffer },
