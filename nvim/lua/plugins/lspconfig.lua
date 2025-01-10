@@ -8,7 +8,7 @@ local lsp_keybindings = function(client, bufnr)
   vim.keymap.set('n', '<leader>lt', vim.lsp.buf.type_definition, bufopts)
   vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, bufopts)
+  -- vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, bufopts)
 end
 
 local lspconfig = require("lspconfig")
@@ -27,7 +27,7 @@ end
  ]]
 
  -- Default LSP
-local servers = { 'rust_analyzer', 'pyright', 'ls_ts', 'cssls' }
+local servers = { 'rust_analyzer', 'pyright', 'ts_ls', 'cssls' }
 for _, lsp in pairs(servers) do
   lspconfig[lsp].setup {
     on_attach = lsp_keybindings,

@@ -8,7 +8,9 @@ Plug ('hrsh7th/cmp-nvim-lsp')
 Plug ('hrsh7th/cmp-path')
 Plug ('hrsh7th/nvim-cmp')
 Plug ('folke/trouble.nvim')                 -- Diagnostics
--- Plug ('simrat39/symbols-outline.nvim')      -- Tags
+-- Linting & formatting
+Plug ('mfussenegger/nvim-lint')             -- Linting 
+Plug ('stevearc/conform.nvim')              -- Formatting
 -- Syntax highlight
 Plug ('nvim-treesitter/nvim-treesitter', { ['do'] = function() vim.call(":TSUpdate") end })
 -- DAP
@@ -25,7 +27,7 @@ Plug ('hrsh7th/vim-vsnip')
 Plug ('kyazdani42/nvim-tree.lua')           -- File management
 Plug ('nvim-lualine/lualine.nvim')          -- Status line
 Plug ('akinsho/bufferline.nvim')            -- Tabs/buffers topbar
-Plug ('folke/which-key.nvim')                -- Keybindings popup
+Plug ('folke/which-key.nvim')               -- Keybindings popup
 -- Themes
 Plug ('kyazdani42/nvim-web-devicons')       -- Icons for new lua plugins
 -- Utils
@@ -41,3 +43,24 @@ Plug ('nvim-lua/plenary.nvim')
 Plug ('nvim-telescope/telescope.nvim')
 
 vim.call("plug#end")
+
+-- Plugins settings
+require("plugins/autocomplete")
+require("plugins/autopairs")
+require("plugins/bufferline")
+require("plugins/colorizer")
+require("plugins/comment")
+require("plugins/conform")
+require("plugins/dap")
+require("plugins/gitsigns")
+require("plugins/lint")
+require("plugins/lspconfig")
+require("plugins/lualine")
+require("plugins/mason")
+require("plugins/nvim_tree")
+require("plugins/telescope")
+require("plugins/todo_comments")
+require("plugins/treesitter")
+require("plugins/trouble")
+require("plugins/vimtex")
+require("plugins/which_key")
