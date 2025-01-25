@@ -21,6 +21,7 @@ do
             ln -sf $PWD/conky           $HOME/.config/conky
             ln -sf $PWD/dunst           $HOME/.config/dunst
             ln -sf $PWD/eww             $HOME/.config/eww
+            ln -sf $PWD/fzf             $HOME/.config/fzf
             ln -sf $PWD/git             $HOME/.config/git
             ln -sf $PWD/nvim            $HOME/.config/nvim
             ln -sf $PWD/openbox         $HOME/.config/openbox

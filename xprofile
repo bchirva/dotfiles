@@ -1,6 +1,7 @@
 export EDITOR="nvim"
 export BROWSER="firefox"
+export QT_QPA_PLATFORMTHEME=qt5ct
 
 export ZDOTDIR="$HOME/.config/zsh"
-export QT_QPA_PLATFORMTHEME=qt5ct
+export FZF_DEFAULT_OPTS_FILE=$HOME/.config/fzf/fzfrc
 

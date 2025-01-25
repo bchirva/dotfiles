@@ -10,3 +10,10 @@ alias pip='function _pip(){
     else pip "$@";
     fi;
 };_pip'
+
+alias cdf="cd \$(find . \( \
+-path '*/.git' -o \
+-path '*/node_modules' -o \
+-path '*/.ccache' -o \
+-path '*/__pycache__' \
+\) -prune -o -type d -print | fzf)"
