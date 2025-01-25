@@ -24,7 +24,7 @@
     # dynamic width from 0 to 300
     # width = (0, 300)
     # constant width of 300
-    width = 300
+    width = 400
 
     # The maximum height of a single notification, excluding the frame.
     height = 300
@@ -124,7 +124,7 @@
     ### Text ###
 
     # font = Monospace 8
-    font = Hack Nerd Font 12
+    font = Hack Nerd Font 14
 
     # The spacing between lines.  If the height is smaller than the
     # font height, it will get raised to the font height.
@@ -202,7 +202,7 @@
     enable_recursive_icon_lookup = true
 
     # Set icon theme (only used for recursive icon lookup)
-    icon_theme = "Papirus-Dark"
+    icon_theme = "Papirus-Dark, Papirus"
     # You can also set multiple icon themes, with the leftmost one being used first.
     # icon_theme = "Adwaita, breeze"
 
@@ -216,10 +216,10 @@
 
     # Scale larger icons down to this size, set to 0 to disable
     # max_icon_size = 128
-    max_icon_size = 32
+    max_icon_size = 64
 
     # Paths to default icons (only neccesary when not using recursive icon lookup)
-    icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
+    #icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
 
     ### History ###
 

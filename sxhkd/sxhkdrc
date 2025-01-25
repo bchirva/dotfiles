@@ -15,6 +15,9 @@ super + shift + c
 super + shift + m
     alacritty -e btm
 
+super + Print
+    $HOME/.config/rofi/modules/rofi_screenshot.sh
+
 # -------------------
 # bspwm hotkeys
 
