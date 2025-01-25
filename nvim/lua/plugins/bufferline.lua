@@ -4,6 +4,6 @@ lualine.setup {
     options = {
         -- mode = "tabs",
         mode = "buffers",
-        offsets = {{filetype = "NvimTree", text = "File Explorer"}}
+        offsets = { { filetype = "NvimTree", text = "File Explorer" } }
     },
 }

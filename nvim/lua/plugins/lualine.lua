@@ -12,7 +12,7 @@ lualine.setup {
         }
     },
     sections = {
-        lualine_x = {'encoding', 'filetype'}
+        lualine_x = { 'encoding', 'filetype' }
     },
-    extensions = {'nvim-tree'}
+    extensions = { 'nvim-tree' }
 }

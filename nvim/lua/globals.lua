@@ -6,7 +6,6 @@ filetype indent plugin on
 syntax enable
 ]])
 
-
 vim.opt.autochdir = true
 
 vim.opt.showcmd = true
@@ -31,5 +30,7 @@ vim.opt.termguicolors = true
 vim.opt.belloff = "all"
 
 vim.g.mapleader = ' '
+
+vim.opt.clipboard:append("unnamedplus")
 
 require("theme/highlights").setup()

@@ -13,7 +13,7 @@ symbols_outline.setup {
     -- show_symbol_details = true,
     preview_bg_highlight = 'Pmenu',
     keymaps = { -- These keymaps can be a string or a table for multiple keys
-        close = {"<Esc>", "q"},
+        close = { "<Esc>", "q" },
         goto_location = "<Cr>",
         focus_location = "o",
         hover_symbol = "<C-space>",
@@ -52,12 +52,12 @@ symbols_outline.setup {
         TypeParameter = { icon = "𝙏", hl = "@parameter" },
         Component = { icon = "", hl = "@function" },
         Fragment = { icon = "", hl = "@constant" },
-      }
+    }
 }
 
 function toggle_tagbar_keymap()
     if vim.bo.filetype ~= "NvimTree" then
-        vim.api.nvim_buf_set_keymap(0, 'n', '<leader>ss', '<cmd>SymbolsOutline<CR>', {noremap = true, silent = false})
+        vim.api.nvim_buf_set_keymap(0, 'n', '<leader>ss', '<cmd>SymbolsOutline<CR>', { noremap = true, silent = false })
     end
 end
 
@@ -65,5 +65,3 @@ end
 vim.cmd([[
 autocmd Filetype * :lua toggle_tagbar_keymap()
 ]])
-
-
