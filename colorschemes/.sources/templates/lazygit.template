@@ -1,0 +1,30 @@
+gui:
+  theme:
+    activeBorderColor:
+      - '{color_accent}'
+      - bold
+    inactiveBorderColor:
+      - '{fg_text}' 
+    searchingActiveBorderColor:
+      - '{color_warning}'
+      - bold
+    optionsTextColor:
+      - '{color_accent}'
+    selectedLineBgColor:
+      - '{bg_focused}'
+    inactiveViewSelectedLineBgColor:
+      - bold
+    cherryPickedCommitFgColor:
+      - '{color_on_warning}'
+      - bold
+    cherryPickedCommitBgColor:
+      - '{color_warning}'
+    markedBaseCommitFgColor:
+      - '{color_on_warning}'
+      - bold
+    markedBaseCommitBgColor:
+      - '{color_warning}'
+    unstagedChangesColor:
+      - '{color_error}'
+    defaultFgColor:
+      - '{fg_text}'

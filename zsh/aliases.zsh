@@ -17,3 +17,8 @@ alias cdf="cd \$(find . \( \
 -path '*/.ccache' -o \
 -path '*/__pycache__' \
 \) -prune -o -type d -print | fzf)"
+
+alias lazygit='lazygit --use-config-file="$HOME/.config/lazygit/config.yml,$HOME/.config/lazygit/theme.yml"'
+alias lgit='lazygit'
+
+alias ldock="lazydocker"

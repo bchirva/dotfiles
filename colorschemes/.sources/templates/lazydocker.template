@@ -1,0 +1,11 @@
+gui:
+  theme:
+    activeBorderColor:
+      - "{color_accent}"
+      - bold
+    inactiveBorderColor:
+      - "{fg_text}"
+    selectedLineBgColor:
+      - "{bg_focused}"
+    optionsTextColor:
+      - "{color_accent}"
