@@ -24,10 +24,8 @@ bindkey "${key[End]}"           end-of-line
 bindkey "${key[Insert]}"        overwrite-mode
 bindkey "${key[Delete]}"        delete-char
 bindkey "${key[Backspace]}"     backward-delete-char
-#bindkey "${key[Up]}"            up-line-or-history
-#bindkey "${key[Down]}"          down-line-or-history
-bindkey "${key[Up]}"            history-search-backward
-bindkey "${key[Down]}"          history-search-forward
+bindkey "${key[Up]}"            up-line-or-beginning-search 
+bindkey "${key[Down]}"          down-line-or-beginning-search 
 bindkey "${key[Left]}"          backward-char
 bindkey "${key[Right]}"         forward-char
 bindkey "${key[Ctrl_Left]}"     backward-word

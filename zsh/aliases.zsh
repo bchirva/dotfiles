@@ -20,5 +20,4 @@ alias cdf="cd \$(find . \( \
 
 alias lazygit='lazygit --use-config-file="$HOME/.config/lazygit/config.yml,$HOME/.config/lazygit/theme.yml"'
 alias lgit='lazygit'
-
 alias ldock="lazydocker"
