@@ -18,8 +18,8 @@ row_modifiers(){
     done
 }
 
-variant=$(rofi_input | rofi -config "~/.config/rofi/modules/device_list.rasi"\
-    -i -dmenu -p "Keyboard layouts:" -no-custom $(row_modifiers) -l ${#layouts[@]} | awk '{print $2}')
+variant=$(rofi_input | rofi -config "~/.config/rofi/modules/controls_config.rasi"\
+    -i -dmenu -p "Keyboard layouts:" -no-custom $(row_modifiers) -l ${#layouts[@]} )
 
 if [[ $variant ]]; then
     xkb-switch -s $variant

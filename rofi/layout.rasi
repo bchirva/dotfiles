@@ -1,22 +1,30 @@
 @theme "./theme/theme.rasi"
 
 window {
-    location:           south west;
-    height:             calc(100% - 38px);
+    location:           north west;
+    height:             calc(100% - 50px);
     width:              500px;
     fullscreen:         false;
     transparency:       "real";
+
+    border-radius: @corner-radius;
+    border: 3px solid;
+    border-color: @color-accent;
+
+    x-offset: 4px;
+    y-offset: 46px;
 }
 
 mainbox {
     height:             100%;
     border-radius:      0;
     children:           [mode-switcher, inputbar, listview];
+    padding: @items-padding;
+    spacing: @items-padding;
 }
 
 inputbar {
     enabled:            true;
-    margin:             0.5em 0.5em 0;
     border-radius:      @corner-radius;
     background-color:   @color-background-view;
     children:           [icon-search, entry];
@@ -38,34 +46,17 @@ entry {
 
 listview {
     enabled:            true;
-    margin:             0.5em 0.5em 0;
     columns:            1;
     fixed-columns:      false;
     circle:             true;
     dynamic:            true;
     scrollbar:          true;
-}
-
-element {
-    orientation:        horizontal;
-}
-
-element-icon {
-    size:               1.5em;
-    vertical-align:     0.5;
-    background-color:   transparent;
-    cursor:             pointer;
-}
-
-element-text {
-    margin:             0 0 0 1em;
-    vertical-align:     0.5;
+    margin:             0;
 }
 
 mode-switcher {
     enabled:            true;
     width:              100%;
-    padding:            @items-padding;
     spacing:            @items-spacing;
     background-color:   @color-background-base;
 }

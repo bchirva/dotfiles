@@ -58,6 +58,7 @@ listview {
 }
 
 element {
+    orientation:        horizontal;
     border-radius:      @corner-radius;
     padding:            @items-padding;
     cursor:             pointer;
@@ -67,6 +68,14 @@ element-text {
     margin:             0 0 0 0.3em;
     background-color:   transparent;
     text-color:         inherit;
+    cursor:             pointer;
+    vertical-align:     0.5;
+}
+
+element-icon {
+    size:               1.5em;
+    vertical-align:     0.5;
+    background-color:   transparent;
     cursor:             pointer;
 }
 
