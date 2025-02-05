@@ -4,7 +4,7 @@ source $HOME/.config/bspwm/theme.sh
 
 dunst &
 sxhkd &
-#picom &
+picom -b 
 setxkbmap -model pc105 -layout us,ru -option grp:alt_shift_toggle
 nitrogen --restore &
 #eww open main_bar
@@ -32,3 +32,4 @@ bspc rule -a 'Steam' focus=off
 bspc rule -a 'Friends List' state=floating focus=off
 bspc rule -a 'Steam - News' state=floating focus=off
 bspc rule -a Zathura state=tiled
+bspc rule -a Gsimplecal state=floating center=on follow=on
