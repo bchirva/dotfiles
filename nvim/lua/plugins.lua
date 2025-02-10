@@ -1,49 +1,63 @@
-local Plug = vim.fn['plug#']
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+    if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({
+            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+            { out,                            "WarningMsg" },
+            { "\nPress any key to exit..." },
+        }, true, {})
+        vim.fn.getchar()
+        os.exit(1)
+    end
+end
+vim.opt.rtp:prepend(lazypath)
 
-vim.call("plug#begin")
-
--- LSP
-Plug('neovim/nvim-lspconfig')
-Plug('hrsh7th/cmp-nvim-lsp')
-Plug('hrsh7th/cmp-path')
-Plug('hrsh7th/nvim-cmp')
-Plug('folke/trouble.nvim')     -- Diagnostics
--- Linting & formatting
-Plug('mfussenegger/nvim-lint') -- Linting
-Plug('stevearc/conform.nvim')  -- Formatting
--- Syntax highlight
-Plug('nvim-treesitter/nvim-treesitter', { ['do'] = function() vim.call(":TSUpdate") end })
--- DAP
-Plug('mfussenegger/nvim-dap') -- Debugging
-Plug('nvim-neotest/nvim-nio') -- Dap-ui dependency
-Plug('rcarriga/nvim-dap-ui')  -- Debugging UI
--- Mason
-Plug('williamboman/mason.nvim')
-Plug('williamboman/mason-lspconfig.nvim')
--- Snippets
-Plug('hrsh7th/cmp-vsnip')
-Plug('hrsh7th/vim-vsnip')
--- UI components
-Plug('kyazdani42/nvim-tree.lua')     -- File management
-Plug('nvim-lualine/lualine.nvim')    -- Status line
-Plug('akinsho/bufferline.nvim')      -- Tabs/buffers topbar
-Plug('folke/which-key.nvim')         -- Keybindings popup
--- Themes
-Plug('kyazdani42/nvim-web-devicons') -- Icons for new lua plugins
--- Utils
-Plug('windwp/nvim-autopairs')        -- Auto pair brackets, quotes, parantheses etc.
-Plug('windwp/nvim-ts-autotag')       -- Auto pair html tags
-Plug('numToStr/Comment.nvim')        -- Commenting
-Plug('folke/todo-comments.nvim')     -- Special comments highlight
-Plug('lewis6991/gitsigns.nvim')      -- Git integration
-Plug('norcalli/nvim-colorizer.lua')  -- Color preview
--- Other
-Plug('lervag/vimtex')                -- LaTeX support
--- Telescope
-Plug('nvim-lua/plenary.nvim')
-Plug('nvim-telescope/telescope.nvim')
-
-vim.call("plug#end")
+-- Setup lazy.nvim
+require("lazy").setup({
+    -- LSP
+    { 'neovim/nvim-lspconfig' },
+    { 'hrsh7th/cmp-nvim-lsp' },
+    { 'hrsh7th/cmp-path' },
+    { 'hrsh7th/nvim-cmp' },
+    { 'folke/trouble.nvim' },     -- Diagnostics
+    -- Linting & formatting
+    { 'mfussenegger/nvim-lint' }, -- Linting
+    { 'stevearc/conform.nvim' },  -- Formatting
+    -- Syntax highlight
+    { 'nvim-treesitter/nvim-treesitter',  build = ":TSUpdate" },
+    -- DAP
+    { 'mfussenegger/nvim-dap' }, -- Debugging
+    { 'nvim-neotest/nvim-nio' }, -- Dap-ui dependency
+    { 'rcarriga/nvim-dap-ui' },  -- Debugging UI
+    -- Mason
+    { 'williamboman/mason.nvim' },
+    { 'williamboman/mason-lspconfig.nvim' },
+    -- Snippets
+    { 'hrsh7th/cmp-vsnip' },
+    { 'hrsh7th/vim-vsnip' },
+    -- UI components
+    { 'kyazdani42/nvim-tree.lua' },     -- File management
+    { 'nvim-lualine/lualine.nvim' },    -- Status line
+    { 'akinsho/bufferline.nvim' },      -- Tabs/buffers topbar
+    { 'folke/which-key.nvim' },         -- Keybindings popup
+    -- Themes
+    { 'kyazdani42/nvim-web-devicons' }, -- Icons for new lua plugins
+    -- Utils
+    { 'windwp/nvim-autopairs' },        -- Auto pair brackets, quotes, parantheses etc.
+    { 'windwp/nvim-ts-autotag' },       -- Auto pair html tags
+    { 'numToStr/Comment.nvim' },        -- Commenting
+    { 'folke/todo-comments.nvim' },     -- Special comments highlight
+    { 'lewis6991/gitsigns.nvim' },      -- Git integration
+    { 'norcalli/nvim-colorizer.lua' },  -- Color preview
+    -- Other
+    { 'lervag/vimtex' },                -- LaTeX support
+    { 'OXY2DEV/markview.nvim' },        -- Markdown pseudo-preview
+    -- Telescope
+    { 'nvim-lua/plenary.nvim' },
+    { 'nvim-telescope/telescope.nvim' },
+})
 
 -- Plugins settings
 require("plugins/autocomplete")
@@ -65,4 +79,5 @@ require("plugins/todo_comments")
 require("plugins/treesitter")
 require("plugins/trouble")
 require("plugins/vimtex")
+require("plugins/markview")
 require("plugins/which_key")

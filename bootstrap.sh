@@ -9,10 +9,6 @@ do
             if [ ! -d "$HOME/.icons" ];  then mkdir $HOME/.themes; fi
             if [ ! -d "$HOME/.fonts" ];  then mkdir $HOME/.fonts; fi
             if [ ! -d "$HOME/.cache" ];  then mkdir $HOME/.cache; fi
-            if [ ! -d "$HOME/.local/share/nvim" ]; then
-                curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-            fi
-
         ;;
         l)
             ln -sf $PWD/alacritty       $HOME/.config/alacritty 
