@@ -1,1 +1,1 @@
-/home/chirva/Documents/config_dotfiles/colorschemes/active/theme.nvim.lua
+/home/chirva/Documents/config_dotfiles/colorschemes/build/active/theme.nvim.lua

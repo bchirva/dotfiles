@@ -1,0 +1,27 @@
+background {bg_base} 
+foreground {fg_text}
+
+color0 {black}
+color8 {black_variant}
+
+color1 {red}
+color9 {red_variant}
+
+color2 {green}
+color10 {green_variant}
+
+color3 {yellow}
+color11 {yellow_variant}
+
+color4 {blue}
+color12 {blue_variant}
+
+color5 {magenta}
+color13 {magenta_variant}
+
+color6 {cyan}
+color14 {cyan_variant}
+
+color7 {white}
+color15 {white_variant}
+

@@ -1,1 +1,1 @@
-/home/chirva/Documents/config_dotfiles/colorschemes/active/theme.ranger.py
+/home/chirva/Documents/config_dotfiles/colorschemes/build/active/theme.ranger.py

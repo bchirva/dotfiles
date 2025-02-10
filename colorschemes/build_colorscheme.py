@@ -34,49 +34,6 @@ def darken(color, ratio):
     return mix_color(color, "#000000", 1 - ratio)
 
 
-# def colorscheme_format(template, colorscheme_json):
-#     return template.format(
-#             black = colorscheme_json["black"][0],
-#             red = colorscheme_json["red"][0],
-#             green = colorscheme_json["green"][0],
-#             yellow = colorscheme_json["yellow"][0],
-#             blue = colorscheme_json["blue"][0],
-#             magenta = colorscheme_json["magenta"][0],
-#             cyan = colorscheme_json["cyan"][0],
-#             white = colorscheme_json["white"][0],
-#             black_variant = colorscheme_json["black"][1],
-#             red_variant = colorscheme_json["red"][1],
-#             green_variant = colorscheme_json["green"][1],
-#             yellow_variant= colorscheme_json["yellow"][1],
-#             blue_variant = colorscheme_json["blue"][1],
-#             magenta_variant = colorscheme_json["magenta"][1],
-#             cyan_variant = colorscheme_json["cyan"][1],
-#             white_variant = colorscheme_json["white"][1],
-#
-#             bg_base = colorscheme_json["background"]["base"],
-#             bg_view = colorscheme_json["background"]["view"],
-#             bg_popup = colorscheme_json["background"]["popup"],
-#             bg_focused = colorscheme_json["background"]["focused"],
-#             bg_selected = colorscheme_json["background"]["selected"],
-#             fg_text = colorscheme_json["foreground"]["text"],
-#             fg_highlighted = colorscheme_json["foreground"]["highlighted"],
-#             fg_faded = colorscheme_json["foreground"]["faded"],
-#
-#             color_accent = colorscheme_json["accent"]["background"],
-#             color_on_accent = colorscheme_json["accent"]["foreground"],
-#             color_accent_name = colorscheme_json["accent"]["name"],
-#             color_warning = colorscheme_json["warning"]["background"],
-#             color_on_warning = colorscheme_json["warning"]["foreground"],
-#             color_warning_name = colorscheme_json["warning"]["name"],
-#             color_error = colorscheme_json["error"]["background"],
-#             color_on_error = colorscheme_json["error"]["foreground"],
-#             color_error_name = colorscheme_json["error"]["name"],
-#             color_success = colorscheme_json["success"]["background"],
-#             color_on_success = colorscheme_json["success"]["foreground"],
-#             color_success_name = colorscheme_json["success"]["name"]
-#     )
-
-
 def colorscheme_format(template, colorscheme_json):
     return template.format(
         black=colorscheme_json["black"],
@@ -156,53 +113,78 @@ def colorscheme_format(template, colorscheme_json):
     )
 
 
-generaions = [
-    {"source": "alacritty.template", "result": "theme.alacritty.toml"},
-    {"source": "dunst.template", "result": "theme.dunst.conf"},
-    {"source": "eww.template", "result": "theme.eww.scss"},
-    {"source": "gtk.template", "result": "theme.gtk.css"},
-    {"source": "gtkrc.template", "result": "theme.gtkrc"},
-    {"source": "lazydocker.template", "result": "theme.lazydocker.yml"},
-    {"source": "lazygit.template", "result": "theme.lazygit.yml"},
-    {"source": "neovim.template", "result": "theme.nvim.lua"},
-    {"source": "openbox.template", "result": "theme.openbox"},
-    {"source": "polybar.template", "result": "theme.polybar.ini"},
-    {"source": "ranger.template", "result": "theme.ranger.py"},
-    {"source": "rofi.template", "result": "theme.rofi.rasi"},
-    {"source": "sh.template", "result": "theme.sh"},
-    {"source": "zathura.template", "result": "theme.zathura"},
-    {"source": "tmux.template", "result": "tmux.theme.conf"},
-]
+# generaions = [
+#     {"source": "alacritty.template", "result": "theme.alacritty.toml"},
+#     {"source": "dunst.template", "result": "theme.dunst.conf"},
+#     {"source": "eww.template", "result": "theme.eww.scss"},
+#     {"source": "gtk.template", "result": "theme.gtk.css"},
+#     {"source": "gtkrc.template", "result": "theme.gtkrc"},
+#     {"source": "kitty.template", "result": "theme.kitty.conf"},
+#     {"source": "lazydocker.template", "result": "theme.lazydocker.yml"},
+#     {"source": "lazygit.template", "result": "theme.lazygit.yml"},
+#     {"source": "neovim.template", "result": "theme.nvim.lua"},
+#     {"source": "openbox.template", "result": "theme.openbox"},
+#     {"source": "polybar.template", "result": "theme.polybar.ini"},
+#     {"source": "ranger.template", "result": "theme.ranger.py"},
+#     {"source": "rofi.template", "result": "theme.rofi.rasi"},
+#     {"source": "sh.template", "result": "theme.sh"},
+#     {"source": "zathura.template", "result": "theme.zathura"},
+#     {"source": "tmux.template", "result": "theme.tmux.conf"},
+# ]
+
+
+generaions = {
+    "alacritty.template": "theme.alacritty.toml",
+    "dunst.template": "theme.dunst.conf",
+    "eww.template": "theme.eww.scss",
+    "gtk.template": "theme.gtk.css",
+    "gtkrc.template": "theme.gtkrc",
+    "kitty.template": "theme.kitty.conf",
+    "lazydocker.template": "theme.lazydocker.yml",
+    "lazygit.template": "theme.lazygit.yml",
+    "neovim.template": "theme.nvim.lua",
+    "openbox.template": "theme.openbox",
+    "polybar.template": "theme.polybar.ini",
+    "ranger.template": "theme.ranger.py",
+    "rofi.template": "theme.rofi.rasi",
+    "sh.template": "theme.sh",
+    "zathura.template": "theme.zathura",
+    "tmux.template": "theme.tmux.conf",
+}
 
 colorschemes_list = []
 if config["all"]:
-    colorschemes_list = os.listdir(".sources/palettes")
+    colorschemes_list = os.listdir("palettes")
 else:
     colorschemes_list = config["select"].split(",")
 
+if not os.path.isdir("build"):
+    os.mkdir("build")
+
 for colorscheme in colorschemes_list:
     print(f"Generate {colorscheme} colorscheme:")
-    source_file = open(
-        os.path.join("./.sources/palettes/", colorscheme), "r", encoding="utf-8"
-    )
+    source_file = open(os.path.join("./palettes/", colorscheme), "r", encoding="utf-8")
     colorscheme_json = json.load(source_file)
 
     name = colorscheme.split(".")[0]
-    if not os.path.isdir(name):
-        os.mkdir(name)
+    COLORSCHEME_DIR = f"build/{name}"
+    if not os.path.isdir(COLORSCHEME_DIR):
+        os.mkdir(COLORSCHEME_DIR)
 
-    for formated_theme in generaions:
-        print(f"\tProcess {formated_theme['source']}...")
+    for template, result in generaions.items():
+        print(f"\tProcess {template}...")
 
         theme_template = open(
-            os.path.join("./.sources/templates/", formated_theme["source"]),
+            os.path.join("./templates/", template),
             "r",
             encoding="utf-8",
         ).read()
         theme_data = colorscheme_format(theme_template, colorscheme_json)
 
         with open(
-            os.path.join(name, formated_theme["result"]), "w", encoding="utf-8"
+            os.path.join(COLORSCHEME_DIR, result),
+            "w",
+            encoding="utf-8",
         ) as result_file:
             result_file.write(theme_data)
             result_file.close()

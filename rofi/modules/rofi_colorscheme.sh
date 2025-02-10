@@ -1,6 +1,6 @@
 #!/bin/bash
 
-colorschemes_dir=$HOME/Documents/config_dotfiles/colorschemes
+colorschemes_dir=$HOME/Documents/config_dotfiles/colorschemes/build
 cd $colorschemes_dir
 readarray -t schemes <<< $(ls -1 -d */ | sed 's/\///g' | sed '/active/d')
 
