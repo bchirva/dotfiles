@@ -1,22 +1,76 @@
 #!/bin/bash
 
-function network_status {
-    NETWORK_STATUS=$(nmcli networking)
+WIRELESS_INTERFACES=($(nmcli device | awk '$2=="wifi" {print $1}'))
+WIRELESS_INTERFACES_PRODUCT=()
+WLAN_INT=0
+WIRED_INTERFACES=($(nmcli device | awk '$2=="ethernet" {print $1}'))
 
-    ACTIVE_NETWORK=$(nmcli --fields state,type,connection device | sed '1d'\
-        | grep "wifi" | grep -w "connected" | awk {'print $3'})
-    
+function device_list_json {
+    DEVICES=$(nmcli device | grep -E "ethernet|wifi" | grep -v "unavailable")
+    RESULT="[]"
+    while read line; do
+        DEVICE_NAME=$(awk '{print $1}' <<< $line)
+        DEVICE_TYPE=$(awk '{print $2}' <<< $line)
+        DEVICE_STATUS=$(awk '{print $3}' <<< $line | sed "s/connected/true/g" | sed "s/disconnected/false/g")
+
+        RESULT=$(jq ". += [{ \
+            device: \"$DEVICE_NAME\", \
+            type: \"$DEVICE_TYPE\", \
+            status: $DEVICE_STATUS}]" \
+            <<< $RESULT)
+    done <<< "$DEVICES"
+    echo "$RESULT"
 }
 
-function wifi_network_list {
-    readarray -t WIFI_NETWORKS <<< $(nmcli --fields ssid device wifi list | sed '1d' | sed '/^--/d')
-    JSON_ARRAY="[]"
-    for i in ${!WIFI_NETWORKS[*]}
-    do
-        JSON_ARRAY=$(jq  ". += [${WIFI_NETWORKS[$i]}]" <<< $JSON_ARRAY)
-    done
+function wifi_list_json { 
+    WIFI_NETWORKS=$(nmcli --fields ssid device wifi list | sed '1d' | sed '/^--/d')
+    RESULT="[]"
+    while read line; do
+        SSID=""
+        SECURITY=""
+        LEVEL=0
+        STATUS=false
 
-    echo $JSON_ARRAY
+        RESULT=$(jq ". += [{ \
+            ssid: \"$SSID\", \
+            security: \"$SECURITY\", \
+            level: $LEVEL, \
+            status: $STATUS \
+        }]" <<< $RESULT)
+    done <<< $WIFI_NETWORKS
+
+    echo "[]"
+}
+
+function vpn_list_json {
+    VPN_NETWORKS=$()
+    RESULT="[]"
+    while read line; do
+        NAME=""
+        TYPE=""
+        STATUS=false
+
+        RESULT=$(jq ". += [{ \
+            name: \"$SSID\", \
+            type: \"$TYPE\", \
+            status: $STATUS \
+        }]" <<< $RESULT)
+    done <<< $VPN_NETWORKS
+
+    echo "[]"
+}
+
+function network_status {
+    NETWORK_STATUS=$(nmcli networking | sed "s/enabled/true/g" | sed "s/disabled/false/g")
+
+    RESULT=$(jq ". += { \
+        total_status: $NETWORK_STATUS, \
+        devices: $(device_list_json), \
+        wifi: $(wifi_list_json), \
+        vpn: $(vpn_list_json) }" \
+        <<< "{}")
+
+    echo "$RESULT"
 }
 
 function toggle_network {
