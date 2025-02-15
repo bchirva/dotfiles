@@ -149,6 +149,7 @@ generaions = {
     "rofi.template": "theme.rofi.rasi",
     "sh.template": "theme.sh",
     "zathura.template": "theme.zathura",
+    "yazi.template": "theme.yazi",
     "tmux.template": "theme.tmux.conf",
 }
 

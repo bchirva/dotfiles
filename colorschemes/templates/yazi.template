@@ -1,0 +1,112 @@
+[manager]
+cwd = {{ fg = "{color_accent}" }}
+
+hovered         = {{ reversed = true }}
+preview_hovered = {{ underline = true }}
+
+find_keyword  = {{ fg = "red", bold = true, italic = true, underline = true }}
+find_position = {{ bg = "reset", bold = true, italic = true }}
+
+marker_copied   = {{ fg = "green",  bg = "green" }}
+marker_cut      = {{ fg = "red",    bg = "red" }}
+marker_marked   = {{ fg = "cyan",   bg = "cyan" }}
+marker_selected = {{ fg = "{color_accent}", bg = "{color_accent}" }}
+
+tab_active   = {{ reversed = true }}
+tab_inactive = {{}}
+tab_width    = 1
+
+count_copied   = {{ fg = "{fg_text}", bg = "green" }}
+count_cut      = {{ fg = "{fg_text}", bg = "red" }}
+count_selected = {{ fg = "{fg_text}", bg = "yellow" }}
+
+border_symbol = "│"
+border_style  = {{ fg = "{fg_faded}" }}
+
+[status]
+separator_open = ""
+separator_close = ""
+
+[mode]
+normal_main = {{ fg = "{color_accent}", bg = "reset", bold = true }}
+normal_alt  = {{ fg = "{color_accent}", bg = "reset" }}
+select_main = {{ fg = "red", bg = "reset", bold = true }}
+select_alt  = {{ fg = "red", bg = "reset" }}
+unset_main = {{ fg = "red", bg = "reset", bold = true }}
+unset_alt  = {{ fg = "red", bg = "reset" }}
+
+perm_sep   = {{ fg = "darkgray" }}
+perm_type  = {{ fg = "green" }}
+perm_read  = {{ fg = "yellow" }}
+perm_write = {{ fg = "red" }}
+perm_exec  = {{ fg = "cyan" }}
+
+progress_label  = {{ bold = true }}
+progress_normal = {{ fg = "{color_accent}", bg = "{bg_base}" }}
+progress_error  = {{ fg = "red", bg = "{bg_base}" }}
+
+[which]
+cols            = 3
+mask            = {{ bg = "{bg_base}" }}
+cand            = {{ fg = "lightcyan" }}
+rest            = {{ fg = "darkgray" }}
+desc            = {{ fg = "lightmagenta" }}
+separator       = "  "
+separator_style = {{ fg = "darkgray" }}
+
+[confirm]
+border     = {{ fg = "{color_accent}" }}
+title      = {{ fg = "{color_accent}" }}
+content    = {{}}
+list       = {{}}
+btn_yes    = {{ reversed = true }}
+btn_no     = {{}}
+btn_labels = [ "  [Y]es  ", "  (N)o  " ]
+
+[spot]
+border = {{ fg = "{color_accent}" }}
+title  = {{ fg = "{color_accent}" }}
+
+[notify]
+title_info  = {{ fg = "{color_accent}" }}
+title_warn  = {{ fg = "yellow" }}
+title_error = {{ fg = "red" }}
+
+[pick]
+border   = {{ fg = "{color_accent}" }}
+active   = {{ fg = "magenta", bold = true }}
+inactive = {{}}
+
+[input]
+border   = {{ fg = "{color_accent}" }}
+title    = {{}}
+value    = {{}}
+selected = {{ reversed = true }}
+
+[completion]
+border   = {{ fg = "{color_accent}" }}
+active   = {{ reversed = true }}
+inactive = {{}}
+
+[tasks]
+border  = {{ fg = "{color_accent}" }}
+title   = {{}}
+hovered = {{ fg = "magenta", underline = true }}
+
+[help]
+on      = {{ fg = "{color_accent}", bold = true }}
+run     = {{ fg = "{color_accent}", italic = true }}
+desc    = {{}}
+hovered = {{ reversed = true }}
+footer  = {{ fg = "{bg_base}", bg = "{fg_text}" }}
+
+[filetype]
+rules = [
+	# Special files
+	{{ name = "*", fg = "{fg_text}" }},
+    {{ name = "*", is = "link", italic = true }},
+	{{ name = "*", is = "orphan", bg = "red" }},
+	{{ name = "*", is = "exec"  , fg = "green" }},
+	{{ name = "*/", fg = "{color_accent}" }}
+]
+

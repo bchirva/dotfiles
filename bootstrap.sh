@@ -54,6 +54,8 @@ do
             ln -sf $PWD/colorschemes/build/active/theme.sh              $PWD/bspwm/theme.sh
             ln -sf $PWD/colorschemes/build/active/theme.sh              $PWD/zsh/theme.sh
             ln -sf $PWD/colorschemes/build/active/theme.tmux.conf       $PWD/tmux/theme.conf
+            ln -sf $PWD/colorschemes/build/active/theme.yazi            $PWD/yazi/theme.toml
+            ln -sf $PWD/colorschemes/build/active/theme.nvim.lua        $PWD/yazi/colors.lua
             ln -sf $PWD/colorschemes/build/active/theme.zathura         $PWD/zathura/themerc
             ;;
         *) exit ;;
