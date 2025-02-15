@@ -12,11 +12,8 @@ configuration {
 }
 
 window {
-    fullscreen:         false;
     location:           center;
     anchor:             center;
-    x-offset:           0px;
-    y-offset:           0px;
     width:              350px;
 }
 
@@ -25,19 +22,16 @@ mainbox {
 }
 
 inputbar {
-    enabled:            true;
-    background-color:   @color-accent;
+    background-color:   @color-background-base;
     children:           [prompt, entry];
 }
 
 prompt {
     padding:            0 0.5em;
-    color:              @color-on-accent;
 }
 
 entry {
-    enabled:            true;
-    background-color:   @color-background-base; 
+    background-color:   @color-background-view; 
 }
 
 message {
@@ -49,14 +43,6 @@ message {
 
 textbox {
     background-color:   inherit;
-}
-
-listview {
-    enabled:            true;
-    columns:            1;
-    circle:             true;
-    dynamic:            true;
-    scrollbar:          true;
 }
 
 

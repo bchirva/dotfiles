@@ -17,10 +17,14 @@
 }
 
 window {
+    fullscreen:         false;
     transparency:       "real";
     margin:             0;
-    border-radius:      0;
     background-color:   transparent;
+
+    border-radius: @corner-radius;
+    border: 3px solid;
+    border-color: @color-accent;
 }
 
 mainbox {
@@ -28,9 +32,10 @@ mainbox {
 }
 
 inputbar {
+    enabled:            true;
     spacing:            @items-spacing;
     padding:            @items-padding;
-    border-radius:      0.5em 0.5em 0 0;
+    border-radius:      @corner-radius;
 }
 
 prompt {
@@ -41,9 +46,9 @@ prompt {
 }
 
 entry {
+    enabled:            true;
     padding:            @items-padding;
     border-radius:      @corner-radius;
-    background-color:   transparent;
     text-color:         @color-foreground-text;
     cursor:             text;
     placeholder:        "Search:";
@@ -51,6 +56,12 @@ entry {
 }
 
 listview {
+    enabled:            true;
+    columns:            1;
+    circle:             true;
+    dynamic:            true;
+    scrollbar:          true;
+
     spacing:            @items-spacing;
     padding:            0.3em;
     margin:             @items-padding;
@@ -100,8 +111,9 @@ element alternate.active {
 element selected.normal,
 element selected.urgent, 
 element selected.active {
-    background-color:   @color-accent;
-    text-color:         @color-on-accent;
+    color: @color-accent;
+    border-color: @color-accent;
+    border: 2px solid;
 }
 
 scrollbar {

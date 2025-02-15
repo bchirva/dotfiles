@@ -4,28 +4,18 @@ window {
     location:           north west;
     height:             calc(100% - 50px);
     width:              500px;
-    fullscreen:         false;
-    transparency:       "real";
-
-    border-radius: @corner-radius;
-    border: 3px solid;
-    border-color: @color-accent;
-
     x-offset: 4px;
     y-offset: 46px;
 }
 
 mainbox {
     height:             100%;
-    border-radius:      0;
     children:           [mode-switcher, inputbar, listview];
     padding: @items-padding;
     spacing: @items-padding;
 }
 
 inputbar {
-    enabled:            true;
-    border-radius:      @corner-radius;
     background-color:   @color-background-view;
     children:           [icon-search, entry];
 }
@@ -39,18 +29,13 @@ icon-search {
 }
 
 entry {
-    enabled:            true;
     padding:            0;
     border-radius:      0;
+    background-color:   transparent;
 }
 
 listview {
-    enabled:            true;
-    columns:            1;
     fixed-columns:      false;
-    circle:             true;
-    dynamic:            true;
-    scrollbar:          true;
     margin:             0;
 }
 
