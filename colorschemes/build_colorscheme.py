@@ -15,6 +15,8 @@ parser.add_argument("-a", "--all", action="store_true", help="generate all color
 args = parser.parse_args()
 config = vars(args)
 
+CLEAR_LINE_ASCII = "\x1b[2K"
+
 
 def mix_color(color1, color2, ratio):
     color1num = int(color1[1:], 16)
@@ -113,26 +115,6 @@ def colorscheme_format(template, colorscheme_json):
     )
 
 
-# generaions = [
-#     {"source": "alacritty.template", "result": "theme.alacritty.toml"},
-#     {"source": "dunst.template", "result": "theme.dunst.conf"},
-#     {"source": "eww.template", "result": "theme.eww.scss"},
-#     {"source": "gtk.template", "result": "theme.gtk.css"},
-#     {"source": "gtkrc.template", "result": "theme.gtkrc"},
-#     {"source": "kitty.template", "result": "theme.kitty.conf"},
-#     {"source": "lazydocker.template", "result": "theme.lazydocker.yml"},
-#     {"source": "lazygit.template", "result": "theme.lazygit.yml"},
-#     {"source": "neovim.template", "result": "theme.nvim.lua"},
-#     {"source": "openbox.template", "result": "theme.openbox"},
-#     {"source": "polybar.template", "result": "theme.polybar.ini"},
-#     {"source": "ranger.template", "result": "theme.ranger.py"},
-#     {"source": "rofi.template", "result": "theme.rofi.rasi"},
-#     {"source": "sh.template", "result": "theme.sh"},
-#     {"source": "zathura.template", "result": "theme.zathura"},
-#     {"source": "tmux.template", "result": "theme.tmux.conf"},
-# ]
-
-
 generaions = {
     "alacritty.template": "theme.alacritty.toml",
     "dunst.template": "theme.dunst.conf",
@@ -163,7 +145,6 @@ if not os.path.isdir("build"):
     os.mkdir("build")
 
 for colorscheme in colorschemes_list:
-    print(f"Generate {colorscheme} colorscheme:")
     source_file = open(os.path.join("./palettes/", colorscheme), "r", encoding="utf-8")
     colorscheme_json = json.load(source_file)
 
@@ -173,7 +154,7 @@ for colorscheme in colorschemes_list:
         os.mkdir(COLORSCHEME_DIR)
 
     for template, result in generaions.items():
-        print(f"\tProcess {template}...")
+        print(f"{CLEAR_LINE_ASCII}\tProcess {template}...", end="\r")
 
         theme_template = open(
             os.path.join("./templates/", template),
@@ -189,5 +170,7 @@ for colorscheme in colorschemes_list:
         ) as result_file:
             result_file.write(theme_data)
             result_file.close()
+
+    print(f"{CLEAR_LINE_ASCII} {colorscheme.split('.')[0]} colorscheme generated")
 
 print("Done!")
