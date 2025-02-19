@@ -31,13 +31,5 @@ source ${ZDOTDIR}/aliases.zsh
 
 # source <(fzf --zsh)
 
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+source ${ZDOTDIR}/plugins.zsh
 
-source ${ZDOTDIR}/plugins/zsh-syntax-highlight/zsh-syntax-highlighting.zsh
-source ${ZDOTDIR}/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ${ZDOTDIR}/plugins/zsh-tmux-autostart/zsh-tmux-autostart.zsh
-source ${ZDOTDIR}/plugins/zsh-dircolors/zsh-dircolors.zsh
-
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=008"
