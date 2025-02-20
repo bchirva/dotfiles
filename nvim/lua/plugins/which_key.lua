@@ -67,6 +67,7 @@ which_ley.add({
     { "<leader>gs", desc = "Stage buffer" },
     { "<leader>gv", desc = "Preview hunk" },
     { "<leader>gw", desc = "Blame" },
+    { "<leader>gl", desc = "LazyGit" },
 
     { "<leader>l",  group = "LSP..." },
     { "<leader>la", desc = "LSP code action" },
@@ -95,6 +96,7 @@ which_ley.add({
     { "<leader>tn", desc = "Next tab" },
     { "<leader>to", desc = "New tab" },
     { "<leader>tp", desc = "Prev tab" }
+
 })
 
 -- which_ley.register({

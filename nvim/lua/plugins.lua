@@ -16,6 +16,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Setup lazy.nvim
 require("lazy").setup({
+    { "folke/snacks.nvim" }, -- Quality of life meta-plugin
     -- LSP
     { 'neovim/nvim-lspconfig' },
     { 'hrsh7th/cmp-nvim-lsp' },
@@ -50,7 +51,6 @@ require("lazy").setup({
     { 'numToStr/Comment.nvim' },        -- Commenting
     { 'folke/todo-comments.nvim' },     -- Special comments highlight
     { 'lewis6991/gitsigns.nvim' },      -- Git integration
-    { 'norcalli/nvim-colorizer.lua' },  -- Color preview
     -- Other
     { 'lervag/vimtex' },                -- LaTeX support
     { 'OXY2DEV/markview.nvim' },        -- Markdown pseudo-preview
@@ -60,11 +60,12 @@ require("lazy").setup({
 })
 
 -- Plugins settings
+require("plugins/snacks")
+
 require("plugins/autocomplete")
 require("plugins/autopairs")
 require("plugins/autotags")
 require("plugins/bufferline")
-require("plugins/colorizer")
 require("plugins/comment")
 require("plugins/conform")
 require("plugins/dap")
