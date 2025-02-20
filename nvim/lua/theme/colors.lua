@@ -1,1 +1,0 @@
-/home/chirva/Documents/config_dotfiles/colorschemes/build/active/theme.nvim.lua
