@@ -34,3 +34,6 @@ bindkey "${key[Shift_Tab]}"     reverse-menu-complete
 bindkey "${key[PageDown]}"      end-of-buffer-or-history
 bindkey "${key[PageUp]}"        beginning-of-buffer-or-history
 
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
