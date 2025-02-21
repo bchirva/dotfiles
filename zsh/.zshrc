@@ -21,15 +21,11 @@ zstyle ':completion:*' verbose yes
 
 autoload -Uz colors && colors
 
-autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-
-source ${ZDOTDIR}/prompt_format.zsh
-source ${ZDOTDIR}/keybindings.zsh
 source ${ZDOTDIR}/aliases.zsh
+source ${ZDOTDIR}/keybindings.zsh
+source ${ZDOTDIR}/prompt_format.zsh
+source ${ZDOTDIR}/plugins.zsh
+# source ${ZDOTDIR}/environment_variables.zsh
 
 # source <(fzf --zsh)
-
-source ${ZDOTDIR}/plugins.zsh
 
