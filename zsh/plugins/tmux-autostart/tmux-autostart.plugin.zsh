@@ -1,24 +1,23 @@
-function tmux_autostart() {
-    local session_name=
+function _tmux_autostart() {
+    local SESSION_NAME=
     
     if [[ "$PWD" == "/" ]]; then
-        session_name="root"
+        SESSION_NAME="root"
     elif [[ "$PWD" == "$HOME" ]]; then
-        session_name="home"
+        SESSION_NAME="home"
     else
-        session_name=${PWD##*/}
+        SESSION_NAME=${PWD##*/}
     fi
 
-    if [[ -n "$session_name" ]]; then
-        tmux new-session -s "$session_name"
+    if [[ -n "$SESSION_NAME" ]]; then
+        tmux new-session -s "$SESSION_NAME"
     else
         tmux new-session
     fi
-
 }
 
 if [[ -z "$TMUX" && -z "$VIM" ]]; then
     if ! tmux has-session 2>/dev/null; then
-        tmux_autostart 
+        _tmux_autostart 
     fi
 fi

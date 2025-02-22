@@ -9,10 +9,9 @@ PLUGINS_LIST=(
     github@zsh-users/zsh-syntax-highlighting
     github@Aloxaf/fzf-tab
 
-    github@ohmyzsh/ohmyzsh:plugins/ssh-agent
-
     local@dircolors
     local@tmux-autostart
+    local@ssh-agent-autostart
 )
 
 load-plugins $PLUGINS_LIST
