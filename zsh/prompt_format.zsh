@@ -1,5 +1,3 @@
-#!/bin/zsh
-
 source $ZDOTDIR/theme.sh
 
 #SEPARATOR_CHAR='»'

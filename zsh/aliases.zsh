@@ -1,5 +1,3 @@
-#!/bin/zsh
-
 alias hist="cat ${HISTFILE} | head -n -1"
 alias ls="ls --color=auto -h"
 alias grep="grep --color=auto"

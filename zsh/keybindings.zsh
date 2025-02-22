@@ -1,5 +1,3 @@
-#!/bin/zsh
-
 typeset -A key
 key[Home]="[H"
 key[End]="[F"
