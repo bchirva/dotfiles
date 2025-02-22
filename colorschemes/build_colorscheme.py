@@ -1,39 +1,65 @@
 #!/bin/python3
 
+# pylint: disable=missing-function-docstring
+
 import argparse
 import json
 import os
 
-parser = argparse.ArgumentParser(
-    description="Build colorscheme set for rofi, eww and alacritty",
-    formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-)
-
-parser.add_argument("-s", "--select", type=str, help="select colorschemes to generate")
-parser.add_argument("-a", "--all", action="store_true", help="generate all colorshemes")
-
-args = parser.parse_args()
-config = vars(args)
-
 CLEAR_LINE_ASCII = "\x1b[2K"
 
+GENERAIONS = {
+    "alacritty.template": "theme.alacritty.toml",
+    "dunst.template": "theme.dunst.conf",
+    "eww.template": "theme.eww.scss",
+    "gtk.template": "theme.gtk.css",
+    "gtkrc.template": "theme.gtkrc",
+    "kitty.template": "theme.kitty.conf",
+    "lazydocker.template": "theme.lazydocker.yml",
+    "lazygit.template": "theme.lazygit.yml",
+    "neovim.template": "theme.nvim.lua",
+    "openbox.template": "theme.openbox",
+    "polybar.template": "theme.polybar.ini",
+    "ranger.template": "theme.ranger.py",
+    "rofi.template": "theme.rofi.rasi",
+    "sh.template": "theme.sh",
+    "zathura.template": "theme.zathura",
+    "yazi.template": "theme.yazi",
+    "tmux.template": "theme.tmux.conf",
+}
 
-def mix_color(color1, color2, ratio):
-    color1num = int(color1[1:], 16)
-    color2num = int(color2[1:], 16)
+COLOR_ANSI_CODES = {
+    "black": "30",
+    "red": "31",
+    "green": "32",
+    "yellow": "33",
+    "blue": "34",
+    "magenta": "35",
+    "cyan": "36",
+    "white": "37",
+}
+
+
+def mix_color(hex_color1, hex_color2, ratio):
+    color1num = int(hex_color1[1:], 16)
+    color2num = int(hex_color2[1:], 16)
     r = ((color1num >> 16) & 0xFF) * ratio + ((color2num >> 16) & 0xFF) * (1 - ratio)
     g = ((color1num >> 8) & 0xFF) * ratio + ((color2num >> 8) & 0xFF) * (1 - ratio)
     b = (color1num & 0xFF) * ratio + (color2num & 0xFF) * (1 - ratio)
-    result = (int(r) << 16) | (int(g) << 8) | int(b)
-    return "#{:x}".format(result)
+    result_color = (int(r) << 16) | (int(g) << 8) | int(b)
+    return f"#{result_color:x}"
 
 
-def lighten(color, ratio):
-    return mix_color(color, "#ffffff", 1 - ratio)
+def lighten(hex_color, ratio):
+    return mix_color(hex_color, "#ffffff", 1 - ratio)
 
 
-def darken(color, ratio):
-    return mix_color(color, "#000000", 1 - ratio)
+def darken(hex_color, ratio):
+    return mix_color(hex_color, "#000000", 1 - ratio)
+
+
+def ansi_escape_color(color_name: str) -> str:
+    return COLOR_ANSI_CODES[color_name]
 
 
 def colorscheme_format(template, colorscheme_json):
@@ -112,65 +138,69 @@ def colorscheme_format(template, colorscheme_json):
         color_warning_name=colorscheme_json["warning"],
         color_error_name=colorscheme_json["error"],
         color_success_name=colorscheme_json["success"],
+        color_accent_ansi=ansi_escape_color(colorscheme_json["accent"]),
+        color_warning_ansi=ansi_escape_color(colorscheme_json["warning"]),
+        color_error_ansi=ansi_escape_color(colorscheme_json["error"]),
+        color_succes_ansi=ansi_escape_color(colorscheme_json["success"]),
     )
 
 
-generaions = {
-    "alacritty.template": "theme.alacritty.toml",
-    "dunst.template": "theme.dunst.conf",
-    "eww.template": "theme.eww.scss",
-    "gtk.template": "theme.gtk.css",
-    "gtkrc.template": "theme.gtkrc",
-    "kitty.template": "theme.kitty.conf",
-    "lazydocker.template": "theme.lazydocker.yml",
-    "lazygit.template": "theme.lazygit.yml",
-    "neovim.template": "theme.nvim.lua",
-    "openbox.template": "theme.openbox",
-    "polybar.template": "theme.polybar.ini",
-    "ranger.template": "theme.ranger.py",
-    "rofi.template": "theme.rofi.rasi",
-    "sh.template": "theme.sh",
-    "zathura.template": "theme.zathura",
-    "yazi.template": "theme.yazi",
-    "tmux.template": "theme.tmux.conf",
-}
+def main(config):
+    colorschemes_list = []
+    if config["all"]:
+        colorschemes_list = os.listdir("palettes")
+    else:
+        colorschemes_list = config["select"].split(",")
 
-colorschemes_list = []
-if config["all"]:
-    colorschemes_list = os.listdir("palettes")
-else:
-    colorschemes_list = config["select"].split(",")
+    if not os.path.isdir("build"):
+        os.mkdir("build")
 
-if not os.path.isdir("build"):
-    os.mkdir("build")
-
-for colorscheme in colorschemes_list:
-    source_file = open(os.path.join("./palettes/", colorscheme), "r", encoding="utf-8")
-    colorscheme_json = json.load(source_file)
-
-    name = colorscheme.split(".")[0]
-    COLORSCHEME_DIR = f"build/{name}"
-    if not os.path.isdir(COLORSCHEME_DIR):
-        os.mkdir(COLORSCHEME_DIR)
-
-    for template, result in generaions.items():
-        print(f"{CLEAR_LINE_ASCII}\tProcess {template}...", end="\r")
-
-        theme_template = open(
-            os.path.join("./templates/", template),
-            "r",
-            encoding="utf-8",
-        ).read()
-        theme_data = colorscheme_format(theme_template, colorscheme_json)
-
+    for colorscheme in colorschemes_list:
         with open(
-            os.path.join(COLORSCHEME_DIR, result),
-            "w",
-            encoding="utf-8",
-        ) as result_file:
-            result_file.write(theme_data)
-            result_file.close()
+            os.path.join("./palettes/", colorscheme), "r", encoding="utf-8"
+        ) as source_file:
+            colorscheme_json = json.load(source_file)
 
-    print(f"{CLEAR_LINE_ASCII} {colorscheme.split('.')[0]} colorscheme generated")
+            name = colorscheme.split(".")[0]
+            colorscheme_dir = f"build/{name}"
+            if not os.path.isdir(colorscheme_dir):
+                os.mkdir(colorscheme_dir)
 
-print("Done!")
+            for template, result in GENERAIONS.items():
+                print(f"{CLEAR_LINE_ASCII}\tProcess {template}...", end="\r")
+
+                with open(
+                    os.path.join("./templates/", template),
+                    "r",
+                    encoding="utf-8",
+                ) as theme_file:
+
+                    theme_data = colorscheme_format(theme_file.read(), colorscheme_json)
+
+                    with open(
+                        os.path.join(colorscheme_dir, result),
+                        "w",
+                        encoding="utf-8",
+                    ) as result_file:
+                        result_file.write(theme_data)
+                        result_file.close()
+
+            print(
+                f"{CLEAR_LINE_ASCII} {colorscheme.split('.')[0]} colorscheme generated"
+            )
+
+    print("Done!")
+
+
+parser = argparse.ArgumentParser(
+    description="Build colorscheme set for rofi, eww and alacritty",
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+)
+
+parser.add_argument("-s", "--select", type=str, help="select colorschemes to generate")
+parser.add_argument("-a", "--all", action="store_true", help="generate all colorshemes")
+
+args = parser.parse_args()
+config = vars(args)
+if __name__ == "__main__":
+    main(config)
