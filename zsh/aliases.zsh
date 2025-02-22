@@ -1,5 +1,5 @@
 alias hist="cat ${HISTFILE} | head -n -1"
-alias ls="ls --color=auto -h"
+alias ls="ls --color=auto --human-readable --group-directories-first"
 alias grep="grep --color=auto"
 
 alias pip='function _pip(){

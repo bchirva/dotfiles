@@ -17,6 +17,7 @@ GENERAIONS = {
     "kitty.template": "theme.kitty.conf",
     "lazydocker.template": "theme.lazydocker.yml",
     "lazygit.template": "theme.lazygit.yml",
+    "lscolors.template": "theme.lscolors",
     "neovim.template": "theme.nvim.lua",
     "openbox.template": "theme.openbox",
     "polybar.template": "theme.polybar.ini",
