@@ -242,6 +242,9 @@ function M.setup()
         ["@lsp.type.property"]           = { fg = blend.mix(colors.red1, colors.yellow1, 0.5) },
         ["@lsp.typemod.variable.static"] = { fg = blend.mix(colors.yellow1, colors.magenta1, 0.5) },
         ["@lsp.typemod.function.static"] = { link = "Function" },
+
+        SnacksIndent                     = { fg = colors.bg_line },
+        SnacksIndentScope                = { fg = colors.fg_highlighted }
     }
 
     if vim.opt.diff:get() then
