@@ -7,6 +7,7 @@ import json
 import os
 
 CLEAR_LINE_ASCII = "\x1b[2K"
+ANSI_RESET_COLOR = "\033[0m"
 
 GENERAIONS = {
     "alacritty.template": "theme.alacritty.toml",
@@ -187,8 +188,11 @@ def main(config):
                         result_file.write(theme_data)
                         result_file.close()
 
+            ansi_color_begin = (
+                f"\033[{ ansi_escape_color(colorscheme_json["accent"])   }m"
+            )
             print(
-                f"{CLEAR_LINE_ASCII} {colorscheme.split('.')[0]} colorscheme generated"
+                f"{CLEAR_LINE_ASCII}{ansi_color_begin} {colorscheme.split('.')[0]}{ANSI_RESET_COLOR} colorscheme generated"
             )
 
     print("Done!")
