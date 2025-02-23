@@ -15,6 +15,7 @@
                 :class "icon fill ${workspace.state == 'focused' ? 'selected' : workspace.state == 'active' ? 'highlighted' : ''}" 
                 :onclick "scripts/bspwm_workspaces.sh switch ${workspace.id}"
                 :tooltip "Switch to workspace ${workspace.id}"
+                :visible {workspace.monitor == monitor_name}
                 ""
             )
         )
