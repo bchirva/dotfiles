@@ -1,5 +1,5 @@
 set-option -g status-style bg={bg_view},fg={fg_text}
-set-option -g status-left "#[fg={color_on_accent},bg={color_accent}] 󰕮 #{{session_name}} #[fg={fg_text},bg={bg_view}] "
+set-option -g status-left "#[fg={color_on_accent},bg={color_accent},bold] 󰕮 #{{session_name}} #[fg={fg_text},bg={bg_view}] "
 set-option -g window-status-format '#[bg={bg_popup},fg={fg_text}] #{{window_index}} #[fg={fg_text},bg={bg_view}] #{{window_name}} '
-set-option -g window-status-current-format '#[bg={color_accent},fg={color_on_accent}] #{{window_index}} #[fg={color_accent},bg={bg_view}] #{{window_name}} '
+set-option -g window-status-current-format '#[bg={color_accent},fg={color_on_accent},bold] #{{window_index}} #[fg={color_accent},bg={bg_view}] #{{window_name}} '
 set-option -g status-right ""
