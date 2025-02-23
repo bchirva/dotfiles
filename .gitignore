@@ -33,3 +33,4 @@ yazi/colors.lua
 zathura/themerc
 zsh/theme.sh
 zsh/plugins/ls-colors/lscolors
+zsh/plugins/man-colors/lesscolors

@@ -11,7 +11,7 @@ do
             if [ ! -d "$HOME/.cache" ];  then mkdir $HOME/.cache; fi
         ;;
         l)
-            local CONFIG_DIR="$HOME/.config"
+            CONFIG_DIR="$HOME/.config"
             ln -sf $PWD/alacritty       $CONFIG_DIR/alacritty 
             ln -sf $PWD/bottom          $CONFIG_DIR/bottom
             ln -sf $PWD/bspwm           $CONFIG_DIR/bspwm
@@ -38,7 +38,7 @@ do
             ln -sf $PWD/themes/Adaptish $HOME/.themes/Adaptish
             ;;
         s)
-            local THEME_DIR="$PWD/colorschemes/build/active"
+            THEME_DIR="$PWD/colorschemes/build/active"
             mkdir -p $PWD/dunst/dunstrc.d
             mkdir -p $PWD/lazydocker
             ln -sf $THEME_DIR/theme.alacritty.toml  $PWD/alacritty/theme.toml
@@ -50,7 +50,8 @@ do
             ln -sf $THEME_DIR/theme.kitty.conf      $PWD/kitty/theme.conf
             ln -sf $THEME_DIR/theme.lazydocker.yml  $PWD/lazydocker/config.yml
             ln -sf $THEME_DIR/theme.lazygit.yml     $PWD/lazygit/theme.yml
-            ln -sf $THEME_DIR/theme.lscolors        $PWD/zsh/plugins/ls-colors/lscolors
+            ln -sf $THEME_DIR/theme.ls-colors       $PWD/zsh/plugins/ls-colors/lscolors
+            ln -sf $THEME_DIR/theme.less-colors     $PWD/zsh/plugins/man-colors/lesscolors
             ln -sf $THEME_DIR/theme.nvim.lua        $PWD/nvim/lua/theme/colors.lua
             ln -sf $THEME_DIR/theme.openbox         $PWD/themes/Adaptish/openbox-3/themerc
             ln -sf $THEME_DIR/theme.polybar.ini     $PWD/polybar/theme.ini

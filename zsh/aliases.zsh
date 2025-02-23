@@ -1,6 +1,8 @@
 alias hist="cat ${HISTFILE} | head -n -1"
-alias ls="ls --color=auto --human-readable --group-directories-first"
-alias grep="grep --color=auto"
+alias ls="ls --color=always --human-readable --group-directories-first"
+alias grep="grep --color=always"
+alias tree="tree -C"
+alias less="less -r"
 
 alias pip='function _pip(){
     if [ $1 = "search" ]; then
@@ -19,5 +21,3 @@ alias cdf="cd \$(find . \( \
 alias lazygit='lazygit --use-config-file="$HOME/.config/lazygit/config.yml,$HOME/.config/lazygit/theme.yml"'
 alias lgit='lazygit'
 alias ldock="lazydocker"
-
-alias sourcenv="source $ZDOTDIR/environment_variables.zsh"
