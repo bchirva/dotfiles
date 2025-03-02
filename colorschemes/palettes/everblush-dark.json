@@ -1,0 +1,16 @@
+{
+  "black": "#232a2d",
+  "red": "#e57474",
+  "green": "#8ccf7e",
+  "yellow": "#e5c76b",
+  "blue": "#67b0e8",
+  "magenta": "#c47fd5",
+  "cyan": "#6cbfbf",
+  "white": "#dadada",
+  "background": "#232a2d",
+  "foreground": "#dadada",
+  "accent": "green",
+  "warning": "yellow",
+  "error": "red",
+  "success": "cyan"
+}
