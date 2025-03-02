@@ -41,6 +41,12 @@ lspconfig['clangd'].setup {
     cmd = { "clangd", "--completion-style=detailed" }
 }
 
+lspconfig['bashls'].setup {
+    on_attach = lsp_keybindings,
+    capabilities = capabilities,
+    cmd = { "bash-language-server", "start" }
+}
+
 -- LSP for Lua
 lspconfig['lua_ls'].setup {
     settings = {
