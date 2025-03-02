@@ -1,10 +1,10 @@
 #!/bin/bash
 
 power_options="\
-Shutdown\0icon\x1fsystem-shutdown\n\
-Reboot\0icon\x1fsystem-reboot\n\
-Lock\0icon\x1fsystem-lock-screen\n\
-Logout\0icon\x1fsystem-log-out\n"
+Shutdown\0icon\x1fsystem-shutdown-symbolic\n\
+Reboot\0icon\x1fsystem-reboot-symbolic\n\
+Lock\0icon\x1fsystem-lock-screen-symbolic\n\
+Logout\0icon\x1fsystem-log-out-symbolic\n"
 
 variant=$(echo -en $power_options | rofi -config "~/.config/rofi/modules/controls_config.rasi"\
     -i -dmenu -p "System:" -no-custom -l 4 -format 'i' )

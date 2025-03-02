@@ -7,7 +7,7 @@ readarray -t schemes <<< $(ls -1 -d */ | sed 's/\///g' | sed '/active/d')
 rofi_input(){
     for i in ${!schemes[*]} 
     do
-        echo -en "\t${schemes[$i]}\n"
+        echo -en "${schemes[$i]}\0icon\x1fpreferences-color\n"
     done
 }
 
@@ -22,7 +22,7 @@ row_modifiers(){
 }
 
 variant=$(rofi_input | rofi -config "~/.config/rofi/modules/controls_config.rasi"\
-    -i -dmenu -p "Colorshemes:" -no-custom -l ${#schemes[@]} $(row_modifiers) | awk '{print $2}')
+    -i -dmenu -p "Colorshemes:" -no-custom -l ${#schemes[@]} $(row_modifiers))
 
 if [[ $variant ]]; then
     rm $colorschemes_dir/active
