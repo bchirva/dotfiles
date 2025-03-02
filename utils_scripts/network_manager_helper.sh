@@ -1,76 +1,79 @@
 #!/bin/bash
 
-WIRELESS_INTERFACES=($(nmcli device | awk '$2=="wifi" {print $1}'))
-WIRELESS_INTERFACES_PRODUCT=()
-WLAN_INT=0
-WIRED_INTERFACES=($(nmcli device | awk '$2=="ethernet" {print $1}'))
+function active_connections {
+    CONNECTIONS=$(nmcli -t -f device,name connection show --active --order active:name)
+    RESULT="[]"
+    while read -r line
+    do 
+        CONNECTION_DEVICE=$(awk -F ':' '{print $1}' <<< "$line")
+        CONNECTION_NAME=$(awk -F ':' '{print $2}' <<< "$line")
+        RESULT=$(jq ". += [{ \
+            connection: \"$CONNECTION_NAME\", \
+            device: \"$CONNECTION_DEVICE\"}]" \
+            <<< "$RESULT")
+    done <<< "$CONNECTIONS"
+    echo "$RESULT"
+}
 
 function device_list_json {
-    DEVICES=$(nmcli device | grep -E "ethernet|wifi" | grep -v "unavailable")
+    DEVICES=$(nmcli -t device status | grep -E "ethernet|wifi" | grep -Ev "unavailable|unmanaged|p2p")
     RESULT="[]"
-    while read line; do
-        DEVICE_NAME=$(awk '{print $1}' <<< $line)
-        DEVICE_TYPE=$(awk '{print $2}' <<< $line)
-        DEVICE_STATUS=$(awk '{print $3}' <<< $line | sed "s/connected/true/g" | sed "s/disconnected/false/g")
+    while read -r line
+    do
+        DEVICE_NAME=$(awk -F ':' '{print $1}' <<< "$line")
+        DEVICE_TYPE=$(awk -F ':' '{print $2}' <<< "$line")
+        DEVICE_STATUS=$(awk -F ':' '{print $3}' <<< "$line" | sed "s/\bconnected\b/true/g" | sed "s/\bdisconnected\b/false/g")
 
         RESULT=$(jq ". += [{ \
             device: \"$DEVICE_NAME\", \
             type: \"$DEVICE_TYPE\", \
             status: $DEVICE_STATUS}]" \
-            <<< $RESULT)
+            <<< "$RESULT")
     done <<< "$DEVICES"
     echo "$RESULT"
 }
 
 function wifi_list_json { 
-    WIFI_NETWORKS=$(nmcli --fields ssid device wifi list | sed '1d' | sed '/^--/d')
+    WIFI_NETWORKS=$(nmcli -t -f ssid,signal,security device wifi list | grep -Ev "^:")
     RESULT="[]"
-    while read line; do
-        SSID=""
-        SECURITY=""
-        LEVEL=0
+    while read -r line
+    do
+        SSID=$(awk -F ':' '{print $1}' <<< "$line")
+        SIGNAL=$(awk -F ':' '{print $2}' <<< "$line")
+        SECURITY=$(awk -F ':' '{print $3}' <<< "$line")
         STATUS=false
-
+        
         RESULT=$(jq ". += [{ \
             ssid: \"$SSID\", \
             security: \"$SECURITY\", \
-            level: $LEVEL, \
+            signal: $SIGNAL, \
             status: $STATUS \
-        }]" <<< $RESULT)
-    done <<< $WIFI_NETWORKS
+        }]" <<< "$RESULT")
+    done <<< "$WIFI_NETWORKS"
 
-    echo "[]"
+    echo "$RESULT"
 }
 
 function vpn_list_json {
-    VPN_NETWORKS=$()
-    RESULT="[]"
-    while read line; do
-        NAME=""
-        TYPE=""
-        STATUS=false
-
-        RESULT=$(jq ". += [{ \
-            name: \"$SSID\", \
-            type: \"$TYPE\", \
-            status: $STATUS \
-        }]" <<< $RESULT)
-    done <<< $VPN_NETWORKS
-
+    # VPN_NETWORKS=$()
+    # RESULT="[]"
+    # while read -r line; do
+    #     NAME=""
+    #     TYPE=""
+    #     STATUS=false
+    #
+    #     RESULT=$(jq ". += [{ \
+    #         name: \"$SSID\", \
+    #         type: \"$TYPE\", \
+    #         status: $STATUS \
+    #     }]" <<< "$RESULT")
+    # done <<< "$VPN_NETWORKS"
+    #
     echo "[]"
 }
 
 function network_status {
-    NETWORK_STATUS=$(nmcli networking | sed "s/enabled/true/g" | sed "s/disabled/false/g")
-
-    RESULT=$(jq ". += { \
-        total_status: $NETWORK_STATUS, \
-        devices: $(device_list_json), \
-        wifi: $(wifi_list_json), \
-        vpn: $(vpn_list_json) }" \
-        <<< "{}")
-
-    echo "$RESULT"
+    nmcli networking | sed "s/enabled/true/g" | sed "s/disabled/false/g"
 }
 
 function toggle_network {
@@ -79,8 +82,8 @@ function toggle_network {
 }
 
 function toggle_device {
-    ADAPTER=$1
-    DEVICE=$2 # on/off
+    DEVICE=$1
+    MODE=$2 # on/off
 
     case $MODE in
         "on")  nmcli device connect $DEVICE ;;
@@ -100,19 +103,20 @@ function connect_to_wifi {
         case "${PARAMS}" in
             n) NETWORK_SSID=${OPTARG} ;;
             p) NETWORK_PASSWORD=${OPTARG} ;;
+            *) ;;
         esac
     done
 
-    if [ -z "$NETWORK_PASSWORD"] 
+    if [ -z "$NETWORK_PASSWORD" ] 
     then
-        nmcli connection down $NETWORK_SSID
+        nmcli connection down "$NETWORK_SSID"
     else
-        nmcli device wifi connect $NETWORK_SSID password $NETWORK_PASSWORD
+        nmcli device wifi connect "$NETWORK_SSID" password $NETWORK_PASSWORD
     fi
 }
 
 function disconnect_from_wifi {
     NETWORK_SSID=$1
-    nmcli connection down $NETWORK_SSID
+    nmcli connection down "$NETWORK_SSID"
 }
 

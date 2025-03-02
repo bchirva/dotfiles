@@ -1,102 +1,144 @@
-#!/bin/bash
+#!/bin/bash 
 
-source ~/.config/rofi/modules/utils_scripts/network_manager_helper.sh
+source $HOME/.config/rofi/modules/utils_scripts/network_manager_helper.sh
 
-network_status=$(nmcli networking)
-wifi_status=$(nmcli radio wifi)
-active_network=""
+function main_menu {
+    ROFI_INPUT=""
+    ROFI_MESSAGE=""
 
-echo "network_status: ${network_status}"
-echo "wifi_status: ${wifi_status}"
+    TOTAL_STATUS=$(network_status)
+    if $TOTAL_STATUS; then 
+        ROFI_INPUT="Network: <b>On</b>\0icon\x1fnetwork-connect\n"
 
-if [[ "$wifi_status" == "enabled" ]]; then
-    readarray -t wifi_networks <<< $(nmcli --fields ssid device wifi list | sed '1d' | sed '/^--/d')
-    active_network=$(nmcli --fields state,type,connection device | sed '1d'\
-        | grep "wifi" | grep -w "connected" | awk {'print $3'})
+        DEVICES_JSON=$(device_list_json)
+        DEVICES_COUNT=$(jq ". | length" <<< "$DEVICES_JSON")
+        DEVICES_CONNECTIONS=$(active_connections)
+        
+        if [[ "$DEVICES_CONNECTIONS" ]]; then
+            ACTIVE_DEVICE=$(jq ".[0].device" <<< "$DEVICES_CONNECTIONS" | sed "s/\"//g")
+            ACTIVE_CONNECTION=$(jq ".[0].connection" <<< "$DEVICES_CONNECTIONS" | sed "s/\"//g")
+            ROFI_MESSAGE="Connected to <b>$ACTIVE_CONNECTION</b> on <b>$ACTIVE_DEVICE</b>"
+        fi 
 
-    echo "wifi_networks: ${wifi_networks}"
-    echo "active_network: ${active_network}"
-    
-    for i in ${!wifi_networks[*]}
-    do
-        if [[ "${active_network}" == "$(awk '{$1=$1;print}' <<< ${wifi_networks[$i]})" ]]; then
-            wifi_connected=$(($i+3))
-            break
+        for DEVICE_IDX in $(seq 0 $((DEVICES_COUNT - 1)))
+        do
+            DEVICE_NAME=$(jq ".[$DEVICE_IDX].device" <<< "$DEVICES_JSON" | sed "s/\"//g")
+            DEVICE_STATUS=$(jq ".[$DEVICE_IDX].status" <<< "$DEVICES_JSON" | sed "s/true/On/g" | sed "s/false/Off/g")
+            DEVICE_ICON=$(jq ".[$DEVICE_IDX].type" <<< "$DEVICES_JSON" | sed "s/\"//g" \
+                | sed "s/ethernet/network-wired/g" \
+                | sed "s/wifi/network-wireless/g")
+
+            if ! $(jq ".[$DEVICE_IDX].status" <<< "$DEVICES_JSON") ; then
+                DEVICE_ICON="${DEVICE_ICON}-disconnected"
+            fi
+            
+            CONNECTION=$(jq ".[] | select (.device == \"${DEVICE_NAME}\") .connection" <<< "$DEVICES_CONNECTIONS" | sed "s/\"//g")
+            if [[ "$CONNECTION" ]]; then 
+                CONNECTION="($CONNECTION)"
+            fi
+
+            ROFI_INPUT="${ROFI_INPUT}${DEVICE_NAME}: <b>${DEVICE_STATUS}</b> <i>$CONNECTION</i>\0icon\x1f${DEVICE_ICON}\n"
+        done
+
+        WIFI_AVAILABLE=$(( $(jq '[ .[] | select(.type == "wifi") ] | length' <<< "$DEVICES_JSON") > 0 ? 1 : 0 ))
+        if [ $WIFI_AVAILABLE -ne 0 ]; then 
+            ROFI_INPUT="${ROFI_INPUT}WiFi networks menu\0icon\x1fnetwork-wireless-acquiring\n"
         fi
-    done
-fi
 
-rofi_input=""
-message=""
-row_modifiers=""
-case $network_status in
-    "enabled")
-        rofi_input="Network: On\0icon\x1fnetwork-connect\n"
-        message="Network connected"
-        case $wifi_status in
-            "enabled")
-                rofi_input="${rofi_input}Wi-Fi: On\0icon\x1fnetwork-wireless\n"
-                rofi_input="${rofi_input}Rescan Wi-Fi networks\0icon\x1fview-refresh\n"
-                for i in ${!wifi_networks[*]}; do
-                    rofi_input="${rofi_input}${wifi_networks[$i]}\0icon\x1fnetwork-wireless\n" #todo: sygnal level
-                done
-                row_modifiers="-l $((${#wifi_networks[@]}+3)) -a ${wifi_connected} -selected-row ${wifi_connected}"
-                message="${message} to Wi-Fi \"${active_network}\""
-            ;;
-            "disabled") 
-                rofi_input="${rofi_input}Wi-Fi: Off\0icon\x1fnetwork-wireless-offline\n" 
-                row_modifiers="-l 2"
-                ;;
-            *) exit ;;
-        esac ;;
-    "disabled") 
-        "${rofi_input}Network: Off\0icon\x1fnetwork-disconnect\n" 
-        message="Network disabled"
-        ;;
+        VPNS_JSON=$(vpn_list_json)
+        VPNS_COUNT=$(jq ". | length" <<< "$VPNS_JSON")
+        for VPN_IDX in $(seq 0 $((VPNS_COUNT - 1)))
+        do
+            VPN_NAME=$(jq ".[$VPN_IDX].name" <<< "$DEVICES_JSON" | sed "s/\"//g")
+            VPN_STATUS=$(jq ".[$VPN_IDX].status" <<< "$DEVICES_JSON" | sed "s/true/On/g" | sed "s/false/Off/g")
+
+            ROFI_INPUT="${ROFI_INPUT}${VPN_NAME} <b>${VPN_STATUS}</b>\0icon\x1fnetwork-vpn\n"
+        done
+
+    else
+        ROFI_INPUT="Network: <b>Off</b>\0icon\x1fnetwork-disconnect\n"
+        ROFI_MESSAGE="Network disabled"
+    fi
+
+    if [[ -z "$ROFI_MESSAGE" ]]; then 
+        ROFI_MESSAGE="No connection"; 
+    fi
+
+    variant=$(echo -en "$ROFI_INPUT" | rofi -markup-rows -config "$HOME/.config/rofi/modules/controls_config.rasi"\
+        -i -dmenu -p "Network:" -no-custom -format 'i' -mesg "$ROFI_MESSAGE" -l $((1 + DEVICES_COUNT + VPNS_COUNT + WIFI_AVAILABLE)) )
+
+    if [ ! $variant ]; then
+        exit;
+    fi
+    if (( variant == 0)); then 
+        COMMAND=$(echo "$TOTAL_STATUS" | sed "s/true/off/g" | sed "s/false/on/g")
+        toggle_network $COMMAND
+        if [[ "$COMMAND" == "on" ]]; then
+            sleep 3
+            main_menu 
+        fi
+    elif (( variant <= DEVICES_COUNT )); then
+        toggle_device \
+            $(jq ".[$(( variant - 1 ))].device" <<< "$DEVICES_JSON" | sed "s/\"//g") \
+            $(jq ".[$(( variant - 1 ))].status" <<< "$DEVICES_JSON" | sed "s/true/off/g" | sed "s/false/on/g")
+    elif (( variant == $((DEVICES_COUNT + 1)) )); then
+        wifi_menu
+    elif (( variant == $((DEVICES_COUNT + 2)) )); then
+        vpn_menu
+    else
+        exit
+    fi
+}
+
+function wifi_menu {
+    ROFI_INPUT=""
+    ROFI_MESSAGE=""
+
+    WIFI_LIST_JSON=$(wifi_list_json)
+    WIFI_COUNT=$(jq ". | length" <<< "$WIFI_LIST_JSON")
+
+    DEVICES_CONNECTIONS=$(active_connections)
+
+    for WIFI_IDX in $(seq 0 $((WIFI_COUNT - 1)) )
+    do
+        WIFI_SSID=$(jq ".[$WIFI_IDX].ssid" <<< "$WIFI_LIST_JSON" | sed "s/\"//g")
+        WIFI_SECURITY=$(jq ".[$WIFI_IDX].security" <<< "$WIFI_LIST_JSON" | sed "s/\"//g")
+        WIFI_SIGNAL=$(jq ".[$WIFI_IDX].signal" <<< "$WIFI_LIST_JSON")
+
+        if   (( WIFI_SIGNAL <= 12 ));  then WIFI_SIGNAL_ICON="network-wireless-signal-none"
+        elif (( WIFI_SIGNAL <= 37 ));  then WIFI_SIGNAL_ICON="network-wireless-signal-low"
+        elif (( WIFI_SIGNAL <= 62 ));  then WIFI_SIGNAL_ICON="network-wireless-signal-ok"
+        elif (( WIFI_SIGNAL <= 87 ));  then WIFI_SIGNAL_ICON="network-wireless-signal-good"
+        elif (( WIFI_SIGNAL <= 100 )); then WIFI_SIGNAL_ICON="network-wireless-signal-excellent"
+        fi
+
+        CONNECTION=$(jq ".[] | select (.connection == \"${WIFI_SSID}\") .device" <<< "$DEVICES_CONNECTIONS" | sed "s/\"//g")
+        if [[ "$CONNECTION" ]]; then 
+            ROFI_MESSAGE="Connected to <b>$WIFI_SSID</b> on <b>$CONNECTION</b>"
+            CONNECTION="[$CONNECTION]"
+        fi 
+
+        ROFI_INPUT="${ROFI_INPUT}${WIFI_SSID} <i>(${WIFI_SECURITY})</i> <b>$CONNECTION</b>\0icon\x1f${WIFI_SIGNAL_ICON}\n"
+    done
+
+    ROFI_INPUT="${ROFI_INPUT}Rescan WiFi networks\0icon\x1fview-refresh\n"
+
+    if [[ -z "$ROFI_MESSAGE" ]]; then ROFI_MESSAGE="No connection"; fi
+
+    variant=$(echo -en "$ROFI_INPUT" | rofi -markup-rows -config "$HOME/.config/rofi/modules/controls_config.rasi"\
+        -i -dmenu -p "WiFi:" -no-custom -format 'i' -mesg "$ROFI_MESSAGE" -l $((WIFI_COUNT + 1)) )
+
+    if [ ! $variant ]; then exit; fi
+    if (( variant == WIFI_COUNT)); then 
+        nmcli device wifi rescan
+        @0
+    elif (( variant <= WIFI_COUNT )); then
+        echo "TODO: Connect / disconnect $(jq ".[$variant].ssid" <<< "$WIFI_LIST_JSON")"
+    fi
+}
+
+case $1 in
+    "main") main_menu ;;
+    "wifi") wifi_menu ;;
     *) exit ;;
 esac
-
-variant=$(echo -en $rofi_input | rofi -config "~/.config/rofi/modules/controls_config.rasi"\
-    -i -dmenu -p "Network:" -no-custom -format 'i' $row_modifiers -mesg "$message")
-
-if ! [[ $variant ]]; then
-    exit
-else
-    case $variant in
-        0 ) 
-            case $network_status in
-                "enabled"  ) nmcli networking off ;;
-                "disabled" ) nmcli networking on  ;;
-                *) exit ;;
-            esac
-        ;;
-        1 ) 
-            case $wifi_status in
-                "enabled"  ) nmcli radio wifi off ;;
-                "disabled" ) nmcli radio wifi on  ;;
-                *) exit ;;
-            esac
-        ;;
-        2 )
-            nmcli device wifi rescan
-            $0
-        ;;
-        * )
-            variant=$(($variant-3))
-            if [[ $variant == $wifi_connected ]]; then
-                nmcli connection down ${wifi_networks[$variant]}
-                exit
-            fi
-
-            local known_connections=$(nmcli --fields name connection | sed '1d')
-            if [[ "$known_connections" =~ "${wifi_networks[$variant]}" ]]; then
-                nmcli connection up ${wifi_networks[$variant]}
-            else
-                local password=$(rofi -config "~/.config/rofi/modules/password.rasi" -dmenu -p "Password:" -password)
-                nmcli device wifi connect ${wifi_networks[$variant]} password ${password}
-            fi
-        ;;
-    esac
-fi
-
-# VPN 󰖂

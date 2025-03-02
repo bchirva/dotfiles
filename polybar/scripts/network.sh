@@ -27,5 +27,5 @@ case $operation in
             echo "󰌙"
         fi
     ;;
-    "menu") ~/.config/rofi/modules/rofi_network.sh ;;
+    "menu") ~/.config/rofi/modules/rofi_network.sh main;;
 esac
