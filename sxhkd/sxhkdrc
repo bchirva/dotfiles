@@ -1,19 +1,17 @@
 # terminal emulator
 super + Return
-    alacritty
+    kitty
+#   alacritty
 
 # launcher
-super + shift + r
+super + r
     rofi -show drun
 
-super + shift + w
+super + w
     rofi -show window
 
-super + shift + c
+super + c
     $HOME/.config/rofi/modules/rofi_master.sh
-
-super + shift + m
-    alacritty -e btm
 
 super + Print
     $HOME/.config/rofi/modules/rofi_screenshot.sh
