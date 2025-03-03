@@ -12,11 +12,11 @@ function main_menu {
 
         DEVICES_JSON=$(device_list_json)
         DEVICES_COUNT=$(jq ". | length" <<< "$DEVICES_JSON")
-        DEVICES_CONNECTIONS=$(active_connections)
+        ACTIVE_CONNECTIONS=$(active_connections)
         
-        if [[ "$DEVICES_CONNECTIONS" ]]; then
-            ACTIVE_DEVICE=$(jq ".[0].device" <<< "$DEVICES_CONNECTIONS" | sed "s/\"//g")
-            ACTIVE_CONNECTION=$(jq ".[0].connection" <<< "$DEVICES_CONNECTIONS" | sed "s/\"//g")
+        if [[ "$ACTIVE_CONNECTIONS" ]]; then
+            ACTIVE_DEVICE=$(jq ".[0].device" <<< "$ACTIVE_CONNECTIONS" | sed "s/\"//g")
+            ACTIVE_CONNECTION=$(jq ".[0].connection" <<< "$ACTIVE_CONNECTIONS" | sed "s/\"//g")
             ROFI_MESSAGE="Connected to <b>$ACTIVE_CONNECTION</b> on <b>$ACTIVE_DEVICE</b>"
         fi 
 
@@ -32,7 +32,7 @@ function main_menu {
                 DEVICE_ICON="${DEVICE_ICON}-disconnected"
             fi
             
-            CONNECTION=$(jq ".[] | select (.device == \"${DEVICE_NAME}\") .connection" <<< "$DEVICES_CONNECTIONS" | sed "s/\"//g")
+            CONNECTION=$(jq ".[] | select (.device == \"${DEVICE_NAME}\") .connection" <<< "$ACTIVE_CONNECTIONS" | sed "s/\"//g")
             if [[ "$CONNECTION" ]]; then 
                 CONNECTION="($CONNECTION)"
             fi
@@ -97,7 +97,7 @@ function wifi_menu {
     WIFI_LIST_JSON=$(wifi_list_json)
     WIFI_COUNT=$(jq ". | length" <<< "$WIFI_LIST_JSON")
 
-    DEVICES_CONNECTIONS=$(active_connections)
+    ACTIVE_CONNECTIONS=$(active_connections)
 
     for WIFI_IDX in $(seq 0 $((WIFI_COUNT - 1)) )
     do
@@ -105,14 +105,25 @@ function wifi_menu {
         WIFI_SECURITY=$(jq ".[$WIFI_IDX].security" <<< "$WIFI_LIST_JSON" | sed "s/\"//g")
         WIFI_SIGNAL=$(jq ".[$WIFI_IDX].signal" <<< "$WIFI_LIST_JSON")
 
-        if   (( WIFI_SIGNAL <= 12 ));  then WIFI_SIGNAL_ICON="network-wireless-signal-none"
-        elif (( WIFI_SIGNAL <= 37 ));  then WIFI_SIGNAL_ICON="network-wireless-signal-low"
-        elif (( WIFI_SIGNAL <= 62 ));  then WIFI_SIGNAL_ICON="network-wireless-signal-ok"
-        elif (( WIFI_SIGNAL <= 87 ));  then WIFI_SIGNAL_ICON="network-wireless-signal-good"
-        elif (( WIFI_SIGNAL <= 100 )); then WIFI_SIGNAL_ICON="network-wireless-signal-excellent"
+        if eval $(jq ".[$WIFI_IDX].known" <<< "$WIFI_LIST_JSON"); then
+            WIFI_SIGNAL_ICON="network-wireless"
+        else 
+            WIFI_SIGNAL_ICON="network-wireless-secure"
         fi
 
-        CONNECTION=$(jq ".[] | select (.connection == \"${WIFI_SSID}\") .device" <<< "$DEVICES_CONNECTIONS" | sed "s/\"//g")
+        if   (( WIFI_SIGNAL <= 12 )); then 
+            WIFI_SIGNAL_ICON="${WIFI_SIGNAL_ICON}-signal-none"
+        elif (( WIFI_SIGNAL <= 37 )); then 
+            WIFI_SIGNAL_ICON="${WIFI_SIGNAL_ICON}-signal-low"
+        elif (( WIFI_SIGNAL <= 62 )); then 
+            WIFI_SIGNAL_ICON="${WIFI_SIGNAL_ICON}-signal-ok"
+        elif (( WIFI_SIGNAL <= 87 )); then 
+            WIFI_SIGNAL_ICON="${WIFI_SIGNAL_ICON}-signal-good"
+        elif (( WIFI_SIGNAL <= 100 )); then 
+            WIFI_SIGNAL_ICON="${WIFI_SIGNAL_ICON}-signal-excellent"
+        fi
+
+        CONNECTION=$(jq ".[] | select (.connection == \"${WIFI_SSID}\") .device" <<< "$ACTIVE_CONNECTIONS" | sed "s/\"//g")
         if [[ "$CONNECTION" ]]; then 
             ROFI_MESSAGE="Connected to <b>$WIFI_SSID</b> on <b>$CONNECTION</b>"
             CONNECTION="[$CONNECTION]"
@@ -133,7 +144,15 @@ function wifi_menu {
         nmcli device wifi rescan
         @0
     elif (( variant <= WIFI_COUNT )); then
-        echo "TODO: Connect / disconnect $(jq ".[$variant].ssid" <<< "$WIFI_LIST_JSON")"
+        SELECTED_SSID=$(jq ".[$variant].ssid" <<< "$WIFI_LIST_JSON" | sed "s/\"//g")
+        if [[ "$(jq ".[] | select (.connection == \"${SELECTED_SSID}\") .device" <<< "$ACTIVE_CONNECTIONS")" ]]; then
+            disconnect_from_wifi "$SELECTED_SSID"
+        elif eval $(jq ".[$variant].known" <<< "$WIFI_LIST_JSON"); then 
+            connect_to_wifi "$SELECTED_SSID"
+        else 
+            SSID_PASSWORD=$(rofi -config "$HOME/.config/rofi/modules/input_config.rasi" -dmenu -p "Password:" -password)
+            connect_to_wifi "$SELECTED_SSID" "$SSID_PASSWORD"
+        fi 
     fi
 }
 

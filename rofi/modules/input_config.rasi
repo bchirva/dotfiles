@@ -1,6 +1,5 @@
 configuration {
     show-icons: false;
-	
     me-select-entry: "";
 	me-accept-entry: "MousePrimary";
 }
@@ -12,11 +11,8 @@ configuration {
 }
 
 window {
-    fullscreen:         false;
     location:           center;
     anchor:             center;
-    x-offset:           0px;
-    y-offset:           0px;
     width:              350px;
 }
 
@@ -25,22 +21,17 @@ mainbox {
 }
 
 inputbar {
-    enabled:            true;
-    border-radius:      @corner-radius;
-    background-color:   @color-accent;
+    background-color:   @color-background-base;
     children:           [prompt, entry];
 }
 
 prompt {
-    padding:            @items-spacing;
     border-radius:      0.5em 0 0 0.5em;
-    color:              @color-on-accent;
 }
 
 entry {
-    enabled:            true;
     placeholder:        "";
-    background-color:   @color-background-base; 
+    background-color:   @color-background-view; 
 }
 
 listview {

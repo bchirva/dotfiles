@@ -35,19 +35,27 @@ function device_list_json {
 
 function wifi_list_json { 
     WIFI_NETWORKS=$(nmcli -t -f ssid,signal,security device wifi list | grep -Ev "^:")
+    KNOWN_WIFI_NETWORKS=$(nmcli -t -f name,type,device connection | grep -E "wireless" | awk -F ':' '{print $1}' \
+        | jq --raw-input --null-input "[inputs]")
+ 
     RESULT="[]"
     while read -r line
     do
         SSID=$(awk -F ':' '{print $1}' <<< "$line")
         SIGNAL=$(awk -F ':' '{print $2}' <<< "$line")
         SECURITY=$(awk -F ':' '{print $3}' <<< "$line")
-        STATUS=false
+
+        if [[ $(jq ".[] | select(. == \"${SSID}\")" <<< "$KNOWN_WIFI_NETWORKS") ]]; then 
+            KNOWN=true 
+        else 
+            KNOWN=false 
+        fi
         
         RESULT=$(jq ". += [{ \
             ssid: \"$SSID\", \
             security: \"$SECURITY\", \
             signal: $SIGNAL, \
-            status: $STATUS \
+            known: $KNOWN \
         }]" <<< "$RESULT")
     done <<< "$WIFI_NETWORKS"
 
@@ -98,20 +106,14 @@ function toggle_wifi {
 }
 
 function connect_to_wifi {
-    while getopts n:p PARAMS
-    do
-        case "${PARAMS}" in
-            n) NETWORK_SSID=${OPTARG} ;;
-            p) NETWORK_PASSWORD=${OPTARG} ;;
-            *) ;;
-        esac
-    done
+    NETWORK_SSID="$1"
+    NETWORK_PASSWORD="$2"
 
     if [ -z "$NETWORK_PASSWORD" ] 
     then
-        nmcli connection down "$NETWORK_SSID"
+        nmcli connection up "$NETWORK_SSID"
     else
-        nmcli device wifi connect "$NETWORK_SSID" password $NETWORK_PASSWORD
+        nmcli device wifi connect "$NETWORK_SSID" password "$NETWORK_PASSWORD"
     fi
 }
 

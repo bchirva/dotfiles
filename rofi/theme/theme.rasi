@@ -22,9 +22,9 @@ window {
     margin:             0;
     background-color:   transparent;
 
-    border-radius: @corner-radius;
-    border: 3px solid;
-    border-color: @color-accent;
+    border-radius:      @corner-radius;
+    border:             3px solid;
+    border-color:       @color-accent;
 }
 
 mainbox {
