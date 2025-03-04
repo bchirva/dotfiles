@@ -55,6 +55,8 @@ function main_menu {
             ROFI_INPUT="${ROFI_INPUT}${VPN_NAME} <b>${VPN_STATUS}</b>\0icon\x1fnetwork-vpn\n"
         done
 
+        ROFI_INPUT="${ROFI_INPUT}Restart NetworkManager service\0icon\x1fview-refresh\n"
+
     else
         ROFI_INPUT="Network: <b>Off</b>\0icon\x1fnetwork-disconnect\n"
         ROFI_MESSAGE="Network disabled"
@@ -65,7 +67,7 @@ function main_menu {
     fi
 
     variant=$(echo -en "$ROFI_INPUT" | rofi -markup-rows -config "$HOME/.config/rofi/modules/controls_config.rasi"\
-        -i -dmenu -p "Network:" -no-custom -format 'i' -mesg "$ROFI_MESSAGE" -l $((1 + DEVICES_COUNT + VPNS_COUNT + WIFI_AVAILABLE)) )
+        -i -dmenu -p "Network:" -no-custom -format 'i' -mesg "$ROFI_MESSAGE" -l $((2 + DEVICES_COUNT + VPNS_COUNT + WIFI_AVAILABLE)) )
 
     if [ ! $variant ]; then
         exit;
@@ -84,7 +86,7 @@ function main_menu {
     elif (( variant == $((DEVICES_COUNT + 1)) )); then
         wifi_menu
     elif (( variant == $((DEVICES_COUNT + 2)) )); then
-        vpn_menu
+        pkexec systemctl restart NetworkManager
     else
         exit
     fi
