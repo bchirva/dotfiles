@@ -4,11 +4,12 @@ while getopts dls PARAMS
 do
     case "${PARAMS}" in
         d)
-            if [ ! -d "$HOME/.config" ]; then mkdir $HOME/.config; fi
-            if [ ! -d "$HOME/.themes" ]; then mkdir $HOME/.themes; fi
-            if [ ! -d "$HOME/.icons" ];  then mkdir $HOME/.themes; fi
-            if [ ! -d "$HOME/.fonts" ];  then mkdir $HOME/.fonts; fi
             if [ ! -d "$HOME/.cache" ];  then mkdir $HOME/.cache; fi
+            if [ ! -d "$HOME/.config" ]; then mkdir $HOME/.config; fi
+            if [ ! -d "$HOME/.fonts" ];  then mkdir $HOME/.fonts; fi
+            if [ ! -d "$HOME/.icons" ];  then mkdir $HOME/.icons; fi
+            if [ ! -d "$HOME/.themes" ]; then mkdir $HOME/.themes; fi
+            if [ ! -d "$HOME/.cache/zsh" ]; then mkdir -p $HOME/.cache/zsh/; fi
         ;;
         l)
             CONFIG_DIR="$HOME/.config"
