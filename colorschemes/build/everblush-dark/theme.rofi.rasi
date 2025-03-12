@@ -1,0 +1,38 @@
+* {
+color-black:                #232a2d;
+color-red:                  #e57474;
+color-green:                #8ccf7e;
+color-yellow:               #e5c76b;
+color-blue:                 #67b0e8;
+color-magenta:              #c47fd5;
+color-cyan:                 #6cbfbf;
+color-white:                #dadada;
+color-black-bright:         #474d4f;
+color-red-bright:           #aa5d5e;
+color-green-bright:         #6c9d65;
+color-yellow-bright:        #aa9758;
+color-blue-bright:          #5287af;
+color-magenta-bright:       #9365a2;
+color-cyan-bright:          #569293;
+color-white-bright:         #a3a5a6;
+
+color-background-base:          #232a2d;
+color-background-view:          #353b3e;
+color-background-popup:         #474d4f;
+color-background-focused:       #595e60;
+color-background-selected:      #6c7072;
+
+color-foreground-text:          #dadada;
+color-foreground-highlight:     #e1e1e1;
+color-foreground-faded:         #989898;
+
+color-accent:                   #8ccf7e;
+color-success:                  #6cbfbf;
+color-warning:                  #e5c76b;
+color-error:                    #e57474;
+color-on-accent:                #384b3d;
+color-on-success:               #31474a;
+color-on-warning:               #494939;
+color-on-error:                 #49383b;
+}
+

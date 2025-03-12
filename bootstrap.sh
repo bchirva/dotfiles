@@ -37,6 +37,11 @@ ln -sf $PWD/themes/Adaptish $HOME/.themes/Adaptish
 
 # Symlink theme to current
 THEME_DIR="$PWD/colorschemes/build/active"
+: ${DEFAULT_THEME:="onedark"}
+if [ ! -d $THEME_DIR ]; then 
+    ln -sf $PWD/colorschemes/build/${DEFAULT_THEME} $THEME_DIR
+fi
+
 mkdir -p $PWD/dunst/dunstrc.d
 mkdir -p $PWD/lazydocker
 ln -sf $THEME_DIR/theme.alacritty.toml  $PWD/alacritty/theme.toml
