@@ -12,10 +12,12 @@ vim.opt.showcmd = true
 vim.opt.showmode = true
 vim.opt.cursorline = true
 vim.opt.number = true
+vim.opt.relativenumber = true
 vim.opt.hlsearch = true
 vim.opt.showmatch = true
 vim.opt.matchpairs:append("<:>")
 vim.opt.showbreak = "󰘍"
+vim.opt.wrap = false 
 
 vim.opt.mouse = 'a'
 
