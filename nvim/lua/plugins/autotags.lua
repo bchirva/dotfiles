@@ -1,3 +1,4 @@
-local autotags = require("nvim-ts-autotag")
-
-autotags.setup {}
+return {
+	"windwp/nvim-ts-autotag",
+	opts = {},
+}

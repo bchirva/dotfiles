@@ -1,7 +1,13 @@
-local mason = require("mason")
-local mason_lsp = require("mason-lspconfig")
-
-mason.setup {}
-mason_lsp.setup {
-    ensure_installed = { "clangd", "lua_ls", "pyright" }
+return {
+	{
+		"williamboman/mason.nvim",
+		opts = {},
+	},
+	{
+		"williamboman/mason-lspconfig.nvim",
+		opts = {
+			auto_install = true,
+			ensure_installed = { "lua_ls", "clangd", "pyright" },
+		},
+	},
 }

@@ -1,34 +1,31 @@
-local gitsigns = require("gitsigns")
-
-gitsigns.setup {
-    signs = {
-        add          = { text = '+' },
-        change       = { text = '~' },
-        delete       = { text = '-' },
-        topdelete    = { text = '-' },
-        changedelete = { text = '~' },
-        untracked    = { text = '?' }
-    },
-    signs_staged = {
-        add          = { text = '+' },
-        change       = { text = '~' },
-        delete       = { text = '-' },
-        topdelete    = { text = '-' },
-        changedelete = { text = '~' },
-        untracked    = { text = '?' }
-    }
+return {
+	"lewis6991/gitsigns.nvim",
+	opts = {
+		signs = {
+			add = { text = "+" },
+			change = { text = "~" },
+			delete = { text = "-" },
+			topdelete = { text = "-" },
+			changedelete = { text = "~" },
+			untracked = { text = "?" },
+		},
+		signs_staged = {
+			add = { text = "+" },
+			change = { text = "~" },
+			delete = { text = "-" },
+			topdelete = { text = "-" },
+			changedelete = { text = "~" },
+			untracked = { text = "?" },
+		},
+	},
+	keys = {
+		{ "<leader>gn", "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", desc = "Next hunk", { expr = true } },
+		{ "<leader>gp", "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", desc = "Prev hunk", { expr = true } },
+		{ "<leader>gv", "<cmd>Gitsigns preview_hunk<CR>", desc = "Preview hunk" },
+		{ "<leader>gr", "<cmd>Gitsigns reset_hunk<CR>", mode = { "n", "v" }, desc = "Reset hunk" },
+		{ "<leader>gs", "<cmd>Gitsigns stage_buffer<CR>", mode = { "n", "v" }, desc = "Stage buffer" },
+		{ "<leader>gc", "<cmd>Gitsigns reset_buffer<CR>", desc = "Reset buffer" },
+		{ "<leader>gw", "<cmd>Gitsigns toggle_current_line_blame<CR>", desc = "Blame line" },
+		{ "<leader>gf", "<cmd>Gitsigns diffthis<CR>", desc = "Diff this" },
+	},
 }
-
--- vim.keymap.set('n', 'gnh', '<cmd>Gitsigns next_hunk<CR>')
--- vim.keymap.set('n', 'gph', '<cmd>Gitsigns prev_hunk<CR>')
-vim.keymap.set('n', '<leader>gn', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true })
-vim.keymap.set('n', '<leader>gp', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
-
-vim.keymap.set('n', '<leader>gv', '<cmd>Gitsigns preview_hunk<CR>')
--- vim.keymap.set({'n', 'v'}, '<leader>sh', '<cmd>Gitsigns stage_hunk<CR>')
-vim.keymap.set({ 'n', 'v' }, '<leader>gr', '<cmd>Gitsigns reset_hunk<CR>')
-vim.keymap.set('n', '<leader>gs', '<cmd>Gitsigns stage_buffer<CR>')
-vim.keymap.set('n', '<leader>gc', '<cmd>Gitsigns reset_buffer<CR>')
-
-vim.keymap.set('n', '<leader>gw', '<cmd>Gitsigns toggle_current_line_blame<CR>')
-vim.keymap.set('n', '<leader>gf', '<cmd>Gitsigns diffthis<CR>')

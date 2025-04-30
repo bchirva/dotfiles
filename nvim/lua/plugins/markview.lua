@@ -1,2 +1,4 @@
-local markview = require('markview')
-markview.setup {}
+return {
+	"OXY2DEV/markview.nvim",
+	opts = {},
+}

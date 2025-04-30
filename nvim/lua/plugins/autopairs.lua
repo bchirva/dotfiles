@@ -1,3 +1,5 @@
-local autopairs = require("nvim-autopairs")
-
-autopairs.setup {}
+return {
+	"windwp/nvim-autopairs",
+	event = "InsertEnter",
+	opts = {},
+}

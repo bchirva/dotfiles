@@ -1,18 +1,19 @@
-local comment = require("Comment")
-
-comment.setup {
-    mappings = {
-        basic = true,
-        extra = false
-    },
-    toggler = {
-        line = '<leader>ccl',
-        block = '<leader>ccb'
-    },
-    opleader = {
-        line = '<leader>cl',
-        block = '<leader>cb'
-    }
+return {
+	"numToStr/Comment.nvim",
+	opts = {
+		mappings = {
+			basic = true,
+			extra = false,
+		},
+		toggler = {
+			line = "<leader>ccl",
+			block = "<leader>ccb",
+		},
+		opleader = {
+			line = "<leader>cl",
+			block = "<leader>cb",
+		},
+	},
 }
 
 -- vim.keymap.set('n', '<leader>cl', '<Plug>(comment_toggle_current_linewise)', {noremap = true, silent = false})

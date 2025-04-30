@@ -1,12 +1,22 @@
-local snacks = require("snacks")
-
-snacks.setup({
-    indent = { enabled = true },
-    input = { enabled = true },
-    scroll = { enabled = true },
-    image = { enabled = true },
-    lazygit = { enabled = true },
-    notifier = { enabled = true }
-})
-
-vim.keymap.set('n', '<leader>gl', "<cmd>lua Snacks.lazygit.open()<CR>", { noremap = true, silent = true })
+return {
+	"folke/snacks.nvim",
+	priority = 1000,
+	lazy = false,
+	opts = {
+		indent = { enabled = true },
+		input = { enabled = true },
+		scroll = { enabled = true },
+		image = { enabled = true },
+		lazygit = { enabled = true },
+		notifier = { enabled = true },
+	},
+	keys = {
+		{
+			"<leader>gl",
+			function()
+				Snacks.lazygit()
+			end,
+			desc = "Lazygit",
+		},
+	},
+}
