@@ -1,13 +1,11 @@
-return {}
---[[ return {
+-- return {}
+return {
 	-- {
 	"mfussenegger/nvim-dap",
-	-- dependencies = {
-	-- 	"rcarriga/nvim-dap-ui",
-	-- 	"nvim-neotest/nvim-nio",
-	-- },
-
-	lazy = false,
+	dependencies = {
+		"rcarriga/nvim-dap-ui",
+		"nvim-neotest/nvim-nio",
+	},
 
 	config = function()
 		local dap = require("dap")
@@ -113,25 +111,4 @@ return {}
 			dapui.toggle()
 		end, { desc = "DAP toggle UI" })
 	end,
-	-- keys = {
-	-- 	{ "<leader>dt", require("dap").toggle_breakpoint, desc = "DAP: toggle breakpoint" },
-	-- 	{ "<leader>dc", require("dap").continue, desc = "DAP: continue" },
-	-- 	{ "<leader>dn", require("dap").step_over, desc = "DAP: step over" },
-	-- 	{ "<leader>dp", require("dap").step_back, desc = "DAP: step back" },
-	-- 	{ "<leader>do", require("dap").step_out, desc = "DAP: step out" },
-	-- 	{ "<leader>di", require("dap").step_into, desc = "DAP: step out" },
-	-- 	{ "<leader>du", require("dapui").toggle, desc = "DAP: toggle UI" },
-	-- },
-	-- },
-	{
-		"rcarriga/nvim-dap-ui",
-		dependencies = {
-			"nvim-neotest/nvim-nio",
-		},
-		opts = {},
-		-- lazy = false,
-		-- keys = {
-		-- 	{ "<leader>du", require("dapui").toggle, desc = "DAP: toggle UI" },
-		-- },
-	},
-} ]]
+}

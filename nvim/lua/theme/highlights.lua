@@ -268,6 +268,11 @@ function M.setup()
 		},
 	})
 
+    vim.fn.sign_define('DapBreakpoint', {text='', texthl='ErrorMsg', linehl='', numhl=''})
+    vim.fn.sign_define('DapBreakpointCondition', {text='', texthl='WarningMsg', linehl='', numhl=''})
+    vim.fn.sign_define('DapLogPoint', {text='', texthl='Question', linehl='', numhl=''})
+    vim.fn.sign_define('DapBreakpointRejected', {text='󰜺', texthl='Error', linehl='', numhl=''})
+
 	vim.g.terminal_color_0 = colors.black1
 	vim.g.terminal_color_8 = colors.black2
 	vim.g.terminal_color_1 = colors.red1
