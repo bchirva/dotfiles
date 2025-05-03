@@ -28,6 +28,7 @@ themes/Adaptish/gtk-4.0/colors.css
 themes/Adaptish/gtk-4.0/gtk-dark.css
 themes/Adaptish/openbox-3/themerc
 tmux/theme.conf
+tmux/plugins/
 yazi/theme.toml
 yazi/colors.lua
 zathura/themerc
