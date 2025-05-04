@@ -6,8 +6,8 @@ return {
 	cmd = "Trouble",
 	opts = {},
 	keys = {
-		{ "<leader>sd", "<cmd>Trouble diagnostics toggle<CR>", desc = "Trouble diagnostics" },
-		{ "<leader>ss", "<cmd>Trouble symbols toggle focus=true<CR>", desc = "Trouble symbols" },
-		{ "<leader>sl", "<cmd>Trouble lsp toggle<CR>", desc = "Trouble LSP" },
+		{ "<leader>sd", "<cmd>Trouble diagnostics toggle<CR>", desc = "Diagnostics" },
+		{ "<leader>ss", "<cmd>Trouble symbols toggle focus=true<CR>", desc = "Symbols" },
+		{ "<leader>sl", "<cmd>Trouble lsp toggle<CR>", desc = "LSP" },
 	},
 }

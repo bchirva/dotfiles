@@ -5,8 +5,7 @@ return {
 	},
 	lazy = false,
 	keys = {
-		{ "<leader>sf", "<cmd>NvimTreeToggle<CR>", { noremap = true, silent = true }, desc = "Toggle NvimTree" },
-		{ "<leader>sr", "<cmd>NvimTreeRefresh<CR>", { noremap = true, silent = true }, desc = "Refresh NvimTree" },
+		{ "<leader>sf", "<cmd>NvimTreeToggle<CR>", { noremap = true, silent = true }, desc = "NvimTree" },
 	},
 	opts = {
 		hijack_cursor = true,
