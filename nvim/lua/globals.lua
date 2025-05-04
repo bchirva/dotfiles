@@ -6,7 +6,7 @@ filetype indent plugin on
 syntax enable
 ]])
 
-vim.opt.autochdir = true
+vim.opt.autochdir = false
 
 vim.opt.showcmd = true
 vim.opt.showmode = true
@@ -17,9 +17,9 @@ vim.opt.hlsearch = true
 vim.opt.showmatch = true
 vim.opt.matchpairs:append("<:>")
 vim.opt.showbreak = "󰘍"
-vim.opt.wrap = false 
+vim.opt.wrap = false
 
-vim.opt.mouse = 'a'
+vim.opt.mouse = "a"
 
 vim.opt.expandtab = true
 vim.opt.tabstop = 4
@@ -31,7 +31,7 @@ vim.opt.swapfile = false
 vim.opt.termguicolors = true
 vim.opt.belloff = "all"
 
-vim.g.mapleader = ' '
+vim.g.mapleader = " "
 
 vim.opt.clipboard:append("unnamedplus")
 
