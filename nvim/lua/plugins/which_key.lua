@@ -28,8 +28,6 @@ return {
 		{ "<leader>nh", ":nohlsearch<CR>", desc = "Reset highlight" },
 	},
 	config = function()
-		local opts = { noremap = true, silent = true }
-
 		local which_key = require("which-key")
 
 		which_key.add({
@@ -40,19 +38,10 @@ return {
 			{ "<leader>d", group = "DAP..." },
 			{ "<leader>l", group = "LSP..." },
 			{ "<leader>f", group = "Telescope..." },
-
 			{ "<leader>g", group = "Git..." },
-			-- { "<leader>gc", desc = "Reset buffer" },
-			-- { "<leader>gf", desc = "Diff" },
-			-- { "<leader>gn", desc = "Next hunk" },
-			-- { "<leader>gp", desc = "Prev hunk" },
-			-- { "<leader>gr", desc = "Reset hunk" },
-			-- { "<leader>gs", desc = "Stage buffer" },
-			-- { "<leader>gv", desc = "Preview hunk" },
-			-- { "<leader>gw", desc = "Blame" },
-
 			{ "<leader>s", group = "Splits..." },
 			{ "<leader>t", group = "Tabs..." },
+			{ "<leader>q", group = "Tests..." },
 		})
 	end,
 }
