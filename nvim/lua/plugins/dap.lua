@@ -1,6 +1,4 @@
--- return {}
 return {
-	-- {
 	"mfussenegger/nvim-dap",
 	dependencies = {
 		"rcarriga/nvim-dap-ui",
@@ -10,6 +8,14 @@ return {
 	config = function()
 		local dap = require("dap")
 		local dapui = require("dapui")
+		--
+		-- local pickers = require("telescope.pickers")
+		-- local finders = require("telescope.finders")
+		-- local sorters = require("telescope.sorters")
+		-- local actions = require("telescope.actions")
+		-- local action_state = require("telescope.actions.state")
+		-- local Path = require("plenary.path")
+
 		dapui.setup()
 
 		dap.listeners.before.attach.dapui_config = function()
@@ -56,18 +62,29 @@ return {
 		end
 
 		dap.configurations.c = {
-			{
-				name = "Launch",
-				type = "lldb",
-				request = "launch",
-				program = function()
-					return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-				end,
-				cwd = "${workspaceFolder}",
-				stopOnEntry = false,
-				args = {},
-			},
+			(function()
+				local exe_path
+				return {
+					name = "Launch",
+					type = "lldb",
+					request = "launch",
+					program = function()
+						exe_path = vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+						return exe_path
+					end,
+					cwd = function()
+						if exe_path then
+							return vim.fn.fnamemodify(exe_path, ":p:h")
+						else
+							return vim.fn.getcwd()
+						end
+					end,
+					stopOnEntry = false,
+					args = {},
+				}
+			end)(),
 		}
+
 		dap.configurations.cpp = dap.configurations.c
 		dap.configurations.rust = dap.configurations.c
 
@@ -89,9 +106,9 @@ return {
 			},
 		}
 
-		vim.keymap.set("n", "<leader>dt", function()
+		vim.keymap.set("n", "<leader>db", function()
 			dap.toggle_breakpoint()
-		end, { desc = "DAP toggle breakpoint" })
+		end, { desc = "DAP breakpoint" })
 		vim.keymap.set("n", "<leader>dc", function()
 			dap.continue()
 		end, { desc = "DAP continue" })
@@ -107,6 +124,7 @@ return {
 		vim.keymap.set("n", "<leader>di", function()
 			dap.step_into()
 		end, { desc = "DAP step out" })
+		vim.keymap.set("n", "<leader>dx", "<cmd>DapTerminate<CR>", { desc = "DAP terminate" })
 		vim.keymap.set("n", "<leader>du", function()
 			dapui.toggle()
 		end, { desc = "DAP toggle UI" })
