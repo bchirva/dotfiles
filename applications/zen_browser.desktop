@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Version=1.0
-Name=Zen Browser
-GenericName=Web Browser
-Exec=/home/chirva/Downloads/zen-specific.AppImage
-Icon=firefox
-Terminal=false
-Categories=GNOME;GTK;Network;WebBrowser;
