@@ -24,8 +24,8 @@ border_symbol = "│"
 border_style  = {{ fg = "{fg_faded}" }}
 
 [status]
-separator_open = ""
-separator_close = ""
+sep_left = {{ open = "", close = "»" }}
+sep_right = {{ open = "«", close = "" }}
 
 [mode]
 normal_main = {{ fg = "{color_accent}", bg = "reset", bold = true }}

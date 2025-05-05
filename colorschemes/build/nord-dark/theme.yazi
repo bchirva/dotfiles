@@ -24,8 +24,8 @@ border_symbol = "│"
 border_style  = { fg = "#979ba3" }
 
 [status]
-separator_open = ""
-separator_close = ""
+sep_left = { open = "", close = "»" }
+sep_right = { open = "«", close = "" }
 
 [mode]
 normal_main = { fg = "#88c0d0", bg = "reset", bold = true }
