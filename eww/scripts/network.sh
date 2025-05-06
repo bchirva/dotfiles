@@ -26,7 +26,7 @@ case $operation in
         done
         echo $result
     ;;
-    "menu") ~/.config/rofi/modules/rofi_network.sh ;;
+    "menu") ~/.config/rofi/modules/rofi_network.sh main ;;
     "toggle")
         current_status=$(nmcli networking)
         case $current_status in
