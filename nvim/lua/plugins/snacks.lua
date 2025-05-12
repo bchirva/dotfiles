@@ -18,5 +18,19 @@ return {
 			end,
 			desc = "Lazygit",
 		},
+		{
+			"<leader>uh",
+			function()
+				Snacks.notifier.show_history()
+			end,
+			desc = "Show notification history",
+		},
+		{
+			"<leader>ui",
+			function()
+				Snacks.picker.icons()
+			end,
+			desc = "Icons picker",
+		},
 	},
 }

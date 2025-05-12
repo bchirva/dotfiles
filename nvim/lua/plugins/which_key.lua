@@ -10,7 +10,7 @@ return {
 		{ "<C-j>", "<cmd>wincmd j<CR>" },
 		{ "<C-h>", "<cmd>wincmd h<CR>" },
 		{ "<C-k>", "<cmd>wincmd k<CR>" },
-        { "<Esc>l", "<cmd>vertical resize +10<CR>" },
+		{ "<Esc>l", "<cmd>vertical resize +10<CR>" },
 		{ "<Esc>h", "<cmd>vertical resize -10<CR>" },
 		{ "<Esc>j", "<cmd>resize +10<CR>" },
 		{ "<Esc>k", "<cmd>resize -10<CR>" },
@@ -41,6 +41,7 @@ return {
 			{ "<leader>s", group = "Splits..." },
 			{ "<leader>t", group = "Tabs..." },
 			{ "<leader>q", group = "Tests..." },
+			{ "<leader>u", group = "Utilities..." },
 		})
 	end,
 }
