@@ -1,13 +1,24 @@
+CPP = { "clangd", "codelldb", "clang-format" }
+PYTHON = { "pyright", "debugpy", "flake8", "isort", "black" }
+JS = { "eslint_d", "prettier" }
+LUA = { "lua-language-server", "stylua" }
+WEB = { "css-lsp" }
+
 return {
 	{
 		"williamboman/mason.nvim",
 		opts = {},
 	},
 	{
-		"williamboman/mason-lspconfig.nvim",
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		opts = {
-			auto_install = true,
-			ensure_installed = { "lua_ls", "clangd", "pyright" },
+			ensure_installed = {
+				unpack(CPP),
+				unpack(PYTHON),
+				unpack(JS),
+				unpack(LUA),
+				unpack(WEB),
+			},
 		},
 	},
 }
