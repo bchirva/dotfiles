@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "$(dirname "${BASH_SOURCE[0]}")/common_utils.sh"
+
 function active_connections {
     CONNECTIONS=$(nmcli -t -f device,name connection show --active --order active:name)
     RESULT="[]"
@@ -22,7 +24,7 @@ function device_list_json {
     do
         DEVICE_NAME=$(awk -F ':' '{print $1}' <<< "$line")
         DEVICE_TYPE=$(awk -F ':' '{print $2}' <<< "$line")
-        DEVICE_STATUS=$(awk -F ':' '{print $3}' <<< "$line" | sed "s/\bconnected\b/true/g" | sed "s/\bdisconnected\b/false/g")
+        DEVICE_STATUS=$(awk -F ':' '{print $3}' <<< "$line" | flag_to_bool)
 
         RESULT=$(jq ". += [{ \
             device: \"$DEVICE_NAME\", \
@@ -81,7 +83,7 @@ function vpn_list_json {
 }
 
 function network_status {
-    nmcli networking | sed "s/enabled/true/g" | sed "s/disabled/false/g"
+    nmcli networking | flag_to_bool 
 }
 
 function toggle_network {

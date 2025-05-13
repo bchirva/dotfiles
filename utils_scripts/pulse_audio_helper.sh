@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "$(dirname "${BASH_SOURCE[0]}")/common_utils.sh"
+
 function device_list {
     DEVICE_TYPE=$1
     case $DEVICE_TYPE in
@@ -50,9 +52,9 @@ function active_device_info {
     esac
 
     VOLUME=$(eval $VOLUME_CMD $ID | awk '{print $5}' | sed 's/%//g')
-    MUTED=$(eval $MUTED_CMD $ID | awk '{print $2}' | sed 's/yes/true/g' | sed 's/no/false/g')
+    MUTED=$(eval $MUTED_CMD $ID | awk '{print $2}' | flag_to_bool)
 
-    echo $(jq ". += {id: \"$ID\", volume: \"$VOLUME\", muted: \"$MUTED\"}" <<< "{}")
+    jq -n "{id: \"$ID\", volume: \"$VOLUME\", muted: \"$MUTED\"}"
 }
 
 function change_active_device {
