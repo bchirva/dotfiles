@@ -33,6 +33,14 @@ entry {
     background-color:   @color-background-view; 
 }
 
+element-text {
+    padding: 0.25em;
+}
+
+element-icon {
+    enabled: false;
+}
+
 message {
     enabled:            true;
     padding:            0.5em;

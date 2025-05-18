@@ -1,13 +1,15 @@
 #!/bin/bash
 
-colorschemes_dir=$HOME/Documents/config_dotfiles/colorschemes/build
+source $HOME/.config/rofi/modules/rofi_icon.sh
+
+colorschemes_dir=$HOME/Documents/dotfiles/colorschemes/build
 cd $colorschemes_dir
 readarray -t schemes <<< $(ls -1 -d */ | sed 's/\///g' | sed '/active/d')
 
 rofi_input(){
     for i in ${!schemes[*]} 
     do
-        echo -en "${schemes[$i]}\0icon\x1fpreferences-color\n"
+        echo -en "$(pango_icon  ) ${schemes[$i]}\n"
     done
 }
 
@@ -22,7 +24,7 @@ row_modifiers(){
 }
 
 variant=$(rofi_input | rofi -config "~/.config/rofi/modules/controls_config.rasi"\
-    -i -dmenu -p "Colorshemes:" -no-custom -l ${#schemes[@]} $(row_modifiers))
+    -markup-rows -i -dmenu -p "Colorshemes:" -no-custom -l ${#schemes[@]} $(row_modifiers))
 
 if [[ $variant ]]; then
     rm $colorschemes_dir/active

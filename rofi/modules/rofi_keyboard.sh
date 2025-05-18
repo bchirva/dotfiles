@@ -1,11 +1,13 @@
 #!/bin/bash
 
+source $HOME/.config/rofi/modules/rofi_icon.sh
+
 readarray -t layouts <<< $(xkb-switch --list)
 
 rofi_input(){
     for i in ${!layouts[*]}
     do
-        echo -en "${layouts[$i]}\0icon\x1finput-keyboard\n"
+        echo -en "$(pango_icon  ) ${layouts[$i]}\n"
     done
 }
 
@@ -19,7 +21,7 @@ row_modifiers(){
 }
 
 variant=$(rofi_input | rofi -config "~/.config/rofi/modules/controls_config.rasi"\
-    -i -dmenu -p "Keyboard layouts:" -no-custom $(row_modifiers) -l ${#layouts[@]} )
+    -markup-rows -i -dmenu -p "Keyboard layouts:" -no-custom $(row_modifiers) -l ${#layouts[@]} )
 
 if [[ $variant ]]; then
     xkb-switch -s $variant
