@@ -69,6 +69,8 @@ function device_info() {
     TRUSTED=$(grep "Trusted:" <<< "${DEVICE_INFO}" | awk '{print $2}' | flag_to_bool)
     BLOCKED=$(grep "Blocked:" <<< "${DEVICE_INFO}" | awk '{print $2}' | flag_to_bool)
     CONNECTED=$(grep "Connected:" <<< "${DEVICE_INFO}" | awk '{print $2}' | flag_to_bool)
+    BATTERY=$(grep "Battery Percentage:" <<< "${DEVICE_INFO}" | awk '{print $4}' | sed -e "s/(//g" -e "s/)//g")
+    if [ -z "${BATTERY}" ]; then BATTERY="null"; fi
 
     jq -n "{ \
         id: \"${DEVICE_ID}\", \
@@ -79,7 +81,8 @@ function device_info() {
         bonded: ${BONDED}, \
         trusted: ${TRUSTED}, \
         blocked: ${BLOCKED}, \
-        connected: ${CONNECTED} }"  
+        connected: ${CONNECTED}, \
+        battery: ${BATTERY} }"  
 }
 
 function devices_list() {
