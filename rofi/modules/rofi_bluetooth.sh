@@ -20,7 +20,7 @@ function main_menu {
     fi 
 
     if jq -e ".discoverable" <<< "${TOTAL_STATUS}" > /dev/null; then 
-        ROFI_INPUT="${ROFI_INPUT}$(pango_icon ?) Discoverable: <b>On</b>\n"
+        ROFI_INPUT="${ROFI_INPUT}$(pango_icon ) Discoverable: <b>On</b>\n"
     else 
         ROFI_INPUT="${ROFI_INPUT}$(pango_icon 󰅖) Discoverable: <b>Off</b>\n"
     fi 
@@ -34,9 +34,6 @@ function main_menu {
     ROFI_INPUT="${ROFI_INPUT}$(pango_icon 󰂳) Bluetooth devices menu\n"
 
     CONNECTED_DEVICES=$(jq "[.[] | select(.connected == true)] | length" <<< "$(devices_list)")
-    if [ -z $CONNECTED_DEVICES ]; then 
-        CONNECTED_DEVICES=0
-    fi 
 
     ROFI_MESSAGE="<b>${CONNECTED_DEVICES}</b> connected bluetooth device"
     if (( CONNECTED_DEVICES > 1 )); then 

@@ -18,7 +18,7 @@ function active_connections {
 }
 
 function device_list_json {
-    DEVICES=$(nmcli -t device status | grep -E "ethernet|wifi" | grep -Ev "unavailable|unmanaged|p2p")
+    DEVICES=$(nmcli -t device status | grep --color=never -E "ethernet|wifi" | grep --color=never -Ev "unavailable|unmanaged|p2p")
     RESULT="[]"
     while read -r line
     do
