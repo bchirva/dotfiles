@@ -16,7 +16,7 @@ case $variant in
     0) $HOME/.config/rofi/modules/rofi_audio.sh output ;;
     1) $HOME/.config/rofi/modules/rofi_audio.sh input ;;
     2) $HOME/.config/rofi/modules/rofi_network.sh main;;
-    3) $HOME/.config/rofi/modules/rofi_bluetooth.sh ;;
+    3) $HOME/.config/rofi/modules/rofi_bluetooth.sh main;;
     4) kitty -e btm ;;
     5) $HOME/.config/rofi/modules/rofi_powermenu.sh ;;
     *) exit ;;
