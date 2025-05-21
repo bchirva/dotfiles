@@ -64,6 +64,7 @@ ln -sf $THEME_DIR/theme.ranger.py       $PWD/ranger/colorschemes/theme.py
 ln -sf $THEME_DIR/theme.rofi.rasi       $PWD/rofi/theme/colors.rasi
 ln -sf $THEME_DIR/theme.sh              $PWD/bspwm/theme.sh
 ln -sf $THEME_DIR/theme.sh              $PWD/zsh/theme.sh
+ln -sf $THEME_DIR/theme.sh              $PWD/rofi/theme/theme.sh
 ln -sf $THEME_DIR/theme.tmux.conf       $PWD/tmux/theme.conf
 ln -sf $THEME_DIR/theme.yazi            $PWD/yazi/theme.toml
 ln -sf $THEME_DIR/theme.nvim.lua        $PWD/yazi/colors.lua

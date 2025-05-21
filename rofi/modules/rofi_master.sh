@@ -1,14 +1,14 @@
 #!/bin/bash
 
-source $HOME/.config/rofi/modules/rofi_icon.sh
+source $HOME/.config/theme.sh
 
 function rofi_entries() {
-    echo -en "$(pango_icon  ) Sound output\n"
-    echo -en "$(pango_icon  ) Sound input\n"
-    echo -en "$(pango_icon 󰖟 ) Network\n"
-    echo -en "$(pango_icon 󰂯 ) Bluetooth\n"
-    echo -en "$(pango_icon  ) System monitor\n"
-    echo -en "$(pango_icon  ${ERROR_COLOR}) Logout\n"
+    echo -en "$(colored-icon pango  ) Sound output\n"
+    echo -en "$(colored-icon pango  ) Sound input\n"
+    echo -en "$(colored-icon pango 󰖟 ) Network\n"
+    echo -en "$(colored-icon pango 󰂯 ) Bluetooth\n"
+    echo -en "$(colored-icon pango  ) System monitor\n"
+    echo -en "$(colored-icon pango  ${ERROR_COLOR}) Logout\n"
 }
 
 variant=$(rofi_entries | rofi -config "~/.config/rofi/modules/controls_config.rasi" -markup-rows -i -dmenu -no-custom -format 'i' -p "Control Center" -l 6)

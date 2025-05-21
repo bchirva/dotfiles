@@ -1,39 +1,38 @@
 #!/bin/bash
 
-source $HOME/.config/rofi/modules/rofi_icon.sh
-source $HOME/.config/rofi/modules/utils_scripts/bluetooth_helper.sh
+source $HOME/.config/theme.sh
 
 function main_menu {
-    TOTAL_STATUS=$(bluetooth_status)
+    TOTAL_STATUS=$(bluetooth-ctrl status)
 
     ROFI_INPUT=""
     if jq -e ".powered" <<< "${TOTAL_STATUS}" > /dev/null; then 
-        ROFI_INPUT="${ROFI_INPUT}$(pango_icon ) Power: <b>On</b>\n"
+        ROFI_INPUT="${ROFI_INPUT}$(colored-icon pango ) Power: <b>On</b>\n"
     else 
-        ROFI_INPUT="${ROFI_INPUT}$(pango_icon 󰅖) Power: <b>Off</b>\n"
+        ROFI_INPUT="${ROFI_INPUT}$(colored-icon pango 󰅖) Power: <b>Off</b>\n"
     fi 
 
     if jq -e ".pairable" <<< "${TOTAL_STATUS}" > /dev/null; then 
-        ROFI_INPUT="${ROFI_INPUT}$(pango_icon ) Pairable: <b>On</b>\n"
+        ROFI_INPUT="${ROFI_INPUT}$(colored-icon pango ) Pairable: <b>On</b>\n"
     else 
-        ROFI_INPUT="${ROFI_INPUT}$(pango_icon 󰅖) Pairable: <b>Off</b>\n"
+        ROFI_INPUT="${ROFI_INPUT}$(colored-icon pango 󰅖) Pairable: <b>Off</b>\n"
     fi 
 
     if jq -e ".discoverable" <<< "${TOTAL_STATUS}" > /dev/null; then 
-        ROFI_INPUT="${ROFI_INPUT}$(pango_icon ) Discoverable: <b>On</b>\n"
+        ROFI_INPUT="${ROFI_INPUT}$(colored-icon pango ) Discoverable: <b>On</b>\n"
     else 
-        ROFI_INPUT="${ROFI_INPUT}$(pango_icon 󰅖) Discoverable: <b>Off</b>\n"
+        ROFI_INPUT="${ROFI_INPUT}$(colored-icon pango 󰅖) Discoverable: <b>Off</b>\n"
     fi 
 
     # if jq -e ".scanning" <<< "$TOTAL_STATUS" > /dev/null; then 
-    #     ROFI_INPUT="${ROFI_INPUT}$(pango_icon ) Scanning: <b>On</b>\n"
+    #     ROFI_INPUT="${ROFI_INPUT}$(colored-icon pango ) Scanning: <b>On</b>\n"
     # else 
-    #     ROFI_INPUT="${ROFI_INPUT}$(pango_icon 󰅖) Scanning: <b>Off</b>\n"
+    #     ROFI_INPUT="${ROFI_INPUT}$(colored-icon pango 󰅖) Scanning: <b>Off</b>\n"
     # fi 
     
-    ROFI_INPUT="${ROFI_INPUT}$(pango_icon 󰂳) Bluetooth devices menu\n"
+    ROFI_INPUT="${ROFI_INPUT}$(colored-icon pango 󰂳) Bluetooth devices menu\n"
 
-    CONNECTED_DEVICES=$(jq "[.[] | select(.connected == true)] | length" <<< "$(devices_list)")
+    CONNECTED_DEVICES=$(jq "[.[] | select(.connected == true)] | length" <<< "$(bluetooth-ctrl device list)")
 
     ROFI_MESSAGE="<b>${CONNECTED_DEVICES}</b> connected bluetooth device"
     if (( CONNECTED_DEVICES > 1 )); then 
@@ -47,15 +46,15 @@ function main_menu {
         exit;
     fi
     case $variant in 
-        0) toggle_power "$(jq ".powered" <<< "${TOTAL_STATUS}" | sed -e "s/true/off/g" -e "s/false/on/g")" ;; 
-        1) toggle_pairable "$(jq ".powered" <<< "${TOTAL_STATUS}" | sed -e "s/true/off/g" -e "s/false/on/g")" ;; 
-        2) toggle_discoverable "$(jq ".powered" <<< "${TOTAL_STATUS}" | sed -e "s/true/off/g" -e "s/false/on/g")" ;; 
+        0) bluetooth-ctrl power "$(jq ".powered" <<< "${TOTAL_STATUS}" | sed -e "s/true/off/g" -e "s/false/on/g")" ;; 
+        1) bluetooth-ctrl pairable "$(jq ".powered" <<< "${TOTAL_STATUS}" | sed -e "s/true/off/g" -e "s/false/on/g")" ;; 
+        2) bluetooth-ctrl discoverable "$(jq ".powered" <<< "${TOTAL_STATUS}" | sed -e "s/true/off/g" -e "s/false/on/g")" ;; 
         3) devices_menu
     esac 
 }
 
 function devices_menu() {
-    DEVICES_LIST=$(devices_list)
+    DEVICES_LIST=$(bluetooth-ctrl device list)
     DEVICES_COUNT=$(jq ". | length" <<< "${DEVICES_LIST}")
 
     ROFI_MESSAGE="${DEVICES_COUNT} founded device"
@@ -93,10 +92,10 @@ function devices_menu() {
             CONNECTION=""
         fi
 
-        ROFI_INPUT="${ROFI_INPUT}$(pango_icon "${DEVICE_ICON}") ${DEVICE_NAME} <b>$CONNECTION</b>\n"
+        ROFI_INPUT="${ROFI_INPUT}$(colored-icon pango "${DEVICE_ICON}") ${DEVICE_NAME} <b>$CONNECTION</b>\n"
     done
 
-    ROFI_INPUT="${ROFI_INPUT}$(pango_icon 󰑓 ) Scan for devices\n"
+    ROFI_INPUT="${ROFI_INPUT}$(colored-icon pango 󰑓 ) Scan for devices\n"
 
     variant=$(echo -en "${ROFI_INPUT}" | rofi -markup-rows -config "$HOME/.config/rofi/modules/controls_config.rasi"\
         -i -dmenu -p "Bluetooth:" -no-custom -format 'i' -mesg "${ROFI_MESSAGE}" -l $((DEVICES_COUNT + 1)) )
@@ -105,15 +104,15 @@ function devices_menu() {
         exit
     fi
     if (( variant == DEVICES_COUNT)); then 
-        toggle_scan on 
+        bluetooth-ctrl scan on 
         @0
     elif (( variant <= DEVICES_COUNT )); then
         SELECTED_MAC=$(jq ".[$variant].id" <<< "${DEVICES_LIST}" | sed "s/\"//g")
         
         if jq -e ".[$variant].connected" <<< "${DEVICES_LIST}" > /dev/null; then 
-            disconnect_device "${SELECTED_MAC}"  
+            bluetooth-ctrl disconnect disconnect "${SELECTED_MAC}"  
         else
-            connect_device "${SELECTED_MAC}"
+            bluetooth-ctrl device connect "${SELECTED_MAC}"
         fi 
     fi
 }
