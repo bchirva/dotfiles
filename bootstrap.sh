@@ -7,6 +7,7 @@ if [ ! -d "$HOME/.fonts" ];  then mkdir $HOME/.fonts; fi
 if [ ! -d "$HOME/.icons" ];  then mkdir $HOME/.icons; fi
 if [ ! -d "$HOME/.themes" ]; then mkdir $HOME/.themes; fi
 if [ ! -d "$HOME/.cache/zsh" ]; then mkdir -p $HOME/.cache/zsh/; fi
+if [ ! -d "$HOME/.local/bin" ]; then mkdir -p $HOME/.local/bin; fi
 
 # Symlink config dotfiles
 CONFIG_DIR="$HOME/.config"
@@ -34,6 +35,7 @@ ln -sf $PWD/zsh             $CONFIG_DIR/zsh
 
 ln -sf $PWD/xprofile        $HOME/.xprofile  
 ln -sf $PWD/themes/Adaptish $HOME/.themes/Adaptish
+ln -sf $PWD/bin/*           $HOME/.local/bin
 
 # Symlink theme to current
 THEME_DIR="$PWD/colorschemes/build/active"
