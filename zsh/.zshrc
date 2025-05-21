@@ -1,6 +1,3 @@
-FULL_PATH="$PATH:$HOME/.local/bin"
-export PATH="$FULL_PATH"
-
 unsetopt beep
 autoload -Uz colors && colors
 

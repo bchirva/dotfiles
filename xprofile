@@ -1,3 +1,7 @@
+export PATH="$PATH:$HOME/.local/bin"
+
+[ -f "$HOME/.private_env" ] && . "$HOME/.private_env"
+
 export EDITOR="nvim"
 export BROWSER="firefox"
 export QT_QPA_PLATFORMTHEME=qt5ct
@@ -5,6 +9,4 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 export ZDOTDIR="$HOME/.config/zsh"
 export FZF_DEFAULT_OPTS_FILE=$HOME/.config/fzf/fzfrc
 
-if [ -f "$HOME/.private_env" ]; then 
-    . "$HOME/.private_env"
-fi
+
