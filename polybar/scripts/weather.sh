@@ -1,4 +1,2 @@
-source $HOME/.config/polybar/scripts/utils_scripts/weather.sh
-
-WEATHER=$(weather_json)
+WEATHER=$(weather-info)
 jq -r '"\(.icon) \(.temp)°"' <<< "${WEATHER}"

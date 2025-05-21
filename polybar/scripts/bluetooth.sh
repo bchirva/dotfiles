@@ -1,13 +1,11 @@
 #!/bin/bash
 
-source ~/.config/polybar/scripts/utils_scripts/bluetooth_helper.sh
+OPERATION=$1
 
-operation=$1
-
-case $operation in 
+case $OPERATION in 
     "status")
-        if bluetooth_status | jq -e ".powered" > /dev/null; then
-            if (( $(jq "[.[] | select(.connected == true)] | length" <<< "$(devices_list)") > 0 )); then 
+        if bluetooth-ctrl status | jq -e ".powered" > /dev/null; then
+            if (( $(jq "[.[] | select(.connected == true)] | length" <<< "$(bluetooth-ctrl device list)") > 0 )); then 
                 echo "󰂱"
             else 
                 echo "󰂯"

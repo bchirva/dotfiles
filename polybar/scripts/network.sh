@@ -1,13 +1,11 @@
 #!/bin/bash
 
-source ~/.config/polybar/scripts/utils_scripts/network_manager_helper.sh
+OPERATION=$1
 
-operation=$1
-
-case $operation in
+case $OPERATION in
     "status") 
-        if [[ "$(network_status)" == "true" ]]; then 
-            CONNECTION_TYPE=$(device_list_json | jq ".[] | select(.device == $(active_connections | jq ".[0].device")).type" | sed -e "s/\"//g")
+        if [[ "$(network-ctrl system status)" == "true" ]]; then 
+            CONNECTION_TYPE=$(network-ctrl device list | jq ".[] | select(.device == $(network-ctrl connections list | jq ".[0].device")).type" | sed -e "s/\"//g")
 
             case ${CONNECTION_TYPE} in
                 "ethernet") echo "󰈀"; exit ;;
