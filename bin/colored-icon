@@ -1,0 +1,27 @@
+#!/bin/bash
+
+source $HOME/.config/theme.sh
+
+HELP_MSG="colored-icon <pango/ansi> <symbol> [#hex color]"
+
+function pango_icon() {
+    ICON=$1
+    # COLOR=$2
+    COLOR="${2:-$ACCENT_COLOR}"
+    echo -en "<span size=\"150%\" rise=\"-3pt\" color=\"${COLOR}\">${ICON} </span>"
+}
+
+function ansi_icon() {
+    HEX=${2#"#"} 
+    R=$((16#${HEX:0:2}))
+    G=$((16#${HEX:2:2}))
+    B=$((16#${HEX:4:2}))
+    echo -e "\033[38;2;${R};${G};${B}m$1\033[0m"
+}
+
+case $1 in 
+    pango) pango_icon "${@:2}";;
+    ansi) ansi_icon "${@:2}";;
+    -h|--help) echo "${HELP_MSG}";;
+    *) exit 2;;
+esac 
