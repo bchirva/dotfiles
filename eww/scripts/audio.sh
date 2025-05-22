@@ -1,15 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-source ~/.config/eww/scripts/utils_scripts/pulse_audio_helper.sh
+function main() {
+    local -r operation=$1
+    local -r device_type=$2
 
-OPERATION=$1
-DEVICE_TYPE=$2
+    case $operation in
+        "mute") audio-ctrl set "${device_type}" -m;;
+        "level") audio-ctrl set "${device_type}" -v "$3";;
+        "status") audio-ctrl info "${device_type}" ;;
+        "list") audio-ctrl list "${device_type}" ;;
+        "choose") ~/.config/rofi/modules/rofi_audio.sh "${device_type}" ;;
+    esac
+}
 
-case $OPERATION in
-    "mute")  change_active_device_settings -m $DEVICE_TYPE ;;
-    "level") change_active_device_settings -v $3 $DEVICE_TYPE ;;
-    "status") echo $(active_device_info $DEVICE_TYPE) ;;
-    "list") echo $(device_list $DEVICE_TYPE) ;;
-    "choose") ~/.config/rofi/modules/rofi_audio.sh $DEVICE_TYPE ;;
-esac
-
+main "$@"

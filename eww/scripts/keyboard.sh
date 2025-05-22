@@ -1,12 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-operation=$1
+function main() {
+    local -r operation=$1
 
-case $operation in
-    "active")
-        echo $(xkb-switch)
-    ;;
-    "next")
-        xkb-switch -n
-    ;;
-esac
+    case $operation in
+        active) xkb-switch ;;
+        next) xkb-switch -n ;;
+    esac
+}
+
+main "$@"
