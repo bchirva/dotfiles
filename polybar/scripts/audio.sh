@@ -1,27 +1,29 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-OPERATION=$1
-CHANNEL=$2
+function main () {
+    local -r operation=$1
+    local -r channel=$2
 
-case $OPERATION in
-    "status")
-        ACTIVE_STATUS_JSON=$(audio-ctrl info "${CHANNEL}")
-        MUTED=$(jq -r ".muted" <<< "${ACTIVE_STATUS_JSON}")
-   
-        if $MUTED ; then
-            case $CHANNEL in
-                "output") echo "" ;;
-                "input") echo "󰍭" ;;
-            esac
-        else
-            case $CHANNEL in
-                "output") echo "" ;;
-                "input") echo "󰍬" ;;
-            esac
-        fi
-    ;;
-    "menu")
-        ~/.config/rofi/modules/rofi_audio.sh $CHANNEL 
-    ;;
-esac
+    case $operation in
+        "status")
+            local -r active_status_json=$(audio-ctrl info "${channel}")
+            local -r muted=$(jq -r ".muted" <<< "${active_status_json}")
+       
+            if ${muted} ; then
+                case $channel in
+                    "output") echo "" ;;
+                    "input") echo "󰍭" ;;
+                esac
+            else
+                case $channel in
+                    "output") echo "" ;;
+                    "input") echo "󰍬" ;;
+                esac
+            fi
+        ;;
+        "menu") ~/.config/rofi/modules/rofi_audio.sh "${channel}" ;;
+        *) exit 2 ;;
+    esac
+}
 
+main "$@"

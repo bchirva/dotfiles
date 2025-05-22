@@ -1,19 +1,28 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-OPERATION=$1
+function main(){
+    local -r operation=$1
 
-case $OPERATION in
-    "status") 
-        if [[ "$(network-ctrl system status)" == "true" ]]; then 
-            CONNECTION_TYPE=$(network-ctrl device list | jq ".[] | select(.device == $(network-ctrl connections list | jq ".[0].device")).type" | sed -e "s/\"//g")
+    case $operation in
+        "status") 
+            if [[ "$(network-ctrl system status)" == "true" ]]; then 
+                local -r connection_type=$(network-ctrl device list \
+                    | jq ".[] | select(.device == $(network-ctrl connection list \
+                    | jq ".[0].device")).type" \
+                    | sed -e "s/\"//g")
 
-            case ${CONNECTION_TYPE} in
-                "ethernet") echo "󰈀"; exit ;;
-                "wifi") echo ""; exit ;;
-                *) echo "󰌙"; exit ;;
-            esac 
-        fi 
-        echo "󰌙"
-    ;;
-    "menu") ~/.config/rofi/modules/rofi_network.sh main;;
-esac
+                case ${connection_type} in
+                    "ethernet") echo "󰈀"; exit ;;
+                    "wifi") echo ""; exit ;;
+                    *) echo "󰌙"; exit ;;
+                esac 
+            fi 
+            echo "󰌙"
+        ;;
+        "menu") ~/.config/rofi/modules/rofi_network.sh main ;;
+        *) exit 2 ;;
+    esac
+}
+
+main "$@"
+

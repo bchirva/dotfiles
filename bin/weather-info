@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 function weather_icon(){
     case $1 in
@@ -25,10 +25,11 @@ function weather_icon(){
 }
 
 function weather_json() {
-    WEATHER=$(curl -s "api.openweathermap.org/data/2.5/weather?q=Yekaterinburg,ru&units=metric&appid=$OPENWEATHER_KEY")
-    ICON=$(weather_icon "$(jq ".weather[].icon" <<< "${WEATHER}" | sed "s/\"//g")")
+    local -r weather=$(curl -s "api.openweathermap.org/data/2.5/weather?q=Yekaterinburg,ru&units=metric&appid=$OPENWEATHER_KEY")
+    local -r icon=$(weather_icon "$(jq ".weather[].icon" <<< "${weather}" \
+        | sed "s/\"//g")")
 
-    jq --arg icon "$ICON" '(.main.temp | round) as $tmp | 
+    jq --arg icon "$icon" '(.main.temp | round) as $tmp | 
         {
             temp: (if $tmp > 0 then "+" + ($tmp|tostring) else $tmp|tostring end),
             description: .weather[].main,
@@ -36,7 +37,7 @@ function weather_json() {
             icon: $icon,
             wind: .wind.speed,
             humidity: .main.humidity
-        }' <<< "${WEATHER}"
+        }' <<< "${weather}"
 
 }
 

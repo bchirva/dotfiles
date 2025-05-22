@@ -1,67 +1,72 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-DEVICE_TYPE=$1
+function main() {
+    local -r device_type=$1
 
-case $DEVICE_TYPE in
-    "output")   
-        ROFI_INPUT="$(colored-icon pango 󰝝 ) Volume +10%\n$(colored-icon pango 󰝞 ) Volume -10%\n$(colored-icon pango 󰝟 ) Mute\n"
-        DEVICE_ICON="󱄠"
-        ;;
-    "input")    
-        ROFI_INPUT="$(colored-icon pango 󰢴 ) Volume +10%\n$(colored-icon pango 󰢳 ) Volume -10%\n$(colored-icon pango  ) Mute\n"
-        DEVICE_ICON=""
-        ;;
-    *) exit
-esac
-
-DEVICE_LIST_JSON=$(audio-ctrl list "${DEVICE_TYPE}")
-ACTIVE_DEVICE_JSON=$(audio-ctrl info "${DEVICE_TYPE}")
-
-DEVICE_ID_LIST=()
-ACTIVE_DEVICE_IDX=0
-for ((i = 0; i < $(jq ". | length" <<< "${DEVICE_LIST_JSON}"); i++))
-do
-    DEVICE_ID_LIST[${#DEVICE_ID_LIST[@]}]=$(jq -r ".[$i].id" <<< "${DEVICE_LIST_JSON}")
-    ROFI_INPUT="${ROFI_INPUT}$(colored-icon pango ${DEVICE_ICON} ) $(jq -r ".[$i].name" <<< "${DEVICE_LIST_JSON}")\n"
-
-    if [ "$(jq -r '.id' <<< "${ACTIVE_DEVICE_JSON}")" == "$(jq -r ".[$i].id" <<< "${DEVICE_LIST_JSON}")" ]; then
-        ACTIVE_DEVICE_IDX=$i
-    fi
-done
-
-MESSAGE="Active device: Volume $(jq -r ".volume" <<< "${ACTIVE_DEVICE_JSON}")"
-if [[ $(jq -r ".muted" <<< "${ACTIVE_DEVICE_JSON}") == "yes" ]]; then
-    MESSAGE="$MESSAGE (muted)"
-fi
-
-ROW_MODIFIERS="-a $((ACTIVE_DEVICE_IDX + 3))"
-if [[ $2 ]]; then
-    ROW_MODIFIERS="${ROW_MODIFIERS} -selected-row $2"
-else
-    ROW_MODIFIERS="${ROW_MODIFIERS} -selected-row $((ACTIVE_DEVICE_IDX + 3))"
-fi
-
-OPTION=$(echo -en "${ROFI_INPUT}"| rofi -config "$HOME/.config/rofi/modules/controls_config.rasi"\
-    -markup-rows -i -dmenu -p "Audio control:" -no-custom -format 'i' $ROW_MODIFIERS -l $((${#DEVICE_ID_LIST[@]} + 3))\
-    -mesg "${MESSAGE}")
-
-if [[ $OPTION ]]; then
-    case $OPTION in
-        0) 
-            audio-ctrl set "${DEVICE_TYPE}" -v +10
-            $0 $1 0 
+    local rofi_input message
+    case $device_type in
+        "output")   
+            rofi_input="$(colored-icon pango 󰝝 ) Volume +10%\n$(colored-icon pango 󰝞 ) Volume -10%\n$(colored-icon pango 󰝟 ) Mute\n"
+            local -r device_icon="󱄠"
             ;;
-        1) 
-            audio-ctrl set "${DEVICE_TYPE}" -v -10
-            $0 $1 1 
+        "input")    
+            rofi_input="$(colored-icon pango 󰢴 ) Volume +10%\n$(colored-icon pango 󰢳 ) Volume -10%\n$(colored-icon pango  ) Mute\n"
+            local -r device_icon=""
             ;;
-        2) 
-            audio-ctrl set "${DEVICE_TYPE}" -m
-            $0 $1 2 
-            ;;
-        *) 
-            audio-ctrl choose "${DEVICE_TYPE}" "${DEVICE_ID_LIST[$((OPTION - 3))]}"
-            ;;
+        *) exit 2 ;;
     esac
-fi
 
+    local -r device_list_json=$(audio-ctrl list "${device_type}")
+    local -r active_device_json=$(audio-ctrl info "${device_type}")
+
+    local device_id_list=()
+    local active_device_idx=0
+    for ((i = 0; i < $(jq ". | length" <<< "${device_list_json}"); i++))
+    do
+        device_id_list[${#device_id_list[@]}]=$(jq -r ".[$i].id" <<< "${device_list_json}")
+        rofi_input="${rofi_input}$(colored-icon pango ${device_icon} ) $(jq -r ".[$i].name" <<< "${device_list_json}")\n"
+
+        if [ "$(jq -r '.id' <<< "${active_device_json}")" == "$(jq -r ".[$i].id" <<< "${device_list_json}")" ]; then
+            active_device_idx=$i
+        fi
+    done
+
+    message="Active device: Volume $(jq -r ".volume" <<< "${active_device_json}")"
+    if [[ $(jq -r ".muted" <<< "${active_device_json}") == "yes" ]]; then
+        message="$message (muted)"
+    fi
+
+    local row_modifiers="-a $((active_device_idx + 3))"
+    if [[ $2 ]]; then
+        row_modifiers="${row_modifiers} -selected-row $2"
+    else
+        row_modifiers="${row_modifiers} -selected-row $((active_device_idx + 3))"
+    fi
+
+    local -r variant=$(echo -en "${rofi_input}" \
+        | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
+        -markup-rows -i -dmenu -p "Audio control:" -no-custom -format 'i' ${row_modifiers} \
+        -l $((${#device_id_list[@]} + 3)) -mesg "${message}")
+
+    if [[ $variant ]]; then
+        case $variant in
+            0) 
+                audio-ctrl set "${device_type}" -v +10
+                $0 "$1" 0 
+                ;;
+            1) 
+                audio-ctrl set "${device_type}" -v -10
+                $0 "$1" 1 
+                ;;
+            2) 
+                audio-ctrl set "${device_type}" -m
+                $0 "$1" 2 
+                ;;
+            *) 
+                audio-ctrl choose "${device_type}" "${device_id_list[$((variant - 3))]}"
+            ;;
+        esac
+    fi
+}
+
+main "$@"

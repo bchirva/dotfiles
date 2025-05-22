@@ -1,131 +1,157 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-HELP_MSG="audio-ctrl
-    list <input/output> - print json-list of available devices
-    info <input/output> - print json-object with active device properties
-    choose <input/output> <id> - choose active device
-    set <input/output> <args> 
-        -m - toggle mute
-        -v <volume level> - change volume (in %)"
+function main() {
+    local -r help_msg="audio-ctrl
+        list <input/output> - print json-list of available devices
+        info <input/output> - print json-object with active device properties
+        choose <input/output> <id> - choose active device
+        set <input/output> <args> 
+            -m - toggle mute
+            -v <volume level> - change volume (in %)"
+
+    case $1 in 
+        list) device_list "$2";; 
+        info) active_device_info "$2";; 
+        choose) change_active_device "${@:2}";;
+        set) change_active_device_settings "${@:2}";;
+        -h|--help) echo -e "${help_msg}";;
+        *) exit 2;;
+    esac
+}
 
 function device_list {
-    DEVICE_TYPE=$1
-    case $DEVICE_TYPE in
+    local -r device_type=$1
+    case $device_type in
         "output") 
-            DEVICE_LIST=$(pactl list sinks)
-            DEVICE_ID="Sink #"
+            local -r device_list="$(pactl list sinks)"
+            local device_id="Sink #"
         ;;
         "input")  
-            DEVICE_LIST=$(pactl list sources)
-            DEVICE_ID="Source #"
+            device_list="$(pactl list sources)"
+            local device_id="Source #"
         ;;
-        *) exit
+        *) exit 2
     esac
 
-    JSON_ARRAY="[]"
-
-    for ((i = 0; i < $(grep -c "$DEVICE_ID" <<< $DEVICE_LIST); i++))
+    local id device name json_array="[]"
+    for ((i = 0; i < $(grep -c "${device_id}" <<< "${device_list}"); i++))
     do
-        if [ $DEVICE_TYPE == "input" ] && [ $(grep -e "Monitor of Sink" <<< $DEVICE_LIST | head -n $(($i + 1)) | tail -n 1 | awk '{print $4}') != "n/a" ]; then
+        if [ "${device_type}" == "input" ] \
+            && [ "$(grep -e "Monitor of Sink" <<< "${device_list}" \
+            | head -n $((i + 1)) \
+            | tail -n 1 \
+            | awk '{print $4}')" != "n/a" ]; then
             continue
         fi
 
-        ID=$(grep -e "Name:" <<< $DEVICE_LIST | head -n $(($i + 1)) | tail -n 1 | awk '{print $2}') 
-        DEVICE=$(grep -e 'Active Port' <<< $DEVICE_LIST | head -n $(($i + 1)) | tail -n 1 | awk '{print $3}')
-        NAME=$(grep -e $DEVICE <<< $DEVICE_LIST | head -n 1 | cut -d ':' -f 2 | cut -d '(' -f 1 | sed 's/^[[:blank:]]*//g;s/[[:blank:]]*$//g')
+        id=$(grep -e "Name:" <<< "${device_list}" \
+            | head -n $((i + 1)) \
+            | tail -n 1 \
+            | awk '{print $2}') 
+        device=$(grep -e 'Active Port' <<< "${device_list}" \
+            | head -n $((i + 1)) \
+            | tail -n 1 \
+            | awk '{print $3}')
+        name=$(grep -e "${device}" <<< "${device_list}" \
+            | head -n 1 \
+            | cut -d ':' -f 2 \
+            | cut -d '(' -f 1 \
+            | sed 's/^[[:blank:]]*//g;s/[[:blank:]]*$//g')
        
-        JSON_ARRAY=$(jq  ". += [{id: \"$ID\", device: \"$DEVICE\", name: \"$NAME\"}]" <<< $JSON_ARRAY)
+        json_array=$(jq  ". += [{\
+            id: \"$id\", \
+            device: \"$device\", \
+            name: \"$name\"\
+        }]" <<< "${json_array}")
     done
 
-    echo $JSON_ARRAY
+    echo "${json_array}"
 }
 
 function active_device_info {
-    DEVICE_TYPE=$1
+    local -r device_type=$1
 
-    case $DEVICE_TYPE in
+    case $device_type in
         "output")
-            ID=$(pactl get-default-sink)
-            VOLUME_CMD="pactl get-sink-volume"
-            MUTED_CMD="pactl get-sink-mute"
+            local -r id=$(pactl get-default-sink)
+            local -r volume_cmd=(pactl get-sink-volume)
+            local -r muted_cmd=(pactl get-sink-mute)
             ;;
         "input")
-            ID=$(pactl get-default-source)
-            VOLUME_CMD="pactl get-source-volume"
-            MUTED_CMD="pactl get-source-mute"
+            local -r id=$(pactl get-default-source)
+            local -r volume_cmd=(pactl get-source-volume)
+            local -r muted_cmd=(pactl get-source-mute)
             ;;
-        *) exit
+        *) exit 2 
     esac
 
-    VOLUME=$(eval $VOLUME_CMD $ID | awk '{print $5}' | sed 's/%//g')
-    MUTED=$(eval $MUTED_CMD $ID | awk '{print $2}' | flag-to-bool)
+    local -r volume=$("${volume_cmd[@]}" "${id}" \
+        | awk '{print $5}' \
+        | sed 's/%//g')
+    local -r muted=$("${muted_cmd[@]}" "${id}" \
+        | awk '{print $2}' \
+        | flag-to-bool)
 
-    jq -n "{id: \"$ID\", volume: \"$VOLUME\", muted: \"$MUTED\"}"
+    jq -n "{\
+        id: \"$id\", \
+        volume: \"$volume\", \
+        muted: \"$muted\"\
+    }"
 }
 
 function change_active_device {
-    DEVICE_TYPE=$1
-    DEVICE_ID=$2
+    local -r device_type=$1
+    local -r device_id=$2
     
-    echo "Change Active Device: $DEVICE_TYPE $DEVICE_ID"
-
-    case $DEVICE_TYPE in
+    case $device_type in
         "output")
-            SET_ACTIVE_DEVICE_CMD="pactl set-default-sink"
-            MOVE_CHANNEL_TO_DEVICE_CMD="pactl move-sink-input"
-            CHANNELS=$(pactl list sink-inputs short)
+            local -r set_active_device_cmd=(pactl set-default-sink)
+            local -r move_channel_to_device_cmd=(pactl move-sink-input)
+            local -r channels=$(pactl list sink-inputs short)
             ;;
         "input")
-            SET_ACTIVE_DEVICE_CMD="pactl set-default-source"
-            MOVE_CHANNEL_TO_DEVICE_CMD="pactl move-source-output"
-            CHANNELS=$(pactl list source-outputs short)
+            local -r set_active_device_cmd=(pactl set-default-source)
+            local -r move_channel_to_device_cmd=(pactl move-source-output)
+            local -r channels=$(pactl list source-outputs short)
             ;;
-        *) exit
+        *) exit 2
     esac
 
-    eval "$SET_ACTIVE_DEVICE_CMD $DEVICE_ID"
-    for ((i = 0; i < $(wc -l <<< $CHANNELS); i++))
+    "${set_active_device_cmd[@]}" "$device_id"
+    for ((i = 0; i < $(wc -l <<< "$channels"); i++))
     do
-        eval "$MOVE_CHANNEL_TO_DEVICE_CMD $(head -n $(($i + 1)) <<< $CHANNELS | tail -n 1 | awk '{print $1}') $DEVICE_ID"
+        "${move_channel_to_device_cmd[@]}" "$(head -n $((i + 1)) <<< "${channels}" \
+            | tail -n 1 \
+            | awk '{print $1}')" "${device_id}"
     done 
 }
 
 function change_active_device_settings {
-    DEVICE_TYPE=$1
-    echo "DEVICE TYPE: $1"
+    local -r device_type=$1
 
-    case $DEVICE_TYPE in
+    case $device_type in
     "output")
-        ID=$(pactl get-default-sink)
-        SET_VOLUME_CMD="pactl set-sink-volume"
-        SET_MUTED_CMD="pactl set-sink-mute"
+        local -r id=$(pactl get-default-sink)
+        local -r set_volume_cmd=(pactl set-sink-volume)
+        local -r set_muted_cmd=(pactl set-sink-mute)
     ;;
     "input")
-        ID=$(pactl get-default-source)
-        SET_VOLUME_CMD="pactl set-source-volume"
-        SET_MUTED_CMD="pactl set-source-mute"
+        local -r id=$(pactl get-default-source)
+        local -r set_volume_cmd=(pactl set-source-volume)
+        local -r set_muted_cmd=(pactl set-source-mute)
     ;;
-    *) exit
+    *) exit 2
     esac
 
     shift
     while getopts v:m PARAMS
     do
         case "${PARAMS}" in
-            v) echo "VOLUME ${OPTARG}%"; eval "$SET_VOLUME_CMD $ID ${OPTARG}%" ;;
-            m) echo "MUTE"; eval "$SET_MUTED_CMD $ID toggle" ;;
-            *) echo "EXIT 2"; exit 2 ;;
+            v) "${set_volume_cmd[@]}" "${id}" "${OPTARG}%" ;;
+            m) "${set_muted_cmd[@]}" "${id}" toggle ;;
+            *) exit 2 ;;
         esac
     done
 }
 
-# MAIN
-case $1 in 
-    list) device_list $2;; 
-    info) active_device_info $2;; 
-    choose) change_active_device $2;;
-    set) change_active_device_settings "${@:2}";;
-    -h|--help) echo -e "${HELP_MSG}";;
-    *) exit 2;;
-esac
-
+main "$@"

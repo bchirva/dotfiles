@@ -1,19 +1,24 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-OPERATION=$1
+function main() {
+    local -r operation=$1
 
-case $OPERATION in 
-    "status")
-        if bluetooth-ctrl status | jq -e ".powered" > /dev/null; then
-            if (( $(jq "[.[] | select(.connected == true)] | length" <<< "$(bluetooth-ctrl device list)") > 0 )); then 
-                echo "󰂱"
+    case $operation in 
+        "status")
+            if bluetooth-ctrl status \
+                | jq -e ".powered" > /dev/null; then
+                if (( $(jq "[.[] | select(.connected == true)] | length" <<< "$(bluetooth-ctrl device list)") > 0 )); then 
+                    echo "󰂱"
+                else 
+                    echo "󰂯"
+                fi 
             else 
-                echo "󰂯"
-            fi 
-        else 
-            echo "󰂲"; 
-        fi
-    ;;
-    "menu") ~/.config/rofi/modules/rofi_bluetooth.sh main;;
-    *) exit ;;
-esac
+                echo "󰂲"; 
+            fi
+        ;;
+        "menu") ~/.config/rofi/modules/rofi_bluetooth.sh main;;
+        *) exit 2;;
+    esac
+}
+
+main "$@"

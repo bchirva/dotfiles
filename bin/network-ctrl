@@ -1,21 +1,59 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-HELP_MSG="network-ctrl
-    system
-        status - print network status
-        toggle <on/off> - toggle network
-    device
-        list - print json-list of devices
-        toggle <device> <on/off> - toggle device
-    wifi
-        list - print json-list of wifi networks
-        toggle <on/off> - toggle wifi
-        connect <ssid> [password] - connect to wifi network
-        disconnect <ssid> - disconnect from wifi network
-    vpn
-        list - print json-list of vpn networks
-    connections
-        list - print json-list of active connections"
+function main() {
+    local -r help_msg="network-ctrl
+        system
+            status - print network status
+            toggle <on/off> - toggle network
+        device
+            list - print json-list of devices
+            toggle <device> <on/off> - toggle device
+        wifi
+            list - print json-list of wifi networks
+            toggle <on/off> - toggle wifi
+            connect <ssid> [password] - connect to wifi network
+            disconnect <ssid> - disconnect from wifi network
+        vpn
+            list - print json-list of vpn networks
+        connection
+            list - print json-list of active connections"
+
+    case $1 in 
+        system)
+            case $2 in 
+                status) network_status ;;
+                toggle) toggle_network "$3";;
+                *) exit 2;;
+            esac ;;
+        device)
+            case $2 in 
+                list) device_list_json ;;
+                toggle) toggle_device "${@:3}";;
+                *) exit 2;;
+            esac ;;
+        wifi)
+            case $2 in 
+                list) wifi_list_json ;;
+                toggle) toggle_wifi "$3";;
+                connect) connect_to_wifi "${@:3}";;
+                disconnect) disconnect_from_wifi "$3" ;;
+                *) exit 2
+            esac ;;
+        vpn)
+            case $2 in 
+                list) vpn_list_json ;;
+                *) exit 2;;
+            esac ;;
+        connection)
+            case $2 in 
+                list) active_connections ;;
+                *) exit 2;;
+            esac ;;
+        -h|--help) echo -e "${help_msg}";;
+        *) exit 2 
+        ;;
+    esac 
+}
 
 # Network
 function network_status {
@@ -23,90 +61,97 @@ function network_status {
 }
 
 function toggle_network {
-    MODE=$1 # on/off 
-    nmcli networking $MODE
+    local -r mode=$1 # on/off 
+    nmcli networking "${mode}"
 }
 
 # Devices
 function device_list_json {
-    DEVICES=$(nmcli -t device status | grep --color=never -E "ethernet|wifi" | grep --color=never -Ev "unavailable|unmanaged|p2p")
-    RESULT="[]"
+    local -r devices=$(nmcli -t device status \
+        | grep --color=never -E "ethernet|wifi" \
+        | grep --color=never -Ev "unavailable|unmanaged|p2p")
+
+    local device_name device_type device_status result="[]"
     while read -r line
     do
-        DEVICE_NAME=$(awk -F ':' '{print $1}' <<< "$line")
-        DEVICE_TYPE=$(awk -F ':' '{print $2}' <<< "$line")
-        DEVICE_STATUS=$(awk -F ':' '{print $3}' <<< "$line" | flag-to-bool)
+        device_name=$(awk -F ':' '{print $1}' <<< "$line")
+        device_type=$(awk -F ':' '{print $2}' <<< "$line")
+        device_status=$(awk -F ':' '{print $3}' <<< "$line" \
+            | flag-to-bool)
 
-        RESULT=$(jq ". += [{ \
-            device: \"$DEVICE_NAME\", \
-            type: \"$DEVICE_TYPE\", \
-            status: $DEVICE_STATUS}]" \
-            <<< "$RESULT")
-    done <<< "$DEVICES"
-    echo "$RESULT"
+        result=$(jq ". += [{ \
+            device: \"$device_name\", \
+            type: \"$device_type\", \
+            status: $device_status}]" \
+            <<< "$result")
+    done <<< "$devices"
+    echo "$result"
 }
 
 function toggle_device {
-    DEVICE=$1
-    MODE=$2 # on/off
+    local -r device=$1
+    local -r mode=$2 # on/off
 
-    case $MODE in
-        "on")  nmcli device connect $DEVICE ;;
-        "off") nmcli device disconnect $DEVICE ;;
-        *) exit ;;
+    case $mode in
+        "on")  nmcli device connect "${device}" ;;
+        "off") nmcli device disconnect "${device}" ;;
+        *) exit 2;;
     esac
 }
 
 # Wifi
 function wifi_list_json { 
-    WIFI_NETWORKS=$(nmcli -t -f ssid,signal,security device wifi list | grep -Ev "^:")
-    KNOWN_WIFI_NETWORKS=$(nmcli -t -f name,type,device connection | grep -E "wireless" | awk -F ':' '{print $1}' \
+    local -r wifi_networks=$(nmcli -t -f ssid,signal,security device wifi list \
+        | grep -Ev "^:")
+    local -r known_wifi_networks=$(nmcli -t -f name,type,device connection \
+        | grep -E "wireless" \
+        | awk -F ':' '{print $1}' \
         | jq --raw-input --null-input "[inputs]")
  
-    RESULT="[]"
+    local ssid signal security known result="[]"
     while read -r line
     do
-        SSID=$(awk -F ':' '{print $1}' <<< "$line")
-        SIGNAL=$(awk -F ':' '{print $2}' <<< "$line")
-        SECURITY=$(awk -F ':' '{print $3}' <<< "$line")
+        ssid=$(awk -F ':' '{print $1}' <<< "$line")
+        signal=$(awk -F ':' '{print $2}' <<< "$line")
+        security=$(awk -F ':' '{print $3}' <<< "$line")
 
-        if [[ $(jq ".[] | select(. == \"${SSID}\")" <<< "$KNOWN_WIFI_NETWORKS") ]]; then 
-            KNOWN=true 
+        if [[ $(jq ".[] | select(. == \"${ssid}\")" <<< "$known_wifi_networks") ]]; then 
+            known=true 
         else 
-            KNOWN=false 
+            known=false 
         fi
         
-        RESULT=$(jq ". += [{ \
-            ssid: \"$SSID\", \
-            security: \"$SECURITY\", \
-            signal: $SIGNAL, \
-            known: $KNOWN \
-        }]" <<< "$RESULT")
-    done <<< "$WIFI_NETWORKS"
+        result=$(jq ". += [{ \
+            ssid: \"$ssid\", \
+            security: \"$security\", \
+            signal: $signal, \
+            known: $known \
+        }]" <<< "$result")
+    done <<< "$wifi_networks"
 
-    echo "$RESULT"
+    echo "$result"
 }
 
 function toggle_wifi {
-    MODE=$1 # on/off
-    nmcli radio wifi $MODE
+    local -r mode=$1 # on/off
+    nmcli radio wifi "${mode}"
 }
 
 function connect_to_wifi {
-    NETWORK_SSID="$1"
-    NETWORK_PASSWORD="$2"
+    local -r network_ssid="$1"
+    local -r network_password="$2"
 
-    if [ -z "$NETWORK_PASSWORD" ] 
+    if [ -z "${network_password}" ] 
     then
-        nmcli connection up "$NETWORK_SSID"
+        nmcli connection up "${network_ssid}"
     else
-        nmcli device wifi connect "$NETWORK_SSID" password "$NETWORK_PASSWORD"
+        nmcli device wifi connect "${network_ssid}" password "${network_password}"
     fi
 }
 
 function disconnect_from_wifi {
-    NETWORK_SSID=$1
-    nmcli connection down "$NETWORK_SSID"
+    local -r network_ssid=$1
+    nmcli connection down "${network_ssid}"
 }
 
 # VPN
@@ -130,53 +175,19 @@ function vpn_list_json {
 
 # Connections
 function active_connections {
-    CONNECTIONS=$(nmcli -t -f device,name connection show --active --order active:name)
-    RESULT="[]"
+    local -r connections=$(nmcli -t -f device,name connection show --active --order active:name)
+
+    local connection_device connection_name result="[]"
     while read -r line
     do 
-        CONNECTION_DEVICE=$(awk -F ':' '{print $1}' <<< "$line")
-        CONNECTION_NAME=$(awk -F ':' '{print $2}' <<< "$line")
-        RESULT=$(jq ". += [{ \
-            connection: \"$CONNECTION_NAME\", \
-            device: \"$CONNECTION_DEVICE\"}]" \
-            <<< "$RESULT")
-    done <<< "$CONNECTIONS"
-    echo "$RESULT"
+        connection_device=$(awk -F ':' '{print $1}' <<< "$line")
+        connection_name=$(awk -F ':' '{print $2}' <<< "$line")
+        result=$(jq ". += [{ \
+            connection: \"$connection_name\", \
+            device: \"$connection_device\"}]" \
+            <<< "$result")
+    done <<< "$connections"
+    echo "$result"
 }
 
-# MAIN
-case $1 in 
-    system)
-        case $2 in 
-            status) network_status ;;
-            toggle) toggle_network $3;;
-            *) exit 2;;
-        esac ;;
-    device)
-        case $2 in 
-            list) device_list_json ;;
-            toggle) toggle_device $3 $4;;
-            *) exit 2;;
-        esac ;;
-    wifi)
-        case $2 in 
-            list) wifi_list_json ;;
-            toggle) toggle_wifi $3;;
-            connect) connect_to_wifi "${@:3}";;
-            disconnect) disconnect_from_wifi $3 ;;
-            *) exit 2
-        esac ;;
-    vpn)
-        case $2 in 
-            list) vpn_list_json ;;
-            *) exit 2;;
-        esac ;;
-    connections)
-        case $2 in 
-            list) active_connections ;;
-            *) exit 2;;
-        esac ;;
-    -h|--help) echo -e "${HELP_MSG}";;
-    *) exit 2 
-    ;;
-esac 
+main "$@"

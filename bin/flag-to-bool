@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/usr/bin/env bash 
 
 sed -e "s/\bon\b/true/g" \
     -e "s/\benabled\b/true/g" \

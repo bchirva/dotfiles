@@ -1,158 +1,185 @@
-#!/bin/bash 
+#!/usr/bin/env bash 
 
-HELP_MSG="bluetooth-ctrl
-    status - print json-object with bluetooth status
-    power <on/off> - toggle power
-    pairable <on/off> - toggle pairable
-    discoverable <on/off> - toggle discoverable
-    scan <on/off> - toggle scanning
-    device
-        list - print json-list of devices
-        info - print json-object with device properties
-        connect <mac> - connect to device
-        disconnect <mac> - disconnect from device
-        remove <mac> - disconnect and forget device"
+function main() {
+    local -r help_msg="bluetooth-ctrl
+        status - print json-object with bluetooth status
+        power <on/off> - toggle power
+        pairable <on/off> - toggle pairable
+        discoverable <on/off> - toggle discoverable
+        scan <on/off> - toggle scanning
+        device
+            list - print json-list of devices
+            info - print json-object with device properties
+            connect <mac> - connect to device
+            disconnect <mac> - disconnect from device
+            remove <mac> - disconnect and forget device"
+
+    case $1 in 
+        status) bluetooth_status;;
+        power) toggle_power "$2";;
+        pairable) toggle_pairable "$2";;
+        discoverable) toggle_discoverable "$2";;
+        scan) toggle_scan "$2";;
+        device)
+            case $2 in
+                list) devices_list;;
+                info) device_info "$3";;
+                connect) connect_device "$3";;
+                disconnect) disconnect_device "$3";;
+                remove) remove_device "$3";;
+                *) exit 2;;
+            esac;;
+        -h|--help) echo -e "${help_msg}" ;;
+        *) exit 2;;
+    esac 
+}
 
 # Bluetooth
 function bluetooth_status() {
-    STATUS=$(bluetoothctl show)
-    POWERED=$(grep "PowerState:" <<< "${STATUS}" | awk '{print $2}' | flag-to-bool )
-    SCANNING=$(grep "Discovering:" <<< "${STATUS}" | awk '{print $2}' | flag-to-bool )
-    PAIRABLE=$(grep "Pairable:" <<< "${STATUS}"| awk '{print $2}' | flag-to-bool )
-    DISCOVERABLE=$(grep "Discoverable:" <<< "${STATUS}" | awk '{print $2}' | flag-to-bool )
+    local -r status=$(bluetoothctl show)
+    local -r powered=$(grep "PowerState:" <<< "${status}" \
+        | awk '{print $2}' \
+        | flag-to-bool )
+    local -r scanning=$(grep "Discovering:" <<< "${status}" \
+        | awk '{print $2}' \
+        | flag-to-bool )
+    local -r pairable=$(grep "Pairable:" <<< "${status}" \
+        | awk '{print $2}' \
+        | flag-to-bool )
+    local -r discoverable=$(grep "Discoverable:" <<< "${status}" \
+        | awk '{print $2}' \
+        | flag-to-bool )
 
     jq -n "{ \
-        powered: ${POWERED}, \
-        scanning: ${SCANNING}, \
-        pairable: ${PAIRABLE}, \
-        discoverable: ${DISCOVERABLE} }"
+        powered: ${powered}, \
+        scanning: ${scanning}, \
+        pairable: ${pairable}, \
+        discoverable: ${discoverable} }"
 }
 
 function toggle_power() {
-    MODE=$1
-    case $MODE in
+    local -r mode=$1
+    case $mode in
         "on") 
             if rfkill list bluetooth | grep -q "blocked: yes"; then 
                 rfkill unblock bluetooth && sleep 3
             fi 
             bluetoothctl power on;;
         "off") bluetoothctl power off;;
-        *) exit;;
+        *) exit 2;;
     esac
 }
 
 function toggle_scan() {
-    MODE=$1
-    case $MODE in 
+    mode=$1
+    case $mode in 
         "on") bluetoothctl --timeout 5 scan on >> /dev/null ;;
         "off") bluetoothctl scan off ;;
-        *) exit ;;
+        *) exit 2;;
     esac 
 }
 
 toggle_discoverable() {
-    MODE=$1
-    case $MODE in
+    mode=$1
+    case $mode in
         "on") bluetoothctl discoverable on ;;
         "off") bluetoothctl discoverable off ;;
-        *) exit ;;
+        *) exit 2;;
     esac 
 }
 
 toggle_pairable() {
-    MODE=$1
-    case $MODE in 
+    mode=$1
+    case $mode in 
         "on") bluetoothctl pairable on ;;
         "off") bluetoothctl pairable off ;;
-        *) exit ;;
+        *) exit 2;;
     esac 
 }
 
 #Devices
 function devices_list() {
-    DEVICES=$(bluetoothctl devices)
-    RESULT="[]"
+    local -r devices=$(bluetoothctl devices)
 
+    local device_id device_info result="[]"
     while read -r line
     do
-        DEVICE_ID=$(awk '{print $2}' <<< "$line")
-        DEVICE_INFO=$(device_info "${DEVICE_ID}")
-        RESULT=$(jq ". += [$(device_info "${DEVICE_ID}")]" <<< "$RESULT")
-    done <<< "$DEVICES"
+        device_id=$(awk '{print $2}' <<< "$line")
+        device_info=$(device_info "${device_id}")
+        result=$(jq ". += [$(device_info "${device_id}")]" <<< "$result")
+    done <<< "$devices"
 
-    echo "${RESULT}"
+    echo "${result}"
 }
 
 function device_info() {
-    DEVICE_ID=$1
+    local -r device_id=$1
 
-    DEVICE_INFO=$(bluetoothctl info "${DEVICE_ID}")
+    local -r device_info=$(bluetoothctl info "${device_id}")
 
-    NAME=$(grep "Name:" <<< "${DEVICE_INFO}" | awk '{start=index($0, $2); print substr($0, start)}')
-    CLASS=$(grep "Class:" <<< "${DEVICE_INFO}" | awk '{print $2}' | flag-to-bool)
-    ICON=$(grep "Icon:" <<< "${DEVICE_INFO}" | awk '{print $2}' | flag-to-bool)
-    PAIRED=$(grep "Paired:" <<< "${DEVICE_INFO}" | awk '{print $2}' | flag-to-bool)
-    BONDED=$(grep "Bonded:" <<< "${DEVICE_INFO}" | awk '{print $2}' | flag-to-bool)
-    TRUSTED=$(grep "Trusted:" <<< "${DEVICE_INFO}" | awk '{print $2}' | flag-to-bool)
-    BLOCKED=$(grep "Blocked:" <<< "${DEVICE_INFO}" | awk '{print $2}' | flag-to-bool)
-    CONNECTED=$(grep "Connected:" <<< "${DEVICE_INFO}" | awk '{print $2}' | flag-to-bool)
-    BATTERY=$(grep "Battery Percentage:" <<< "${DEVICE_INFO}" | awk '{print $4}' | sed -e "s/(//g" -e "s/)//g")
-    if [ -z "${BATTERY}" ]; then BATTERY="null"; fi
-
+    local -r name=$(grep "Name:" <<< "${device_info}" \
+        | awk '{start=index($0, $2); print substr($0, start)}')
+    local -r class=$(grep "Class:" <<< "${device_info}" \
+        | awk '{print $2}' \
+        | flag-to-bool)
+    local -r icon=$(grep "Icon:" <<< "${device_info}" \
+        | awk '{print $2}' \
+        | flag-to-bool)
+    local -r paired=$(grep "Paired:" <<< "${device_info}" \
+        | awk '{print $2}' \
+        | flag-to-bool)
+    local -r bonded=$(grep "Bonded:" <<< "${device_info}" \
+        | awk '{print $2}' \
+        | flag-to-bool)
+    local -r trusted=$(grep "Trusted:" <<< "${device_info}" \
+        | awk '{print $2}' \
+        | flag-to-bool)
+    local -r blocked=$(grep "Blocked:" <<< "${device_info}" \
+        | awk '{print $2}' \
+        | flag-to-bool)
+    local -r connected=$(grep "Connected:" <<< "${device_info}" \
+        | awk '{print $2}' \
+        | flag-to-bool)
+    local -r battery=$(grep "Battery Percentage:" <<< "${device_info}" \
+        | awk '{print $4}' \
+        | sed -e "s/(//g" -e "s/)//g")
+    
     jq -n "{ \
-        id: \"${DEVICE_ID}\", \
-        name: \"${NAME}\", \
-        class: \"${CLASS}\", \
-        icon: \"${ICON}\", \
-        paired: ${PAIRED}, \
-        bonded: ${BONDED}, \
-        trusted: ${TRUSTED}, \
-        blocked: ${BLOCKED}, \
-        connected: ${CONNECTED}, \
-        battery: ${BATTERY} }"  
+        id: \"${device_id}\", \
+        name: \"${name}\", \
+        class: \"${class}\", \
+        icon: \"${icon}\", \
+        paired: ${paired}, \
+        bonded: ${bonded}, \
+        trusted: ${trusted}, \
+        blocked: ${blocked}, \
+        connected: ${connected}, \
+        battery: ${battery:-null} }"  
 }
 
 function connect_device() {
-    DEVICE_ID=$1
-    DEVICE_INFO=$(device_info "${DEVICE_ID}")
+    local -r device_id=$1
+    local -r device_info=$(device_info "${device_id}")
 
-    if jq -e ".trusted | not" <<< "${DEVICE_INFO}" > /dev/null; then 
-        bluetoothctl trust "${DEVICE_ID}"
+    if jq -e ".trusted | not" <<< "${device_info}" > /dev/null; then 
+        bluetoothctl trust "${device_id}"
     fi 
 
-    if jq -e ".paired | not" <<< "${DEVICE_INFO}" > /dev/null; then 
-        bluetoothctl pair "${DEVICE_ID}"
+    if jq -e ".paired | not" <<< "${device_info}" > /dev/null; then 
+        bluetoothctl pair "${device_id}"
     fi 
 
-    bluetoothctl connect "${DEVICE_ID}" 
+    bluetoothctl connect "${device_id}" 
 }
 
 function disconnect_device() {
-    DEVICE_ID=$1
-    bluetoothctl disconnect "${DEVICE_ID}"
+    local -r device_id=$1
+    bluetoothctl disconnect "${device_id}"
 }
 
 function remove_device() {
-    DEVICE_ID=$1
-    bluetoothctl remove "${DEVICE_ID}"
+    local -r device_id=$1
+    bluetoothctl remove "${device_id}"
 }
 
-# MAIN
-case $1 in 
-    status) bluetooth_status;;
-    power) toggle_power $2;;
-    pairable) toggle_pairable $2;;
-    discoverable) toggle_discoverable $2;;
-    scan) toggle_scan $2;;
-    device)
-        case $2 in
-            list) devices_list;;
-            info) device_info $3;;
-            connect) connect_device $3;;
-            disconnect) disconnect_device $3;;
-            remove) remove_device $3;;
-            *) exit 2;;
-        esac;;
-    -h|--help) echo -e "${HELP_MSG}" ;;
-    *) exit 2;;
-esac 
+main "$@"
