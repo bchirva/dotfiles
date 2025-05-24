@@ -14,15 +14,15 @@ function main() {
                 for workspace in "${workspaces[@]}"
                 do
                     state="none"
-                    if  grep -q "$workspace" <<< "$(bspc query -D -d focused)"; then
+                    if  grep -q "${workspace}" <<< "$(bspc query -D -d focused)"; then
                         state="focused"
-                    elif grep -q "$workspace" <<< "$(bspc query -D -d .occupied)"; then
+                    elif grep -q "${workspace}" <<< "$(bspc query -D -d .occupied)"; then
                         state="active"
                     fi
 
                     monitor=$(bspc query -M --names -d "${workspace}")
                     result=$(echo "${result}" \
-                        | jq ". + [{ \
+                        | jq -c ". + [{ \
                             id: \"$workspace\", \
                             state: \"$state\", \
                             monitor: \"$monitor\" \

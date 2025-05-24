@@ -6,7 +6,7 @@
 
 (defwidget bluetooth_button []
     (button
-        :class "icon flat fill crop-right"
+        :class "icon fill"
         :onclick "scripts/bluetooth.sh menu"
         :onrightclick "scripts/bluetooth.sh toggle"
         :tooltip "Open bluetooth menu"
@@ -15,19 +15,13 @@
 )
 
 (defwidget bluetooth_control []
-    (box 
-        :class "widget"
-        :orientation "h"
-        :valign "center"
-        :halign "fill"
-        :space-evenly false
-        :spacing 0
-
-        (bluetooth_button)
-        (label
-            :hexpand true
-            :justify "center"
-            :text {bluetooth_status.enabled ? "Enabled" : "Disabled"} 
-        )
+    (iconed_button 
+        :icon {bluetooth_status.enabled ? "󰂯" : "󰂲"} 
+        :label {bluetooth_status.enabled 
+            ? bluetooth_status.connected > 0 
+                ? "on (${bluetooth_status.connected} connection${bluetooth_status.connected > 1 ? "s" : "" })"
+                : "on" 
+            : "off"}
+        :action "scripts/bluetooth.sh menu"
     )
 )

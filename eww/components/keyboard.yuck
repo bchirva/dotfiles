@@ -5,70 +5,17 @@
 
 (defwidget keyboard_button [] 
     (button 
-        :class "flat fill"
-        :hexpand true
+        :class "fill"
+        :hexpand false 
         :onclick "scripts/keyboard.sh next" 
         "${keyboard_layout}"
     )
 )
 
 (defwidget keyboard_control []
-    (box 
-        :orientation "h"
-        :valign "fill"
-        :halign "fill"
-        :spacing 5
-
-        (eventbox
-            :class "widget fill"
-            :valign "fill"
-            :halign "fill"
-            :onclick "scripts/keyboard.sh next" 
-
-            (box 
-                :orientation "h"
-                :valign "center"
-                :halign "fill"
-                :space-evenly false
-                :spacing 0
-
-                (button
-                    :class "icon flat"
-                    :active false
-                    ""
-                )
-
-                (label
-                    :hexpand true
-                    :text "${keyboard_layout}"
-                )
-            )
-        )
-
-        (eventbox
-            :class "widget fill disabled"
-            :valign "fill"
-            :halign "fill"
-            :active false
-
-            (box 
-                :orientation "h"
-                :valign "center"
-                :halign "fill"
-                :space-evenly false
-                :spacing 0
-
-                (button 
-                    :class "icon flat"
-                    :active false
-                    "󱉬"
-                )
-
-                (label
-                    :hexpand true
-                    :text "Clipboard"
-                )
-            )
-        )
+    (iconed_button 
+        :icon ""
+        :label "${keyboard_layout}"
+        :action "scripts/keyboard.sh next"
     )
 )

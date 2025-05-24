@@ -6,16 +6,17 @@ function main() {
     case $operation in
         "status")
             if [[ "$(network-ctrl system status)" == "true" ]]; then
+                local -r active_connection=$(network-ctrl connection list \
+                    | jq ".[0]")
                 local -r active_device=$(network-ctrl device list \
-                    | jq ".[] | select(.device == $(network-ctrl connection list \
-                    | jq ".[0].device"))")
+                    | jq ".[] | select (.device == $(jq ".device" <<< "${active_connection}"))")
 
                 if [[ "${active_device}" ]]; then 
                     jq -n "{ \
                         enabled: true, \
                         connection: { \
                             type: $(jq ".type" <<< "${active_device}"), \
-                            name: $(jq ".device" <<< "${active_device}") \
+                            name: $(jq ".connection" <<< "${active_connection}") \
                         }}"
                 else 
                     jq -n "{ \

@@ -1,0 +1,53 @@
+@import "theme";
+
+button {
+  min-width: 2rem;
+  padding: $items-spacing;
+  margin: 0;
+  border-radius: $items-spacing;
+  border: $border-width solid transparent;
+  background-color: $color-background-view;
+}
+
+.outline {
+
+  &:hover,
+  &.selected {
+    border: $border-width solid $color-accent;
+  }
+}
+
+.fill {
+
+  &:hover,
+  &.selected {
+    color: $color-on-accent;
+    background-color: $color-accent;
+  }
+}
+
+.flat {
+  background-color: transparent;
+
+  &:hover,
+  &.selected {
+    color: $color-accent;
+  }
+}
+
+.faded {
+  color: $color-background-focused;
+}
+
+.icon {
+  padding: calc(#{$items-spacing} / 2);
+  font-size: 1.3rem;
+  min-width: 1.5rem;
+
+  &.large {
+    font-size: 1.5rem;
+    min-width: 2rem;
+    padding: $items-spacing;
+
+  }
+}

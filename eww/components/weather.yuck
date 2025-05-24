@@ -1,87 +1,135 @@
 (defpoll weather_data
-    :interval "1m"
-    "scripts/weather.sh")
+    :interval "5m"
+    "weather-info")
 
 (defwidget weather []
-    (box
-        :orientation "h" 
+    (box 
+        :orientation "v"
         :halign "fill"
         :valign "fill"
         :space-evenly false
         :spacing 3
-        :space-evenly true
 
-        (box 
-            :class "widget widget-block crop-right"
-            :orientation "h" 
-            :halign "fill"
-            :valign "center"
-            :space-evenly false 
-            :spacing 0
-
-            (label 
-                :class "icon"
-                :text "${weather_data.icon}"
-            )  
-            (label
-                :text "${weather_data.description}"
-            )
-        )
-        (box 
-            :class "widget widget-block crop-left crop-right"
+        (box
             :orientation "h" 
             :halign "fill"
             :valign "fill"
-            :space-evenly false 
-            :spacing 5
-        
-            (label
-                :class "icon"
-                :text ""
-            )            
-            (label
-                :halign "end"
-                :text "${round(weather_data.temp, 0)}°C"
+            :spacing 3
+            :space-evenly true
+
+            (box 
+                :class "widget widget-block crop-right"
+                :orientation "h" 
+                :halign "fill"
+                :valign "fill"
+                :space-evenly true 
+                :spacing 0
+
+                (label 
+                    :class "icon"
+                    :text "${weather_data.icon}"
+                    :halign "start"
+                )  
+                (label
+                    :text "${weather_data.description}"
+                )
+            )
+            (box 
+                :class "widget widget-block crop-left"
+                :orientation "h" 
+                :halign "fill"
+                :valign "fill"
+                :space-evenly true 
+                :spacing 5
+            
+                (label
+                    :class "icon"
+                    :text ""
+                    :halign "start"
+                )            
+                (label
+                    :text "${weather_data.temp}°C"
+                )
             )
         )
 
-        (box 
-            :class "widget widget-block crop-left crop-right"
+        (box
             :orientation "h" 
             :halign "fill"
             :valign "fill"
-            :space-evenly false 
-            :spacing 5
-        
-            (label
-                :class "icon"
-                :text " "
-            )            
-            (label
-                :halign "end"
-                :text "${weather_data.wind}m/s"
-            )
-        )
+            :spacing 3
+            :space-evenly true
 
-        (box 
-            :class "widget widget-block crop-left"
-            :orientation "h" 
-            :halign "fill"
-            :valign "fill"
-            :space-evenly false 
-            :spacing 5
-        
-            (label
-                :class "icon"
-                :text ""
-            )            
-            (label
-                :halign "end"
-                :text "${weather_data.humidity}%"
+            (box 
+                :class "widget widget-block crop-left crop-right"
+                :orientation "h" 
+                :halign "fill"
+                :valign "fill"
+                :space-evenly true 
+                :spacing 5
+            
+                (label
+                    :class "icon"
+                    :text " "
+                    :halign "start"
+                )            
+                (label
+                    :text "${weather_data.wind}m/s"
+                )
+            )
+            (box 
+                :class "widget widget-block crop-left"
+                :orientation "h" 
+                :halign "fill"
+                :valign "fill"
+                :space-evenly true 
+                :spacing 5
+            
+                (label
+                    :class "icon"
+                    :text ""
+                    :halign "start"
+                )            
+                (label
+                    :text "${weather_data.humidity}%"
+                )
             )
         )
     )
 )
-;;󰖝       
 
+(defwidget weather_brief [monitor_name]
+    (iconed_button
+        :icon {weather_data.icon}
+        :label "${weather_data.temp} "
+        :action "scripts/misc.sh status_monitor ${monitor_name}"
+    )
+    ;; (box
+    ;;     :class "widget"
+    ;;     :orientation "h" 
+    ;;     :halign "fill"
+    ;;     :valign "fill"
+    ;;     :space-evenly false
+    ;;     :spacing 3
+    ;;     :space-evenly true
+    ;;
+    ;;     (box 
+    ;;         :class "widget widget-block crop-left"
+    ;;         :orientation "h" 
+    ;;         :halign "fill"
+    ;;         :valign "fill"
+    ;;         :space-evenly false 
+    ;;         :spacing 5
+    ;;     
+    ;;         (label 
+    ;;             :class "icon"
+    ;;             :text "${weather_data.icon}"
+    ;;         )  
+    ;;         (label
+    ;;             :halign "end"
+    ;;             :text "${weather_data.temp ?: "n/a"}"
+    ;;         )
+    ;;     )
+    ;; )
+)
 

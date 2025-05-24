@@ -3,7 +3,7 @@
 
 (defwidget launcher_button []
     (button 
-        :class "widget icon fill" 
+        :class "icon fill" 
         :valign "center"
         :onclick "scripts/misc.sh launcher"
         :tooltip "Open launcher"
@@ -13,7 +13,7 @@
 
 (defwidget layout_button []
     (button 
-        :class "widget icon fill"
+        :class "icon fill"
         :valign "center"
         :onclick "echo click"
         "󰕮"
@@ -27,6 +27,22 @@
         :tooltip "Exit"
         ""
     ) 
+)
+
+(defwidget control_line []
+    (box :orientation "h"
+        :class "widget"
+        :valign "center" 
+        :halign "fill"
+        :space-evenly false
+        :spacing 0
+
+            (audio_output_button)
+            (audio_input_button)
+            (network_button)
+            (bluetooth_button)
+            (keyboard_button)
+    )
 )
 
 (defwidget status_monitor_button [monitor_name]
@@ -84,12 +100,7 @@
             :space-evenly false
             :spacing 5
 
-            (bar_button (audio_output_button))
-            (bar_button (audio_input_button))
-            (bar_button (network_button))
-            ;;(bar_button (bluetooth_button))
-            (bar_button (keyboard_button))
-
+            (control_line)
             (control_center_button :monitor_name monitor_main)
 
             (systray
@@ -100,6 +111,7 @@
                 :spacing 5
             )
 
+            (weather_brief :monitor_name monitor_main)
             (status_monitor_button :monitor_name monitor_main)
         )      
     )

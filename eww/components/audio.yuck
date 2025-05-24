@@ -12,7 +12,7 @@
 
 (defwidget audio_output_button []
     (button 
-        :class "icon flat fill"
+        :class "icon fill"
         :onclick "scripts/audio.sh choose output"
         :onrightclick "scripts/audio.sh mute output"
         :tooltip "Choose sound output device"
@@ -22,7 +22,7 @@
 
 (defwidget audio_input_button []
     (button 
-        :class "icon flat fill"
+        :class "icon fill"
         :onclick "scripts/audio.sh choose input"
         :onrightclick "scripts/audio.sh mute input"
         :tooltip "Choose sound input device"
@@ -33,10 +33,10 @@
 (defwidget audio_control []
     (box 
         :orientation "v" 
-        :class "widget"
+        :class "widget widget-block"
         :halign "fill"
         :valign "fill"
-        :spacing 0
+        :spacing 5
 
         (box :orientation "h"
             :valign "center" 

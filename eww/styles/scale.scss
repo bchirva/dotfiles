@@ -1,0 +1,40 @@
+@import "theme";
+
+scale {
+  border-radius: $items-spacing;
+}
+
+scale trough {
+  min-height: 0.5rem;
+  min-width: 10rem;
+  margin: 0 $items-spacing;
+  border-radius: 0.5rem;
+  background-color: $color-background-focused;
+
+  highlight {
+    border-radius: 0.5rem;
+    background-color: $color-accent;
+  }
+
+  slider {
+    min-height: 0.5rem;
+    min-width: 0.5rem;
+    border-radius: 1rem;
+    background-color: transparent;
+
+    &:hover {
+      background-color: $color-foreground-highlight;
+    }
+  }
+}
+
+scale.disabled {
+  trough {
+    background-color: transparent;
+    border: $border-width dashed $color-background-base;
+  }
+
+  highlight {
+    background-color: transparent;
+  }
+}

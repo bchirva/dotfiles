@@ -23,7 +23,7 @@ function main() {
 
             bluetooth-ctrl power "${toggle_flag}"
         ;;
-        "menu") ~/.config/rofi/modules/rofi_bluetooth.sh ;;
+        "menu") ~/.config/rofi/modules/rofi_bluetooth.sh main ;;
         *) exit 2 ;;
     esac
 }

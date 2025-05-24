@@ -1,0 +1,27 @@
+@import "theme";
+
+calendar {
+  &>* {
+    border-radius: $items-spacing;
+  }
+}
+
+calendar.header {
+  font-weight: bold;
+  background-color: $color-background-view;
+}
+
+calendar.highlight {
+  font-weight: bold;
+  color: $color-accent;
+}
+
+calendar:selected {
+  font-weight: bold;
+  color: $color-on-accent;
+  background-color: $color-accent;
+}
+
+calendar:indeterminate {
+  color: $color-background-focused;
+}

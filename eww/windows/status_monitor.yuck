@@ -2,7 +2,8 @@
     :monitor monitor_name
     :geometry (geometry :x "0%"
                         :y "40px"
-                        :width "25%"
+                        :width "600px"
+                        ;; :width "30%"
                         :height "300px"
                         :anchor "top right")
     :stacking "fg"
@@ -35,7 +36,8 @@
                 )
 
             )
-            (calendar_widget)
+            (calendar_widget 
+                :width "500px")
             (weather)
         )
 

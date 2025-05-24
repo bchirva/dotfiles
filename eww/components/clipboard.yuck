@@ -1,0 +1,17 @@
+(defwidget clipboard_button [] 
+    (button 
+        :class "fill"
+        :hexpand false 
+        :onclick "" 
+        "󱉬"
+    )
+)
+
+(defwidget clipboard_control []
+    (iconed_button 
+        :icon "󱉬"
+        :label "Clipboard"
+        :action ""
+        :enabled false 
+    )
+)
