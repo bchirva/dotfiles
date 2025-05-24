@@ -13,11 +13,10 @@ function main_menu {
         local -r devices_count=$(jq ". | length" <<< "$devices_json")
         local -r active_connections=$(network-ctrl connection list)
         
-        local active_device active_connections
         if [[ "$active_connections" ]]; then
-            active_device=$(jq ".[0].device" <<< "$active_connections" \
+            local -r active_device=$(jq ".[0].device" <<< "$active_connections" \
                 | sed "s/\"//g")
-            active_connection=$(jq ".[0].connection" <<< "$active_connections" \
+            local -r active_connection=$(jq ".[0].connection" <<< "$active_connections" \
                 | sed "s/\"//g")
             rofi_message="Connected to <b>$active_connection</b> on <b>$active_device</b>"
         fi 
