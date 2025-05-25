@@ -1,72 +1,6 @@
 (defvar monitor_main "DP-5")
 (defvar monitor_aux "HDMI-0")
 
-(defwidget launcher_button []
-    (button 
-        :class "icon fill" 
-        :valign "center"
-        :onclick "scripts/misc.sh launcher"
-        :tooltip "Open launcher"
-        "󰀻"
-    )
-)
-
-(defwidget layout_button []
-    (button 
-        :class "icon fill"
-        :valign "center"
-        :onclick "echo click"
-        "󰕮"
-    )
-)
-
-(defwidget control_center_button [monitor_name]
-    (button 
-        :class "icon fill" 
-        :onclick "scripts/misc.sh control_center ${monitor_name}"
-        :tooltip "Exit"
-        ""
-    ) 
-)
-
-(defwidget control_line []
-    (box :orientation "h"
-        :class "widget"
-        :valign "center" 
-        :halign "fill"
-        :space-evenly false
-        :spacing 0
-
-            (audio_output_button)
-            (audio_input_button)
-            (network_button)
-            (bluetooth_button)
-            (keyboard_button)
-    )
-)
-
-(defwidget status_monitor_button [monitor_name]
-    (button 
-        :class "fill"
-        :onclick "scripts/misc.sh status_monitor ${monitor_name}"
-        "${current_time}"
-    )
-)
-
-(defwidget bar_button []
-    (box 
-        :class "widget"
-        :orientation "h"
-        :valign "fill"
-        :halign "end"
-        :hexpand true
-        :space-evenly false
-        :spacing 5
-        
-        (children)
-    )
-)
-
 (defwindow main_bar 
     :monitor "DP-5"
     :geometry (geometry :x "0%"
@@ -90,7 +24,6 @@
 
         (launcher_button)
         (workspaces :monitor_name monitor_main)
-        (layout_button)
 
         (box 
             :orientation "h"
@@ -139,7 +72,6 @@
         :spacing 5
 
         (launcher_button)
-        (layout_button)
         (workspaces :monitor_name monitor_aux)
 
         (box 

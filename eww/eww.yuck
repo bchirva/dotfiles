@@ -1,6 +1,7 @@
 (include "components/iconed_button.yuck")
 
 (include "components/audio.yuck")
+(include "components/bar_components.yuck")
 (include "components/bluetooth.yuck")
 (include "components/calendar.yuck")
 (include "components/clipboard.yuck")
