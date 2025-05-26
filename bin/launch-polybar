@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+function main() {
+    local -r window_manager="$1"
+    local -r polybar_config="$HOME/.config/polybar/config_${window_manager}.ini"
+    local -r monitors=$(xrandr | grep "\bconnected\b")
+    
+    local monitor_name="" eww_control_cmd="" eww_status_cmd=""
+    while read -r line; do 
+        monitor_name=$(awk '{print $1}' <<< "${line}")
+        eww_control_cmd="eww open --toggle control_center --arg monitor_name=\"${monitor_name}\"" \
+        eww_status_cmd="eww open --toggle status_monitor --arg monitor_name=\"${monitor_name}\"" \
+
+        if grep -q "\bprimary\b" <<< "${line}"; then 
+            MONITOR="${monitor_name}" \
+            EWW_CONTROL_CMD="${eww_control_cmd}" \
+            EWW_STATUS_CMD="${eww_status_cmd}" \
+            polybar -c "${polybar_config}" mainbar & 
+
+        else 
+            MONITOR="${monitor_name}" \
+            EWW_CONTROL_CMD="${eww_control_cmd}" \
+            EWW_STATUS_CMD="${eww_status_cmd}" \
+            polybar -c "${polybar_config}" auxbar & 
+        fi
+    done <<< "${monitors}"
+}
+
+main "$@"
