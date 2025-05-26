@@ -37,23 +37,20 @@ function main() {
         rm "${colorschemes_dir}/active"
         ln -srf "${colorschemes_dir}/${new_scheme}" "${colorschemes_dir}/active"
 
-        if pgrep polybar > /dev/null ; then
-            killall polybar
-        fi
+        local -r processes=(eww polybar dunst)
 
-        if pgrep openbox > /dev/null ; then
+        for process in "${processes[@]}"; do 
+            if pgrep "${process}"; then 
+                killall "${process}"
+            fi 
+        done 
+
+        if pgrep openbox > /dev/null; then 
             openbox --restart
-            polybar -c $HOME/.config/polybar/config_openbox.ini &
         fi
-
         if pgrep bspwm > /dev/null ; then
             bspc wm -r
-            polybar -c $HOME/.config/polybar/config_bspwm.ini mainbar &
-            polybar -c $HOME/.config/polybar/config_bspwm.ini auxbar &
         fi
-
-        eww reload
-        killall dunst
     fi
 }
 
