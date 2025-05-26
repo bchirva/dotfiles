@@ -20,16 +20,6 @@
         (network_control)
         (bluetooth_control)
 
-        ;; (box 
-        ;;     :orientation "h"
-        ;;     :valign "center"
-        ;;     :halign "fill"
-        ;;     :space-evenly true
-        ;;     :spacing 5
-        ;;     (network_control)
-        ;;     (bluetooth_control)
-        ;; )
-        
         (box 
             :orientation "h"
             :valign "center"
@@ -48,34 +38,16 @@
             :hexpand true
             :spacing 5
 
- 
-
-            (button 
-                :class "icon fill" 
-                :onclick "scripts/misc.sh colorschemes"
-                :tooltip "Change colorscheme"
-                ""
+            (iconed_button 
+                :icon ""
+                :label "Menu"
+                :action "scripts/misc.sh menu"
             )
 
-            (button 
-                :class "icon fill" 
-                :onclick "scripts/misc.sh edit-configs"
-                :tooltip "Edit configs"
-                ""
-            )
-
-            (button 
-                :class "icon fill"
-                :onclick "scripts/misc.sh system-monitor"
-                :tooltip "Open system monitor"
-                ""
-            )
-
-            (button 
-                :class "icon fill" 
-                :onclick "scripts/misc.sh powermenu"
-                :tooltip "Exit"
-                "󰗼"
+            (iconed_button 
+                :icon "󰈆"
+                :label "Exit"
+                :action "scripts/misc.sh powermenu"
             )
         )
     )

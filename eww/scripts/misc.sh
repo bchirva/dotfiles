@@ -9,6 +9,7 @@ function main () {
         "launcher" ) rofi -show drun ;;
         "control_center" ) eww open --toggle control_center --arg monitor_name="$2" ;;
         "status_monitor" ) eww open --toggle status_monitor --arg monitor_name="$2" ;;
+        "menu") ~/.config/rofi/modules/rofi_master.sh ;;
         *) exit 2 ;;
     esac
 }
