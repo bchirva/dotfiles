@@ -1,10 +1,13 @@
-#!/bin/python3
+#!/usr/bin/env python3
 
 # pylint: disable=missing-function-docstring
 
 import argparse
 import json
 import os
+
+import numpy as np
+from PIL import Image
 
 CLEAR_LINE_ASCII = "\x1b[2K"
 ANSI_RESET_COLOR = "\033[0m"
@@ -148,6 +151,21 @@ def colorscheme_format(template, colorscheme_json):
     )
 
 
+def grayscale_colorize(source_image, hex_colors: str):
+    hex_val = hex_colors.lstrip("#")
+    r = int(hex_val[0:2], 16) / 255
+    g = int(hex_val[2:4], 16) / 255
+    b = int(hex_val[4:6], 16) / 255
+
+    arr = np.array(source_image, dtype=np.float32) / 255.0
+
+    tinted = np.zeros((arr.shape[0], arr.shape[1], 3), dtype=np.float32)
+    tinted[..., 0] = arr * r
+    tinted[..., 1] = arr * g
+    tinted[..., 2] = arr * b
+    return Image.fromarray((tinted * 255).astype(np.uint8))
+
+
 def main(config):
     colorschemes_list = []
     if config["all"]:
@@ -187,6 +205,20 @@ def main(config):
                     ) as result_file:
                         result_file.write(theme_data)
                         result_file.close()
+
+            wallpapers_dir = os.path.join(colorscheme_dir, "wallpapers")
+            if not os.path.isdir(wallpapers_dir):
+                os.mkdir(wallpapers_dir)
+
+            wallpapers_list = os.listdir("wallpapers")
+            for wallpaper in wallpapers_list:
+                source_image = Image.open(
+                    os.path.join("./wallpapers/", wallpaper)
+                ).convert("L")
+                themed_wallpaper = grayscale_colorize(
+                    source_image, colorscheme_json[colorscheme_json["accent"]]
+                )
+                themed_wallpaper.save(os.path.join(wallpapers_dir, wallpaper))
 
             ansi_color_begin = (
                 f"\033[{ ansi_escape_color(colorscheme_json["accent"])   }m"

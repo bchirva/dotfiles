@@ -9,6 +9,8 @@ env
 nvim/lazy-lock.json
 yazi/plugins/
 
+colorschemes/build/
+
 # Links to theme files
 alacritty/theme.toml
 bspwm/theme.sh
