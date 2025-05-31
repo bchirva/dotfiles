@@ -30,7 +30,9 @@ function main() {
         local -r remove_password_line=1
     fi
 
-    if pass git status 2>/dev/null && (( passwords_count > 0 )) ; then 
+    if pass git status 2>/dev/null \
+        && pass git remote -v 2>/dev/null | grep "origin" \
+        && (( passwords_count > 0 )) ; then 
         rofi_input+="$(colored-icon pango  ) Sync passwords from git\n"
         local -r sync_git_line=1
     fi
@@ -51,7 +53,6 @@ function main() {
         done <<< "${passwords}"
     fi
     rofi_input="${rofi_input}${rofi_input_passwords}"
-
     local -r rows_count=$(( passwords_count + 1 + remove_password_line + sync_git_line + sync_usb_line ))
 
     local -r variant=$(echo -en "${rofi_input}" \
@@ -119,7 +120,7 @@ function main() {
             fi
         ;;
         ${idx_git}) 
-            if pass git push origin master ; then 
+            if pass git pull origin master ; then 
                 notify-send -u normal -i password-manager \
                     "Password sync complete" \
                     "Password store has been successfully synchronized with the remote Git repository"
