@@ -10,12 +10,13 @@ function main() {
         echo -en "$(colored-icon pango 󰂯 ) Bluetooth\n"
         echo -en "$(colored-icon pango  ) System monitor\n"
         echo -en "$(colored-icon pango  "${WARNING_COLOR}") Colorschemes picker\n"
+        echo -en "$(colored-icon pango  "${WARNING_COLOR}") Password manager\n"
         echo -en "$(colored-icon pango  "${ERROR_COLOR}") Logout\n"
     }
 
     local -r variant=$(rofi_entries \
         | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
-        -markup-rows -i -dmenu -no-custom -format 'i' -p "Control Center" -l 7)
+        -markup-rows -i -dmenu -no-custom -format 'i' -p "Control Center" -l 8)
 
     case $variant in 
         0) $HOME/.config/rofi/modules/rofi_audio.sh output ;;
@@ -24,7 +25,8 @@ function main() {
         3) $HOME/.config/rofi/modules/rofi_bluetooth.sh main;;
         4) kitty -e btm ;;
         5) $HOME/.config/rofi/modules/rofi_colorscheme.sh ;;
-        6) $HOME/.config/rofi/modules/rofi_powermenu.sh ;;
+        6) $HOME/.config/rofi/modules/rofi_password.sh ;;
+        7) $HOME/.config/rofi/modules/rofi_powermenu.sh ;;
         *) exit ;;
     esac
 }
