@@ -10,3 +10,4 @@ export ZDOTDIR="$HOME/.config/zsh"
 export FZF_DEFAULT_OPTS_FILE=$HOME/.config/fzf/fzfrc
 
 export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
+export SSH_ASKPASS=$HOME/.config/rofi/modules/rofi_askpass.sh

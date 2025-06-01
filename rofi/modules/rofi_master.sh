@@ -25,7 +25,7 @@ function main() {
         3) $HOME/.config/rofi/modules/rofi_bluetooth.sh main;;
         4) kitty -e btm ;;
         5) $HOME/.config/rofi/modules/rofi_colorscheme.sh ;;
-        6) $HOME/.config/rofi/modules/rofi_password.sh ;;
+        6) $HOME/.config/rofi/modules/rofi_passwords.sh ;;
         7) $HOME/.config/rofi/modules/rofi_powermenu.sh ;;
         *) exit ;;
     esac

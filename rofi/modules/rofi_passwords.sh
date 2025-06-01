@@ -95,7 +95,7 @@ function main() {
                     "Password generated" \
                     "Password for ${password_service} has been successfully generated"
                 if (( sync_git_line )); then
-                    if ! pass git push origin master ; then 
+                    if ! pass git push origin master > ~/passgit.log 2>&1 ; then 
                         notify-send -u critical -i password-manager \
                             "Password synchronization failed" \
                             "Password for ${password_service} was generated, but failed to push to remote Git repository"
