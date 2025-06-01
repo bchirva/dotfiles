@@ -31,8 +31,7 @@ function main() {
     fi
 
     if pass git status 2>/dev/null \
-        && pass git remote -v 2>/dev/null | grep "origin" \
-        && (( passwords_count > 0 )) ; then 
+        && pass git remote -v 2>/dev/null | grep "origin" ; then 
         rofi_input+="$(colored-icon pango  ) Sync passwords from git\n"
         local -r sync_git_line=1
     fi
@@ -95,10 +94,12 @@ function main() {
                 notify-send -u normal -i password-manager \
                     "Password generated" \
                     "Password for ${password_service} has been successfully generated"
-                if (( sync_git_line )) && ! pass git push origin master; then 
-                    notify-send -u critical -i password-manager \
-                        "Password synchronization failed" \
-                        "Password for ${password_service} was generated, but failed to push to remote Git repository"
+                if (( sync_git_line )); then
+                    if ! pass git push origin master ; then 
+                        notify-send -u critical -i password-manager \
+                            "Password synchronization failed" \
+                            "Password for ${password_service} was generated, but failed to push to remote Git repository"
+                    fi
                 fi 
             else 
                 notify-send -u critical -i password-manager \
@@ -117,6 +118,15 @@ function main() {
                 notify-send -u normal -i password-manager \
                     "Password removed" \
                     "Password for ${selected_service} has been removed from the store"
+
+                if (( sync_git_line )); then
+                    if ! pass git push origin master ; then 
+                        notify-send -u critical -i password-manager \
+                            "Password synchronization failed" \
+                            "Password for ${password_service} was generated, but failed to push to remote Git repository"
+                    fi
+                fi 
+
             fi
         ;;
         ${idx_git}) 
