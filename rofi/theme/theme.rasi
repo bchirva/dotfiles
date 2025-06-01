@@ -123,3 +123,13 @@ scrollbar {
     handle-width:       @items-spacing;
 }
 
+message {
+    padding:            0.5em;
+    margin:             @items-padding;
+    background-color:   @color-background-view;
+}
+
+textbox {
+    background-color:   inherit;
+}
+
