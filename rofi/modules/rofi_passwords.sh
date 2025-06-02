@@ -19,7 +19,8 @@ function usb-available() {
 function main() {  
     local -r passwords=$(find "${PASSWORD_STORE_DIR:-$HOME/.password-store}" -type f -name '*.gpg' \
         | sed -e "s|^${PASSWORD_STORE_DIR:-$HOME/.password-store}/||" \
-          -e 's|\.gpg$||')
+              -e 's|\.gpg$||' \
+              -e '/^$/d')
     local -r passwords_count=$(grep -cv '^$' <<< "${passwords}")
 
     local rofi_input 
@@ -90,6 +91,11 @@ function main() {
     case ${variant} in 
         ${idx_new}) 
             local -r password_service=$(rofi -config "$HOME/.config/rofi/modules/input_config.rasi" -dmenu -p "New password for:") 
+
+            if [[ -z "${password_service}" ]]; then  
+                exit
+            fi
+
             if pass generate "${password_service}"; then 
                 notify-send -u normal -i password-manager \
                     "Password generated" \
@@ -168,7 +174,7 @@ function main() {
             fi
         ;;
         *)
-            local -r password_idx=$(( variant - control_lines + 1 ))
+            local -r password_idx=$(( variant - (control_lines - 1) ))
             if (( password_idx <= passwords_count )); then 
                 local -r selected_service="$(sed -n "${password_idx}p" <<< "${passwords}")"
                 if pass -c "${selected_service}" ; then 
