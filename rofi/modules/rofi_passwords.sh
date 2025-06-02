@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source "$HOME/.config/theme.sh"
+
 function usb-available() {
     local mountpoint output
 
@@ -57,7 +59,9 @@ function main() {
 
     local -r variant=$(echo -en "${rofi_input}" \
         | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
-        -markup-rows -i -dmenu -p "Password:" -no-custom -format 'i' \
+        -markup-rows -i -dmenu -no-custom \
+        -p "Password:" \
+        -format 'i' \
         -l $(( rows_count > 20 ? 20 : rows_count  )) )
 
     if [ ! "${variant}" ]; then
@@ -89,8 +93,10 @@ function main() {
     fi
 
     case ${variant} in 
-        ${idx_new}) 
-            local -r password_service=$(rofi -config "$HOME/.config/rofi/modules/input_config.rasi" -dmenu -p "New password for:") 
+        $(( idx_new)) )
+            local -r password_service=$(rofi -config "$HOME/.config/rofi/modules/input_config.rasi" \
+                -dmenu -p "New password for:" \
+                -theme-str "window { width: 600px; }") 
 
             if [[ -z "${password_service}" ]]; then  
                 exit
@@ -113,29 +119,42 @@ function main() {
                     "Failed to generate password for ${password_service}"
             fi
         ;;
-        ${idx_remove})
+        $(( idx_remove )) )
             local -r variant_remove=$(echo -en "${rofi_input_passwords}" \
                 | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
                 -markup-rows -i -dmenu -p "Password:" -no-custom -format 'i' \
                 -l $(( passwords_count > 20 ? 20 : passwords_count  )) )
 
             local -r selected_service="$(sed -n "$(( variant_remove + 1))p" <<< "${passwords}")"
-            if pass rm -f "${selected_service}"; then 
-                notify-send -u normal -i password-manager \
-                    "Password removed" \
-                    "Password for ${selected_service} has been removed from the store"
+            
+            case $(echo -en "$(colored-icon pango 󰜺 ) Cancel \n$(colored-icon pango  "${ERROR_COLOR}" ) Remove\n" \
+                    | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
+                    -markup-rows -i -dmenu -no-custom \
+                    -p "Remove ${selected_service}?" \
+                    -format 'i' \
+                    -theme-str "inputbar { children: [prompt]; }" \
+                    -l 2) in 
+                0) exit ;;
+                1) 
+                    if pass rm -f "${selected_service}"; then 
+                        notify-send -u normal -i password-manager \
+                            "Password removed" \
+                            "Password for ${selected_service} has been removed from the store"
 
-                if (( sync_git_line )); then
-                    if ! pass git push origin master ; then 
-                        notify-send -u critical -i password-manager \
-                            "Password synchronization failed" \
-                            "Password for ${password_service} was generated, but failed to push to remote Git repository"
+                        if (( sync_git_line )); then
+                            if ! pass git push origin master ; then 
+                                notify-send -u critical -i password-manager \
+                                    "Password synchronization failed" \
+                                    "Password for ${password_service} was generated, but failed to push to remote Git repository"
+                            fi
+                        fi 
+
                     fi
-                fi 
-
-            fi
+                    ;;
+                *) exit 1 ;;
+                esac 
         ;;
-        ${idx_git}) 
+        $(( idx_git)) ) 
             if pass git pull origin master ; then 
                 notify-send -u normal -i password-manager \
                     "Password sync complete" \
@@ -146,7 +165,7 @@ function main() {
                     "Failed to synchronize password store with the remote Git repository"
             fi
         ;;
-        ${idx_usb})
+        $(( idx_usb)) )
             local -r usb_drives_count=$(grep -cv '^$' <<< "${usb_drives}")
             local rofi_input_usb
             while read -r line 
@@ -158,12 +177,14 @@ function main() {
 
             local -r variant_usb="$(echo -en "${rofi_input_usb}" \
                 | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
-                -markup-rows -i -dmenu -p "USB drives:" -no-custom -format 'i' \
+                -markup-rows -i -dmenu -no-custom \
+                -p "USB drives:" \
+                -format 'i' \
                 -l "${usb_drives_count}" )"
 
             local -r usb_selected_mount=$(sed -n "$(( variant_usb + 1 ))p" <<< "${usb_drives}")
 
-            if rsync -av --delete $HOME/.password-store/ "${usb_selected_mount}/password-store/" ; then 
+            if rsync -av --delete "$HOME/.password-store/" "${usb_selected_mount}/password-store/" ; then 
                 notify-send -u normal -i password-manager \
                     "Password backup complete" \
                     "Password store has been backed up to USB drive ${usb_selected_mount}"
@@ -175,15 +196,59 @@ function main() {
         ;;
         *)
             local -r password_idx=$(( variant - (control_lines - 1) ))
-            if (( password_idx <= passwords_count )); then 
-                local -r selected_service="$(sed -n "${password_idx}p" <<< "${passwords}")"
-                if pass -c "${selected_service}" ; then 
+
+            if (( password_idx > passwords_count )); then 
+                exit 1
+            fi 
+
+            local -r selected_service="$(sed -n "${password_idx}p" <<< "${passwords}")"
+            local -r service_data=$(pass show "${selected_service}")
+
+
+            if grep -q '^otpauth://' <<<"${service_data}"; then
+              local -r otp_present=true
+            else
+              local -r otp_present=false
+            fi
+
+            if [[ $(head -n 1 <<< "${service_data}") == otpauth://* ]]; then
+              local -r only_otp=true
+            else
+              local -r only_otp=false
+            fi
+
+            function copy_password() {
+                if pass -c "${selected_service}"; then 
                     notify-send -u normal -i password-manager \
                         "Password copied" \
                         "Password for ${selected_service} has been copied to clipboard"
                 fi
-            else 
-                exit 1
+            }
+
+            function copy_onetime_password() {
+                if pass otp -c "${selected_service}"; then 
+                    notify-send -u normal -i password-manager \
+                        "One-time password copied" \
+                        "One-time password for ${selected_service} has been copied to clipboard"
+                fi 
+            }
+
+            if ! ${otp_present}; then
+                copy_password
+            elif $only_otp; then
+                copy_onetime_password
+            else
+                case $(echo -en "$(colored-icon pango  ) Password\n$(colored-icon pango 󰀠 ) One-time password\n" \
+                    | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
+                    -markup-rows -i -dmenu -no-custom \
+                    -p "${selected_service}" \
+                    -format 'i' \
+                    -l 2) in 
+                
+                0) copy_password ;;
+                1) copy_onetime_password ;;
+                *) exit 1 ;;
+                esac 
             fi
         ;;
     esac 
