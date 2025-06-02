@@ -19,6 +19,7 @@ function usb-available() {
 }
 
 function main() {  
+    local -r MAX_PASSWORD_LINES=15
     local -r passwords=$(find "${PASSWORD_STORE_DIR:-$HOME/.password-store}" -type f -name '*.gpg' \
         | sed -e "s|^${PASSWORD_STORE_DIR:-$HOME/.password-store}/||" \
               -e 's|\.gpg$||' \
@@ -62,7 +63,8 @@ function main() {
         -markup-rows -i -dmenu -no-custom \
         -p "Password:" \
         -format 'i' \
-        -l $(( rows_count > 20 ? 20 : rows_count  )) )
+        -theme-str "listview { columns: 2;} window { width: 600px; }" \
+        -l $(( rows_count > MAX_PASSWORD_LINES ? MAX_PASSWORD_LINES : rows_count  )) )
 
     if [ ! "${variant}" ]; then
         exit;
@@ -122,8 +124,11 @@ function main() {
         $(( idx_remove )) )
             local -r variant_remove=$(echo -en "${rofi_input_passwords}" \
                 | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
-                -markup-rows -i -dmenu -p "Password:" -no-custom -format 'i' \
-                -l $(( passwords_count > 20 ? 20 : passwords_count  )) )
+                -markup-rows -i -dmenu -no-custom \
+                -p "Password:" \
+                -format 'i' \
+                -theme-str "listview { columns: 2;} window { width: 500px; }" \
+                -l $(( passwords_count > MAX_PASSWORD_LINES ? MAX_PASSWORD_LINES : passwords_count  )) )
 
             local -r selected_service="$(sed -n "$(( variant_remove + 1))p" <<< "${passwords}")"
             

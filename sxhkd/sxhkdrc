@@ -16,6 +16,9 @@ super + c
 super + Print
     $HOME/.config/rofi/modules/rofi_screenshot.sh
 
+super + p
+    $HOME/.config/rofi/modules/rofi_passwords.sh
+
 # -------------------
 # bspwm hotkeys
 
