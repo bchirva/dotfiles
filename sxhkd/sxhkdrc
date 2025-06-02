@@ -69,10 +69,6 @@ super + {p,b,comma,period}
 super + bracket{left,right}
 	bspc desktop -f {prev,next}.local
 
-# focus the last node/desktop
-super + {grave,Tab}
-	bspc {node,desktop} -f last
-
 # focus the older or newer node in the focus history
 super + {o,i}
 	bspc wm -h off; \
@@ -84,12 +80,12 @@ super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '{1-9,10}'.local --follow
 
 # focus next/prev monitor
-super + shift + {n,p}
-    bspc monitor -f {next,prev}
+super + Tab
+    bspc monitor -f next
 
 # send node to next/prev monitor
-super + ctrl + {n,p}
-    bspc node -m {next,prev} --follow
+super + shift + Tab
+    bspc node -m next --follow
 
 # -----------------------
 # preselect
