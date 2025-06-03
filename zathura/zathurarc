@@ -1,2 +1,6 @@
 include themerc
+set recolor true
+set recolor-keephue true
 font "VictorMono Nerd Font 12"
+
+

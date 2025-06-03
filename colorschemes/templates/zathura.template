@@ -1,6 +1,6 @@
 set default-bg "{bg_base}"
-set inputbar-bg "{bg_view}"
-set statusbar-bg "{bg_view}"
+set inputbar-bg "{bg_base}"
+set statusbar-bg "{bg_base}"
 set completion-highlight-bg "{bg_view}"
 
 set default-fg "{fg_text}"
@@ -18,3 +18,6 @@ set notification-error-fg "{color_on_error}"
 set highlight-color "{fg_text}33"
 set highlight-fg "{fg_highlighted}"
 set highlight-active-color "{color_accent}"
+
+set recolor-lightcolor "{bg_view}"
+set recolor-darkcolor "{fg_text}"
