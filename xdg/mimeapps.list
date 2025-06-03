@@ -1,12 +1,12 @@
 [Default Applications]
 text/plain=nvim.desktop
 
-text/html=firefox.desktop;
-text/xml=firefox.desktop;
-x-scheme-handler/http=firefox.desktop;
-x-scheme-handler/https=firefox.desktop;
-application/xhtml+xml=firefox.desktop;
-application/xhtml_xml=firefox.desktop;
+text/html=zen.desktop;
+text/xml=zen.desktop;
+x-scheme-handler/http=zen.desktop;
+x-scheme-handler/https=zen.desktop;
+application/xhtml+xml=zen.desktop;
+application/xhtml_xml=zen.desktop;
 
 image/jpeg=gpicview.desktop;
 image/gif=gpicview.desktop;
