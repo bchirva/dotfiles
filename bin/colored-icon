@@ -20,10 +20,11 @@ function pango_icon() {
 }
 
 function ansi_icon() {
-    local -r hex=${2#"#"} 
-    local -r red=$((16#${hex:0:2}))
-    local -r green=$((16#${hex:2:2}))
-    local -r blue=$((16#${hex:4:2}))
+    local -r hex="${2:-$ACCENT_COLOR}"
+    local color="${hex#"#"}"    
+    local -r red=$((16#${color:0:2}))
+    local -r green=$((16#${color:2:2}))
+    local -r blue=$((16#${color:4:2}))
     echo -e "\033[38;2;${red};${green};${blue}m$1\033[0m"
 }
 
