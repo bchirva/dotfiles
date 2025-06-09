@@ -6,9 +6,11 @@ function main() {
     local -r monitors=$(xrandr | grep "\bconnected\b")
     local -r eww_cmd="eww open --toggle %s --arg monitor_name=\"%s\""
 
-    local monitor_name="" bar=""
+    local monitor_name monitor_width bar
     while read -r line; do 
         monitor_name=$(awk '{print $1}' <<< "${line}")
+        monitor_width=$(grep -Po '\d+x\d+\+\d+\+\d+' <<< "${line}"\
+            | cut -d'x' -f1)
 
         if grep -q "\bprimary\b" <<< "${line}"; then 
             bar="mainbar"
@@ -18,10 +20,11 @@ function main() {
 
         # shellcheck disable=SC2059
         MONITOR="${monitor_name}" \
+        MONITOR_WIDTH="$(( monitor_width - 8 ))px" \
         EWW_CONTROL_CMD="$(printf "${eww_cmd}" "control_center" "${monitor_name}")" \
         EWW_STATUS_CMD="$(printf "${eww_cmd}" "status_monitor" "${monitor_name}")" \
         polybar -c "${polybar_config}" "${bar}" & 
-
+        
     done <<< "${monitors}"
 }
 
