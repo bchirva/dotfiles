@@ -11,10 +11,8 @@ if [ ! -d "$HOME/.local/bin" ]; then mkdir -p $HOME/.local/bin; fi
 
 # Symlink config dotfiles
 CONFIG_DIR="$HOME/.config"
-ln -sf $PWD/alacritty       $CONFIG_DIR/alacritty 
 ln -sf $PWD/bottom          $CONFIG_DIR/bottom
 ln -sf $PWD/bspwm           $CONFIG_DIR/bspwm
-ln -sf $PWD/conky           $CONFIG_DIR/conky
 ln -sf $PWD/dunst           $CONFIG_DIR/dunst
 ln -sf $PWD/eww             $CONFIG_DIR/eww
 ln -sf $PWD/fzf             $CONFIG_DIR/fzf
@@ -23,7 +21,6 @@ ln -sf $PWD/lazydocker      $CONFIG_DIR/lazydocker
 ln -sf $PWD/lazygit         $CONFIG_DIR/lazygit
 ln -sf $PWD/kitty           $CONFIG_DIR/kitty
 ln -sf $PWD/nvim            $CONFIG_DIR/nvim
-ln -sf $PWD/openbox         $CONFIG_DIR/openbox
 ln -sf $PWD/picom           $CONFIG_DIR/picom
 ln -sf $PWD/polybar         $CONFIG_DIR/polybar
 ln -sf $PWD/ranger          $CONFIG_DIR/ranger 
@@ -46,7 +43,6 @@ fi
 
 mkdir -p $PWD/dunst/dunstrc.d
 mkdir -p $PWD/lazydocker
-ln -sf $THEME_DIR/theme.alacritty.toml  $PWD/alacritty/theme.toml
 ln -sf $THEME_DIR/theme.dunst.conf      $PWD/dunst/dunstrc.d/01-colors.conf
 ln -sf $THEME_DIR/theme.eww.scss        $PWD/eww/styles/theme.scss
 ln -sf $THEME_DIR/theme.gtk.css         $PWD/themes/Adaptish/gtk-3.0/colors.css
@@ -58,7 +54,6 @@ ln -sf $THEME_DIR/theme.lazygit.yml     $PWD/lazygit/theme.yml
 ln -sf $THEME_DIR/theme.ls-colors       $PWD/zsh/plugins/ls-colors/lscolors
 ln -sf $THEME_DIR/theme.less-colors     $PWD/zsh/plugins/man-colors/lesscolors
 ln -sf $THEME_DIR/theme.nvim.lua        $PWD/nvim/lua/theme/colors.lua
-ln -sf $THEME_DIR/theme.openbox         $PWD/themes/Adaptish/openbox-3/themerc
 ln -sf $THEME_DIR/theme.polybar.ini     $PWD/polybar/theme.ini
 ln -sf $THEME_DIR/theme.ranger.py       $PWD/ranger/colorschemes/theme.py
 ln -sf $THEME_DIR/theme.rofi.rasi       $PWD/rofi/theme/colors.rasi
