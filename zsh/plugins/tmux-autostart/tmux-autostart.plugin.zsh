@@ -16,6 +16,9 @@ function _tmux_autostart() {
     fi
 }
 
+export PATH="${HOME}/.config/tmux/plugins/tmuxifier/bin:${PATH}"
+eval "$(tmuxifier init -)"
+
 if [[ -z "$TMUX" && -z "$VIM" ]]; then
     if ! tmux has-session 2>/dev/null; then
         _tmux_autostart 
