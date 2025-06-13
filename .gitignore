@@ -6,5 +6,4 @@ zsh/.zshenv
 colorschemes/build/
 yazi/plugins/
 **/__pycache__/
-
-
+tmux/plugins/
