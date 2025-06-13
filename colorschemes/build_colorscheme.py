@@ -5,15 +5,15 @@
 import argparse
 import json
 import os
+from typing import Any
 
 import numpy as np
 from PIL import Image
 
-CLEAR_LINE_ASCII = "\x1b[2K"
-ANSI_RESET_COLOR = "\033[0m"
+CLEAR_LINE_ASCII: str = "\x1b[2K"
+ANSI_RESET_COLOR: str = "\033[0m"
 
-GENERAIONS = {
-    "alacritty.template": "theme.alacritty.toml",
+GENERAIONS: dict[str, str] = {
     "dunst.template": "theme.dunst.conf",
     "eww.template": "theme.eww.scss",
     "gtk.template": "theme.gtk.css",
@@ -24,9 +24,7 @@ GENERAIONS = {
     "less-colors.template": "theme.less-colors",
     "ls-colors.template": "theme.ls-colors",
     "neovim.template": "theme.nvim.lua",
-    "openbox.template": "theme.openbox",
     "polybar.template": "theme.polybar.ini",
-    "ranger.template": "theme.ranger.py",
     "rofi.template": "theme.rofi.rasi",
     "sh.template": "theme.sh",
     "zathura.template": "theme.zathura",
@@ -34,120 +32,118 @@ GENERAIONS = {
     "tmux.template": "theme.tmux.conf",
 }
 
-COLOR_ANSI_CODES = {
-    "black": "30",
-    "red": "31",
-    "green": "32",
-    "yellow": "33",
-    "blue": "34",
-    "magenta": "35",
-    "cyan": "36",
-    "white": "37",
+COLOR_ANSI_CODES: dict[str, int] = {
+    "black": 30,
+    "red": 31,
+    "green": 32,
+    "yellow": 33,
+    "blue": 34,
+    "magenta": 35,
+    "cyan": 36,
+    "white": 37,
 }
 
 
-def mix_color(hex_color1, hex_color2, ratio):
-    color1num = int(hex_color1[1:], 16)
-    color2num = int(hex_color2[1:], 16)
-    r = ((color1num >> 16) & 0xFF) * ratio + ((color2num >> 16) & 0xFF) * (1 - ratio)
-    g = ((color1num >> 8) & 0xFF) * ratio + ((color2num >> 8) & 0xFF) * (1 - ratio)
-    b = (color1num & 0xFF) * ratio + (color2num & 0xFF) * (1 - ratio)
-    result_color = (int(r) << 16) | (int(g) << 8) | int(b)
+def mix_color(hex_color1: str, hex_color2: str, ratio: float) -> str:
+
+    def fix(num: float) -> int:
+        return min(round(num), 255)
+
+    color1: int = int(hex_color1[1:], 16)
+    color2: int = int(hex_color2[1:], 16)
+    r: int = fix((color1 >> 16 & 0xFF) * ratio + (color2 >> 16 & 0xFF) * (1 - ratio))
+    g: int = fix((color1 >> 8 & 0xFF) * ratio + (color2 >> 8 & 0xFF) * (1 - ratio))
+    b: int = fix((color1 & 0xFF) * ratio + (color2 & 0xFF) * (1 - ratio))
+
+    result_color: int = (int(r) << 16) | (int(g) << 8) | int(b)
     return f"#{result_color:x}"
 
 
-def lighten(hex_color, ratio):
+def lighten(hex_color: str, ratio: float) -> str:
     return mix_color(hex_color, "#ffffff", 1 - ratio)
 
 
-def darken(hex_color, ratio):
+def darken(hex_color: str, ratio: float) -> str:
     return mix_color(hex_color, "#000000", 1 - ratio)
 
 
-def ansi_escape_color(color_name: str) -> str:
+def ansi_escape_color(color_name: str) -> int:
     return COLOR_ANSI_CODES[color_name]
 
 
-def colorscheme_format(template, colorscheme_json):
+def colorscheme_format(template: str, palette_json: Any) -> str:
+    black: str = palette_json["black"]
+    red: str = palette_json["red"]
+    green: str = palette_json["green"]
+    yellow: str = palette_json["yellow"]
+    blue: str = palette_json["blue"]
+    magenta: str = palette_json["magenta"]
+    cyan: str = palette_json["cyan"]
+    white: str = palette_json["white"]
+    background: str = palette_json["background"]
+    foreground: str = palette_json["foreground"]
+    accent: str = palette_json[palette_json["accent"]]
+    success: str = palette_json[palette_json["success"]]
+    warning: str = palette_json[palette_json["warning"]]
+    error: str = palette_json[palette_json["error"]]
+
     return template.format(
-        black=colorscheme_json["black"],
-        red=colorscheme_json["red"],
-        green=colorscheme_json["green"],
-        yellow=colorscheme_json["yellow"],
-        blue=colorscheme_json["blue"],
-        magenta=colorscheme_json["magenta"],
-        cyan=colorscheme_json["cyan"],
-        white=colorscheme_json["white"],
-        black_variant=mix_color(
-            colorscheme_json["black"], colorscheme_json["white"], 0.8
-        ),
-        red_variant=mix_color(colorscheme_json["black"], colorscheme_json["red"], 0.3),
-        green_variant=mix_color(
-            colorscheme_json["black"], colorscheme_json["green"], 0.3
-        ),
-        yellow_variant=mix_color(
-            colorscheme_json["black"], colorscheme_json["yellow"], 0.3
-        ),
-        blue_variant=mix_color(
-            colorscheme_json["black"], colorscheme_json["blue"], 0.3
-        ),
-        magenta_variant=mix_color(
-            colorscheme_json["black"], colorscheme_json["magenta"], 0.3
-        ),
-        cyan_variant=mix_color(
-            colorscheme_json["black"], colorscheme_json["cyan"], 0.3
-        ),
-        white_variant=mix_color(
-            colorscheme_json["black"], colorscheme_json["white"], 0.3
-        ),
-        bg_base=colorscheme_json["background"],
-        bg_view=mix_color(
-            colorscheme_json["background"], colorscheme_json["foreground"], 0.9
-        ),
-        bg_popup=mix_color(
-            colorscheme_json["background"], colorscheme_json["foreground"], 0.8
-        ),
-        bg_focused=mix_color(
-            colorscheme_json["background"], colorscheme_json["foreground"], 0.7
-        ),
-        bg_selected=mix_color(
-            colorscheme_json["background"], colorscheme_json["foreground"], 0.6
-        ),
-        fg_text=colorscheme_json["foreground"],
-        fg_highlighted=lighten(colorscheme_json["foreground"], 0.2),
-        fg_faded=darken(colorscheme_json["foreground"], 0.3),
-        color_accent=colorscheme_json[colorscheme_json["accent"]],
-        color_success=colorscheme_json[colorscheme_json["success"]],
-        color_warning=colorscheme_json[colorscheme_json["warning"]],
-        color_error=colorscheme_json[colorscheme_json["error"]],
+        black=black,
+        red=red,
+        green=green,
+        yellow=yellow,
+        blue=blue,
+        magenta=magenta,
+        cyan=cyan,
+        white=white,
+        black_variant=mix_color(black, white, 0.8),
+        red_variant=mix_color(black, red, 0.3),
+        green_variant=mix_color(black, green, 0.3),
+        yellow_variant=mix_color(black, yellow, 0.3),
+        blue_variant=mix_color(black, blue, 0.3),
+        magenta_variant=mix_color(black, magenta, 0.3),
+        cyan_variant=mix_color(black, cyan, 0.3),
+        white_variant=mix_color(black, white, 0.3),
+        bg_base=background,
+        bg_view=mix_color(background, foreground, 0.9),
+        bg_popup=mix_color(background, foreground, 0.8),
+        bg_focused=mix_color(background, foreground, 0.7),
+        bg_selected=mix_color(background, foreground, 0.6),
+        fg_text=foreground,
+        fg_highlighted=lighten(foreground, 0.2),
+        fg_faded=darken(foreground, 0.3),
+        color_accent=accent,
+        color_success=success,
+        color_warning=warning,
+        color_error=error,
         color_on_accent=mix_color(
-            colorscheme_json[colorscheme_json["accent"]],
-            colorscheme_json["background"],
+            accent,
+            background,
             0.2,
         ),
         color_on_warning=mix_color(
-            colorscheme_json[colorscheme_json["warning"]],
-            colorscheme_json["background"],
+            warning,
+            background,
             0.2,
         ),
         color_on_error=mix_color(
-            colorscheme_json[colorscheme_json["error"]],
-            colorscheme_json["background"],
+            error,
+            background,
             0.2,
         ),
         color_on_success=mix_color(
-            colorscheme_json[colorscheme_json["success"]],
-            colorscheme_json["background"],
+            success,
+            background,
             0.2,
         ),
-        color_accent_name=colorscheme_json["accent"],
-        color_warning_name=colorscheme_json["warning"],
-        color_error_name=colorscheme_json["error"],
-        color_success_name=colorscheme_json["success"],
-        color_accent_ansi=ansi_escape_color(colorscheme_json["accent"]),
-        color_warning_ansi=ansi_escape_color(colorscheme_json["warning"]),
-        color_error_ansi=ansi_escape_color(colorscheme_json["error"]),
-        color_succes_ansi=ansi_escape_color(colorscheme_json["success"]),
+        color_accent_name=palette_json["accent"],
+        color_warning_name=palette_json["warning"],
+        color_error_name=palette_json["error"],
+        color_success_name=palette_json["success"],
+        color_accent_ansi=ansi_escape_color(palette_json["accent"]),
+        color_warning_ansi=ansi_escape_color(palette_json["warning"]),
+        color_error_ansi=ansi_escape_color(palette_json["error"]),
+        color_succes_ansi=ansi_escape_color(palette_json["success"]),
     )
 
 
@@ -166,12 +162,16 @@ def grayscale_colorize(source_image, hex_colors: str):
     return Image.fromarray((tinted * 255).astype(np.uint8))
 
 
-def main(config):
-    colorschemes_list = []
-    if config["all"]:
+def build_colorscheme():
+    pass
+
+
+def main(params: dict[str, Any]):
+    colorschemes_list: list[str] = []
+    if params["all"]:
         colorschemes_list = os.listdir("palettes")
     else:
-        colorschemes_list = config["select"].split(",")
+        colorschemes_list = params["select"].split(",")
 
     if not os.path.isdir("build"):
         os.mkdir("build")
@@ -182,8 +182,8 @@ def main(config):
         ) as source_file:
             colorscheme_json = json.load(source_file)
 
-            name = colorscheme.split(".")[0]
-            colorscheme_dir = f"build/{name}"
+            name: str = colorscheme.split(".")[0]
+            colorscheme_dir: str = f"build/{name}"
             if not os.path.isdir(colorscheme_dir):
                 os.mkdir(colorscheme_dir)
 
@@ -239,6 +239,5 @@ parser.add_argument("-s", "--select", type=str, help="select colorschemes to gen
 parser.add_argument("-a", "--all", action="store_true", help="generate all colorshemes")
 
 args = parser.parse_args()
-config = vars(args)
 if __name__ == "__main__":
-    main(config)
+    main(vars(args))
