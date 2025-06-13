@@ -11,6 +11,8 @@ from typing import Any
 import numpy as np
 from PIL import Image
 
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 CLEAR_LINE_ANSI: str = "\x1b[2K"
 ANSI_RESET_COLOR: str = "\033[0m"
 
@@ -168,7 +170,7 @@ def build_color_dotfiles(color_palette: dict, build_dir: str):
         print(f"{CLEAR_LINE_ANSI}\tProcess {template}...", end="\r")
 
         with open(
-            os.path.join("./templates/", template),
+            os.path.join(ROOT_DIR, "templates", template),
             "r",
             encoding="utf-8",
         ) as theme_file:
@@ -189,9 +191,9 @@ def colorize_wallpapers(color_palette: dict, build_dir: str):
     if not os.path.isdir(wallpapers_dir):
         os.mkdir(wallpapers_dir)
 
-    wallpapers_list = os.listdir("wallpapers")
+    wallpapers_list = os.listdir(os.path.join(ROOT_DIR, "wallpapers"))
     for wallpaper in wallpapers_list:
-        source_image = Image.open(os.path.join("./wallpapers/", wallpaper)).convert("L")
+        source_image = Image.open(os.path.join(ROOT_DIR, "wallpapers", wallpaper)).convert("L")
         themed_wallpaper = grayscale_colorize(
             source_image, color_palette[color_palette["accent"]]
         )
@@ -201,7 +203,7 @@ def colorize_wallpapers(color_palette: dict, build_dir: str):
 def main(params: dict[str, Any]):
     palettes_list: list[str] = []
     if params["all"]:
-        palettes_list = os.listdir("palettes")
+        palettes_list = os.listdir(os.path.join(ROOT_DIR, "palettes"))
     else:
         palettes_list = [
             name.strip() if name.strip().endswith(".json") else name.strip() + ".json"
@@ -213,11 +215,11 @@ def main(params: dict[str, Any]):
 
     for palette in palettes_list:
         with open(
-            os.path.join("./palettes/", palette), "r", encoding="utf-8"
+            os.path.join(ROOT_DIR, "palettes", palette), "r", encoding="utf-8"
         ) as palette_file:
             palette_json = json.load(palette_file)
 
-            colorscheme_build_dir: str = f"build/{palette.split(".")[0]}"
+            colorscheme_build_dir: str = os.path.join(ROOT_DIR, "build", palette.split(".")[0])
             if not os.path.isdir(colorscheme_build_dir):
                 os.mkdir(colorscheme_build_dir)
 
