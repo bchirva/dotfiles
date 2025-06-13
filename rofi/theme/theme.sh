@@ -1,1 +1,1 @@
-/home/chirva/Documents/dotfiles/colorschemes/build/active/theme.sh
+../../colorschemes/build/active/theme.sh

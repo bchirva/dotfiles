@@ -1,39 +1,10 @@
-colorschemes/build/active
+env
+nvim/lazy-lock.json
+ssh/
 zsh/.zshprofile
 zsh/.zshenv
-ssh/
-env
-
+colorschemes/build/
+yazi/plugins/
 **/__pycache__/
 
-nvim/lazy-lock.json
-yazi/plugins/
 
-colorschemes/build/
-
-# Links to theme files
-alacritty/theme.toml
-bspwm/theme.sh
-dunst/dunstrc.d/01-colors.conf
-eww/styles/theme.scss
-kitty/theme.conf
-lazydocker/config.yml
-lazygit/theme.yml
-nvim/lua/theme/colors.lua
-polybar/theme.ini
-ranger/colorschemes/theme.py
-rofi/theme/colors.rasi
-themes/Adaptish/gtk-2.0/colors.rc
-themes/Adaptish/gtk-3.0/colors.css
-themes/Adaptish/gtk-3.0/gtk-dark.css
-themes/Adaptish/gtk-4.0/colors.css
-themes/Adaptish/gtk-4.0/gtk-dark.css
-themes/Adaptish/openbox-3/themerc
-tmux/theme.conf
-tmux/plugins/
-yazi/theme.toml
-yazi/colors.lua
-zathura/themerc
-zsh/theme.sh
-zsh/plugins/ls-colors/lscolors
-zsh/plugins/man-colors/lesscolors

@@ -1,0 +1,1 @@
+../../../colorschemes/build/active/theme.nvim.lua
