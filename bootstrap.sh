@@ -1,67 +1,136 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Make config directories
-if [ ! -d "$HOME/.cache" ];  then mkdir $HOME/.cache; fi
-if [ ! -d "$HOME/.config" ]; then mkdir $HOME/.config; fi
-if [ ! -d "$HOME/.fonts" ];  then mkdir $HOME/.fonts; fi
-if [ ! -d "$HOME/.icons" ];  then mkdir $HOME/.icons; fi
-if [ ! -d "$HOME/.themes" ]; then mkdir $HOME/.themes; fi
-if [ ! -d "$HOME/.cache/zsh" ]; then mkdir -p $HOME/.cache/zsh/; fi
-if [ ! -d "$HOME/.local/bin" ]; then mkdir -p $HOME/.local/bin; fi
+set -e 
 
-# Symlink config dotfiles
-CONFIG_DIR="$HOME/.config"
-ln -sf $PWD/bottom          $CONFIG_DIR/bottom
-ln -sf $PWD/bspwm           $CONFIG_DIR/bspwm
-ln -sf $PWD/dunst           $CONFIG_DIR/dunst
-ln -sf $PWD/eww             $CONFIG_DIR/eww
-ln -sf $PWD/fzf             $CONFIG_DIR/fzf
-ln -sf $PWD/git             $CONFIG_DIR/git
-ln -sf $PWD/lazydocker      $CONFIG_DIR/lazydocker
-ln -sf $PWD/lazygit         $CONFIG_DIR/lazygit
-ln -sf $PWD/kitty           $CONFIG_DIR/kitty
-ln -sf $PWD/nvim            $CONFIG_DIR/nvim
-ln -sf $PWD/picom           $CONFIG_DIR/picom
-ln -sf $PWD/polybar         $CONFIG_DIR/polybar
-ln -sf $PWD/ranger          $CONFIG_DIR/ranger 
-ln -sf $PWD/rofi            $CONFIG_DIR/rofi
-ln -sf $PWD/sxhkd           $CONFIG_DIR/sxhkd 
-ln -sf $PWD/tmux            $CONFIG_DIR/tmux
-ln -sf $PWD/zathura         $CONFIG_DIR/zathura
-ln -sf $PWD/zsh             $CONFIG_DIR/zsh
+function print_help(){
+    echo "Usage: bootstrap.sh [OPTIONS]"
+    echo "Options:"
+    echo "  -a, --all              Symlink all dotfiles"
+    echo "  -s, --select <list>    Symlink specific configs (comma-separated: one,two,three)"
+    echo "  -t, --theme <name>     Symlink a colorscheme (default: onedark)"
+    echo "  -h, --help             Show this help message"
+}
 
-ln -sf $PWD/xprofile        $HOME/.xprofile  
-ln -sf $PWD/themes/Adaptish $HOME/.themes/Adaptish
-ln -sf $PWD/bin/*           $HOME/.local/bin
+function link_config(){
+    local -r config_name="$1"
 
-# Symlink theme to current
-THEME_DIR="$PWD/colorschemes/build/active"
-: ${DEFAULT_THEME:="onedark"}
-if [ ! -d $THEME_DIR ]; then 
-    ln -sf $PWD/colorschemes/build/${DEFAULT_THEME} $THEME_DIR
-fi
+    if [[ -d "${PWD}/${config_name}" ]]; then 
+        if [ -L "${CONFIG_DIR}/${config_name}" ]; then 
+            rm "${CONFIG_DIR}/${config_name}"
+        fi 
 
-mkdir -p $PWD/dunst/dunstrc.d
-mkdir -p $PWD/lazydocker
-ln -sf $THEME_DIR/theme.dunst.conf      $PWD/dunst/dunstrc.d/01-colors.conf
-ln -sf $THEME_DIR/theme.eww.scss        $PWD/eww/styles/theme.scss
-ln -sf $THEME_DIR/theme.gtk.css         $PWD/themes/Adaptish/gtk-3.0/colors.css
-ln -sf $THEME_DIR/theme.gtk.css         $PWD/themes/Adaptish/gtk-4.0/colors.css
-ln -sf $THEME_DIR/theme.gtkrc           $PWD/themes/Adaptish/gtk-2.0/colors.rc
-ln -sf $THEME_DIR/theme.kitty.conf      $PWD/kitty/theme.conf
-ln -sf $THEME_DIR/theme.lazydocker.yml  $PWD/lazydocker/config.yml
-ln -sf $THEME_DIR/theme.lazygit.yml     $PWD/lazygit/theme.yml
-ln -sf $THEME_DIR/theme.ls-colors       $PWD/zsh/plugins/ls-colors/lscolors
-ln -sf $THEME_DIR/theme.less-colors     $PWD/zsh/plugins/man-colors/lesscolors
-ln -sf $THEME_DIR/theme.nvim.lua        $PWD/nvim/lua/theme/colors.lua
-ln -sf $THEME_DIR/theme.polybar.ini     $PWD/polybar/theme.ini
-ln -sf $THEME_DIR/theme.ranger.py       $PWD/ranger/colorschemes/theme.py
-ln -sf $THEME_DIR/theme.rofi.rasi       $PWD/rofi/theme/colors.rasi
-ln -sf $THEME_DIR/theme.sh              $PWD/bspwm/theme.sh
-ln -sf $THEME_DIR/theme.sh              $PWD/zsh/theme.sh
-ln -sf $THEME_DIR/theme.sh              $PWD/rofi/theme/theme.sh
-ln -sf $THEME_DIR/theme.tmux.conf       $PWD/tmux/theme.conf
-ln -sf $THEME_DIR/theme.yazi            $PWD/yazi/theme.toml
-ln -sf $THEME_DIR/theme.nvim.lua        $PWD/yazi/colors.lua
-ln -sf $THEME_DIR/theme.zathura         $PWD/zathura/themerc
+        if [ -d "${CONFIG_DIR}/${config_name}" ]; then 
+            mv "${CONFIG_DIR}/${config_name}" "${CONFIG_DIR}/${config_name}.backup"
+        fi 
 
+        ln -sf "${PWD}/${config_name}" "${CONFIG_DIR}/${config_name}"
+    fi
+}
+
+function main() {
+    local SELECTED_THEME
+    while (( $# > 0 )); do
+        case "$1" in 
+            -a|--all) 
+                local -r INSTALL_ALL=true 
+                shift 
+            ;;
+            -b|--bin)
+                local -r INSTALL_BIN=true 
+                shift 
+            ;;
+            -d|--desktop)
+                local -r INSTALL_DESKTOP=true
+                shift 
+            ;;
+            -s|--select)
+                IFS=',' read -ra SELECTED_CONFIGS <<< "$2"
+                shift 2
+            ;;
+            -t|--theme)
+                SELECTED_THEME="$2"
+                shift 2
+            ;;
+            -h|--help)
+                print_help
+                exit
+            ;;
+            *)
+                echo "Wrong argument $1, abort"
+                print_help
+                exit 2
+            ;;
+        esac 
+    done 
+    SELECTED_THEME="${SELECTED_THEME:-onedark}"
+
+    local -r CONFIG_DIR="${XDG_CONFIG_HOME:-${HOME}/.config}"
+    local -r CONFIGS=(
+        bottom
+        bspwm
+        dunst
+        eww
+        fzf
+        git
+        gtk
+        kitty
+        lazydocker
+        lazygit
+        nvim
+        picom
+        polybar
+        rofi
+        sxhkd
+        tmux
+        yazi
+        zathura
+        zsh
+    )
+
+    local -r DOTDIRS=(
+        "${HOME}/.cache/zsh/"
+        "${HOME}/.config"
+        "${HOME}/.fonts"
+        "${HOME}/.icons"
+        "${HOME}/.local/bin"
+        "${HOME}/.themes"
+    )
+    for dotdir in "${DOTDIRS[@]}"; do 
+        if [ ! -d "${dotdir}" ]; then 
+            mkdir -p "${dotdir}"
+        fi
+    done
+
+    if [[ "${INSTALL_ALL}" == "true" ]]; then
+        local -r LINK_CONFIGS=("${CONFIGS[@]}")
+    else
+        local -r LINK_CONFIGS=("${SELECTED_CONFIGS[@]}")
+    fi
+    for config in "${LINK_CONFIGS[@]}"; do
+        link_config "${config}"
+    done
+
+    if [[ "${INSTALL_BIN}" == true ]] || [[ "${INSTALL_ALL}" == "true" ]]; then 
+        ln -sf "${PWD}"/bin/* "${HOME}"/.local/bin/
+    fi 
+
+    if [[ "${INSTALL_DESKTOP}" == true ]] || [[ "${INSTALL_ALL}" == "true" ]]; then 
+        ln -sf "${PWD}"/xprofile        "${HOME}"/.xprofile  
+
+        if [ -L "${HOME}/.themes/Adaptish" ]; then 
+            rm "${HOME}/.themes/Adaptish"
+        fi 
+        ln -sf "${PWD}"/themes/Adaptish "${HOME}"/.themes/Adaptish
+    fi 
+
+    if [ ! -d "${PWD}/colorschemes/build/${SELECTED_THEME}" ]; then 
+        python3 ./colorschemes/build_colorscheme.py -s "${SELECTED_THEME}"
+    fi 
+
+    if [ -L "${PWD}/colorschemes/build/active" ]; then 
+        rm "${PWD}/colorschemes/build/active"
+    fi 
+    ln -sf "${PWD}/colorschemes/build/${SELECTED_THEME}" "${PWD}/colorschemes/build/active"
+}
+
+main "$@"
