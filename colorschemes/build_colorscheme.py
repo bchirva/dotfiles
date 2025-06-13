@@ -2,6 +2,7 @@
 
 # pylint: disable=missing-function-docstring
 
+import sys
 import argparse
 import json
 import os
@@ -10,7 +11,7 @@ from typing import Any
 import numpy as np
 from PIL import Image
 
-CLEAR_LINE_ASCII: str = "\x1b[2K"
+CLEAR_LINE_ANSI: str = "\x1b[2K"
 ANSI_RESET_COLOR: str = "\033[0m"
 
 GENERAIONS: dict[str, str] = {
@@ -162,82 +163,87 @@ def grayscale_colorize(source_image, hex_colors: str):
     return Image.fromarray((tinted * 255).astype(np.uint8))
 
 
-def build_colorscheme():
-    pass
+def build_color_dotfiles(color_palette: dict, build_dir: str):
+    for template, result in GENERAIONS.items():
+        print(f"{CLEAR_LINE_ANSI}\tProcess {template}...", end="\r")
+
+        with open(
+            os.path.join("./templates/", template),
+            "r",
+            encoding="utf-8",
+        ) as theme_file:
+
+            theme_data = colorscheme_format(theme_file.read(), color_palette)
+
+            with open(
+                os.path.join(build_dir, result),
+                "w",
+                encoding="utf-8",
+            ) as result_file:
+                result_file.write(theme_data)
+                result_file.close()
+
+
+def colorize_wallpapers(color_palette: dict, build_dir: str):
+    wallpapers_dir = os.path.join(build_dir, "wallpapers")
+    if not os.path.isdir(wallpapers_dir):
+        os.mkdir(wallpapers_dir)
+
+    wallpapers_list = os.listdir("wallpapers")
+    for wallpaper in wallpapers_list:
+        source_image = Image.open(os.path.join("./wallpapers/", wallpaper)).convert("L")
+        themed_wallpaper = grayscale_colorize(
+            source_image, color_palette[color_palette["accent"]]
+        )
+        themed_wallpaper.save(os.path.join(wallpapers_dir, wallpaper))
 
 
 def main(params: dict[str, Any]):
-    colorschemes_list: list[str] = []
+    palettes_list: list[str] = []
     if params["all"]:
-        colorschemes_list = os.listdir("palettes")
+        palettes_list = os.listdir("palettes")
     else:
-        colorschemes_list = params["select"].split(",")
+        palettes_list = [
+            name.strip() if name.strip().endswith(".json") else name.strip() + ".json"
+            for name in params["select"].split(",")
+        ]
 
     if not os.path.isdir("build"):
         os.mkdir("build")
 
-    for colorscheme in colorschemes_list:
+    for palette in palettes_list:
         with open(
-            os.path.join("./palettes/", colorscheme), "r", encoding="utf-8"
-        ) as source_file:
-            colorscheme_json = json.load(source_file)
+            os.path.join("./palettes/", palette), "r", encoding="utf-8"
+        ) as palette_file:
+            palette_json = json.load(palette_file)
 
-            name: str = colorscheme.split(".")[0]
-            colorscheme_dir: str = f"build/{name}"
-            if not os.path.isdir(colorscheme_dir):
-                os.mkdir(colorscheme_dir)
+            colorscheme_build_dir: str = f"build/{palette.split(".")[0]}"
+            if not os.path.isdir(colorscheme_build_dir):
+                os.mkdir(colorscheme_build_dir)
 
-            for template, result in GENERAIONS.items():
-                print(f"{CLEAR_LINE_ASCII}\tProcess {template}...", end="\r")
+            build_color_dotfiles(palette_json, colorscheme_build_dir)
+            colorize_wallpapers(palette_json, colorscheme_build_dir)
 
-                with open(
-                    os.path.join("./templates/", template),
-                    "r",
-                    encoding="utf-8",
-                ) as theme_file:
-
-                    theme_data = colorscheme_format(theme_file.read(), colorscheme_json)
-
-                    with open(
-                        os.path.join(colorscheme_dir, result),
-                        "w",
-                        encoding="utf-8",
-                    ) as result_file:
-                        result_file.write(theme_data)
-                        result_file.close()
-
-            wallpapers_dir = os.path.join(colorscheme_dir, "wallpapers")
-            if not os.path.isdir(wallpapers_dir):
-                os.mkdir(wallpapers_dir)
-
-            wallpapers_list = os.listdir("wallpapers")
-            for wallpaper in wallpapers_list:
-                source_image = Image.open(
-                    os.path.join("./wallpapers/", wallpaper)
-                ).convert("L")
-                themed_wallpaper = grayscale_colorize(
-                    source_image, colorscheme_json[colorscheme_json["accent"]]
-                )
-                themed_wallpaper.save(os.path.join(wallpapers_dir, wallpaper))
-
-            ansi_color_begin = (
-                f"\033[{ ansi_escape_color(colorscheme_json["accent"])   }m"
-            )
+            ansi_color_begin = f"\033[{ ansi_escape_color(palette_json["accent"])   }m"
             print(
-                f"{CLEAR_LINE_ASCII}{ansi_color_begin} {colorscheme.split('.')[0]}{ANSI_RESET_COLOR} colorscheme generated"
+                f"{CLEAR_LINE_ANSI}{ansi_color_begin} {palette.split('.')[0]}{ANSI_RESET_COLOR} colorscheme generated"
             )
 
     print("Done!")
 
 
 parser = argparse.ArgumentParser(
-    description="Build colorscheme set for rofi, eww and alacritty",
+    description="Build colorschemes for terminal & desktop environment",
     formatter_class=argparse.ArgumentDefaultsHelpFormatter,
 )
 
 parser.add_argument("-s", "--select", type=str, help="select colorschemes to generate")
 parser.add_argument("-a", "--all", action="store_true", help="generate all colorshemes")
-
 args = parser.parse_args()
+
+if len(sys.argv) == 1:
+    args.all = True
+
+
 if __name__ == "__main__":
     main(vars(args))
