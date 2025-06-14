@@ -6,6 +6,8 @@ function print_help(){
     echo "Usage: bootstrap.sh [OPTIONS]"
     echo "Options:"
     echo "  -a, --all              Symlink all dotfiles"
+    echo "  -b, --bin              Symlink utility scripts into ~/.local/bin"
+    echo "  -d, --desktop          Symlink desktop environment theme (GTK)"
     echo "  -s, --select <list>    Symlink specific configs (comma-separated: one,two,three)"
     echo "  -t, --theme <name>     Symlink a colorscheme (default: onedark)"
     echo "  -h, --help             Show this help message"
