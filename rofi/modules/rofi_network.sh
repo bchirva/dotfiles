@@ -194,7 +194,7 @@ function wifi_menu {
     fi
     if (( variant == wifi_count)); then 
         nmcli device wifi rescan
-        @0
+        wifi_menu
     elif (( variant <= wifi_count )); then
         local -r selected_ssid=$(jq ".[$variant].ssid" <<< "${wifi_list_json}" \
             | sed "s/\"//g")

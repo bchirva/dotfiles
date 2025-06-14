@@ -112,7 +112,7 @@ function devices_menu() {
     fi
     if (( variant == devices_count)); then 
         bluetooth-ctrl scan on 
-        @0
+        devices_menu
     elif (( variant <= devices_count )); then
         local -r selected_mac=$(jq ".[$variant].id" <<< "${devices_list}" \
             | sed "s/\"//g")
