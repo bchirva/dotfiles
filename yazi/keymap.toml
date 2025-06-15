@@ -1,4 +1,4 @@
-[manager]
+[mgr]
 prepend_keymap = [
     { on = ["c", "C"], run = ["plugin copy-file-contents"], desc = "Copy contents of file"}
 ]

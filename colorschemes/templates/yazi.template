@@ -1,4 +1,4 @@
-[manager]
+[mgr]
 cwd = {{ fg = "{color_accent}" }}
 
 hovered         = {{ reversed = true }}
