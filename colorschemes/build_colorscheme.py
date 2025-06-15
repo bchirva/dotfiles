@@ -28,6 +28,7 @@ GENERAIONS: dict[str, str] = {
     "ls-colors.template": "theme.ls-colors",
     "neovim.template": "theme.nvim.lua",
     "polybar.template": "theme.polybar.ini",
+    "rmpc.template": "theme.rmpc.ron",
     "rofi.template": "theme.rofi.rasi",
     "sh.template": "theme.sh",
     "zathura.template": "theme.zathura",

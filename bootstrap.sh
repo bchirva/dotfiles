@@ -78,9 +78,11 @@ function main() {
         kitty
         lazydocker
         lazygit
+        mpd
         nvim
         picom
         polybar
+        rmpc
         rofi
         sxhkd
         tmux
