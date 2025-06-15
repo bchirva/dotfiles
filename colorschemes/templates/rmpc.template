@@ -40,16 +40,16 @@
             width: "20%",
         ),
         (
-            prop: (kind: Property(Title),
-                default: (kind: Text("Unknown"))
-            ),
-            width: "35%",
-        ),
-        (
             prop: (kind: Property(Album), style: (fg: "{fg_text}"),
                 default: (kind: Text("Unknown Album"), style: (fg: "{fg_text}"))
             ),
             width: "30%",
+        ),
+        (
+            prop: (kind: Property(Title),
+                default: (kind: Text("Unknown"))
+            ),
+            width: "35%",
         ),
         (
             prop: (kind: Property(Duration),
@@ -153,14 +153,6 @@
     browser_song_format: [
         (
             kind: Group([
-                (kind: Property(Track)),
-                (kind: Text(" ")),
-            ])
-        ),
-        (
-            kind: Group([
-                (kind: Property(Artist)),
-                (kind: Text(" - ")),
                 (kind: Property(Title)),
             ]),
             default: (kind: Property(Filename))
