@@ -3,6 +3,7 @@ alias ls="ls --color=always --human-readable --group-directories-first"
 alias grep="grep --color=always"
 alias tree="tree -C"
 alias less="less -r"
+alias df="df -h"
 
 alias pip='function _pip(){
     if [ $1 = "search" ]; then
