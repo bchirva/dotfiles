@@ -13,6 +13,7 @@ function main() {
     case $1 in 
         select) screenshot_select;;
         focused) screenshot_focused;;
+        screen) screenshot_screen "$2";;
         -h|--help) echo -e "${help_msg}";;
         *) exit 2;;
     esac 
@@ -20,11 +21,21 @@ function main() {
 
 
 function screenshot_select {
-    scrot -s -d 1 -f "$screenshots_path/screenshot_$timestamp_format.png" -e "${clipboard_cmd} & ${notification_cmd}"
+    scrot -s -f "${screenshots_path}/screenshot_${timestamp_format}.png" -e "${clipboard_cmd} & ${notification_cmd}"
 }
 
 function screenshot_focused {
-    scrot -u -d 3 -f "$screenshots_path/screenshot_$timestamp_format.png" -e "${clipboard_cmd} & ${notification_cmd}"
+    scrot -u -f "${screenshots_path}/screenshot_${timestamp_format}.png" -e "${clipboard_cmd} & ${notification_cmd}"
+}
+
+function screenshot_screen {
+    local -r screen="$1"
+    local -r geometry=$(xrandr | grep -A1 "^${screen} connected" \
+        | grep -oP '\d+x\d+\+\d+\+\d+' \
+        | awk -F '[x+]' '{print $3 "," $4 "," $1 "," $2}')
+
+    scrot -a "${geometry}" -f "${screenshots_path}/screenshot_${timestamp_format}.png" \
+                    -e "${clipboard_cmd} & ${notification_cmd}"
 }
 
 main "$@"
