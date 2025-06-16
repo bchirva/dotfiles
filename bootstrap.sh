@@ -94,9 +94,9 @@ function main() {
     local -r DOTDIRS=(
         "${HOME}/.cache/zsh/"
         "${HOME}/.config"
-        "${HOME}/.fonts"
-        "${HOME}/.icons"
         "${HOME}/.local/bin"
+        "${HOME}/.local/share/fonts"
+        "${HOME}/.local/share/icons"
         "${HOME}/.themes"
     )
     for dotdir in "${DOTDIRS[@]}"; do 
@@ -119,7 +119,8 @@ function main() {
     fi 
 
     if [[ "${INSTALL_DESKTOP}" == true ]] || [[ "${INSTALL_ALL}" == "true" ]]; then 
-        ln -sf "${PWD}"/xprofile        "${HOME}"/.xprofile  
+        ln -sf "${PWD}"/profile        "${HOME}"/.xprofile  
+        ln -sf "${PWD}"/profile        "${HOME}"/.zprofile  
 
         if [ -L "${HOME}/.themes/Adaptish" ]; then 
             rm "${HOME}/.themes/Adaptish"
