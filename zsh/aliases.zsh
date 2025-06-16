@@ -4,6 +4,7 @@ alias grep="grep --color=always"
 alias tree="tree -C"
 alias less="less -r"
 alias df="df -h"
+alias du="du -h -d 1"
 
 alias pip='function _pip(){
     if [ $1 = "search" ]; then
