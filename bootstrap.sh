@@ -79,6 +79,7 @@ function main() {
         lazydocker
         lazygit
         mpd
+        npm
         nvim
         picom
         polybar
