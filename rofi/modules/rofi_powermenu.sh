@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source $HOME/.config/theme.sh
+source ${XDG_CONFIG_HOME}/theme.sh
 
 function main() {
     local -r power_options="\
@@ -10,7 +10,7 @@ $(colored-icon pango  ) Lock\n\
 $(colored-icon pango 󰍃 ) Logout\n"
 
     local -r variant=$(echo -en "${power_options}" \
-        | rofi -config "~/.config/rofi/modules/controls_config.rasi" \
+        | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_config.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
         -p "System:" \

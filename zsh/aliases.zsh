@@ -20,7 +20,7 @@ alias cdf="cd \$(find . \( \
 -path '*/__pycache__' \
 \) -prune -o -type d -print | fzf)"
 
-alias lazygit='lazygit --use-config-file="$HOME/.config/lazygit/config.yml,$HOME/.config/lazygit/theme.yml"'
-alias lgit='lazygit'
+alias lazygit="lazygit --use-config-file=\"${XDG_CONFIG_HOME}/lazygit/config.yml,${XDG_CONFIG_HOME}/lazygit/theme.yml\""
+alias lgit="lazygit"
 alias ldock="lazydocker"
 alias yz="yazi"

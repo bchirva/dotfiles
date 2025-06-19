@@ -21,7 +21,7 @@ function main () {
                 esac
             fi
         ;;
-        "menu") ~/.config/rofi/modules/rofi_audio.sh "${channel}" ;;
+        "menu") ${XDG_CONFIG_HOME}/rofi/modules/rofi_audio.sh "${channel}" ;;
         *) exit 2 ;;
     esac
 }

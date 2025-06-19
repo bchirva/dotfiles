@@ -16,7 +16,7 @@ function main() {
                 echo "󰂲"; 
             fi
         ;;
-        "menu") ~/.config/rofi/modules/rofi_bluetooth.sh main;;
+        "menu") ${XDG_CONFIG_HOME}/rofi/modules/rofi_bluetooth.sh main;;
         *) exit 2;;
     esac
 }

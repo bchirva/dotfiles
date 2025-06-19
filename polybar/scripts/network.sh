@@ -19,7 +19,7 @@ function main(){
             fi 
             echo "󰌙"
         ;;
-        "menu") ~/.config/rofi/modules/rofi_network.sh main ;;
+        "menu") ${XDG_CONFIG_HOME}/rofi/modules/rofi_network.sh main ;;
         *) exit 2 ;;
     esac
 }

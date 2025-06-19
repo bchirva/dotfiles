@@ -44,7 +44,7 @@ function main() {
     fi
 
     local -r variant=$(echo -en "${rofi_input}" \
-        | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
+        | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_config.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
         -p "Audio control:" \

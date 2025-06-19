@@ -1,8 +1,8 @@
 #!/bin/bash
 
-source $HOME/.config/bspwm/theme.sh
+source "${XDG_CONFIG_HOME}/bspwm/theme.sh"
 
-"$HOME"/.config/bspwm/scripts/workspaces.sh
+"${XDG_CONFIG_HOME}"/bspwm/scripts/workspaces.sh
 
 dunst &
 sxhkd &

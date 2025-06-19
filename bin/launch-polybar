@@ -2,7 +2,7 @@
 
 function main() {
     local -r window_manager="$1"
-    local -r polybar_config="$HOME/.config/polybar/config_${window_manager}.ini"
+    local -r polybar_config="${XDG_CONFIG_HOME}/polybar/config_${window_manager}.ini"
     local -r monitors=$(xrandr | grep "\bconnected\b")
     local -r eww_cmd="eww open --toggle %s --arg monitor_name=\"%s\""
 

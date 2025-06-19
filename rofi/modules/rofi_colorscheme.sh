@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source $HOME/.config/theme.sh
+source ${XDG_CONFIG_HOME}/theme.sh
 
 function main() {
     local -r colorschemes_dir="$(readlink -f \
@@ -26,7 +26,7 @@ function main() {
     done
 
     local -r variant=$(rofi_input \
-        | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
+        | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_config.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format "i" \
         -p "Colorshemes:" \

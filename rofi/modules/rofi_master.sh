@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source $HOME/.config/theme.sh
+source ${XDG_CONFIG_HOME}/theme.sh
 
 function main() {
     function rofi_entries() {
@@ -15,21 +15,21 @@ function main() {
     }
 
     local -r variant=$(rofi_entries \
-        | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
+        | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_config.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
         -p "Control Center" \
         -l 8)
 
     case $variant in 
-        0) $HOME/.config/rofi/modules/rofi_audio.sh output ;;
-        1) $HOME/.config/rofi/modules/rofi_audio.sh input ;;
-        2) $HOME/.config/rofi/modules/rofi_network.sh main;;
-        3) $HOME/.config/rofi/modules/rofi_bluetooth.sh main;;
+        0) ${XDG_CONFIG_HOME}/rofi/modules/rofi_audio.sh output ;;
+        1) ${XDG_CONFIG_HOME}/rofi/modules/rofi_audio.sh input ;;
+        2) ${XDG_CONFIG_HOME}/rofi/modules/rofi_network.sh main;;
+        3) ${XDG_CONFIG_HOME}/rofi/modules/rofi_bluetooth.sh main;;
         4) kitty -e btm ;;
-        5) $HOME/.config/rofi/modules/rofi_colorscheme.sh ;;
-        6) $HOME/.config/rofi/modules/rofi_passwords.sh ;;
-        7) $HOME/.config/rofi/modules/rofi_powermenu.sh ;;
+        5) ${XDG_CONFIG_HOME}/rofi/modules/rofi_colorscheme.sh ;;
+        6) ${XDG_CONFIG_HOME}/rofi/modules/rofi_passwords.sh ;;
+        7) ${XDG_CONFIG_HOME}/rofi/modules/rofi_powermenu.sh ;;
         *) exit ;;
     esac
 }
