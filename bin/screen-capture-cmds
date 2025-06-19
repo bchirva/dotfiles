@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+
+function main() {
+    local -r help_msg="screenshot-cmd
+        select - screenshot of select area or window 
+        focused - screenshot of focused window
+        screen <screen name> - screenshot of whole screen (from xrandr)
+        record <screen name> - start/stop record screen by name"
+
+    local -r timestamp_format="%Y%m%d-%H%M%S"
+    local -r screenshots_path="$HOME/Images/screenshots"
+    local -r records_path="$HOME/Videos/records"
+    local -r clipboard_cmd='xclip -selection clipboard -target image/png -i $f'
+    local -r notification_cmd='notify-send -u normal -i accessories-screenshot "Screenshot" "saved in $f"'
+
+    case $1 in 
+        select) screenshot_select;;
+        focused) screenshot_focused;;
+        screen) screenshot_screen "$2";;
+        record) record_screen "$2";;
+        -h|--help) echo -e "${help_msg}";;
+        *) exit 2;;
+    esac 
+}
+
+
+function screenshot_select {
+    scrot -s -f "${screenshots_path}/screenshot_${timestamp_format}.png" -e "${clipboard_cmd} & ${notification_cmd}"
+}
+
+function screenshot_focused {
+    scrot -u -f "${screenshots_path}/screenshot_${timestamp_format}.png" -e "${clipboard_cmd} & ${notification_cmd}"
+}
+
+function screenshot_screen {
+    local -r screen="$1"
+    local -r geometry=$(xrandr | grep -A1 "^${screen} connected" \
+        | grep -oP '\d+x\d+\+\d+\+\d+' \
+        | awk -F '[x+]' '{print $3 "," $4 "," $1 "," $2}')
+
+    scrot -a "${geometry}" -f "${screenshots_path}/screenshot_${timestamp_format}.png" \
+                    -e "${clipboard_cmd} & ${notification_cmd}"
+}
+
+function record_screen {
+    local -r record_pid_file="${XDG_RUNTIME_DIR}/ffmpeg.record.pid"
+
+    if [[ -f "${record_pid_file}" ]]; then 
+        local -r ffmpeg_pid="$(head -n 1 "${record_pid_file}")"
+        kill -INT "${ffmpeg_pid}" 
+        wait "${ffmpeg_pid}"
+        notify-send -u normal -i record-desktop "Screen recording has finished" "Record saved in $(tail -n 1 "${record_pid_file}")"
+        rm "${record_pid_file}"
+        exit 0
+    fi 
+
+    local -r screen="$1"
+
+    if [[ -z "${screen}" ]]; then 
+        exit 
+    fi
+
+    readarray -t geometry <<< "$(xrandr | grep -A1 "^${screen} connected" \
+        | grep -oP '\d+x\d+\+\d+\+\d+' \
+        | awk -F '[x+]' '{print $1 "x" $2 "\n" $3 "," $4}')"
+
+    local inputs=(-f x11grab -video_size "${geometry[0]}" -framerate 25 -i "${DISPLAY}+${geometry[1]}")
+    local codecs=(-c:v libx264)
+    local formats=(-pix_fmt yuv420p)
+    local -r record_path="${records_path}/record_$(date +${timestamp_format}).mkv"
+
+    if [[ $(audio-ctrl info input | jq ".muted") == "false" ]]; then 
+        inputs+=(-f pulse -ac 2 -i default)
+        codecs+=(-c:a aac)
+        formats+=(-b:a 128k -preset ultrafast -threads 0)
+        echo "${inputs[@]}"
+        echo "${codecs[@]}"
+        echo "${formats[@]}"
+    fi 
+
+    ffmpeg \
+        "${inputs[@]}" \
+        "${codecs[@]}" \
+        "${formats[@]}" \
+        "${record_path}" &
+
+    echo -en "$!\n${record_path}" > "${record_pid_file}" 
+    notify-send -u normal -i record-desktop "Screen ${screen} is recording" "Record will be saved in ${record_path}"
+}
+
+main "$@"

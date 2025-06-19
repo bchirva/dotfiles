@@ -94,8 +94,8 @@ function active_device_info {
 
     jq -n "{\
         id: \"$id\", \
-        volume: \"$volume\", \
-        muted: \"$muted\"\
+        volume: $volume, \
+        muted: $muted\
     }"
 }
 
