@@ -13,6 +13,8 @@ function main() {
     function select_screen() {
         readarray -t screens <<< "$(xrandr \
             | grep "\bconnected\b" \
+            | awk '{print $1, ($3 == "primary" ? 0 : 1)}' \
+            | sort -k2,2 -k1 \
             | awk '{print $1}')"
 
         local rofi_input_screens

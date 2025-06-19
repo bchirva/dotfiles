@@ -67,21 +67,21 @@ function record_screen {
     local inputs=(-f x11grab -video_size "${geometry[0]}" -framerate 25 -i "${DISPLAY}+${geometry[1]}")
     local codecs=(-c:v libx264)
     local formats=(-pix_fmt yuv420p)
+    local extra=()
     local -r record_path="${records_path}/record_$(date +${timestamp_format}).mkv"
 
     if [[ $(audio-ctrl info input | jq ".muted") == "false" ]]; then 
         inputs+=(-f pulse -ac 2 -i default)
         codecs+=(-c:a aac)
-        formats+=(-b:a 128k -preset ultrafast -threads 0)
-        echo "${inputs[@]}"
-        echo "${codecs[@]}"
-        echo "${formats[@]}"
+        formats+=(-b:a 128k)
+        extra=(-preset ultrafast -threads 0)
     fi 
 
     ffmpeg \
         "${inputs[@]}" \
         "${codecs[@]}" \
         "${formats[@]}" \
+        "${extra[@]}" \
         "${record_path}" &
 
     echo -en "$!\n${record_path}" > "${record_pid_file}" 
