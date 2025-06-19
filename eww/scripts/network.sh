@@ -33,7 +33,7 @@ function main() {
                 | sed -e "s/true/off/g" -e "s/false/on/g")
                 network-ctrl system toggle "${toggle_flag}" 
             ;;
-        "menu") ~/.config/rofi/modules/rofi_network.sh main ;;
+        "menu") rofi-network-ctrl main ;;
     esac
 }
 

@@ -22,14 +22,14 @@ function main() {
         -l 8)
 
     case $variant in 
-        0) ${XDG_CONFIG_HOME}/rofi/modules/rofi_audio.sh output ;;
-        1) ${XDG_CONFIG_HOME}/rofi/modules/rofi_audio.sh input ;;
-        2) ${XDG_CONFIG_HOME}/rofi/modules/rofi_network.sh main;;
-        3) ${XDG_CONFIG_HOME}/rofi/modules/rofi_bluetooth.sh main;;
+        0) rofi-audio-ctrl output ;;
+        1) rofi-audio-ctrl input ;;
+        2) rofi-network-ctrl main;;
+        3) rofi-bluetooth-ctr main;;
         4) kitty -e btm ;;
-        5) ${XDG_CONFIG_HOME}/rofi/modules/rofi_colorscheme.sh ;;
-        6) ${XDG_CONFIG_HOME}/rofi/modules/rofi_passwords.sh ;;
-        7) ${XDG_CONFIG_HOME}/rofi/modules/rofi_powermenu.sh ;;
+        5) rofi-colorschemes ;;
+        6) rofi-passwords ;;
+        7) rofi-powermenu ;;
         *) exit ;;
     esac
 }

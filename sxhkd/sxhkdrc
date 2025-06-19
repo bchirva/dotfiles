@@ -1,7 +1,6 @@
 # terminal emulator
 super + Return
     kitty
-#   alacritty
 
 # launcher
 super + r
@@ -11,13 +10,13 @@ super + w
     rofi -show window
 
 super + c
-    $HOME/.config/rofi/modules/rofi_master.sh
+    rofi-master
 
 super + Print
-    $HOME/.config/rofi/modules/rofi_screenshot.sh
+    rofi-screen-capture
 
 super + p
-    $HOME/.config/rofi/modules/rofi_passwords.sh
+    rofi-passwords
 
 # -------------------
 # bspwm hotkeys

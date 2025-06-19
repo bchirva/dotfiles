@@ -27,7 +27,7 @@ export PYTHONUSERBASE=$XDG_DATA_HOME/python
 export PYTHON_HISTORY=$XDG_STATE_HOME/python_history
 export RUSTUP_HOME=$XDG_DATA_HOME/rustup
 export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
-export SSH_ASKPASS=$XDG_CONFIG_HOME/rofi/modules/rofi_askpass.sh
+export SSH_ASKPASS=rofi-askpass
 
 export BROWSER="zen"
 export EDITOR="nvim"
