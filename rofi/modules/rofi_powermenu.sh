@@ -11,7 +11,10 @@ $(colored-icon pango 󰍃 ) Logout\n"
 
     local -r variant=$(echo -en "${power_options}" \
         | rofi -config "~/.config/rofi/modules/controls_config.rasi" \
-        -markup-rows -i -dmenu -p "System:" -no-custom -l 4 -format 'i' )
+        -markup-rows -i -dmenu -no-custom \
+        -format 'i' \
+        -p "System:" \
+        -l 4 )
 
     case $variant in
         0) systemctl poweroff ;;

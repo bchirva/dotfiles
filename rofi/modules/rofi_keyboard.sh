@@ -12,21 +12,23 @@ function main() {
         done
     }
 
-    row_modifiers(){
-        for i in ${!layouts[*]}
-        do
-            if [[ "${layouts[$i]}" == "$(xkb-switch -p)" ]]; then
-                echo -en "-a ${i} -selected-row ${i}"
-            fi
-        done
-    }
+    for i in ${!layouts[*]}
+    do
+        if [[ "${layouts[$i]}" == "$(xkb-switch -p)" ]]; then
+            local -r row_modifiers=(-a "${i}" -selected-row "${i}")
+        fi
+    done
 
     local -r variant=$(rofi_input \
         | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi"\
-        -markup-rows -i -dmenu -p "Keyboard layouts:" -format "i" -no-custom "$(row_modifiers)" -l ${#layouts[@]} )
+        -markup-rows -i -dmenu -no-custom \
+        -format "i" \
+        -p "Keyboard layouts:" \
+        "${row_modifiers[@]}" \
+        -l ${#layouts[@]} )
 
     if [[ $variant ]]; then
-        xkb-switch -s ${layouts[$variant]}
+        xkb-switch -s "${layouts[$variant]}"
     fi
 }
 

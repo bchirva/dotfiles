@@ -12,8 +12,8 @@ function main() {
     local -r variant=$(rofi_input \
         | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
         -markup-rows -no-custom -i -dmenu \
-        -p "Screen capture" \
         -format "i" \
+        -p "Screen capture" \
         -l 3)
 
 
@@ -29,7 +29,7 @@ function main() {
 
                 local rofi_input_screens
                 for screen in "${screens[@]}"; do 
-                    rofi_input_screens="${rofi_input_screens}$(colored-icon pango 󰍹 ) ${screen}\n"
+                    rofi_input_screens+="$(colored-icon pango 󰍹 ) ${screen}\n"
                 done 
 
                 if (( ${#screens[@]} == 1 )); then 
@@ -38,8 +38,8 @@ function main() {
                     local -r variant_screen=$(echo -en "${rofi_input_screens}" \
                         | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_config.rasi" \
                             -markup-rows -no-custom -i -dmenu \
-                            -p "Screenshot of..." \
                             -format "i" \
+                            -p "Screenshot of..." \
                             -l ${#screens[@]})
                 fi
 

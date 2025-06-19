@@ -42,7 +42,7 @@ function main() {
 
     local -r usb_drives=$(usb-available)
     if [[ -n "${usb_drives}" ]] && (( passwords_count > 0 )); then 
-        rofi_input="${rofi_input}$(colored-icon pango 󰕓 ) Sync passwords to USB drive\n"
+        rofi_input+="$(colored-icon pango 󰕓 ) Sync passwords to USB drive\n"
         local -r sync_usb_line=1
     fi
 
@@ -51,18 +51,18 @@ function main() {
         while read -r line 
         do 
             if [[ -n "${line}" ]]; then 
-                rofi_input_passwords="${rofi_input_passwords}$(colored-icon pango  ) ${line}\n"
+                rofi_input_passwords+="$(colored-icon pango  ) ${line}\n"
             fi
         done <<< "${passwords}"
     fi
-    rofi_input="${rofi_input}${rofi_input_passwords}"
+    rofi_input+="${rofi_input_passwords}"
     local -r rows_count=$(( passwords_count + 1 + remove_password_line + sync_git_line + sync_usb_line ))
 
     local -r variant=$(echo -en "${rofi_input}" \
         | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
         -markup-rows -i -dmenu -no-custom \
-        -p "Password:" \
         -format 'i' \
+        -p "Password:" \
         -theme-str "listview { columns: 2;} window { width: 600px; }" \
         -l $(( rows_count > MAX_PASSWORD_LINES ? MAX_PASSWORD_LINES : rows_count  )) )
 
@@ -97,7 +97,8 @@ function main() {
     case ${variant} in 
         $(( idx_new)) )
             local -r password_service=$(rofi -config "$HOME/.config/rofi/modules/input_config.rasi" \
-                -dmenu -p "New password for:" \
+                -dmenu \
+                -p "New password for:" \
                 -theme-str "window { width: 600px; }") 
 
             if [[ -z "${password_service}" ]]; then  
@@ -125,8 +126,8 @@ function main() {
             local -r variant_remove=$(echo -en "${rofi_input_passwords}" \
                 | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
                 -markup-rows -i -dmenu -no-custom \
-                -p "Password:" \
                 -format 'i' \
+                -p "Password:" \
                 -theme-str "listview { columns: 2;} window { width: 500px; }" \
                 -l $(( passwords_count > MAX_PASSWORD_LINES ? MAX_PASSWORD_LINES : passwords_count  )) )
 
@@ -135,8 +136,8 @@ function main() {
             case $(echo -en "$(colored-icon pango 󰜺 ) Cancel \n$(colored-icon pango  "${ERROR_COLOR}" ) Remove\n" \
                     | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
                     -markup-rows -i -dmenu -no-custom \
-                    -p "Remove ${selected_service}?" \
                     -format 'i' \
+                    -p "Remove ${selected_service}?" \
                     -theme-str "inputbar { children: [prompt]; }" \
                     -l 2) in 
                 0) exit ;;
@@ -176,15 +177,15 @@ function main() {
             while read -r line 
             do 
                 if [[ -n "${line}" ]]; then 
-                    rofi_input_usb="${rofi_input_usb}$(colored-icon pango 󰕓 ) ${line}\n"
+                    rofi_input_usb+="$(colored-icon pango 󰕓 ) ${line}\n"
                 fi
             done <<< "${usb_drives}"
 
             local -r variant_usb="$(echo -en "${rofi_input_usb}" \
                 | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
                 -markup-rows -i -dmenu -no-custom \
-                -p "USB drives:" \
                 -format 'i' \
+                -p "USB drives:" \
                 -l "${usb_drives_count}" )"
 
             local -r usb_selected_mount=$(sed -n "$(( variant_usb + 1 ))p" <<< "${usb_drives}")
@@ -246,8 +247,8 @@ function main() {
                 case $(echo -en "$(colored-icon pango  ) Password\n$(colored-icon pango 󰀠 ) One-time password\n" \
                     | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
                     -markup-rows -i -dmenu -no-custom \
-                    -p "${selected_service}" \
                     -format 'i' \
+                    -p "${selected_service}" \
                     -l 2) in 
                 
                 0) copy_password ;;

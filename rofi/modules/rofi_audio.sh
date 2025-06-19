@@ -24,7 +24,7 @@ function main() {
     for ((i = 0; i < $(jq ". | length" <<< "${device_list_json}"); i++))
     do
         device_id_list[${#device_id_list[@]}]=$(jq -r ".[$i].id" <<< "${device_list_json}")
-        rofi_input="${rofi_input}$(colored-icon pango ${device_icon} ) $(jq -r ".[$i].name" <<< "${device_list_json}")\n"
+        rofi_input+="$(colored-icon pango ${device_icon} ) $(jq -r ".[$i].name" <<< "${device_list_json}")\n"
 
         if [ "$(jq -r '.id' <<< "${active_device_json}")" == "$(jq -r ".[$i].id" <<< "${device_list_json}")" ]; then
             active_device_idx=$i
@@ -36,17 +36,21 @@ function main() {
         message="$message (muted)"
     fi
 
-    local row_modifiers="-a $((active_device_idx + 3))"
+    local row_modifiers=(-a $((active_device_idx + 3)))
     if [[ $2 ]]; then
-        row_modifiers="${row_modifiers} -selected-row $2"
+        row_modifiers+=(-selected-row "$2")
     else
-        row_modifiers="${row_modifiers} -selected-row $((active_device_idx + 3))"
+        row_modifiers+=(-selected-row $((active_device_idx + 3)))
     fi
 
     local -r variant=$(echo -en "${rofi_input}" \
         | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
-        -markup-rows -i -dmenu -p "Audio control:" -no-custom -format 'i' ${row_modifiers} \
-        -l $((${#device_id_list[@]} + 3)) -mesg "${message}")
+        -markup-rows -i -dmenu -no-custom \
+        -format 'i' \
+        -p "Audio control:" \
+        -mesg "${message}" \
+        "${row_modifiers[@]}" \
+        -l $((${#device_id_list[@]} + 3)) )
 
     if [[ $variant ]]; then
         case $variant in

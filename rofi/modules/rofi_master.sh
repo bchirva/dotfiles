@@ -16,7 +16,10 @@ function main() {
 
     local -r variant=$(rofi_entries \
         | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
-        -markup-rows -i -dmenu -no-custom -format 'i' -p "Control Center" -l 8)
+        -markup-rows -i -dmenu -no-custom \
+        -format 'i' \
+        -p "Control Center" \
+        -l 8)
 
     case $variant in 
         0) $HOME/.config/rofi/modules/rofi_audio.sh output ;;

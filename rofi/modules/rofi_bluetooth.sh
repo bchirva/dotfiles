@@ -30,7 +30,7 @@ function main_menu {
     #     ROFI_INPUT="${ROFI_INPUT}$(colored-icon pango 󰅖) Scanning: <b>Off</b>\n"
     # fi 
     
-    rofi_input="${rofi_input}$(colored-icon pango 󰂳) Bluetooth devices menu\n"
+    rofi_input+="$(colored-icon pango 󰂳) Bluetooth devices menu\n"
 
     local -r connected_devices=$(jq "[.[] | select(.connected == true)] | length" <<< "$(bluetooth-ctrl device list)")
 
@@ -41,7 +41,11 @@ function main_menu {
 
     local -r variant=$(echo -en "${rofi_input}" \
         | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
-        -markup-rows -i -dmenu -p "Bluetooth:" -no-custom -format 'i' -mesg "${rofi_message}" -l 4 )
+        -markup-rows -i -dmenu -no-custom \
+        -format 'i' \
+        -p "Bluetooth:" \
+        -mesg "${rofi_message}" \
+        -l 4 )
 
     if [ ! "${variant}" ]; then
         exit;
@@ -105,7 +109,11 @@ function devices_menu() {
 
     local -r variant=$(echo -en "${rofi_input}" \
         | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
-        -markup-rows -i -dmenu -p "Bluetooth:" -no-custom -format 'i' -mesg "${rofi_message}" -l $((devices_count + 1)) )
+        -markup-rows -i -dmenu -no-custom \
+        -format 'i' \
+        -p "Bluetooth:" \
+        -mesg "${rofi_message}" \
+        -l $((devices_count + 1)) )
 
     if [ ! "${variant}" ]; then
         exit

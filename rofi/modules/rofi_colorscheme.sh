@@ -17,19 +17,21 @@ function main() {
         done
     }
 
-    function row_modifiers(){
-        local -r active_scheme=$(ls -l "${colorschemes_dir}/active" | awk '{print $NF}')
-        for i in ${!schemes[*]}
-        do
-            if [[ "${schemes[$i]}" == "${active_scheme}" ]]; then
-                echo -en "-a ${i} -selected-row ${i}"
-            fi
-        done
-    }
+    local -r active_scheme=$(ls -l "${colorschemes_dir}/active" | awk '{print $NF}')
+    for i in ${!schemes[*]}
+    do
+        if [[ "${schemes[$i]}" == "${active_scheme}" ]]; then
+            local -r row_modifiers=(-a "${i}" -selected-row "${i}")
+        fi
+    done
 
     local -r variant=$(rofi_input \
         | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
-        -markup-rows -i -dmenu -p "Colorshemes:" -format "i" -no-custom -l ${#schemes[@]} $(row_modifiers))
+        -markup-rows -i -dmenu -no-custom \
+        -format "i" \
+        -p "Colorshemes:" \
+        "${row_modifiers[@]}" \
+        -l ${#schemes[@]} )
 
     if [[ $variant ]]; then
         local -r new_scheme=${schemes[$variant]}

@@ -53,12 +53,12 @@ function main_menu {
                 connection="($connection)"
             fi
 
-            rofi_input="${rofi_input}$(colored-icon pango ${device_icon}) ${device_name}: <b>${device_status}</b> <i>$connection</i>\n"
+            rofi_input+="$(colored-icon pango ${device_icon}) ${device_name}: <b>${device_status}</b> <i>$connection</i>\n"
         done
 
         local -r wifi_available=$(( $(jq '[ .[] | select(.type == "wifi") ] | length' <<< "$devices_json") > 0 ? 1 : 0 ))
         if [ $wifi_available -ne 0 ]; then 
-            rofi_input="${rofi_input}$(colored-icon pango 󱛆 ) WiFi networks menu\n"
+            rofi_input+="$(colored-icon pango 󱛆 ) WiFi networks menu\n"
         fi
 
         local -r vpns_json=$(network-ctrl vpn list)
@@ -72,10 +72,10 @@ function main_menu {
             vpn_status=$(jq ".[$vpn_idx].status" <<< "$devices_json" \
                 | sed "s/true/On/g" \
                 | sed "s/false/Off/g")
-            rofi_input="${rofi_input}$(colored-icon pango 󰖂 )${vpn_name} <b>${vpn_status}</b>\n"
+            rofi_input+="$(colored-icon pango 󰖂 )${vpn_name} <b>${vpn_status}</b>\n"
         done
 
-        rofi_input="${rofi_input}$(colored-icon pango 󰑓 ) Restart NetworkManager service\n"
+        rofi_input+="$(colored-icon pango 󰑓 ) Restart NetworkManager service\n"
     else
         rofi_input="$(colored-icon pango 󰪎 ) Network: <b>Off</b>\n"
         rofi_message="Network disabled"
@@ -88,8 +88,8 @@ function main_menu {
     local -r variant=$(echo -en "$rofi_input" \
         | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
         -markup-rows -i -dmenu -no-custom \
-        -p "Network:" \
         -format 'i' \
+        -p "Network:" \
         -mesg "${rofi_message}" \
         -l $((2 + devices_count + vpns_count + wifi_available)) )
 
@@ -172,10 +172,10 @@ function wifi_menu {
             connection="[$connection]"
         fi 
 
-        rofi_input="${rofi_input}$(colored-icon pango "${wifi_signal_icon}") ${wifi_ssid} <i>(${wifi_security})</i> <b>$connection</b>\n"
+        rofi_input+="$(colored-icon pango "${wifi_signal_icon}") ${wifi_ssid} <i>(${wifi_security})</i> <b>$connection</b>\n"
     done
 
-    rofi_input="${rofi_input}$(colored-icon pango 󰑓 ) Rescan WiFi networks\n"
+    rofi_input+="$(colored-icon pango 󰑓 ) Rescan WiFi networks\n"
 
     if [[ -z "$rofi_message" ]]; then 
         rofi_message="No connection"; 
@@ -184,8 +184,8 @@ function wifi_menu {
     local -r variant=$(echo -en "$rofi_input" \
         | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
         -markup-rows -i -dmenu -no-custom \
-        -p "WiFi:" \
         -format 'i' \
+        -p "WiFi:" \
         -mesg "${rofi_message}" \
         -l $((wifi_count + 1)) )
 
