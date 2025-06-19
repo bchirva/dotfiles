@@ -2,9 +2,9 @@ alias hist="cat ${HISTFILE} | head -n -1"
 alias ls="ls --color=always --human-readable --group-directories-first"
 alias grep="grep --color=always"
 alias tree="tree -C"
-alias less="less -r"
-alias df="df -h"
-alias du="du -h -d 1"
+alias less="less --raw-control-chars"
+alias df="df --human-readable"
+alias du="du --human-readable --max-depth=1"
 
 alias pip='function _pip(){
     if [ $1 = "search" ]; then
