@@ -4,15 +4,15 @@ source $HOME/.config/theme.sh
 
 function main() {
     function rofi_input() {
-        echo -en "$(colored-icon pango 󰒉 ) ...selected area or window\n"
-        echo -en "$(colored-icon pango 󰇀 ) ...focused window\n"
-        echo -en "$(colored-icon pango 󰍹 ) ...screen\n"
+        echo -en "$(colored-icon pango 󰇀 ) Shot focused window\n"
+        echo -en "$(colored-icon pango 󰍹 ) Shot whole screen\n"
+        echo -en "$(colored-icon pango 󰒉 ) Shot selected area or window\n"
     }
 
     local -r variant=$(rofi_input \
         | rofi -config "$HOME/.config/rofi/modules/controls_config.rasi" \
         -markup-rows -no-custom -i -dmenu \
-        -p "Screenshot of..." \
+        -p "Screen capture" \
         -format "i" \
         -l 3)
 
@@ -21,11 +21,8 @@ function main() {
         case $variant in
             0) 
                 sleep 0.5
-                screenshot-cmd select ;;
-            1) 
-                sleep 0.5
                 screenshot-cmd focused ;;
-            2) 
+            1) 
                 readarray -t screens <<< "$(xrandr \
                     | grep "\bconnected\b" \
                     | awk '{print $1}')"
@@ -35,12 +32,16 @@ function main() {
                     rofi_input_screens="${rofi_input_screens}$(colored-icon pango 󰍹 ) ${screen}\n"
                 done 
 
-                local -r variant_screen=$(echo -en "${rofi_input_screens}" \
-                    | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_config.rasi" \
-                        -markup-rows -no-custom -i -dmenu \
-                        -p "Screenshot of..." \
-                        -format "i" \
-                        -l ${#screens[@]})
+                if (( ${#screens[@]} == 1 )); then 
+                    local -r variant_screen=0
+                else 
+                    local -r variant_screen=$(echo -en "${rofi_input_screens}" \
+                        | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_config.rasi" \
+                            -markup-rows -no-custom -i -dmenu \
+                            -p "Screenshot of..." \
+                            -format "i" \
+                            -l ${#screens[@]})
+                fi
 
                 if [[ $variant_screen ]]; then 
                     local -r selected_screen="${screens[${variant_screen}]}"
@@ -48,6 +49,9 @@ function main() {
                     screenshot-cmd screen "${selected_screen}"
                 fi 
                 ;;
+            2) 
+                sleep 0.5
+                screenshot-cmd select ;;
             *) exit ;;
         esac
     fi
