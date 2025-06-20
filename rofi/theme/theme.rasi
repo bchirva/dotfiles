@@ -104,8 +104,10 @@ element alternate.urgent {
 
 element normal.active,
 element alternate.active {
-    background-color:   @color-background-selected;
+    background-color:   @color-background-focused;
     text-color:         @color-foreground-highlight;
+    border-color: @color-accent;
+    border: 0 0 2px 0;
 }
 
 element selected.normal,
