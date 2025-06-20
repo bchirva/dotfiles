@@ -6,34 +6,47 @@ function main() {
     local rofi_input message
     case $device_type in
         "output")   
-            rofi_input="$(colored-icon pango 󰝝 ) Volume +10%\n$(colored-icon pango 󰝞 ) Volume -10%\n$(colored-icon pango 󰝟 ) Mute\n"
-            local -r device_icon="󱄠"
+            local -r device_icon="$(colored-icon pango  )"
+            local -r volume_up_icon="$(colored-icon pango 󰝝 )"
+            local -r volume_down_icon="$(colored-icon pango 󰝞 )"
+            local -r mute_icon="$(colored-icon pango 󰝟 )"
             ;;
         "input")    
-            rofi_input="$(colored-icon pango 󰢴 ) Volume +10%\n$(colored-icon pango 󰢳 ) Volume -10%\n$(colored-icon pango  ) Mute\n"
-            local -r device_icon=""
+            local -r device_icon="$(colored-icon pango )"
+            local -r volume_up_icon="$(colored-icon pango 󰢴 )"
+            local -r volume_down_icon="$(colored-icon pango 󰢳 )"
+            local -r mute_icon="$(colored-icon pango  )"
             ;;
         *) exit 2 ;;
     esac
 
+    rofi_input+="${volume_up_icon} Volume +10%\n"
+    rofi_input+="${volume_down_icon} Volume -10%\n"
+
     local -r device_list_json=$(audio-ctrl list "${device_type}")
     local -r active_device_json=$(audio-ctrl info "${device_type}")
+
+    if [[ "$(jq -r ".muted" <<< "${active_device_json}")" == "true" ]]; then 
+        rofi_input+="${mute_icon} Unmute\n"
+    else 
+        rofi_input+="${mute_icon} Mute\n"
+    fi 
 
     local device_id_list=()
     local active_device_idx=0
     for ((i = 0; i < $(jq ". | length" <<< "${device_list_json}"); i++))
     do
         device_id_list[${#device_id_list[@]}]=$(jq -r ".[$i].id" <<< "${device_list_json}")
-        rofi_input+="$(colored-icon pango ${device_icon} ) $(jq -r ".[$i].name" <<< "${device_list_json}")\n"
+        rofi_input+="${device_icon} $(jq -r ".[$i].name" <<< "${device_list_json}")\n"
 
         if [ "$(jq -r '.id' <<< "${active_device_json}")" == "$(jq -r ".[$i].id" <<< "${device_list_json}")" ]; then
             active_device_idx=$i
         fi
     done
 
-    message="Active device: Volume $(jq -r ".volume" <<< "${active_device_json}")"
-    if [[ $(jq -r ".muted" <<< "${active_device_json}") == "yes" ]]; then
-        message="$message (muted)"
+    message="<b>$(jq -r ".name" <<< "${active_device_json}")</b> volume: $(jq -r ".volume" <<< "${active_device_json}")%"
+    if [[ $(jq -r ".muted" <<< "${active_device_json}") == "true" ]]; then
+        message+=" <i>(muted)</i>"
     fi
 
     local row_modifiers=(-a $((active_device_idx + 3)))

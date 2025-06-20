@@ -24,16 +24,20 @@ function device_list {
     case $device_type in
         "output") 
             local -r device_list="$(pactl list sinks)"
-            local device_id="Sink #"
+            local -r get_volume_cmd=(pactl get-sink-volume)
+            local -r get_muted_cmd=(pactl get-sink-mute)
+            local -r device_id="Sink #"
         ;;
         "input")  
             device_list="$(pactl list sources)"
-            local device_id="Source #"
+            local -r get_volume_cmd=(pactl get-source-volume)
+            local -r get_muted_cmd=(pactl get-source-mute)
+            local -r device_id="Source #"
         ;;
         *) exit 2
     esac
 
-    local id device name json_array="[]"
+    local id device name volume muted json_array="[]"
     for ((i = 0; i < $(grep -c "${device_id}" <<< "${device_list}"); i++))
     do
         if [ "${device_type}" == "input" ] \
@@ -57,11 +61,19 @@ function device_list {
             | cut -d ':' -f 2 \
             | cut -d '(' -f 1 \
             | sed 's/^[[:blank:]]*//g;s/[[:blank:]]*$//g')
+        volume=$("${get_volume_cmd[@]}" "${id}" \
+            | awk '{print $5}' \
+            | sed 's/%//g')
+        muted=$("${get_muted_cmd[@]}" "${id}" \
+            | awk '{print $2}' \
+            | flag-to-bool)
        
         json_array=$(jq  ". += [{\
-            id: \"$id\", \
-            device: \"$device\", \
-            name: \"$name\"\
+            id: \"${id}\", \
+            port: \"${device}\", \
+            name: \"${name}\", \
+            volume: ${volume}, \
+            muted: ${muted} \
         }]" <<< "${json_array}")
     done
 
@@ -72,31 +84,12 @@ function active_device_info {
     local -r device_type=$1
 
     case $device_type in
-        "output")
-            local -r id=$(pactl get-default-sink)
-            local -r volume_cmd=(pactl get-sink-volume)
-            local -r muted_cmd=(pactl get-sink-mute)
-            ;;
-        "input")
-            local -r id=$(pactl get-default-source)
-            local -r volume_cmd=(pactl get-source-volume)
-            local -r muted_cmd=(pactl get-source-mute)
-            ;;
+        "output") local -r id=$(pactl get-default-sink) ;;
+        "input")  local -r id=$(pactl get-default-source) ;;
         *) exit 2 
     esac
 
-    local -r volume=$("${volume_cmd[@]}" "${id}" \
-        | awk '{print $5}' \
-        | sed 's/%//g')
-    local -r muted=$("${muted_cmd[@]}" "${id}" \
-        | awk '{print $2}' \
-        | flag-to-bool)
-
-    jq -n "{\
-        id: \"$id\", \
-        volume: $volume, \
-        muted: $muted\
-    }"
+    device_list "${device_type}" | jq ".[] | select(.id == \"${id}\")"
 }
 
 function change_active_device {
