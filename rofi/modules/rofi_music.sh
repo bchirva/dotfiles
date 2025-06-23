@@ -21,43 +21,54 @@ function main {
     if [[ -n "${queue}" ]] ; then
 
         if [[ "${state_opt}" == "playing" ]]; then 
-            rofi_input+="$(colored-icon pango 󰏤 ) Pause\n"
+            local -r play_line="$(colored-icon pango 󰏤 ) Pause\n"
         else 
-            rofi_input+="$(colored-icon pango 󰐊 ) Play\n"
+            local -r play_line+="$(colored-icon pango 󰐊 ) Play\n"
         fi
-        local -r play_line=$(( line_idx ))
-        (( line_idx+=1))
 
         if [[ -n "${current_track}" ]]; then 
+            rofi_input+="$(colored-icon pango 󰒮 ) Previous track\n"
+            local -r prev_line_idx=$(( line_idx ))
+            (( line_idx+= 1))
+
+            rofi_input+="${play_line}"
+            local -r play_line_idx=$(( line_idx ))
+            (( line_idx+=1))
+
+            rofi_input+="$(colored-icon pango 󰒭 ) Next track\n"
+            local -r next_line_idx=$(( line_idx ))
+            (( line_idx += 1))
+
             IFS=':' read -r artist album title <<< "${current_track}"
             local -r rofi_message="<b>$(escape_pango "${title}")</b>"$'\n'"<i>󰀄 ${artist}</i>"$'\n'"<i>󰀥 ${album}</i>"
-
-            rofi_input+="$(colored-icon pango 󰒮 ) Previous track\n"
-            rofi_input+="$(colored-icon pango 󰒭 ) Next track\n"
-
-            local -r next_line=1
-            local -r prev_line=2
-            (( line_idx += 2))
         else 
+            rofi_input+="${play_line}"
+            local -r play_line_idx=$(( line_idx ))
+            (( line_idx+=1 ))
+
             local -r rofi_message="Playlist is stopped"$'\n'"$(wc -l <<< "${queue}") tracks in queue"
+            local -r prev_line_idx=-1 next_line_idx=-1
         fi
     else 
         local -r rofi_message="Current playlist is empty"
-        local -r play_line=-1 prev_line=-1 next_line=-1 
+        local -r play_line_idx=-1 prev_line_idx=-1 next_line_idx=-1 
     fi 
 
     rofi_input+="$(colored-icon pango 󰑖 ) Repeat\n"
-    local -r repeat_line=$(( line_idx ))
+    local -r repeat_line_idx=$(( line_idx ))
     (( line_idx+=1 ))
 
     rofi_input+="$(colored-icon pango 󰒟 ) Random\n"
-    local -r random_line=$(( line_idx ))
+    local -r random_line_idx=$(( line_idx ))
     (( line_idx+=1 ))
 
     local highlight_rows=()
-    [[ "${repeat_opt}" == "on" ]] && highlight_rows+=( "${repeat_line}" )
-    [[ "${random_opt}" == "on" ]] && highlight_rows+=( "${random_line}" )
-    local -r row_modifiers=(-a "$(IFS=","; echo "${highlight_rows[*]}")")
+    [[ "${repeat_opt}" == "on" ]] && highlight_rows+=( "${repeat_line_idx}" )
+    [[ "${random_opt}" == "on" ]] && highlight_rows+=( "${random_line_idx}" )
+    if (( play_line_idx != -1 )); then 
+        local -r selected_play_line=(-selected-row $(( play_line_idx)) )
+    fi 
+    local -r row_modifiers=(-a "$(IFS=","; echo "${highlight_rows[*]}")" "${selected_play_line[@]}")
 
     local -r variant=$(echo -en "${rofi_input}" | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_music.rasi" \
         -markup-rows -i -dmenu -no-custom \
@@ -71,17 +82,17 @@ function main {
     fi
 
     case "${variant}" in 
-    $(( play_line )) )
+    $(( play_line_idx )) )
         if [[ "${state_opt}" == "playing" ]]; then 
             mpc pause
         else 
             mpc play
         fi
         ;;
-    $(( prev_line )) ) mpc prev ;;
-    $(( next_line )) ) mpc next ;;
-    $(( repeat_line )) ) mpc repeat ;;
-    $(( random_line )) ) mpc random ;;
+    $(( prev_line_idx )) ) mpc prev ;;
+    $(( next_line_idx )) ) mpc next ;;
+    $(( repeat_line_idx )) ) mpc repeat ;;
+    $(( random_line_idx )) ) mpc random ;;
     *) exit 2 ;;
     esac 
 }
