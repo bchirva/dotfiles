@@ -24,3 +24,5 @@ alias lazygit="lazygit --use-config-file=\"${XDG_CONFIG_HOME}/lazygit/config.yml
 alias lgit="lazygit"
 alias ldock="lazydocker"
 alias yz="yazi"
+
+alias yayfzf="yay -Slq | fzf --multi --preview 'yay -Sii {1}' --preview-window=down:80% | xargs -ro yay -S"
