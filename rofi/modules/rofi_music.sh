@@ -14,7 +14,7 @@ function escape_pango {
 function main {
     local -r current_track="$(mpc --format "%artist%:%album%:%title%" current)"
     local -r queue=$(mpc playlist)
-    IFS=':' read -r state_opt random_opt repeat_opt <<< "$(mpc status "%state%:%random%:%repeat%")"
+    IFS=':' read -r state_opt random_opt repeat_opt consume_opt <<< "$(mpc status "%state%:%random%:%repeat%:%consume%")"
 
     local rofi_input
     local line_idx=0
@@ -62,9 +62,14 @@ function main {
     local -r random_line_idx=$(( line_idx ))
     (( line_idx+=1 ))
 
+    rofi_input+="$(colored-icon pango  ) Consume\n"
+    local -r consume_line_idx=$(( line_idx ))
+    (( line_idx+=1 ))
+
     local highlight_rows=()
     [[ "${repeat_opt}" == "on" ]] && highlight_rows+=( "${repeat_line_idx}" )
     [[ "${random_opt}" == "on" ]] && highlight_rows+=( "${random_line_idx}" )
+    [[ "${consume_opt}" == "on" ]] && highlight_rows+=( "${consume_line_idx}" )
     if (( play_line_idx != -1 )); then 
         local -r selected_play_line=(-selected-row $(( play_line_idx)) )
     fi 
@@ -93,6 +98,7 @@ function main {
     $(( next_line_idx )) ) mpc next ;;
     $(( repeat_line_idx )) ) mpc repeat ;;
     $(( random_line_idx )) ) mpc random ;;
+    $(( consume_line_idx )) ) mpc consume ;;
     *) exit 2 ;;
     esac 
 }
