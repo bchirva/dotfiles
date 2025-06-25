@@ -203,7 +203,7 @@ function wifi_menu {
         elif jq -e ".[$variant].known" <<< "${wifi_list_json}"; then 
             network-ctrl wifi connect "${selected_ssid}"
         else 
-            ssid_password=$(rofi -config "${XDG_CONFIG_HOME}/rofi/modules/input_config.rasi" \
+            local -r ssid_password=$(rofi -config "${XDG_CONFIG_HOME}/rofi/modules/input_config.rasi" \
                 -dmenu -password \
                 -p " " \
                 -mesg "Password for WiFi network <b>${selected_ssid}</b>" )
