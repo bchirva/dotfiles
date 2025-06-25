@@ -29,5 +29,4 @@ bspc rule -a 'Friends List' state=floating focus=off
 bspc rule -a 'Steam - News' state=floating focus=off
 bspc rule -a Zathura state=tiled
 bspc rule -a Gsimplecal state=floating center=on follow=on
-# bspc rule -a Eww state=floating
-bspc rule -a Eww state=floating focus=off sticky=on border=off
+
