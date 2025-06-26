@@ -16,5 +16,5 @@ configuration {
 	me-accept-entry: "MousePrimary";
 }
 
-@theme "./layout.rasi"
+@theme "config-launcher.rasi"
 

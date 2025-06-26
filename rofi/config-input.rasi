@@ -1,14 +1,10 @@
 configuration {
-    show-icons: true;
+    show-icons: false;
     me-select-entry: "";
 	me-accept-entry: "MousePrimary";
 }
 
-@theme "../theme/theme.rasi"
-
-* {
-    font: "Hack Nerd Font 11";
-}
+@theme "theme.rasi"
 
 window {
     location:           center;
@@ -17,7 +13,7 @@ window {
 }
 
 mainbox {
-    children:           [inputbar, message, listview];
+    children:           [message, inputbar];
 }
 
 inputbar {
@@ -26,22 +22,20 @@ inputbar {
 }
 
 prompt {
-    padding:            0 0.5em;
+    padding: 0 0.5em;
 }
 
 entry {
+    placeholder:        "";
     background-color:   @color-background-view; 
 }
 
-element-text {
-    padding: 0.25em;
-}
-
-element-icon {
+listview {
     enabled: false;
 }
 
 message {
     enabled:            true;
 }
+
 

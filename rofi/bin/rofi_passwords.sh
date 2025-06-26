@@ -59,7 +59,7 @@ function main() {
     local -r rows_count=$(( passwords_count + 1 + remove_password_line + sync_git_line + sync_usb_line ))
 
     local -r variant=$(echo -en "${rofi_input}" \
-        | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_config.rasi" \
+        | rofi -config "${XDG_CONFIG_HOME}/rofi/config.system.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
         -p "Password:" \
@@ -96,7 +96,7 @@ function main() {
 
     case ${variant} in 
         $(( idx_new)) )
-            local -r password_service=$(rofi -config "${XDG_CONFIG_HOME}/rofi/modules/input_config.rasi" \
+            local -r password_service=$(rofi -config "${XDG_CONFIG_HOME}/rofi/config.input.rasi" \
                 -dmenu \
                 -p "New password for:" \
                 -theme-str "window { width: 600px; }") 
@@ -124,7 +124,7 @@ function main() {
         ;;
         $(( idx_remove )) )
             local -r variant_remove=$(echo -en "${rofi_input_passwords}" \
-                | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_config.rasi" \
+                | rofi -config "${XDG_CONFIG_HOME}/rofi/config.system.rasi" \
                 -markup-rows -i -dmenu -no-custom \
                 -format 'i' \
                 -p "Password:" \
@@ -134,7 +134,7 @@ function main() {
             local -r selected_service="$(sed -n "$(( variant_remove + 1))p" <<< "${passwords}")"
             
             case $(echo -en "$(colored-icon pango 󰜺 ) Cancel \n$(colored-icon pango  "${ERROR_COLOR}" ) Remove\n" \
-                    | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_config.rasi" \
+                    | rofi -config "${XDG_CONFIG_HOME}/rofi/config.system.rasi" \
                     -markup-rows -i -dmenu -no-custom \
                     -format 'i' \
                     -p "Remove ${selected_service}?" \
@@ -182,7 +182,7 @@ function main() {
             done <<< "${usb_drives}"
 
             local -r variant_usb="$(echo -en "${rofi_input_usb}" \
-                | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_config.rasi" \
+                | rofi -config "${XDG_CONFIG_HOME}/rofi/config.system.rasi" \
                 -markup-rows -i -dmenu -no-custom \
                 -format 'i' \
                 -p "USB drives:" \
@@ -246,7 +246,7 @@ function main() {
             else
                 local -r variant_password_type=$( \
                     echo -en "$(colored-icon pango  ) Password\n$(colored-icon pango 󰀠 ) One-time password\n" \
-                    | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_config.rasi" \
+                    | rofi -config "${XDG_CONFIG_HOME}/rofi/config.system.rasi" \
                     -markup-rows -i -dmenu -no-custom \
                     -format 'i' \
                     -p "${selected_service}" \

@@ -1,4 +1,4 @@
-@theme "./theme/theme.rasi"
+@theme "theme.rasi"
 
 window {
     location:           north west;

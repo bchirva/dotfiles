@@ -86,7 +86,7 @@ function main_menu {
     fi
 
     local -r variant=$(echo -en "$rofi_input" \
-        | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_config.rasi" \
+        | rofi -config "${XDG_CONFIG_HOME}/rofi/config-system.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
         -p "Network:" \
@@ -182,7 +182,7 @@ function wifi_menu {
     fi
 
     local -r variant=$(echo -en "$rofi_input" \
-        | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_config.rasi" \
+        | rofi -config "${XDG_CONFIG_HOME}/rofi/config-system.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
         -p "WiFi:" \
@@ -203,7 +203,7 @@ function wifi_menu {
         elif jq -e ".[$variant].known" <<< "${wifi_list_json}"; then 
             network-ctrl wifi connect "${selected_ssid}"
         else 
-            local -r ssid_password=$(rofi -config "${XDG_CONFIG_HOME}/rofi/modules/input_config.rasi" \
+            local -r ssid_password=$(rofi -config "${XDG_CONFIG_HOME}/rofi/config-input.rasi" \
                 -dmenu -password \
                 -p " " \
                 -mesg "Password for WiFi network <b>${selected_ssid}</b>" )

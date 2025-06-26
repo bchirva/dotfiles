@@ -26,7 +26,7 @@ function main() {
             local -r variant_screen=0
         else 
             local -r variant_screen=$(echo -en "${rofi_input_screens}" \
-                | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_config.rasi" \
+                | rofi -config "${XDG_CONFIG_HOME}/rofi/config-system.rasi" \
                     -markup-rows -no-custom -i -dmenu \
                     -format "i" \
                     -p "Select screen" \
@@ -39,7 +39,7 @@ function main() {
     }
 
     local -r variant=$(rofi_input \
-        | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_config.rasi" \
+        | rofi -config "${XDG_CONFIG_HOME}/rofi/config-system.rasi" \
         -markup-rows -no-custom -i -dmenu \
         -format "i" \
         -p "Screen capture" \

@@ -14,7 +14,7 @@ function main() {
     }
 
     local -r variant=$(rofi_entries \
-        | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_config.rasi" \
+        | rofi -config "${XDG_CONFIG_HOME}/rofi/config-system.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
         -p "Control Center" \
@@ -24,7 +24,7 @@ function main() {
         0) rofi-audio-ctrl output ;;
         1) rofi-audio-ctrl input ;;
         2) rofi-network-ctrl main;;
-        3) rofi-bluetooth-ctr main;;
+        3) rofi-bluetooth-ctrl main;;
         4) kitty -e btm ;;
         5) rofi-colorschemes ;;
         6) rofi-powermenu ;;

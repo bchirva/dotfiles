@@ -4,7 +4,7 @@ configuration {
 	me-accept-entry: "MousePrimary";
 }
 
-@theme "../theme/theme.rasi"
+@theme "theme.rasi"
 
 * {
     font: "Hack Nerd Font 11";

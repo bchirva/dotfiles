@@ -2,7 +2,7 @@
 
 function main() {
     local -r input="$1"
-    rofi -config "${XDG_CONFIG_HOME}/rofi/modules/input_config.rasi" \
+    rofi -config "${XDG_CONFIG_HOME}/rofi/config-input.rasi" \
         -dmenu -password \
         -p " " \
         -mesg "<span>${input}</span>"

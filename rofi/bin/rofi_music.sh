@@ -75,7 +75,7 @@ function main {
     fi 
     local -r row_modifiers=(-a "$(IFS=","; echo "${highlight_rows[*]}")" "${selected_play_line[@]}")
 
-    local -r variant=$(echo -en "${rofi_input}" | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_music.rasi" \
+    local -r variant=$(echo -en "${rofi_input}" | rofi -config "${XDG_CONFIG_HOME}/rofi/config-music.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format "i" \
         -mesg "${rofi_message}" \

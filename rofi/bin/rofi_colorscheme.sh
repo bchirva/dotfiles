@@ -26,7 +26,7 @@ function main() {
     done
 
     local -r variant=$(rofi_input \
-        | rofi -config "${XDG_CONFIG_HOME}/rofi/modules/controls_config.rasi" \
+        | rofi -config "${XDG_CONFIG_HOME}/rofi/config-system.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format "i" \
         -p "Colorshemes:" \
