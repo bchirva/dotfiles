@@ -1,10 +1,7 @@
 #!/usr/bin/env bash 
 
-sed -e "s/\bon\b/true/g" \
-    -e "s/\benabled\b/true/g" \
-    -e "s/\bconnected\b/true/g" \
-    -e "s/\byes\b/true/g" \
-    -e "s/\boff\b/false/g" \
-    -e "s/\bdisabled\b/false/g" \
-    -e "s/\bdisconnected\b/false/g" \
-    -e "s/\bno\b/false/g"
+sed -E '
+    s/\b(on|enabled|connected|yes)\b/true/g;
+    s/\b(off|disabled|disconnected|no)\b/false/g
+    '
+
