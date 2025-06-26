@@ -29,7 +29,7 @@ function main {
         if [[ -n "${current_track}" ]]; then 
             rofi_input+="$(colored-icon pango 󰒮 ) Previous track\n"
             local -r prev_line_idx=$(( line_idx ))
-            (( line_idx+= 1))
+            (( line_idx+=1))
 
             rofi_input+="${play_line}"
             local -r play_line_idx=$(( line_idx ))
@@ -37,11 +37,10 @@ function main {
 
             rofi_input+="$(colored-icon pango 󰒭 ) Next track\n"
             local -r next_line_idx=$(( line_idx ))
-            (( line_idx += 1))
+            (( line_idx+=1))
 
             IFS=':' read -r artist album title <<< "${current_track}"
             local -r rofi_message="<b>$(escape_pango "${title}")</b>"$'\n'"<i>(󰀄 ${artist} / 󰀥 ${album})</i>"
-            # local -r rofi_message="<b>$(escape_pango "${title}")</b>"$'\n'"<i>󰀄 ${artist}</i>"$'\n'"<i>󰀥 ${album}</i>"
         else 
             rofi_input+="${play_line}"
             local -r play_line_idx=$(( line_idx ))
@@ -50,9 +49,13 @@ function main {
             local -r rofi_message="Playlist is stopped"$'\n'"$(wc -l <<< "${queue}") tracks in queue"
             local -r prev_line_idx=-1 next_line_idx=-1
         fi
+
+        rofi_input+="$(colored-icon pango 󰲸 ) Current playlist\n"
+        local -r playlist_line_idx=$(( line_idx ))
+        (( line_idx+=1))
     else 
         local -r rofi_message="Current playlist is empty"
-        local -r play_line_idx=-1 prev_line_idx=-1 next_line_idx=-1 
+        local -r play_line_idx=-1 prev_line_idx=-1 next_line_idx=-1 playlist_line_idx=-1
     fi 
 
     rofi_input+="$(colored-icon pango 󰑖 ) Repeat\n"
@@ -96,6 +99,33 @@ function main {
             mpc play
         fi
         ;;
+    $(( playlist_line_idx )) )
+        local -r MAX_PLAYLIST_LINES=15
+        local -r playlist_tracks="$(mpc --format "%title% <i>(%artist% - %album%)</i>" playlist)"
+        local -r playlist_size=$(grep -cv '^$' <<< "${playlist_tracks}")
+        local -r current_playlist_position=$(( $(mpc status "%songpos%") - 1 ))
+
+        local rofi_input_playlist=""
+        while read -r line 
+        do 
+            if [[ -n "${line}" ]]; then 
+                rofi_input_playlist+="$(colored-icon pango 󰝚 ) ${line}\n"
+            fi
+        done <<< "${playlist_tracks}"
+
+        local -r variant_track=$(echo -en "${rofi_input_playlist}" | rofi -config "${XDG_CONFIG_HOME}/rofi/config-dmenu-wide.rasi" \
+            -markup-rows -i -dmenu -no-custom \
+            -format "i" \
+            -p "󰎄 Playlist" \
+            -a "${current_playlist_position}" \
+            -selected-row "${current_playlist_position}" \
+            -l $(( playlist_size > MAX_PLAYLIST_LINES ? MAX_PLAYLIST_LINES : playlist_size ))
+        )
+
+        if [[ -n ${variant_track} ]]; then 
+            mpc play $(( variant_track + 1 ))
+        fi 
+    ;;
     $(( prev_line_idx )) ) mpc prev ;;
     $(( next_line_idx )) ) mpc next ;;
     $(( repeat_line_idx )) ) mpc repeat ;;
