@@ -16,5 +16,50 @@ configuration {
 	me-accept-entry: "MousePrimary";
 }
 
-@theme "config-launcher.rasi"
+@theme "theme.rasi"
 
+window {
+    location:   north west;
+    height:     calc(100% - 50px);
+    width:      500px;
+    x-offset:   4px;
+    y-offset:   46px;
+}
+
+mainbox {
+    children: [mode-switcher, inputbar, listview];
+}
+
+inputbar {
+    children: [entry];
+}
+
+element-icon {
+    size:               1.5em;
+    vertical-align:     0.5;
+    background-color:   transparent;
+    cursor:             pointer;
+}
+
+mode-switcher {
+    width:              100%;
+    spacing:            @items-spacing;
+    background-color:   @color-background-base;
+}
+
+button {
+    expand:             true;
+    padding:            @items-padding;
+    cursor:             pointer;
+    text-color:         @color-foreground-text;
+    text-transform:     bold;
+}
+
+button.normal {
+    background-color:   @color-background-view;
+}
+
+button.selected {
+    background-color:   @color-accent;
+    color:              @color-on-accent;
+}

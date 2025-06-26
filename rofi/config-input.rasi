@@ -1,41 +1,20 @@
-configuration {
-    show-icons: false;
-    me-select-entry: "";
-	me-accept-entry: "MousePrimary";
-}
-
 @theme "theme.rasi"
 
 window {
-    location:           center;
-    anchor:             center;
-    width:              350px;
+    location:   center;
+    anchor:     center;
+    width:      350px;
 }
 
 mainbox {
-    children:           [message, inputbar];
+    children:   [message, inputbar];
 }
 
 inputbar {
-    background-color:   @color-background-base;
-    children:           [prompt, entry];
-}
-
-prompt {
-    padding: 0 0.5em;
+    children:   [prompt, entry];
 }
 
 entry {
-    placeholder:        "";
-    background-color:   @color-background-view; 
+    placeholder: "";
 }
-
-listview {
-    enabled: false;
-}
-
-message {
-    enabled:            true;
-}
-
 

@@ -1,0 +1,19 @@
+@theme "theme.rasi"
+
+window {
+    location:   center;
+    anchor:     center;
+    width:      700px;
+}
+
+mainbox {
+    children: [inputbar, message, listview];
+}
+
+inputbar {
+    children: [prompt, entry];
+}
+
+listview { 
+    columns: 2;
+} 

@@ -1,0 +1,16 @@
+@theme "theme.rasi"
+
+window {
+    location:   center;
+    anchor:     center;
+    width:      400px;
+}
+
+mainbox {
+    children: [inputbar, message, listview];
+}
+
+inputbar {
+    children: [prompt, entry];
+}
+

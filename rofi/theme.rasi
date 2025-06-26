@@ -1,5 +1,10 @@
 @import "colors.rasi"
 
+configuration {
+    me-select-entry: "";
+	me-accept-entry: "MousePrimary";
+}
+
 * {
     padding:            0;
     margin:             0;
@@ -21,32 +26,35 @@ window {
     transparency:       "real";
     margin:             0;
     background-color:   transparent;
-
-    border-radius:      @corner-radius;
     border:             3px solid;
+    border-radius:      @corner-radius;
     border-color:       @color-accent;
 }
 
 mainbox {
     border-radius:      @corner-radius;
+    padding:            @items-padding;
+    spacing:            @items-padding;
 }
 
 inputbar {
     enabled:            true;
     spacing:            @items-spacing;
-    padding:            @items-padding;
     border-radius:      @corner-radius;
+    background-color:   @color-background-base;
 }
 
 prompt {
     vertical-align:     0.5;
-    font:               "Hack Nerd Font Bold 12";
+    padding:            0 0.5em;
     background-color:   inherit;
-    text-color:         @color-foreground-highlight;
+    text-color:         @color-accent;
+    text-transform:     bold uppercase; 
 }
 
 entry {
     enabled:            true;
+    background-color:   @color-background-view; 
     padding:            @items-padding;
     border-radius:      @corner-radius;
     text-color:         @color-foreground-text;
@@ -64,7 +72,6 @@ listview {
 
     spacing:            @items-spacing;
     padding:            0.3em;
-    margin:             @items-padding;
     background-color:   @color-background-view;
 }
 
@@ -76,18 +83,11 @@ element {
 }
 
 element-text {
-    margin:             0 0 0 0.3em;
     background-color:   transparent;
     text-color:         inherit;
     cursor:             pointer;
     vertical-align:     0.5;
-}
-
-element-icon {
-    size:               1.5em;
-    vertical-align:     0.5;
-    background-color:   transparent;
-    cursor:             pointer;
+    padding:            0.25em;
 }
 
 element normal.normal,
@@ -106,16 +106,17 @@ element normal.active,
 element alternate.active {
     background-color:   @color-background-focused;
     text-color:         @color-foreground-highlight;
-    border-color: @color-accent;
-    border: 0 0 2px 0;
+    border:             0 0 2px 0;
+    border-color:       @color-accent;
 }
 
 element selected.normal,
 element selected.urgent, 
 element selected.active {
-    color: @color-accent;
-    border-color: @color-accent;
-    border: 2px solid;
+    background-color:   @color-background-base;
+    text-color:         @color-accent;
+    border:             2px solid;
+    border-color:       @color-accent;
 }
 
 scrollbar {
@@ -127,11 +128,11 @@ scrollbar {
 
 message {
     padding:            0.5em;
-    margin:             @items-padding;
     background-color:   @color-background-view;
 }
 
 textbox {
     background-color:   inherit;
+    horizontal-align:   0.5;
 }
 

@@ -40,7 +40,8 @@ function main {
             (( line_idx += 1))
 
             IFS=':' read -r artist album title <<< "${current_track}"
-            local -r rofi_message="<b>$(escape_pango "${title}")</b>"$'\n'"<i>󰀄 ${artist}</i>"$'\n'"<i>󰀥 ${album}</i>"
+            local -r rofi_message="<b>$(escape_pango "${title}")</b>"$'\n'"<i>(󰀄 ${artist} / 󰀥 ${album})</i>"
+            # local -r rofi_message="<b>$(escape_pango "${title}")</b>"$'\n'"<i>󰀄 ${artist}</i>"$'\n'"<i>󰀥 ${album}</i>"
         else 
             rofi_input+="${play_line}"
             local -r play_line_idx=$(( line_idx ))
@@ -75,9 +76,10 @@ function main {
     fi 
     local -r row_modifiers=(-a "$(IFS=","; echo "${highlight_rows[*]}")" "${selected_play_line[@]}")
 
-    local -r variant=$(echo -en "${rofi_input}" | rofi -config "${XDG_CONFIG_HOME}/rofi/config-music.rasi" \
+    local -r variant=$(echo -en "${rofi_input}" | rofi -config "${XDG_CONFIG_HOME}/rofi/config-dmenu.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format "i" \
+        -p "󰎄 Music:" \
         -mesg "${rofi_message}" \
         "${row_modifiers[@]}" \
         -l ${line_idx})
