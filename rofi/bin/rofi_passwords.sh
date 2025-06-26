@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "${XDG_CONFIG_HOME}/theme.sh"
+source "${XDG_CONFIG_HOME}/rofi/colors.sh"
 
 function usb-available() {
     local mountpoint output
