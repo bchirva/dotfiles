@@ -10,7 +10,7 @@ $(colored-icon pango  ) Lock\n\
 $(colored-icon pango 󰍃 ) Logout\n"
 
     local -r variant=$(echo -en "${power_options}" \
-        | rofi -config "${XDG_CONFIG_HOME}/rofi/config-dmenu.rasi" \
+        | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
         -p "System:" \

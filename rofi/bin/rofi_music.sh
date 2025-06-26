@@ -79,7 +79,7 @@ function main {
     fi 
     local -r row_modifiers=(-a "$(IFS=","; echo "${highlight_rows[*]}")" "${selected_play_line[@]}")
 
-    local -r variant=$(echo -en "${rofi_input}" | rofi -config "${XDG_CONFIG_HOME}/rofi/config-dmenu.rasi" \
+    local -r variant=$(echo -en "${rofi_input}" | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format "i" \
         -p "󰎄 Music:" \
@@ -113,7 +113,7 @@ function main {
             fi
         done <<< "${playlist_tracks}"
 
-        local -r variant_track=$(echo -en "${rofi_input_playlist}" | rofi -config "${XDG_CONFIG_HOME}/rofi/config-dmenu-wide.rasi" \
+        local -r variant_track=$(echo -en "${rofi_input_playlist}" | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-wide-column.rasi" \
             -markup-rows -i -dmenu -no-custom \
             -format "i" \
             -p "󰎄 Playlist" \

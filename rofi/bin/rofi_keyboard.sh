@@ -20,7 +20,7 @@ function main() {
     done
 
     local -r variant=$(rofi_input \
-        | rofi -config "${XDG_CONFIG_HOME}/rofi/config-dmenu.rasi"\
+        | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi"\
         -markup-rows -i -dmenu -no-custom \
         -format "i" \
         -p "Keyboard layouts:" \
