@@ -42,7 +42,7 @@ function main() {
         | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
         -markup-rows -no-custom -i -dmenu \
         -format "i" \
-        -p "Screen capture" \
+        -p "󰹑 Screen capture:" \
         -l 4)
 
 

@@ -6,13 +6,13 @@ function main() {
     local rofi_input message
     case $device_type in
         "output")   
-            local -r device_icon="$(colored-icon pango  )"
+            local -r device_icon=""
             local -r volume_up_icon="$(colored-icon pango 󰝝 )"
             local -r volume_down_icon="$(colored-icon pango 󰝞 )"
             local -r mute_icon="$(colored-icon pango 󰝟 )"
             ;;
         "input")    
-            local -r device_icon="$(colored-icon pango )"
+            local -r device_icon=""
             local -r volume_up_icon="$(colored-icon pango 󰢴 )"
             local -r volume_down_icon="$(colored-icon pango 󰢳 )"
             local -r mute_icon="$(colored-icon pango  )"
@@ -37,7 +37,7 @@ function main() {
     for ((i = 0; i < $(jq ". | length" <<< "${device_list_json}"); i++))
     do
         device_id_list[${#device_id_list[@]}]=$(jq -r ".[$i].id" <<< "${device_list_json}")
-        rofi_input+="${device_icon} $(jq -r ".[$i].name" <<< "${device_list_json}")\n"
+            rofi_input+="$(colored-icon pango ${device_icon}) $(jq -r ".[$i].name" <<< "${device_list_json}")\n"
 
         if [ "$(jq -r '.id' <<< "${active_device_json}")" == "$(jq -r ".[$i].id" <<< "${device_list_json}")" ]; then
             active_device_idx=$i
@@ -60,7 +60,7 @@ function main() {
         | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
-        -p "Audio control:" \
+        -p "${device_icon} Audio:" \
         -mesg "${message}" \
         "${row_modifiers[@]}" \
         -l $((${#device_id_list[@]} + 3)) )

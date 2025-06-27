@@ -29,7 +29,7 @@ function main() {
         | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format "i" \
-        -p "Colorshemes:" \
+        -p " Colorshemes:" \
         "${row_modifiers[@]}" \
         -l ${#schemes[@]} )
 

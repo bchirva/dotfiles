@@ -43,7 +43,7 @@ function main_menu {
         | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
-        -p "Bluetooth:" \
+        -p "󰂯 Bluetooth:" \
         -mesg "${rofi_message}" \
         -l 4 )
 
@@ -111,7 +111,7 @@ function devices_menu() {
         | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
-        -p "Bluetooth:" \
+        -p "󰂳 Bluetooth:" \
         -mesg "${rofi_message}" \
         -l $((devices_count + 1)) )
 

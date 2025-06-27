@@ -62,7 +62,7 @@ function main() {
         | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-double-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
-        -p "Password:" \
+        -p " Passwords:" \
         -l $(( rows_count > MAX_PASSWORD_LINES ? MAX_PASSWORD_LINES : rows_count  )) )
 
     if [ ! "${variant}" ]; then
@@ -126,7 +126,7 @@ function main() {
                 | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-double-column.rasi" \
                 -markup-rows -i -dmenu -no-custom \
                 -format 'i' \
-                -p "Password:" \
+                -p " Passwords:" \
                 -l $(( passwords_count > MAX_PASSWORD_LINES ? MAX_PASSWORD_LINES : passwords_count  )) )
 
             local -r selected_service="$(sed -n "$(( variant_remove + 1))p" <<< "${passwords}")"
@@ -135,7 +135,7 @@ function main() {
                     | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
                     -markup-rows -i -dmenu -no-custom \
                     -format 'i' \
-                    -p "Confirm" \
+                    -p " Confirm:" \
                     -mesg "Remove password for <b>${selected_service}</b>?" \
                     -l 2) in 
                 0) exit ;;
@@ -183,7 +183,7 @@ function main() {
                 | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
                 -markup-rows -i -dmenu -no-custom \
                 -format 'i' \
-                -p "USB drives:" \
+                -p " USB drives:" \
                 -l "${usb_drives_count}" )"
 
             local -r usb_selected_mount=$(sed -n "$(( variant_usb + 1 ))p" <<< "${usb_drives}")
@@ -247,7 +247,7 @@ function main() {
                     | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
                     -markup-rows -i -dmenu -no-custom \
                     -format 'i' \
-                    -p "${selected_service}" \
+                    -p " ${selected_service}" \
                     -l 2)
 
                 case ${variant_password_type} in 

@@ -89,7 +89,7 @@ function main_menu {
         | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
-        -p "Network:" \
+        -p "󰖟 Network:" \
         -mesg "${rofi_message}" \
         -l $((2 + devices_count + vpns_count + wifi_available)) )
 
@@ -185,7 +185,7 @@ function wifi_menu {
         | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
-        -p "WiFi:" \
+        -p " WiFi:" \
         -mesg "${rofi_message}" \
         -l $((wifi_count + 1)) )
 

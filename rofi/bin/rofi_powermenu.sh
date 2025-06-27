@@ -13,7 +13,7 @@ $(colored-icon pango 󰍃 ) Logout\n"
         | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
-        -p "System:" \
+        -p " System:" \
         -l 4 )
 
     case $variant in

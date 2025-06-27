@@ -4,8 +4,8 @@ source "${XDG_CONFIG_HOME}/rofi/colors.sh"
 
 function main() {
     function rofi_entries() {
-        echo -en "$(colored-icon pango  ) Sound output\n"
-        echo -en "$(colored-icon pango  ) Sound input\n"
+        echo -en "$(colored-icon pango  ) Audio output\n"
+        echo -en "$(colored-icon pango  ) Audio input\n"
         echo -en "$(colored-icon pango 󰖟 ) Network\n"
         echo -en "$(colored-icon pango 󰂯 ) Bluetooth\n"
         echo -en "$(colored-icon pango  ) System monitor\n"
@@ -17,7 +17,7 @@ function main() {
         | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
-        -p "Control Center" \
+        -p " Control Center" \
         -l 7)
 
     case $variant in 
