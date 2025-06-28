@@ -7,7 +7,6 @@ source "${XDG_CONFIG_HOME}/bspwm/theme.sh"
 dunst &
 sxhkd &
 picom -b 
-setxkbmap -model pc105 -layout us,ru -option grp:alt_shift_toggle
 nitrogen --restore &
 udiskie &
 eww daemon
