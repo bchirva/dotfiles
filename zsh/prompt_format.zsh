@@ -1,4 +1,4 @@
-source $ZDOTDIR/theme.sh
+source ${XDG_CONFIG_HOME}/shell/theme.sh
 
 SEPARATOR_CHAR='»'
 GIT_BRANCH_CHAR=''

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "${XDG_CONFIG_HOME}/rofi/colors.sh"
+source "${XDG_CONFIG_HOME}/shell/theme.sh"
 
 function escape_pango {
     echo "$1" | sed \

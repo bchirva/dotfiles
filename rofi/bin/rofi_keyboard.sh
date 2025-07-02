@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "${XDG_CONFIG_HOME}/rofi/colors.sh"
+source "${XDG_CONFIG_HOME}/shell/theme.sh"
 
 function main() {
     readarray -t layouts <<< "$(xkb-switch --list)"

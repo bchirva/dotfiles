@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "$HOME"/.config/theme.sh
+source ${XDG_CONFIG_HOME}/shell/theme.sh
 
 function main() {
     local -r help_msg="colored-icon <pango/ansi> <symbol> [#hex color]"
