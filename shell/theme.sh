@@ -1,1 +1,1 @@
-../colorschemes/build/active/theme.sh
+../colorschemes/build/active/shell.sh

@@ -15,7 +15,7 @@ function main() {
 
 function pango_icon() {
     local -r icon=$1
-    local -r color="${2:-$ACCENT_COLOR}"
+    local -r color="${2:-$PRIMARY_COLOR}"
     echo -en "<span size=\"150%\" rise=\"-3pt\" color=\"${color}\">${icon} </span>"
 }
 

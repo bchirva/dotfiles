@@ -1,9 +1,0 @@
-background =        {bg_base}
-background-alt =    {bg_view}
-foreground =        {fg_text}
-accent =            {color_accent}
-warning =           {color_warning}
-error =             {color_error}
-success =           {color_success}
-disabled =          {fg_faded}
-

@@ -25,7 +25,7 @@ function git_prompt_block() {
         CHANGES=" (${GIT_DIFF_CHAR})"; else CHANGES=""
     fi
 
-    echo -en "${BRANCH}${TAG}%{$fg_bold[${ERROR_COLOR_NAME}]%}${CHANGES}%{$fg[${WARNING_COLOR_NAME}]%} ${SEPARATOR_CHAR} "
+    echo -en "${BRANCH}${TAG}%{$fg_bold[${WARNING_COLOR_NAME}]%}${CHANGES}%{$fg[${SECONDARY_COLOR_NAME}]%} ${SEPARATOR_CHAR} "
 }
 
 function venv_prompt_block() {
@@ -35,5 +35,5 @@ function venv_prompt_block() {
 }
 
 setopt prompt_subst
-export PROMPT='%{$fg[${ACCENT_COLOR_NAME}]%}%n ${SEPARATOR_CHAR} %~ ${SEPARATOR_CHAR} %{$fg[${WARNING_COLOR_NAME}]%}$(venv_prompt_block)$(git_prompt_block)%{$reset_color%}'
+export PROMPT='%{$fg[${PRIMARY_COLOR_NAME}]%}%n ${SEPARATOR_CHAR} %~ ${SEPARATOR_CHAR} %{$fg[${SECONDARY_COLOR_NAME}]%}$(venv_prompt_block)$(git_prompt_block)%{$reset_color%}'
 

@@ -53,6 +53,6 @@ button.normal {
 }
 
 button.selected {
-    background-color:   @color-accent;
-    color:              @color-on-accent;
+    background-color:   @color-primary;
+    color:              @color-on-primary;
 }

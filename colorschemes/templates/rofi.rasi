@@ -1,0 +1,45 @@
+* {{
+color-black:                {black};
+color-red:                  {red};
+color-green:                {green};
+color-yellow:               {yellow};
+color-blue:                 {blue};
+color-magenta:              {magenta};
+color-cyan:                 {cyan};
+color-white:                {white};
+color-black-bright:         {black_bright};
+color-red-bright:           {red_bright};
+color-green-bright:         {green_bright};
+color-yellow-bright:        {yellow_bright};
+color-blue-bright:          {blue_bright};
+color-magenta-bright:       {magenta_bright};
+color-cyan-bright:          {cyan_bright};
+color-white-bright:         {white_bright};
+
+color-background-base:          {background_base};
+color-background-view:          {background_view};
+color-background-focused:       {background_focused};
+color-background-highlighted:   {background_highlighted};
+color-background-faded:         {background_faded};
+
+color-foreground-text:          {foreground_base};
+color-foreground-highlight:     {foreground_highlighted};
+color-foreground-faded:         {foreground_faded};
+
+color-primary:                  {primary};
+color-primary-focused:          {primary_focused};
+color-primary-highlighted:      {primary_highlighted};
+color-on-primary:               {on_primary};
+
+color-secondary:                {secondary};
+color-secondary-focused:        {secondary_focused};
+color-secondary-highlighted:    {secondary_highlighted};
+color-on-secondary:             {on_secondary};
+
+color-warning:                  {warning};
+color-warning-focused:          {warning_focused};
+color-warning-highlighted:      {warning_highlighted};
+color-on-warning:               {on_warning};
+
+}}
+

@@ -1,16 +1,18 @@
 {
-  "black": "#232a2d",
-  "red": "#e57474",
-  "green": "#8ccf7e",
-  "yellow": "#e5c76b",
-  "blue": "#67b0e8",
-  "magenta": "#c47fd5",
-  "cyan": "#6cbfbf",
-  "white": "#dadada",
-  "background": "#232a2d",
-  "foreground": "#dadada",
-  "accent": "green",
-  "warning": "yellow",
-  "error": "red",
-  "success": "cyan"
+  "normal": {
+    "black": "#232a2d",
+    "white": "#dadada",
+    "red": "#e57474",
+    "green": "#8ccf7e",
+    "blue": "#67b0e8",
+    "yellow": "#e5c76b",
+    "cyan": "#6cbfbf",
+    "magenta": "#c47fd5"
+  },
+  "roles": {
+    "primary": "green",
+    "secondary": "cyan",
+    "warning": "red"
+  },
+  "variant": "dark"
 }

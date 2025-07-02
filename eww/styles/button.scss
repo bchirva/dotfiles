@@ -13,7 +13,7 @@ button {
 
   &:hover,
   &.selected {
-    border: $border-width solid $color-accent;
+    border: $border-width solid $primary;
   }
 }
 
@@ -21,8 +21,8 @@ button {
 
   &:hover,
   &.selected {
-    color: $color-on-accent;
-    background-color: $color-accent;
+    color: $on_primary;
+    background-color: $primary;
   }
 }
 
@@ -31,7 +31,7 @@ button {
 
   &:hover,
   &.selected {
-    color: $color-accent;
+    color: $primary;
   }
 }
 

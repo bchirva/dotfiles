@@ -12,25 +12,25 @@
     modal_background_color: None,
     tab_bar: (
         enabled: true,
-        active_style: (fg: "{bg_base}", bg: "{color_accent}", modifiers: "Bold"),
+        active_style: (fg: "{background_base}", bg: "{primary}", modifiers: "Bold"),
         inactive_style: (),
     ),
-    highlighted_item_style: (fg: "{color_accent}", modifiers: "Bold"),
-    current_item_style: (fg: "{bg_base}", bg: "{color_accent}", modifiers: "Bold"),
-    borders_style: (fg: "{color_accent}"),
-    highlight_border_style: (fg: "{color_accent}"),
+    highlighted_item_style: (fg: "{primary}", modifiers: "Bold"),
+    current_item_style: (fg: "{background_base}", bg: "{primary}", modifiers: "Bold"),
+    borders_style: (fg: "{primary}"),
+    highlight_border_style: (fg: "{primary}"),
     symbols: (song: "🎵", dir: "📁", marker: " "),
     progress_bar: (
         symbols: ["█", "", " "],
-        track_style: (fg: "{bg_view}"),
-        elapsed_style: (fg: "{color_accent}"),
-        thumb_style: (fg: "{color_accent}", bg: "{bg_view}"),
+        track_style: (fg: "{background_view}"),
+        elapsed_style: (fg: "{primary}"),
+        thumb_style: (fg: "{primary}", bg: "{background_view}"),
     ),
     scrollbar: (
         symbols: ["│", "█", "▲", "▼"],
         track_style: (),
         ends_style: (),
-        thumb_style: (fg: "{color_accent}"),
+        thumb_style: (fg: "{primary}"),
     ),
     song_table_format: [
         (
@@ -40,8 +40,8 @@
             width: "20%",
         ),
         (
-            prop: (kind: Property(Album), style: (fg: "{fg_text}"),
-                default: (kind: Text("Unknown Album"), style: (fg: "{fg_text}"))
+            prop: (kind: Property(Album), style: (fg: "{foreground_base}"),
+                default: (kind: Text("Unknown Album"), style: (fg: "{foreground_base}"))
             ),
             width: "30%",
         ),
@@ -107,9 +107,9 @@
         rows: [
             (
                 left: [
-                    (kind: Text("["), style: (fg: "{color_warning}", modifiers: "Bold")),
-                    (kind: Property(Status(StateV2(playing_label: "Playing", paused_label: "Paused", stopped_label: "Stopped"))), style: (fg: "{color_warning}", modifiers: "Bold")),
-                    (kind: Text("]"), style: (fg: "{color_warning}", modifiers: "Bold"))
+                    (kind: Text("["), style: (fg: "{secondary}", modifiers: "Bold")),
+                    (kind: Property(Status(StateV2(playing_label: "Playing", paused_label: "Paused", stopped_label: "Stopped"))), style: (fg: "{secondary}", modifiers: "Bold")),
+                    (kind: Text("]"), style: (fg: "{secondary}", modifiers: "Bold"))
                 ],
                 center: [
                     (kind: Property(Song(Title)), style: (modifiers: "Bold"),
@@ -117,7 +117,7 @@
                     )
                 ],
                 right: [
-                    (kind: Property(Widget(Volume)), style: (fg: "{color_accent}"))
+                    (kind: Property(Widget(Volume)), style: (fg: "{primary}"))
                 ]
             ),
             (
@@ -130,8 +130,8 @@
                     (kind: Text(" kbps)"))
                 ],
                 center: [
-                    (kind: Property(Song(Artist)), style: (fg: "{color_warning}", modifiers: "Bold"),
-                        default: (kind: Text("Unknown"), style: (fg: "{color_warning}", modifiers: "Bold"))
+                    (kind: Property(Song(Artist)), style: (fg: "{secondary}", modifiers: "Bold"),
+                        default: (kind: Text("Unknown"), style: (fg: "{secondary}", modifiers: "Bold"))
                     ),
                     (kind: Text(" - ")),
                     (kind: Property(Song(Album)),
@@ -141,10 +141,10 @@
                 right: [
                     (
                         kind: Property(Widget(States(
-                            active_style: (fg: "{fg_text}", modifiers: "Bold"),
-                            separator_style: (fg: "{fg_text}")))
+                            active_style: (fg: "{foreground_base}", modifiers: "Bold"),
+                            separator_style: (fg: "{foreground_base}")))
                         ),
-                        style: (fg: "{fg_faded}")
+                        style: (fg: "{foreground_faded}")
                     ),
                 ]
             ),

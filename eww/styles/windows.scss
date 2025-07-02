@@ -3,7 +3,7 @@
 .window {
   border-radius: $items-spacing;
   background-color: $color-background-base;
-  color: $color-foreground-text;
+  color: $color-foreground-base;
 
   &.bar {
     padding: calc(#{$items-spacing} / 3);

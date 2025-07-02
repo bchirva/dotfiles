@@ -13,13 +13,13 @@ calendar.header {
 
 calendar.highlight {
   font-weight: bold;
-  color: $color-accent;
+  color: $primary;
 }
 
 calendar:selected {
   font-weight: bold;
-  color: $color-on-accent;
-  background-color: $color-accent;
+  color: $on_primary;
+  background-color: $primary;
 }
 
 calendar:indeterminate {

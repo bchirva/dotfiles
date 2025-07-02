@@ -8,7 +8,7 @@ function M.setup()
 
 	local rules = {
 		-- Syntax groups
-		Comment = { fg = colors.fg_faded, italic = true }, -- any comment
+		Comment = { fg = colors.foreground_faded, italic = true }, -- any comment
 		SpecialComment = { fg = colors.green1, italic = true }, -- special things inside a comment
 
 		Constant = { fg = colors.blue1 }, -- any constant
@@ -58,25 +58,25 @@ function M.setup()
 		CursorIM = { link = "Cursor" }, -- like Cursor, but used when in IME mode
 		CursorColumn = { bg = colors.cursor_grey }, -- the screen column that the cursor is in when 'cursorcolumn' is set
 
-		DiffAdd = { bg = colors.green2, fg = colors.bg_buffer }, -- diff mode: added line
+		DiffAdd = { bg = colors.green2, fg = colors.background_buffer }, -- diff mode: added line
 		DiffChange = { fg = colors.yellow2, underline = true }, -- diff mode: changed line
-		DiffDelete = { bg = colors.red2, fg = colors.bg_buffer }, -- diff mode: deleted line
-		DiffText = { bg = colors.yellow2, fg = colors.bg_buffer }, -- diff mode: changed text within a changed line.
+		DiffDelete = { bg = colors.red2, fg = colors.background_buffer }, -- diff mode: deleted line
+		DiffText = { bg = colors.yellow2, fg = colors.background_buffer }, -- diff mode: changed text within a changed line.
 
 		EndOfBuffer = {}, -- filler lines (~) after the last line in the buffer
 
-		Pmenu = { bg = colors.bg_popup, fg = colors.fg_text }, -- popup menu: normal item
-		PmenuSel = { bg = colors.bg_highlighted, fg = colors.fg_highlighted }, -- popup menu: selected item
-		PmenuSbar = { bg = colors.bg_some }, -- popup menu: scrollbar
+		Pmenu = { bg = colors.background_focused, fg = colors.foreground_base }, -- popup menu: normal item
+		PmenuSel = { bg = colors.background_highlighted, fg = colors.foreground_highlighted }, -- popup menu: selected item
+		PmenuSbar = { bg = colors.background_some }, -- popup menu: scrollbar
 		PmenuThumb = { bg = colors.faded }, -- popup menu: thumb of the scrollbar
-		TabLine = { bg = colors.bg_line, fg = colors.fg_faded }, -- tab pages line, not active tab page label
+		TabLine = { bg = colors.background_line, fg = colors.foreground_faded }, -- tab pages line, not active tab page label
 		TabLineFill = { link = "TabLine" }, -- tab pages line, where there are no labels
-		TabLineSel = { bg = colors.bg_popup, fg = colors.fg_highlighted }, -- tab pages line, active tab page label
-		WildMenu = { bg = colors.blue1, fg = colors.bg_buffer }, -- current match in 'wildmenu' completion
-		VertSplit = { fg = colors.bg_line }, -- the column separating vertically split windows
+		TabLineSel = { bg = colors.background_focused, fg = colors.foreground_highlighted }, -- tab pages line, active tab page label
+		WildMenu = { bg = colors.blue1, fg = colors.background_buffer }, -- current match in 'wildmenu' completion
+		VertSplit = { fg = colors.background_line }, -- the column separating vertically split windows
 
-		StatusLine = { bg = colors.bg_line, fg = colors.fg_text }, -- status line of current window
-		StatusLineNC = { fg = colors.fg_faded }, -- status lines of not-current windows
+		StatusLine = { bg = colors.background_line, fg = colors.foreground_base }, -- status line of current window
+		StatusLineNC = { fg = colors.foreground_faded }, -- status lines of not-current windows
 		StatusLineTerm = { link = "StatusLine" }, -- status line of current :terminal window
 		StatusLineTermNC = { link = "StatusLineNC" }, -- status line of non-current :terminal window
 
@@ -95,26 +95,26 @@ function M.setup()
 		IncSearch = { bg = colors.warning, fg = colors.on_warning }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
 		MatchParen = { fg = colors.warning, underline = true }, -- the character under the cursor or just before it, if it is a paired bracket, and its match.
 
-		Normal = { bg = colors.bg_buffer, fg = colors.fg_text }, -- normal text
-		Visual = { bg = colors.bg_highlighted }, -- visual mode selection
+		Normal = { bg = colors.background_buffer, fg = colors.foreground_base }, -- normal text
+		Visual = { bg = colors.background_highlighted }, -- visual mode selection
 		VisualNOS = { link = "Visual" }, -- visual mode selection when vim is "Not Owning the Selection"
 		Terminal = { link = "Normal" }, -- terminal window (see terminal-size-color)
-		NonText = { fg = colors.fg_faded },
+		NonText = { fg = colors.foreground_faded },
 
-		Folded = { fg = colors.fg_faded, bold = true }, -- line used for closed folds
+		Folded = { fg = colors.foreground_faded, bold = true }, -- line used for closed folds
 		FoldColumn = {}, -- 'foldcolumn'
-		SignColumn = { bg = colors.bg_line }, -- column where signs are displayed
-		LineNr = { bg = colors.bg_line }, -- line number for ":number" and ":#" commands
+		SignColumn = { bg = colors.background_line }, -- column where signs are displayed
+		LineNr = { bg = colors.background_line }, -- line number for ":number" and ":#" commands
 		CursorLineNr = { link = "CursorLine" }, -- like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
 
 		Question = { fg = colors.cyan1 }, -- hit-enter prompt and yes/no questions
-		QuickFixLine = { bg = colors.cyan1, fg = colors.bg_buffer }, -- Current quickfix item in the quickfix window.
+		QuickFixLine = { bg = colors.cyan1, fg = colors.background_buffer }, -- Current quickfix item in the quickfix window.
 		Title = { fg = colors.green1 }, -- titles for output from ":set all", ":autocmd" etc.
 		Directory = { fg = colors.blue1 }, -- directory names (and other special names in listings)
 
 		-- Float windows
-		NormalFloat = { bg = colors.bg_popup },
-		FloatBorder = { fg = colors.fg_highlighted },
+		NormalFloat = { bg = colors.background_focused },
+		FloatBorder = { fg = colors.foreground_highlighted },
 		WinBar = { link = "NormalFloat" },
 		WinBarNC = { link = "NormalFloat" },
 
@@ -124,16 +124,16 @@ function M.setup()
 		TroubleIndent = { link = "Normal" },
 
 		-- NvimTree
-		NvimTreeNormal = { bg = colors.bg_buffer, fg = colors.fg_text },
-		NvimTreeWinSeparator = { bg = colors.bg_buffer },
-		NvimTreeNormalNC = { bg = colors.bg_buffer, fg = colors.fg_text },
+		NvimTreeNormal = { bg = colors.background_buffer, fg = colors.foreground_base },
+		NvimTreeWinSeparator = { bg = colors.background_buffer },
+		NvimTreeNormalNC = { bg = colors.background_buffer, fg = colors.foreground_base },
 		NvimTreeRootFolder = { fg = colors.blue2, bold = true },
 		NvimTreeGitDirty = { fg = colors.yellow1 },
 		NvimTreeGitNew = { fg = colors.green1 },
 		NvimTreeGitDeleted = { fg = colors.red1 },
-		NvimTreeOpenedFile = { bg = colors.bg_highlight },
+		NvimTreeOpenedFile = { bg = colors.background_highlight },
 		NvimTreeSpecialFile = { fg = colors.magenta1, underline = true },
-		NvimTreeIndentMarker = { fg = colors.fg_highlighted },
+		NvimTreeIndentMarker = { fg = colors.foreground_highlighted },
 		NvimTreeImageFile = {},
 		NvimTreeSymlink = { fg = colors.cyan1 },
 		NvimTreeFolderIcon = { fg = colors.blue1 },
@@ -193,7 +193,7 @@ function M.setup()
 		gitcommitDiscardedFile = { fg = colors.red1 },
 		gitcommitSelectedFile = { fg = colors.green1 },
 		gitcommitUnmergedFile = { fg = colors.magenta1 },
-		gitcommitSummary = { fg = colors.fg_text },
+		gitcommitSummary = { fg = colors.foreground_base },
 		gitcommitOverflow = { fg = colors.red1 },
 		gitcommitNoBranch = { link = "gitcommitBranch" },
 		gitcommitUntracked = { link = "gitcommitComment" },
@@ -204,7 +204,7 @@ function M.setup()
 		gitcommitUnmergedArrow = { link = "gitcommitUnmergedFile" },
 
 		-- Markdown
-		markdownBlockquote = { fg = colors.fg_faded },
+		markdownBlockquote = { fg = colors.foreground_faded },
 		markdownBold = { fg = colors.red1, bold = true },
 		markdownItalic = { fg = colors.blue1, italic = true },
 		markdownBoldItalic = { fg = colors.magenta1, bold = true, italic = true },
@@ -218,7 +218,7 @@ function M.setup()
 		markdownH5 = { link = "markdownH1" },
 		markdownH6 = { link = "markdownH1" },
 		markdownHeadingDelimiter = { fg = colors.red1, bold = true },
-		markdownHeadingRule = { fg = colors.fg_faded },
+		markdownHeadingRule = { fg = colors.foreground_faded },
 		markdownId = { fg = colors.yellow1 },
 		markdownIdDeclaration = { fg = colors.blue1 },
 		markdownIdDelimiter = { link = "markdownId" },
@@ -226,7 +226,7 @@ function M.setup()
 		markdownLinkText = { fg = colors.blue1 },
 		markdownListMarker = { fg = colors.red1 },
 		markdownOrderedListMarker = { fg = colors.red1 },
-		markdownRule = { fg = colors.fg_faded },
+		markdownRule = { fg = colors.foreground_faded },
 		markdownUrl = { fg = colors.cyan1, underline = true },
 
 		-- LSP Semantics Tokens
@@ -237,20 +237,22 @@ function M.setup()
 		["@lsp.type.function"] = { link = "Function" },
 		["@lsp.type.method"] = { link = "Function" },
 		["@lsp.type.macro"] = { link = "PreProc" },
-		["@lsp.type.variable"] = { fg = blend.mix(colors.fg_text, colors.yellow1, 0.9) },
-		["@lsp.type.parameter"] = { fg = blend.mix(colors.fg_text, colors.cyan2, 0.9) },
+		["@lsp.type.variable"] = { fg = blend.mix(colors.foreground_base, colors.yellow1, 0.9) },
+		["@lsp.type.parameter"] = { fg = blend.mix(colors.foreground_base, colors.cyan2, 0.9) },
 		["@lsp.type.property"] = { fg = blend.mix(colors.red1, colors.yellow1, 0.5) },
 		["@lsp.typemod.variable.static"] = { fg = blend.mix(colors.yellow1, colors.magenta1, 0.5) },
 		["@lsp.typemod.function.static"] = { link = "Function" },
 
-		SnacksIndent = { fg = colors.bg_line },
-		SnacksIndentScope = { fg = colors.fg_highlighted },
+		SnacksIndent = { fg = colors.background_line },
+		SnacksIndentScope = { fg = colors.foreground_highlighted },
+
+		AvanteSidebarNormal = { link = "Normal" },
 	}
 
 	if vim.opt.diff:get() then
 		rules.CursorLine = { underline = true } -- the screen line that the cursor is in when 'cursorline' is set
 	else
-		rules.CursorLine = { bg = colors.bg_line } -- the screen line that the cursor is in when 'cursorline' is set
+		rules.CursorLine = { bg = colors.background_line } -- the screen line that the cursor is in when 'cursorline' is set
 	end
 
 	for group, rule in pairs(rules) do
@@ -268,10 +270,10 @@ function M.setup()
 		},
 	})
 
-    vim.fn.sign_define('DapBreakpoint', {text='', texthl='ErrorMsg', linehl='', numhl=''})
-    vim.fn.sign_define('DapBreakpointCondition', {text='', texthl='WarningMsg', linehl='', numhl=''})
-    vim.fn.sign_define('DapLogPoint', {text='', texthl='Question', linehl='', numhl=''})
-    vim.fn.sign_define('DapBreakpointRejected', {text='󰜺', texthl='Error', linehl='', numhl=''})
+	vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" })
+	vim.fn.sign_define("DapBreakpointCondition", { text = "", texthl = "WarningMsg", linehl = "", numhl = "" })
+	vim.fn.sign_define("DapLogPoint", { text = "", texthl = "Question", linehl = "", numhl = "" })
+	vim.fn.sign_define("DapBreakpointRejected", { text = "󰜺", texthl = "Error", linehl = "", numhl = "" })
 
 	vim.g.terminal_color_0 = colors.black1
 	vim.g.terminal_color_8 = colors.black2
