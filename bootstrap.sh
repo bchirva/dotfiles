@@ -85,6 +85,7 @@ function main() {
         polybar
         rmpc
         rofi
+        shell
         sxhkd
         tmux
         yazi

@@ -24,8 +24,6 @@ GENERAIONS: dict[str, str] = {
     "kitty.template": "theme.kitty.conf",
     "lazydocker.template": "theme.lazydocker.yml",
     "lazygit.template": "theme.lazygit.yml",
-    "less-colors.template": "theme.less-colors",
-    "ls-colors.template": "theme.ls-colors",
     "neovim.template": "theme.nvim.lua",
     "polybar.template": "theme.polybar.ini",
     "rmpc.template": "theme.rmpc.ron",

@@ -6,8 +6,6 @@ PLUGINS_LIST=(
     github@zsh-users/zsh-syntax-highlighting
     github@Aloxaf/fzf-tab
 
-    local@ls-colors
-    local@man-colors
     local@tmux-autostart
 )
 

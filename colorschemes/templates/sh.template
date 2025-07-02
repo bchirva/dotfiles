@@ -12,3 +12,6 @@ WARNING_COLOR_NAME="{color_warning_name}"
 ERROR_COLOR_NAME="{color_error_name}"
 SUCCESS_COLOR_NAME="{color_success_name}"
 
+ACCENT_COLOR_ANSI="{color_accent_ansi}"
+WARNING_COLOR_ANSI="{color_warning_ansi}"
+ERROR_COLOR_ANSI="{color_error_ansi}"

@@ -19,8 +19,9 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' verbose yes
 
-# Plugins
-source ${ZDOTDIR}/aliases.zsh
+source ${XDG_CONFIG_HOME}/shell/aliases.sh
+source ${XDG_CONFIG_HOME}/shell/ls-colors.sh
+source ${XDG_CONFIG_HOME}/shell/man-colors.sh
 source ${ZDOTDIR}/keybindings.zsh
 source ${ZDOTDIR}/prompt_format.zsh
 source ${ZDOTDIR}/plugins.zsh
