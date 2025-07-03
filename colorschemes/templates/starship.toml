@@ -2,6 +2,7 @@
 
 format = """
 $hostname\
+$os\
 $username\
 $directory\
 $git_branch\
@@ -20,7 +21,20 @@ warning = "{warning}"
 [hostname]
 ssh_symbol = ""
 style = "warning"
-format = "[$ssh_symbol$hostname » ]($style)"
+format = "[$ssh_symbol $hostname » ]($style)"
+
+[os]
+format = "[$symbol ]($style)"
+style = "primary"
+disabled = false
+
+[os.symbols]
+Alpine = " "
+Arch = " "
+Debian = " "
+NixOS = "󱄅 "
+Ubuntu = "󰕈 "
+Unknown = " "
 
 [username]
 style_user = "primary"
@@ -29,6 +43,7 @@ format = "[$user » ]($style)"
 
 [directory]
 style = "primary"
+read_only_style = "warning"
 read_only = "󰉐 "
 format = "[$read_only]($read_only_style)[$path]($style)"
 
