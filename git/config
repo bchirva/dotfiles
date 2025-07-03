@@ -8,6 +8,7 @@
 [alias]
     hist = log --pretty=format:\"%h | %ad | %s%d [%an]\" --graph --date=format-local:\"%d %b %Y\"
     go = checkout
+    ss = status --short
 
 [merge]
     tool = vimdiff
