@@ -20,7 +20,7 @@ bspc config gapless_monocle      true
 bspc config border_width "3px"
 bspc config border_radius 8
 bspc config normal_border_color  "${BACKGROUND_COLOR}"
-bspc config focused_border_color "${ACCENT_COLOR}"
+bspc config focused_border_color "${PRIMARY_COLOR}"
 
 #bspc rule -a appname desktop='^N' args=values
 bspc rule -a 'Steam' focus=off
