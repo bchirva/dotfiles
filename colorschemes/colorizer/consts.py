@@ -30,7 +30,7 @@ GENERAIONS: list[str] = [
     "shell.sh",
     "starship.toml",
     "tmux.conf",
-    "yazi.conf",
+    "yazi.toml",
     "zathura.rc",
 ]
 
