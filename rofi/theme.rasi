@@ -19,7 +19,7 @@ configuration {
     border-radius:      0.5em;
 
     background-color:   @color-background-base;
-    text-color:         @color-foreground-text;
+    text-color:         @color-foreground-base;
     font:               "Hack Nerd Font 12";
     
     items-spacing:      0.25em;
@@ -63,7 +63,7 @@ entry {
     background-color:   @color-background-view; 
     padding:            @items-padding;
     border-radius:      @corner-radius;
-    text-color:         @color-foreground-text;
+    text-color:         @color-foreground-base;
     cursor:             text;
     placeholder:        "Search:";
     placeholder-color:  @color-foreground-faded;
@@ -106,7 +106,7 @@ element-icon {
 element normal.normal,
 element alternate.normal {
     background-color:   transparent;
-    text-color:         @color-foreground-text;
+    text-color:         @color-foreground-base;
 }
 
 element normal.urgent,
@@ -118,7 +118,7 @@ element alternate.urgent {
 element normal.active,
 element alternate.active {
     background-color:   @color-background-focused;
-    text-color:         @color-foreground-highlight;
+    text-color:         @color-foreground-highlighted;
     border:             0 0 2px 0;
     border-color:       @color-primary;
 }

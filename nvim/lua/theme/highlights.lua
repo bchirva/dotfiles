@@ -67,7 +67,7 @@ function M.setup()
 
 		Pmenu = { bg = colors.background_focused, fg = colors.foreground_base }, -- popup menu: normal item
 		PmenuSel = { bg = colors.background_highlighted, fg = colors.foreground_highlighted }, -- popup menu: selected item
-		PmenuSbar = { bg = colors.background_some }, -- popup menu: scrollbar
+		PmenuSbar = { bg = colors.background_highlighted }, -- popup menu: scrollbar
 		PmenuThumb = { bg = colors.faded }, -- popup menu: thumb of the scrollbar
 		TabLine = { bg = colors.background_line, fg = colors.foreground_faded }, -- tab pages line, not active tab page label
 		TabLineFill = { link = "TabLine" }, -- tab pages line, where there are no labels
@@ -80,20 +80,21 @@ function M.setup()
 		StatusLineTerm = { link = "StatusLine" }, -- status line of current :terminal window
 		StatusLineTermNC = { link = "StatusLineNC" }, -- status line of non-current :terminal window
 
-		WarningMsg = { fg = colors.warning }, -- warning messages
-		ErrorMsg = { fg = colors.error }, -- error messages on the command line
+		WarningMsg = { fg = colors.yellow1 }, -- warning messages
+		ErrorMsg = { fg = colors.red1 }, -- error messages on the command line
 		ModeMsg = {}, -- 'showmode' message (e.g., "-- INSERT --")
 		MoreMsg = {}, -- more-prompt
 
-		SpellBad = { fg = colors.error, underline = true }, -- word that is not recognized by the spellchecker
-		SpellCap = { fg = colors.warning }, -- word that should start with a capital
-		SpellLocal = { fg = colors.success }, -- word that is recognized by the spellchecker as one that is used in another region
-		SpellRare = { fg = colors.info }, -- word that is recognized by the spellchecker as one that is hardly ever used
+		SpellBad = { fg = colors.red1, underline = true }, -- word that is not recognized by the spellchecker
+		SpellCap = { fg = colors.yellow1 }, -- word that should start with a capital
+		SpellLocal = { fg = colors.green1 }, -- word that is recognized by the spellchecker as one that is used in another region
+		SpellRare = { fg = colors.blue1 }, -- word that is recognized by the spellchecker as one that is hardly ever used
 		Whitespace = {}, -- "nbsp", "space", "tab", "multispace", "lead" and "trail"
 
-		Search = { bg = colors.warning, fg = colors.on_warning }, -- last search pattern highlighting. Also used for similar items that need to stand out.
-		IncSearch = { bg = colors.warning, fg = colors.on_warning }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
-		MatchParen = { fg = colors.warning, underline = true }, -- the character under the cursor or just before it, if it is a paired bracket, and its match.
+		Search = { bg = colors.yellow2, fg = colors.background_buffer }, -- last search pattern highlighting. Also used for similar items that need to stand out.
+		IncSearch = { bg = colors.yellow2, fg = colors.background_buffer }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
+		MatchParen = { fg = colors.yelow2, underline = true }, -- the character under the cursor or just before it, if it is a paired bracket, and its match.
+        CurSearch = {bg = colors.yellow1, fg = colors.background_buffer, bold = true, italic = true},
 
 		Normal = { bg = colors.background_buffer, fg = colors.foreground_base }, -- normal text
 		Visual = { bg = colors.background_highlighted }, -- visual mode selection

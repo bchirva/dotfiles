@@ -44,7 +44,7 @@ button {
     expand:             true;
     padding:            @items-padding;
     cursor:             pointer;
-    text-color:         @color-foreground-text;
+    text-color:         @color-foreground-base;
     text-transform:     bold;
 }
 

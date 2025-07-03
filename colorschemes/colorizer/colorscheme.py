@@ -97,10 +97,10 @@ class Colorscheme:
         background_view = mix_color(background_base, foreground_base, 0.9)
         background_focused = mix_color(background_base, foreground_base, 0.8)
         background_highlighted = mix_color(background_base, foreground_base, 0.7)
-        background_faded = dim(background_base, variant, 0.6)
+        background_faded = dim(background_base, variant, 0.9)
 
         foreground_highlighted = bright(foreground_base, variant, 0.2)
-        foreground_faded = mix_color(foreground_base, background_base, 0.7)
+        foreground_faded = mix_color(foreground_base, background_base, 0.8)
 
         def resolve_role(name: str) -> dict[str, Any]:
             role_color_name = json_data["roles"][name]

@@ -22,8 +22,8 @@ color-background-focused:       {background_focused};
 color-background-highlighted:   {background_highlighted};
 color-background-faded:         {background_faded};
 
-color-foreground-text:          {foreground_base};
-color-foreground-highlight:     {foreground_highlighted};
+color-foreground-base:          {foreground_base};
+color-foreground-highlighted:   {foreground_highlighted};
 color-foreground-faded:         {foreground_faded};
 
 color-primary:                  {primary};
