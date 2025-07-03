@@ -86,6 +86,7 @@ function main() {
         rmpc
         rofi
         shell
+        starship
         sxhkd
         tmux
         yazi

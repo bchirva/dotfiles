@@ -18,20 +18,22 @@ ANSI_COLOR_CODES: dict[str, int] = {
 }
 
 GENERAIONS: list[str] = [
-     "dunst.conf",
-     "eww.scss",
-     "kitty.conf",
-     "lazydocker.yml",
-     "lazygit.yml",
-     "neovim.lua",
-     "polybar.ini",
-     "rmpc.ron",
-     "rofi.rasi",
-     "shell.sh",
-     "tmux.conf",
-     "yazi.conf",
-     "zathura.rc",
+    "dunst.conf",
+    "eww.scss",
+    "kitty.conf",
+    "lazydocker.yml",
+    "lazygit.yml",
+    "neovim.lua",
+    "polybar.ini",
+    "rmpc.ron",
+    "rofi.rasi",
+    "shell.sh",
+    "starship.toml",
+    "tmux.conf",
+    "yazi.conf",
+    "zathura.rc",
 ]
+
 
 class ThemeStyle(Enum):
     LIGHT = "light"
