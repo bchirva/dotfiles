@@ -23,6 +23,14 @@ local M = {{
     cyan2 =          "{cyan_bright}",
     magenta1 =       "{magenta}",
     magenta2 =       "{magenta_bright}",
+
+    primary =       "{primary}",
+    on_primary =    "{on_primary}",
+    secondary =     "{secondary}",
+    on_secondary =  "{on_secondary}",
+    warning =       "{warning}",
+    on_warning =    "{on_warning}",
+
 }}
 
 return M

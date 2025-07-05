@@ -1,1 +1,1 @@
-../../../colorschemes/build/active/neovim.lua
+../../../colorschemes/build/active/lua-module.lua
