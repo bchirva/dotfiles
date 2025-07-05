@@ -5,11 +5,17 @@ from .consts import ANSI_CLEAR_LINE, GENERAIONS
 
 
 def build_color_dotfiles(root_dir: str, palette_name: str, color_palette: Colorscheme):
-    for theme_file_name in GENERAIONS:
+    # for theme_file_name in GENERAIONS:
+    for theme_file_name in os.listdir(os.path.join(root_dir, "templates")):
         print(f"{ANSI_CLEAR_LINE}\tProcess {theme_file_name} template...", end="\r")
 
+        theme_file_path = os.path.join(root_dir, "templates", theme_file_name)
+
+        if (not os.path.isfile(theme_file_path)):
+            continue
+
         with open(
-            os.path.join(root_dir, "templates", theme_file_name),
+            os.path.join(theme_file_path),
             "r",
             encoding="utf-8",
         ) as theme_file:

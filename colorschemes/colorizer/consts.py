@@ -17,24 +17,6 @@ ANSI_COLOR_CODES: dict[str, int] = {
     "white": 37,
 }
 
-GENERAIONS: list[str] = [
-    "dunst.conf",
-    "eww.scss",
-    "kitty.conf",
-    "lazydocker.yml",
-    "lazygit.yml",
-    "neovim.lua",
-    "polybar.ini",
-    "rmpc.ron",
-    "rofi.rasi",
-    "shell.sh",
-    "starship.toml",
-    "tmux.conf",
-    "yazi.toml",
-    "zathura.rc",
-]
-
-
 class ThemeStyle(Enum):
     LIGHT = "light"
     DARK = "dark"
