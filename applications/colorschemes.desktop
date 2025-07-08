@@ -1,9 +1,8 @@
 [Desktop Entry]
 Type=Application
 Version=1.0
-Name=UI Colorscheme
-GenericName=Colorscheme chooser
-Comment=UI colorscheme swither
+Name=Colorscheme Selector
+Comment=Select desktop environment and terminal colorscheme
 Exec=/bin/bash -c "rofi-colorschemes"
 Icon=preferences-color
 Terminal=false

@@ -4,7 +4,6 @@ configuration {
     me-select-entry: "";
 	me-accept-entry: "MousePrimary";
 
-
     kb-accept-entry: "Return,KP_Enter";
     kb-remove-to-eol: "";
     kb-row-up: "Control+k,Up";

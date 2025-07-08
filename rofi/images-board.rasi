@@ -1,0 +1,35 @@
+@theme "theme.rasi"
+
+configuration {
+    show-icons: true;
+}
+
+window {
+    location:   center;
+    anchor:     center;
+    width:      800;
+}
+    
+inputbar {
+    children:   [prompt];
+}
+
+listview {
+    columns:    4;
+    flow:       horizontal;
+    spacing:    0;
+}
+
+element {
+    orientation: vertical;
+}
+
+element-text {
+    enabled:    false;
+}
+
+element-icon {
+    size:       200;
+}
+
+

@@ -4,7 +4,7 @@ source "${XDG_CONFIG_HOME}/shell/theme.sh"
 
 function main() {
     local -r power_options="\
-$(colored-icon pango  "${ERROR_COLOR}") Shutdown\n\
+$(colored-icon pango  "${WARNING_COLOR}") Shutdown\n\
 $(colored-icon pango 󰑓 "${WARNING_COLOR}") Reboot\n\
 $(colored-icon pango  ) Lock\n\
 $(colored-icon pango 󰍃 ) Logout\n"

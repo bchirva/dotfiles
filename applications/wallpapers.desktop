@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Wallpapers Selector
+Comment=Select desktop background image
+Exec=/bin/bash -c "rofi-wallpapers"
+Icon=preferences-desktop-wallpaper
+Terminal=false
