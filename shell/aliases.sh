@@ -6,6 +6,9 @@ alias less="less --raw-control-chars"
 alias df="df --human-readable"
 alias du="du --human-readable --max-depth=1"
 
+alias mv="mv --interactive"
+alias rm="rm --interactive"
+
 alias lazygit="lazygit --use-config-file=\"${XDG_CONFIG_HOME}/lazygit/config.yml,${XDG_CONFIG_HOME}/lazygit/theme.yml\""
 alias lgit="lazygit"
 alias ldock="lazydocker"
