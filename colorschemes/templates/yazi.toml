@@ -7,9 +7,9 @@ preview_hovered = {{ underline = true }}
 find_keyword  = {{ fg = "red", bold = true, italic = true, underline = true }}
 find_position = {{ bg = "reset", bold = true, italic = true }}
 
-marker_copied   = {{ fg = "green",  bg = "green" }}
-marker_cut      = {{ fg = "red",    bg = "red" }}
-marker_marked   = {{ fg = "cyan",   bg = "cyan" }}
+marker_copied   = {{ fg = "{secondary}",  bg = "{secondary}" }}
+marker_cut      = {{ fg = "{warning}",    bg = "{warning}" }}
+marker_marked   = {{ fg = "{primary}",   bg = "{primary}" }}
 marker_selected = {{ fg = "{primary}", bg = "{primary}" }}
 
 tab_active   = {{ reversed = true }}
@@ -106,7 +106,7 @@ rules = [
 	{{ name = "*", fg = "{foreground_base}" }},
     {{ name = "*", is = "link", italic = true }},
 	{{ name = "*", is = "orphan", bg = "red" }},
-	{{ name = "*", is = "exec"  , fg = "green" }},
+	{{ name = "*", is = "exec"  , fg = "{warning_name}" }},
 	{{ name = "*/", fg = "{primary}" }}
 ]
 
