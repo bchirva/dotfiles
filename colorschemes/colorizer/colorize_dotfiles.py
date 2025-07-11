@@ -1,11 +1,10 @@
 import os
 
 from .colorscheme import Colorscheme
-from .consts import ANSI_CLEAR_LINE, GENERAIONS
+from .consts import ANSI_CLEAR_LINE
 
 
 def build_color_dotfiles(root_dir: str, palette_name: str, color_palette: Colorscheme):
-    # for theme_file_name in GENERAIONS:
     for theme_file_name in os.listdir(os.path.join(root_dir, "templates")):
         print(f"{ANSI_CLEAR_LINE}\tProcess {theme_file_name} template...", end="\r")
 
