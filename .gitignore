@@ -7,3 +7,5 @@ colorschemes/build/
 yazi/plugins/
 **/__pycache__/
 tmux/plugins/
+qutebrowser/quickmarks
+qutebrowser/bookmarks/
