@@ -20,6 +20,9 @@ c.url.searchengines = {
 config.bind("<Ctrl-j>", "completion-item-focus --history next", mode="command")
 config.bind("<Ctrl-k>", "completion-item-focus --history prev", mode="command")
 config.bind(";v", "hint links spawn mpv {hint-url}")
+config.bind("zt", "config-cycle tabs.show always never")
+config.bind("zs", "config-cycle statusbar.show always in-mode")
+config.bind("zf", "fullscreen")
 
 
 # UI
