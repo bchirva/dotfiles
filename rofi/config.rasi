@@ -19,11 +19,9 @@ configuration {
 @theme "theme.rasi"
 
 window {
-    location:   north west;
-    height:     calc(100% - 50px);
+    location:   center;
+    height:     824px; 
     width:      500px;
-    x-offset:   4px;
-    y-offset:   46px;
 }
 
 mainbox {
