@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
 
-./bootstrap.sh --select fzf,git,lazygit,nvim,yazi,tmux,zsh --theme onedark
+if command -v slimdot >/dev/null 2>&1; then 
+    slimdot dev 
+else 
+    curl -sSL "https://raw.githubusercontent.com/bchirva/slimdot/master/slimdot" | bash -s -- dev 
+fi
+
 

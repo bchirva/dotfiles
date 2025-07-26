@@ -1,0 +1,46 @@
+#!/bin/bash
+
+SLIMDOT_IGNORE=(
+    themes
+    wacom
+    bootstrap-all.sh
+    bootstrap-dev.sh
+    xorg-nvidia.conf
+    xorg-nouveau.conf
+    )
+
+SLIMDOT_RULES=(
+    "dev fzf git lazygit lazydocker nvim shell starship tmux yazi zsh zprofile"
+    )
+
+_colorschemes() {
+    python3 ./colorschemes/build_colorscheme.py --all
+    if [ ! -e "${PWD}/colorschemes/build/active" ]; then
+        ln -sf "${PWD}/colorschemes/build/onedark" "${PWD}/colorschemes/build/active"
+    fi
+}
+
+_link_bin() {
+    ln -sf "${PWD}"/bin/* "${HOME}"/.local/bin/
+}
+
+_link_apps() {
+    ln -sf "${PWD}"/applications/* "${HOME}"/.local/share/applications
+}
+
+_make_std_dirs() {
+    mkdir -p "${HOME}"/.cache/zsh/
+    mkdir -p "${HOME}"/.config
+    mkdir -p "${HOME}"/.local/bin
+    mkdir -p "${HOME}"/.local/share/fonts
+    mkdir -p "${HOME}"/.local/share/icons
+    mkdir -p "${HOME}"/.themes
+}
+
+SLIMDOT_ACTIONS=(
+    "dirs _make_std_dirs"
+    "applications _link_apps"
+    "bin _link_bin"
+    "colorschemes _colorschemes"
+    )
+
