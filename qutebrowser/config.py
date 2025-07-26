@@ -3,7 +3,7 @@
 # pylint: disable=undefined-variable
 
 # General
-config.load_autoconfig()
+config.load_autoconfig(False)
 c.auto_save.session = False
 
 c.url.searchengines = {
@@ -23,13 +23,17 @@ config.bind(";v", "hint links spawn mpv {hint-url}")
 config.bind("zt", "config-cycle tabs.show always never")
 config.bind("zs", "config-cycle statusbar.show always in-mode")
 config.bind("zf", "fullscreen")
+config.bind("zz", "config-cycle tabs.show never; config-cycle statusbar.show in-mode")
+config.bind("zn", "config-cycle tabs.show always; config-cycle statusbar.show always")
 
 
 # UI
 c.fonts.tabs.selected = "bold"
 c.tabs.position = "left"
 c.tabs.padding = {"top": 8, "bottom": 8, "left": 4, "right": 4}
+# c.tabs.show = "always"
 c.statusbar.padding = {"bottom": 4, "top": 4, "left": 4, "right": 4}
+# c.statusbar.show = "always"
 c.scrolling.smooth = True
 
 c.colors.webpage.darkmode.enabled = True

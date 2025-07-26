@@ -9,3 +9,4 @@ yazi/plugins/
 tmux/plugins/
 qutebrowser/quickmarks
 qutebrowser/bookmarks/
+qutebrowser/autoconfig.yml
