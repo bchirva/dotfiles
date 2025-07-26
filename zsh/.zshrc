@@ -24,8 +24,7 @@ source ${XDG_CONFIG_HOME}/shell/ls-colors.sh
 source ${XDG_CONFIG_HOME}/shell/man-colors.sh
 source ${ZDOTDIR}/keybindings.zsh
 source ${ZDOTDIR}/plugins.zsh
+source ${ZDOTDIR}/prompt.zsh
 zsh-defer source ${XDG_CONFIG_HOME}/shell/version_managers.sh
 
-# source <(fzf --zsh)
-
-[ -n "$(command -v starship)" ] && eval "$(starship init zsh)"
+source <(fzf --zsh)

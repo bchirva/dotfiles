@@ -1,18 +1,5 @@
 #!/bin/bash
 
-SLIMDOT_IGNORE=(
-    themes
-    wacom
-    bootstrap-all.sh
-    bootstrap-dev.sh
-    xorg-nvidia.conf
-    xorg-nouveau.conf
-    )
-
-SLIMDOT_RULES=(
-    "dev fzf git lazygit lazydocker nvim shell starship tmux yazi zsh zprofile"
-    )
-
 _colorschemes() {
     python3 ./colorschemes/build_colorscheme.py --all
     if [ ! -e "${PWD}/colorschemes/build/active" ]; then
@@ -36,6 +23,19 @@ _make_std_dirs() {
     mkdir -p "${HOME}"/.local/share/icons
     mkdir -p "${HOME}"/.themes
 }
+
+SLIMDOT_IGNORE=(
+    themes
+    wacom
+    bootstrap-all.sh
+    bootstrap-dev.sh
+    xorg-nvidia.conf
+    xorg-nouveau.conf
+    )
+
+SLIMDOT_RULES=(
+    "dev fzf git lazygit lazydocker nvim shell tmux yazi zsh zprofile"
+    )
 
 SLIMDOT_ACTIONS=(
     "dirs _make_std_dirs"
