@@ -1,3 +1,25 @@
+*.foreground:   {foreground_base}
+*.background:   {background_base}
+*.cursorColor:  {foreground_highlighted} 
+
+*.color0:       {black}
+*.color1:       {red}
+*.color2:       {green}
+*.color3:       {yellow}
+*.color4:       {blue}
+*.color5:       {magenta}
+*.color6:       {cyan}
+*.color7:       {white}
+
+*.color8:       {black_bright}
+*.color9:       {red_bright}
+*.color10:      {green_bright}
+*.color11:      {yellow_bright}
+*.color12:      {blue_bright}
+*.color13:      {magenta_bright}
+*.color14:      {cyan_bright}
+*.color15:      {white_bright}
+
 Nsxiv.window.background: {background_base}
 Nsxiv.window.foreground: {foreground_base}
 Nsxiv.bar.font: xft:Hack:size=14:style=Regular 
