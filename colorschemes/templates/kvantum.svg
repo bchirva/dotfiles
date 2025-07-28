@@ -4235,7 +4235,7 @@
     <path
        d="m1-80c-3.324 0-6 2.676-6 6h6z"
        id="path1541"
-       style="fill:{foreground_highlighted};opacity:0.2" />
+       style="fill:{primary};opacity:0.2" />
   </g>
   <g
      id="button-focused-top"
@@ -4246,7 +4246,7 @@
        width="26"
        height="6"
        id="rect1544"
-       style="fill:{foreground_highlighted};opacity:0.2" />
+       style="fill:{primary};opacity:0.2" />
   </g>
   <g
      id="button-focused"
@@ -4256,7 +4256,7 @@
        y="-74"
        width="26"
        height="26"
-       fill="{foreground_highlighted}"
+       fill="{primary}"
        opacity=".2"
        style="paint-order:markers stroke fill"
        id="rect1547" />
@@ -4311,7 +4311,7 @@
     <path
        d="m1-80c-3.324 0-6 2.676-6 6h6z"
        id="path1558"
-       style="fill:{foreground_highlighted};opacity:0.25" />
+       style="fill:{primary};opacity:0.25" />
   </g>
   <g
      id="button-pressed-top"
@@ -4322,7 +4322,7 @@
        width="26"
        height="6"
        id="rect1561"
-       style="fill:{foreground_highlighted};opacity:0.25" />
+       style="fill:{primary};opacity:0.25" />
   </g>
   <g
      id="button-pressed"
@@ -4332,7 +4332,7 @@
        y="-74"
        width="26"
        height="26"
-       fill="{foreground_highlighted}"
+       fill="{primary}"
        opacity=".25"
        style="paint-order:markers stroke fill"
        id="rect1564" />
