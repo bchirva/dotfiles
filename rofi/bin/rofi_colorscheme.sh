@@ -39,8 +39,9 @@ function main() {
         rm "${colorschemes_dir}/active"
         ln -srf "${colorschemes_dir}/${new_scheme}" "${colorschemes_dir}/active"
 
-        local -r processes=(eww polybar dunst)
+        xrdb ~/.Xresources
 
+        local -r processes=(eww polybar dunst)
         for process in "${processes[@]}"; do 
             if pgrep "${process}"; then 
                 killall "${process}"

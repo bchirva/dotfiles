@@ -1,0 +1,3 @@
+Nsxiv.window.background: {background_base}
+Nsxiv.window.foreground: {foreground_base}
+Nsxiv.bar.font: xft:Hack:size=14:style=Regular 
