@@ -1,8 +1,10 @@
+"""Format template files content with theme colors"""
 import os
 
 from .colorscheme import Colorscheme
 from .consts import ANSI_CLEAR_LINE
 
+# pylint: disable=missing-function-docstring,missing-class-docstring
 
 def build_color_dotfiles(root_dir: str, palette_name: str, color_palette: Colorscheme):
     for theme_file_name in os.listdir(os.path.join(root_dir, "templates")):
