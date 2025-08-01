@@ -22,6 +22,7 @@ zstyle ':completion:*' verbose yes
 source ${XDG_CONFIG_HOME}/shell/aliases.sh
 source ${XDG_CONFIG_HOME}/shell/ls-colors.sh
 source ${XDG_CONFIG_HOME}/shell/man-colors.sh
+source ${XDG_CONFIG_HOME}/shell/ssh-agent-autostart.sh
 source ${ZDOTDIR}/keybindings.zsh
 source ${ZDOTDIR}/plugins.zsh
 source ${ZDOTDIR}/prompt.zsh
