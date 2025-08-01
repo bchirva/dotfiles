@@ -5,6 +5,7 @@ alias tree="tree -C"
 alias less="less --raw-control-chars"
 alias df="df --human-readable"
 alias du="du --human-readable --max-depth=1"
+alias vim="nvim"
 
 alias mv="mv --interactive"
 alias rm="rm --interactive"
