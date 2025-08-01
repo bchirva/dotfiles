@@ -5,8 +5,6 @@ PLUGINS_LIST=(
     github@zsh-users/zsh-autosuggestions
     github@zsh-users/zsh-syntax-highlighting
     github@Aloxaf/fzf-tab
-
-    local@tmux-autostart
 )
 
 load-plugins $PLUGINS_LIST
