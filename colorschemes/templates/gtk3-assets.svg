@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="200"
+   height="200"
+   version="1.1"
+   viewBox="0 0 200 200"
+   id="svg200"
+   sodipodi:docname="gtk3-assets.svg"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview202"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="3.335"
+     inkscape:cx="46.776612"
+     inkscape:cy="104.49775"
+     inkscape:window-width="1906"
+     inkscape:window-height="1020"
+     inkscape:window-x="4"
+     inkscape:window-y="50"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-nodes="false"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1"
+     showguides="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid1815"
+       originx="-200"
+       originy="0"
+       spacingy="1"
+       spacingx="1"
+       units="px"
+       visible="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs83">
+    <g
+       id="base-selectionmode-checkbox">
+      <rect
+         width="40"
+         height="40"
+         fill="none"
+         id="rect51"
+         x="0"
+         y="0" />
+      <rect
+         x="2"
+         y="2"
+         width="36"
+         height="36"
+         rx="4"
+         id="rect53" />
+    </g>
+    <g
+       id="base-selectionmode-checkmark">
+      <path
+         transform="matrix(1.5,0,0,1.5,2,2)"
+         d="M 9,16.17 4.83,12 3.41,13.41 9,19 21,7 19.59,5.59 Z"
+         id="path56" />
+    </g>
+  </defs>
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="background"
+     transform="translate(-200)">
+    <rect
+       x="200"
+       width="200"
+       height="200"
+       fill="url(#linearGradient1041)"
+       id="rect135"
+       style="fill:{background_base};fill-opacity:1"
+       y="0" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="assets"
+     transform="translate(-200)">
+    <g
+       id="selectionmode-checkbox-unchecked"
+       transform="translate(222,121)">
+      <use
+         width="100%"
+         height="100%"
+         fill="url(#color-surface-dark)"
+         xlink:href="#base-selectionmode-checkbox"
+         id="use177"
+         style="fill:{background_view};fill-opacity:1"
+         x="0"
+         y="0" />
+    </g>
+    <g
+       id="selectionmode-checkbox-checked"
+       transform="translate(270,121)">
+      <use
+         width="100%"
+         height="100%"
+         fill="url(#linearGradient1073)"
+         xlink:href="#base-selectionmode-checkbox"
+         id="use180"
+         style="fill:{primary};fill-opacity:1"
+         x="0"
+         y="0" />
+      <use
+         width="100%"
+         height="100%"
+         fill="url(#color-on-primary-light)"
+         xlink:href="#base-selectionmode-checkmark"
+         id="use182"
+         style="fill:{background_base};fill-opacity:0.87"
+         x="0"
+         y="0" />
+    </g>
+    <g
+       id="scale-horz-marks-before-slider"
+       transform="translate(224,36)">
+      <g
+         id="g1821"
+         style="fill:url(#linearGradient1843)">
+        <rect
+           width="24"
+           height="24"
+           fill="none"
+           id="rect1817"
+           x="0"
+           y="0" />
+        <path
+           transform="rotate(45,12,12)"
+           d="m 6,6 h 6 a 6,6 0 1 1 -6,6 z"
+           id="path1819"
+           style="fill:{background_base};fill-opacity:1;stroke:{primary};stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers" />
+      </g>
+    </g>
+    <g
+       id="scale-horz-marks-before-slider-disabled"
+       transform="translate(224,71)">
+      <g
+         id="g1829"
+         style="fill:url(#linearGradient1837)">
+        <rect
+           width="24"
+           height="24"
+           fill="none"
+           id="rect1825"
+           x="0"
+           y="0" />
+        <path
+           transform="rotate(45,12,12)"
+           d="m 6,6 h 6 a 6,6 0 1 1 -6,6 z"
+           id="path1827"
+           style="fill:{background_base};fill-opacity:1;stroke:{primary};stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.30000001;paint-order:stroke fill markers" />
+      </g>
+    </g>
+    <use
+       x="0"
+       y="0"
+       xlink:href="#scale-horz-marks-before-slider"
+       id="scale-horz-marks-after-slider"
+       transform="rotate(180,253.5,48)"
+       width="100%"
+       height="100%" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#scale-horz-marks-before-slider-disabled"
+       id="scale-horz-marks-after-slider-disabled"
+       transform="rotate(180,253.5,83)"
+       width="100%"
+       height="100%" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#scale-horz-marks-before-slider"
+       id="scale-vert-marks-before-slider"
+       transform="rotate(-90,271,13)"
+       width="100%"
+       height="100%" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#scale-horz-marks-before-slider-disabled"
+       id="scale-vert-marks-before-slider-disabled"
+       transform="rotate(-90,271,48)"
+       width="100%"
+       height="100%" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#scale-horz-marks-before-slider"
+       id="scale-vert-marks-after-slider"
+       transform="rotate(90,288.5,100.5)"
+       width="100%"
+       height="100%" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#scale-horz-marks-before-slider-disabled"
+       id="scale-vert-marks-after-slider-disabled"
+       transform="rotate(90,288.5,135.5)"
+       width="100%"
+       height="100%" />
+  </g>
+</svg>

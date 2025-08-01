@@ -9,9 +9,9 @@ import sys
 from typing import Any
 
 from colorizer.colorize_dotfiles import build_color_dotfiles
-# from colorizer.colorize_wallpapers import colorize_wallpapers
 from colorizer.colorscheme import Colorscheme
 from colorizer.consts import ANSI_CLEAR_LINE, ANSI_RESET_COLOR
+from colorizer.render_svg import render_gtk_assets
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -26,8 +26,8 @@ def main(params: dict[str, Any]):
             for name in params["select"].split(",")
         ]
 
-    if not os.path.isdir("build"):
-        os.mkdir("build")
+    if not os.path.isdir(os.path.join(ROOT_DIR, "build")):
+        os.mkdir(os.path.join(ROOT_DIR, "build"))
 
     for palette in palettes_list:
         with open(
@@ -43,7 +43,10 @@ def main(params: dict[str, Any]):
                 json.load(palette_file)
             )
             build_color_dotfiles(ROOT_DIR, palette_name, colorscheme_dict)
-            # colorize_wallpapers(ROOT_DIR, palette_name, colorscheme_dict)
+
+            if params["gtk"]:
+                print(f"{ANSI_CLEAR_LINE}Generate GTK assets for {palette.split('.')[0]}")
+                render_gtk_assets(ROOT_DIR, palette_name)
 
             ansi_color_begin = f"\033[{ colorscheme_dict.primary_ansi   }m"
             print(
@@ -60,6 +63,7 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument("-s", "--select", type=str, help="select colorschemes to generate")
 parser.add_argument("-a", "--all", action="store_true", help="generate all colorshemes")
+parser.add_argument("-g", "--gtk", action="store_true", help="generate GTK2/3/4 png-assets")
 args = parser.parse_args()
 
 if len(sys.argv) == 1:
