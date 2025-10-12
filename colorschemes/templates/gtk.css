@@ -1,0 +1,41 @@
+@define-color color-black                   {black};
+@define-color color-red                     {red};
+@define-color color-green                   {green};
+@define-color color-yellow                  {yellow};
+@define-color color-blue                    {blue};
+@define-color color-magenta                 {magenta};
+@define-color color-cyan                    {cyan};
+@define-color color-white                   {white};
+@define-color color-black-bright            {black_bright};
+@define-color color-red-bright              {red_bright};
+@define-color color-green-bright            {green_bright};
+@define-color color-yellow-bright           {yellow_bright};
+@define-color color-blue-bright             {blue_bright};
+@define-color color-magenta-bright          {magenta_bright};
+@define-color color-cyan-bright             {cyan_bright};
+@define-color color-white-bright            {white_bright};
+
+@define-color color-background-base         {background_base};
+@define-color color-background-view         {background_view};
+@define-color color-background-focused      {background_focused};
+@define-color color-background-highlighted  {background_highlighted};
+
+@define-color color-foreground-base         {foreground_base};
+@define-color color-foreground-highlighted  {foreground_highlighted};
+@define-color color-foreground-faded        {foreground_faded};
+
+@define-color primary                       {primary};
+@define-color primary-focused               {primary_focused};
+@define-color primary-highlighted           {primary_highlighted};
+@define-color on-primary                    {on_primary};
+
+@define-color secondary                     {secondary};
+@define-color secondary-focused             {secondary_focused};
+@define-color secondary-highlighted         {secondary_highlighted};
+@define-color on-secondary                  {on_secondary};
+
+@define-color warning                       {warning};
+@define-color warning-focused               {warning_focused};
+@define-color warning-highlighted           {warning_highlighted};
+@define-color on-warning                    {on_warning};
+

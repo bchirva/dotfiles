@@ -1,0 +1,14 @@
+# Text/base
+gtk-color-scheme = "text_color:{foreground_base}\nbase_color:{background_base}"
+# Foreground/background
+gtk-color-scheme = "fg_color:{foreground_base}\nbg_color:{background_base}"
+# Selected foreground/background
+gtk-color-scheme = "selected_fg_color:{foreground_base}\nselected_bg_color:{primary}"
+# Titlebar foreground/background
+gtk-color-scheme = "titlebar_fg_color:{foreground_base}\ntitlebar_bg_color:{background_view}"
+# Menus
+gtk-color-scheme = "menu_color:{background_focused}"
+# Tooltips foreground/background
+gtk-color-scheme = "tooltip_fg_color:{foreground_base}\ntooltip_bg_color:{background_focused}"
+# Links
+gtk-color-scheme = "link_color:{primary}\nvisited_link_color:{secondary}"

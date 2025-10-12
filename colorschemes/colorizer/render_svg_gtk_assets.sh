@@ -2,19 +2,17 @@
 
 readonly THEME_DIR="$1"
 
-RENDER_SVG="$(command -v rsvg-convert)" || true
+if ! command -v inkscape; then 
+    echo "Inkscape not found"
+    exit 1
+fi
 
 if [[ -z "${THEME_DIR}" ]]; then 
     echo "THEME_DIR doesn't specified"
     exit 2
 fi 
 
-if [[ -z "${RENDER_SVG}" ]]; then 
-    echo "rsvg-convert doesn't installed"
-    exit 1
-fi 
-
-readonly GTK_ASSETS=(
+readonly GTK3_ASSETS=(
     "selectionmode-checkbox-unchecked"
     "selectionmode-checkbox-checked"
     "scale-horz-marks-before-slider"
@@ -38,7 +36,7 @@ readonly GTK_ASSETS=(
 )
 
 readonly GTK2_ASSETS=(
-    "entry-background"
+    "entry-background-normal"
     "entry-background-disabled"
     "entry"
     "entry-hover"
@@ -68,7 +66,7 @@ readonly GTK2_ASSETS=(
     "spin-rtl-up-disabled"
     "spin-rtl-down"
     "spin-rtl-down-hover"
-    "spin-rtl-down-disabled"
+    "spin-rtl-down-disabled" 
     "checkbox-unchecked"
     "checkbox-unchecked-hover"
     "checkbox-unchecked-active"
@@ -177,28 +175,37 @@ readonly GTK2_ASSETS=(
     "progressbar-progress"
 )
 
-readonly GTK_ASSETS_DIR="${THEME_DIR}/gtk3-assets"
-readonly GTK_SRC_FILE="${THEME_DIR}/gtk3-assets.svg"
+function build_export_actions() {
+    local -r OUT_DIR="$1"
+    local -r DPI="$2"
+    shift 2
+    local -r ids=("$@")
+
+    local actions=("export-id-only:false;export-do;")
+    for id in "${ids[@]}"; do
+        if [[ -n "${DPI}" ]]; then
+            actions+=("export-id:${id};export-id-only:true;export-area-drawing:true;export-type:png;export-dpi:${DPI};export-filename:${OUT_DIR}/${id}@2.png;export-do;")
+        else
+            actions+=("export-id:${id};export-id-only:true;export-area-drawing:true;export-type:png;export-filename:${OUT_DIR}/${id}.png;export-do;")
+        fi 
+    done 
+
+    printf '%s' "${actions[*]}"
+}
+
+readonly GTK3_ASSETS_DIR="${THEME_DIR}/gtk3-assets"
 readonly GTK2_ASSETS_DIR="${THEME_DIR}/gtk2-assets"
+readonly GTK3_SRC_FILE="${THEME_DIR}/gtk3-assets.svg"
 readonly GTK2_SRC_FILE="${THEME_DIR}/gtk2-assets.svg"
 
-# Render GTK3/4 assets
-[[ -d "${GTK_ASSETS_DIR}" ]] && rm -rf "${GTK_ASSETS_DIR}"
-mkdir -p "${GTK_ASSETS_DIR}"
+[[ -d "${GTK3_ASSETS_DIR}" ]] && rm -rf "${GTK3_ASSETS_DIR}"
+mkdir -p "${GTK3_ASSETS_DIR}"
 
-for i in "${GTK_ASSETS[@]}"; do
-  "$RENDER_SVG" --export-id "${i}" \
-      "${GTK_SRC_FILE}" > "${GTK_ASSETS_DIR}/${i}.png"
-  "$RENDER_SVG" --export-id "${i}" --dpi-x=192 --dpi-y=192 --zoom 2 \
-      "${GTK_SRC_FILE}" > "${GTK_ASSETS_DIR}/${i}@2.png"
-done
+inkscape --batch-process "${GTK3_SRC_FILE}" --actions="$(build_export_actions "${GTK3_ASSETS_DIR}" "" "${GTK3_ASSETS[@]}")" > /dev/null
+inkscape --batch-process "${GTK3_SRC_FILE}" --actions="$(build_export_actions "${GTK3_ASSETS_DIR}" 192 "${GTK3_ASSETS[@]}")" > /dev/null
 
 # Render GTK2 assets
 [[ -d "${GTK2_ASSETS_DIR}" ]] && rm -rf "${GTK2_ASSETS_DIR}"
 mkdir -p "${GTK2_ASSETS_DIR}"
-
-for i in "${GTK2_ASSETS[@]}"; do
-    "$RENDER_SVG" --export-id "$i" \
-        "${GTK2_SRC_FILE}" > "${GTK2_ASSETS_DIR}/${i}.png"
-done
+inkscape --batch-process "${GTK2_SRC_FILE}" --actions="$(build_export_actions "${GTK2_ASSETS_DIR}" "" "${GTK2_ASSETS[@]}")" > /dev/null
 
