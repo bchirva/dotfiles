@@ -3,10 +3,10 @@ super + Return
     kitty
 
 # launcher
-super + r
+super + space
     rofi -show drun
 
-super + w
+alt + Tab
     rofi -show window
 
 super + c
