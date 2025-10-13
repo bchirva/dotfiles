@@ -114,8 +114,9 @@ function M.setup()
 		Directory = { fg = colors.blue1 }, -- directory names (and other special names in listings)
 
 		-- Float windows
-		NormalFloat = { bg = colors.background_focused },
+		NormalFloat = { bg = colors.background_buffer },
 		FloatBorder = { fg = colors.foreground_highlighted },
+    
 		WinBar = { link = "NormalFloat" },
 		WinBarNC = { link = "NormalFloat" },
 

@@ -30,6 +30,12 @@ return {
 	config = function()
 		local which_key = require("which-key")
 
+		which_key.setup({
+			win = {
+				border = "rounded",
+			},
+		})
+
 		which_key.add({
 			{ "<leader>nh", desc = "No highlight" },
 			{ "<leader>c", group = "Comment..." },
