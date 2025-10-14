@@ -24,8 +24,20 @@ _make_std_dirs() {
     mkdir -p "${HOME}"/.themes
 }
 
+_deploy_ui_theme() {
+    [ -e "${HOME}/.config/Kvantum" ] && mv "${HOME}/.config/Kvantum" "${HOME}/.config/Kvantum.backup"
+    [ -e "${HOME}/.themes/Quartz" ] && mv "${HOME}/.themes/Quartz" "${HOME}/.themes/Quartz.backup"  
+    [ -e "${HOME}/.config/gtk-2.0" ] && mv "${HOME}/.config/gtk-2.0" "${HOME}/.config/gtk-2.0.backup"
+    [ -e "${HOME}/.config/gtk-3.0" ] && mv "${HOME}/.config/gtk-3.0" "${HOME}/.config/gtk-3.0.backup"
+
+    ln -sf "${PWD}"/ui/kvantum "${HOME}"/.config/Kvantum
+    ln -sf "${PWD}"/ui/gtk/theme/Quartz "${HOME}"/.themes/Quartz
+    ln -sf "${PWD}"/ui/gtk/config/* "${HOME}"/.config/
+
+    python3 ./colorschemes/build_colorscheme.py --all --gtk
+}
+
 SLIMDOT_IGNORE=(
-    themes
     wacom
     bootstrap-all.sh
     bootstrap-dev.sh
@@ -35,6 +47,7 @@ SLIMDOT_IGNORE=(
 
 SLIMDOT_RULES=(
     "dev fzf git lazygit lazydocker nvim shell tmux yazi zsh zprofile"
+    "ui dirs ui"
     )
 
 SLIMDOT_ACTIONS=(
@@ -42,5 +55,6 @@ SLIMDOT_ACTIONS=(
     "applications _link_apps"
     "bin _link_bin"
     "colorschemes _colorschemes"
+    "ui _deploy_ui_theme"
     )
 
