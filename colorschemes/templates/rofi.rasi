@@ -18,9 +18,8 @@ color-white-bright:         {white_bright};
 
 color-background-base:          {background_base};
 color-background-view:          {background_view};
-color-background-focused:       {background_focused};
-color-background-highlighted:   {background_highlighted};
-color-background-faded:         {background_faded};
+color-background-focused:       {primary}80;
+color-background-highlighted:   {foreground_base}40;
 
 color-foreground-base:          {foreground_base};
 color-foreground-highlighted:   {foreground_highlighted};
