@@ -20,6 +20,19 @@
 *.color14:      {cyan_bright}
 *.color15:      {white_bright}
 
-Nsxiv.window.background: {background_base}
-Nsxiv.window.foreground: {foreground_base}
+Nsxiv.mark.foreground: {primary}
 Nsxiv.bar.font: xft:Hack:size=14:style=Regular 
+
+st.font:                Hack Nerd Font:pixelsize=16:antialias=true:autohint=true
+st.bold_font:			0
+st.cursorColor:			{primary}
+st.termname:			xterm-256color
+st.shell:			    /bin/sh
+st.bellvolume:			100
+st.tabspaces:			4
+st.chscale:			    1.0
+st.cwscale:			    1.0
+
+dmenu.font :            Hack Nerd Font:pixelsize=16:antialias=true:autohint=true
+dmenu.selbackground:    {primary}
+dmenu.selforeground:    {on_primary}
