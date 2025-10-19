@@ -4,10 +4,10 @@ super + Return
 
 # launcher
 super + space
-    rofi -show drun
+    rofi -modi drun -show drun
 
 alt + Tab
-    rofi -show window
+    rofi -modi window -show window
 
 super + c
     rofi-master

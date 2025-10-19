@@ -1,6 +1,4 @@
 configuration {
-    modi: "drun,window";
-
     window-format: "{c} ({t})";
 
     display-drun: "󱇙 Applications";
