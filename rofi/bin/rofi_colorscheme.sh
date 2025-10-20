@@ -3,9 +3,7 @@
 source "${XDG_CONFIG_HOME}/shell/theme.sh"
 
 function main() {
-    local -r colorschemes_dir="$(readlink -f \
-        "$(dirname \
-        "$(readlink -f $HOME/Documents/dotfiles/colorschemes/build)")/..")/colorschemes/build/"
+    local -r colorschemes_dir="$(dirname "$(readlink -f "${XDG_CONFIG_HOME}/rofi/colors.rasi")")/.."
 
     readarray -t schemes <<< "$(ls -1 "${colorschemes_dir}" \
         | sed -e 's/\///g' -e '/active/d')"
@@ -39,7 +37,7 @@ function main() {
         rm "${colorschemes_dir}/active"
         ln -srf "${colorschemes_dir}/${new_scheme}" "${colorschemes_dir}/active"
 
-        xrdb ~/.Xresources
+        xrdb -merge ~/.Xresources
 
         local -r processes=(eww polybar dunst)
         for process in "${processes[@]}"; do 
