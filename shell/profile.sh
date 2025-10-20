@@ -25,8 +25,6 @@ export PYTHON_HISTORY=$XDG_STATE_HOME/python_history
 export RUSTUP_HOME=$XDG_DATA_HOME/rustup
 export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
 export SSH_ASKPASS=rofi-askpass
-export STARSHIP_CACHE=$XDG_CACHE_HOME/starship/cache
-export STARSHIP_CONFIG=$XDG_CONFIG_HOME/starship/config.toml
 
 export EDITOR="nvim"
 
