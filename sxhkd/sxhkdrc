@@ -1,6 +1,6 @@
 # terminal emulator
 super + Return
-    kitty
+    $TERMINAL 
 
 # launcher
 super + space
@@ -20,6 +20,9 @@ super + p
 
 super + m
     rofi-music
+
+super + w
+    $BROWSER
 
 # -------------------
 # bspwm hotkeys
