@@ -119,6 +119,7 @@ function M.setup()
     
 		WinBar = { link = "NormalFloat" },
 		WinBarNC = { link = "NormalFloat" },
+        WinSeparator = { bg = "None", fg = colors.foreground_faded },
 
 		-- Trouble
 		TroubleNormal = { link = "Normal" },
@@ -126,7 +127,7 @@ function M.setup()
 		TroubleIndent = { link = "Normal" },
 
 		-- NvimTree
-		NvimTreeNormal = { bg = colors.background_buffer, fg = colors.foreground_base },
+		NvimTreeNormal = { link = "Normal" },
 		NvimTreeWinSeparator = { bg = colors.background_buffer },
 		NvimTreeNormalNC = { bg = colors.background_buffer, fg = colors.foreground_base },
 		NvimTreeRootFolder = { fg = colors.blue2, bold = true },
@@ -249,6 +250,7 @@ function M.setup()
 		SnacksIndentScope = { fg = colors.foreground_highlighted },
 
 		AvanteSidebarNormal = { link = "Normal" },
+        AvanteSidebarWinSeparator = { bg = "None", fg = colors.foreground_faded },
 	}
 
 	if vim.opt.diff:get() then
