@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+WALLPAPERS_FILE="${XDG_DATA_HOME}/wallpaper"
+
+function _select_wallpapers {
+    local -r WALLPAPERS_PATH="${HOME}/Images/wallpapers/"
+    local -r selected="$(nsxiv --stdout --recursive --thumbnail --name "WALLPAPERS" "${WALLPAPERS_PATH}")"
+
+    [[ -z "${selected}" ]] && exit 
+
+    ln -snf "${selected}" "${WALLPAPERS_FILE}"
+    _load_wallpapers
+}
+
+function _load_wallpapers {
+    if ! [[ -L "${WALLPAPERS_FILE}" && -e "${WALLPAPERS_FILE}" ]]; then 
+        exit 1
+    fi 
+
+    xrandr --query | awk '/ connected/ {print $1}' | \
+    while read -r head; do 
+        xwallpaper --output "${head}" --center "${WALLPAPERS_FILE}" 
+    done 
+}
+
+function main {
+    case "$1" in 
+        select) _select_wallpapers ;;
+        load ) _load_wallpapers ;;
+        *) exit 2 ;;
+    esac 
+}
+
+main "$@"

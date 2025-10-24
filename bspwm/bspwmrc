@@ -7,7 +7,7 @@ source "${XDG_CONFIG_HOME}/shell/theme.sh"
 dunst &
 sxhkd &
 picom -b 
-nitrogen --restore &
+wallpapers-ctrl set
 udiskie &
 eww daemon
 launch-polybar bspwm
