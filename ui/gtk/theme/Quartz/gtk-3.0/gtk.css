@@ -3077,7 +3077,7 @@ levelbar block.high, levelbar block:not(.empty) {
 }
 
 levelbar block.full {
-  background-color: @secondary (success);
+  background-color: @secondary;
 }
 
 levelbar block.empty {
@@ -6663,7 +6663,7 @@ window.background.csd > box.vertical > overlay > stack > box.vertical > box.hori
 }
 
 dialog-host > floating-sheet > sheet > widget.response-area {
-  padding: 6px !important;
+  padding: 6px;
 }
 
 window.background:not(.csd):not(.solid-csd) > button:not(:hover):not(:active):not(:checked):not(:disabled):not(.flat) {
@@ -8469,7 +8469,7 @@ menubar.-vala-panel-background > menuitem:disabled {
 /* these are pretty self explicative */
 @define-color warning_color mix(@warning, @color-foreground-base, 0.75);
 @define-color error_color @warning;
-@define-color success_color @secondary (success);
+@define-color success_color @secondary;
 /* these colors are exported for the window manager and shouldn't be used in applications,
 read if you used those and something break with a version upgrade you're on your own... */
 @define-color wm_focused_title @color-foreground-base;

@@ -154,7 +154,7 @@ row label.subtitle {
 }
 
 .success {
-  color: @secondary (success);
+  color: @secondary;
 }
 
 .warning {
@@ -586,8 +586,8 @@ entry.success:focus-within {
   transition: all 75ms cubic-bezier(0, 0, 0.2, 1), outline 300ms cubic-bezier(0, 0, 0.2, 1), box-shadow 300ms cubic-bezier(0, 0, 0.2, 1);
   background-color: alpha(@secondary, 0.1);
   box-shadow: inset 0 0 0 2px transparent;
-  color: @secondary (success);
-  outline: 2px solid @secondary (success);
+  color: @secondary;
+  outline: 2px solid @secondary;
   outline-offset: -2px;
 }
 
@@ -601,7 +601,7 @@ entry.success:hover:not(:focus-within) {
   transition: all 75ms cubic-bezier(0, 0, 0.2, 1), box-shadow 300ms cubic-bezier(0, 0, 0.2, 1);
   background-color: alpha(currentColor, 0.08);
   box-shadow: inset 0 0 0 2px alpha(currentColor, 0.08);
-  color: @secondary (success);
+  color: @secondary;
   outline: 0 solid transparent;
   outline-offset: 2px;
 }
@@ -621,7 +621,7 @@ entry headerbar popover.background entry.success > text > selection,
 headerbar popover.background entry entry.success > text > selection,
 entry.success > text > selection {
   background-color: alpha(@secondary, 0.25);
-  color: @secondary (success);
+  color: @secondary;
 }
 
 
@@ -638,7 +638,7 @@ entry headerbar popover.background entry.success image:active,
 headerbar popover.background entry entry.success image:active,
 entry.success image:hover,
 entry.success image:active {
-  color: @secondary (success);
+  color: @secondary;
 }
 
 
@@ -4091,7 +4091,7 @@ levelbar block.high, levelbar block:not(.empty) {
 }
 
 levelbar block.full {
-  background-color: @secondary (success);
+  background-color: @secondary;
 }
 
 levelbar block.empty {
@@ -4620,7 +4620,7 @@ row.entry.warning text > cursor-handle > contents {
 }
 
 row.entry.success text > selection:focus-within {
-  background-color: alpha(@secondary (success), 0.2);
+  background-color: alpha(@secondary, 0.2);
 }
 
 row.entry.success text > cursor-handle > contents {
@@ -6896,7 +6896,7 @@ star-image > image.non-starred:hover {
 }
 
 .upgrade-banner-background {
-  background: linear-gradient(to bottom, @secondary (success), @secondary);
+  background: linear-gradient(to bottom, @secondary, @secondary);
   color: white;
 }
 
@@ -8544,7 +8544,7 @@ themeswitcher checkbutton.dark {
 /* these are pretty self explicative */
 @define-color warning_color mix(@warning, @color-foreground-base, 0.75);
 @define-color error_color @warning;
-@define-color success_color @secondary (success);
+@define-color success_color @secondary;
 /* these colors are exported for the window manager and shouldn't be used in applications,
 read if you used those and something break with a version upgrade you're on your own... */
 @define-color wm_focused_title @color-foreground-base;
@@ -8579,9 +8579,9 @@ read if you used those and something break with a version upgrade you're on your
 @define-color destructive_bg_color @warning;
 @define-color destructive_fg_color @color-foreground-base;
 @define-color destructive_color @warning;
-@define-color success_bg_color @secondary (success);
+@define-color success_bg_color @secondary;
 @define-color success_fg_color @color-foreground-base; 
-@define-color success_color @secondary (success);
+@define-color success_color @secondary;
 @define-color warning_bg_color mix(@warning, @color-foreground-base, 0.75);
 @define-color warning_fg_color @color-foreground-base; 
 @define-color warning_color mix(@warning, @color-foreground-base, 0.75);
