@@ -2,18 +2,32 @@ source "${XDG_CONFIG_HOME}"/shell/theme.sh
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-prompt_info() {
+prompt_info() {  
     local -r LAST_CMD_EXIT=$?
 
     local LOGO VENV_INFO DIR GIT_INFO LAST_CMD
 
-    case "$1" in 
+    local -r shell="${1:-bash}"
+
+    case "${shell}" in 
         bash) 
-            local -r FG_PRIMARY=""
-            local -r FG_SECONDARY=""
-            local -r FG_WARNING=""
-            local -r FG_RESET=""
-            local -r DIR_FORMAT=""
+            declare -A ANSI_COLORS=(
+                [black]='\e[0;30m'
+                [red]='\e[0;31m'
+                [green]='\e[0;32m'
+                [yellow]='\e[0;33m'
+                [blue]='\e[0;34m'
+                [magenta]='\e[0;35m'
+                [cyan]='\e[0;36m'
+                [white]='\e[0;37m'
+                )
+            
+            local -r FG_PRIMARY=${ANSI_COLORS[${PRIMARY_COLOR_NAME}]}
+            local -r FG_SECONDARY=${ANSI_COLORS[${SECONDARY_COLOR_NAME}]}
+            local -r FG_WARNING=${ANSI_COLORS[${WARNING_COLOR_NAME}]}
+            local -r FG_RESET='\e[m'
+
+            local -r DIR_FORMAT="\W"
             ;;
         zsh)
             local -r FG_PRIMARY="%F{${PRIMARY_COLOR_NAME}}"
@@ -86,6 +100,6 @@ prompt_info() {
         LAST_CMD=" ${FG_WARNING}!${SEP}${FG_RESET} "
     fi
     
-    echo -en "\n${LOGO}${VENV_INFO}${DIR}${GIT_INFO}${LAST_CMD}"
+    printf '%s' $'\n'"${LOGO}${VENV_INFO}${DIR}${GIT_INFO}${LAST_CMD}"
 }
 
