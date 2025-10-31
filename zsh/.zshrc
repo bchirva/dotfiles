@@ -37,10 +37,11 @@ PROMPT='$(prompt_info zsh)'
 
 source $ZDOTDIR/plugins/loader.zsh
 load-plugins \
-    https://github.com/romkatv/zsh-defer \
-    https://github.com/zsh-users/zsh-autosuggestions \
-    https://github.com/zsh-users/zsh-syntax-highlighting \
-    https://github.com/Aloxaf/fzf-tab
+    "https://github.com/romkatv/zsh-defer" \
+    "https://github.com/zsh-users/zsh-autosuggestions" \
+    "https://github.com/zsh-users/zsh-syntax-highlighting" 
+
+command -v fzf >/dev/null && load-plugins "https://github.com/Aloxaf/fzf-tab"
 
 zsh-defer source ${XDG_CONFIG_HOME}/shell/version_managers.sh
 
