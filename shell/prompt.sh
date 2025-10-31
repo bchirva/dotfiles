@@ -4,12 +4,12 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 prompt_info() {  
     local -r LAST_CMD_EXIT=$?
+    
+    local -r SEP="󰄾"
+    local PROMPT_STR=""
 
-    local LOGO VENV_INFO DIR GIT_INFO LAST_CMD
-
-    local -r shell="${1:-bash}"
-
-    case "${shell}" in 
+    local -r ACTIVE_SHELL="${1:-bash}"
+    case "${ACTIVE_SHELL}" in 
         bash) 
             declare -A ANSI_COLORS=(
                 [black]='\e[0;30m'
@@ -26,8 +26,7 @@ prompt_info() {
             local -r FG_SECONDARY=${ANSI_COLORS[${SECONDARY_COLOR_NAME}]}
             local -r FG_WARNING=${ANSI_COLORS[${WARNING_COLOR_NAME}]}
             local -r FG_RESET='\e[m'
-
-            local -r DIR_FORMAT="\W"
+            local -r DIR_FORMAT="\w"
             ;;
         zsh)
             local -r FG_PRIMARY="%F{${PRIMARY_COLOR_NAME}}"
@@ -39,28 +38,45 @@ prompt_info() {
         *) exit 1 ;;
     esac 
 
-    local -r SEP="󰄾"
+    #~~~ New line ~~~#
 
-    # System logo
-    LOGO="${FG_PRIMARY}"
+    PROMPT_STR+=$'\n'
+
+    #~~~ System logo ~~~#
+
+    PROMPT_STR+="${FG_PRIMARY}"
     case "$( awk -F '=' '/^ID=/{print $2}' /etc/os-release )" in
-        arch)   LOGO+=" " ;;
-        debian) LOGO+=" " ;;
-        ubuntu) LOGO+=" " ;;
-        *)      LOGO+=" "
+        arch)   PROMPT_STR+=" " ;;
+        debian) PROMPT_STR+=" " ;;
+        ubuntu) PROMPT_STR+=" " ;;
+        *)      PROMPT_STR+=" "
     esac 
-    LOGO+="${FG_RESET} "
+    PROMPT_STR+="${FG_RESET} "
+
+    #~~~ User info ~~~#
 
     # if (( UID != 1000 )); then 
     #     USER_INFO="${USER} ${SEP}"
     # fi 
     
+    #~~~ Virtual environment ~~~#
+
     if [ -n "${VIRTUAL_ENV}" ]; then 
-        VENV_INFO="${FG_SECONDARY} $(basename "${VIRTUAL_ENV}") ($(python3 --version | awk '{print $NF}')) ${SEP}${FG_RESET} "
+        PROMPT_STR+="${FG_SECONDARY} $(basename "${VIRTUAL_ENV}") ($(python3 --version | awk '{print $NF}')) ${SEP}${FG_RESET} "
     fi
 
-    # Git info
+    #~~~ Readonly marker ~~~#
+
+    if [ -d . ] && [ ! -w . ]; then 
+        local -r READONLY_MARKER="${FG_WARNING} 󰉐 ${FG_RESET}"
+    fi
+
+    #~~~ Git repository or PWD info ~~~#
+
+    PROMPT_STR+="${FG_PRIMARY}"
     if [[ $(git status 2>/dev/null; echo $?) != 128 ]]; then
+        local GIT_PATH="" GIT_INFO=""
+
         GIT_PATH="$(basename "$(git rev-parse --show-toplevel)")"
 
         local -r repo_path=$(git rev-parse --show-prefix | sed 's:/$::')
@@ -69,8 +85,9 @@ prompt_info() {
         fi
         
         local -r git_head="$(git status --branch 2>/dev/null | head -n 1 | awk '{print $NF}')"
+        GIT_INFO=" ${FG_SECONDARY}${SEP}  ${git_head}"
+
         local -r git_tag=$(git tag --points-at 2>/dev/null)
-        GIT_INFO=" ${SEP}  ${git_head}"
         if [[ -n "${git_tag}" ]]; then 
             if [[ "${git_tag}" != "${git_head}" ]]; then 
                 GIT_INFO+="$(echo "${git_tag}" | xargs -n1 printf '  %s')"
@@ -79,27 +96,26 @@ prompt_info() {
             fi
         fi
 
-        GIT_INFO="${FG_SECONDARY}${GIT_INFO}${FG_RESET}"
         if [[ -n "$(git status --short 2>/dev/null)" ]]; then 
-            GIT_INFO+=" ${FG_WARNING}(~)${FG_RESET}"
+            GIT_INFO+=" ${FG_WARNING}(~)"
         fi
+        GIT_INFO+="${FG_RESET}"
 
-        DIR="${FG_PRIMARY}${GIT_PATH}${FG_RESET}"
+        PROMPT_STR+="${GIT_PATH}${READONLY_MARKER}${GIT_INFO}"
     else 
-        DIR="${FG_PRIMARY}${DIR_FORMAT}${FG_RESET}"
+        PROMPT_STR+="${DIR_FORMAT}${READONLY_MARKER}"
     fi
+    PROMPT_STR+="${FG_RESET}"
 
-    if [ -d . ] && [ ! -w . ]; then 
-        DIR+="${FG_WARNING} 󰉐 ${FG_RESET}"
-    fi
+    #~~~ Last command exit status ~~~#
 
-    # Last command exit status
     if (( LAST_CMD_EXIT == 0 )); then 
-        LAST_CMD=" ${FG_PRIMARY}${SEP}${FG_RESET} "
+        PROMPT_STR+=" ${FG_PRIMARY}"
     else 
-        LAST_CMD=" ${FG_WARNING}!${SEP}${FG_RESET} "
+        PROMPT_STR+=" ${FG_WARNING}!"
     fi
+    PROMPT_STR+="${SEP}${FG_RESET} "
     
-    printf '%s' $'\n'"${LOGO}${VENV_INFO}${DIR}${GIT_INFO}${LAST_CMD}"
+    printf '%s' "${PROMPT_STR}"
 }
 
