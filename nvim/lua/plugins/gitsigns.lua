@@ -1,5 +1,7 @@
 return {
 	"lewis6991/gitsigns.nvim",
+    lazy = false,
+    auto_attach = true,
 	opts = {
 		signs = {
 			add = { text = "+" },
