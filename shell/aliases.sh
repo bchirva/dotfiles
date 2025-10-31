@@ -1,5 +1,6 @@
 alias hist="cat ${HISTFILE} | head -n -1"
 alias ls="ls --color=always --human-readable --group-directories-first"
+alias ll="ls -lA"
 alias grep="grep --color=always"
 alias tree="tree -C"
 alias less="less --raw-control-chars"
