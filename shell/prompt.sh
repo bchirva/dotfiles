@@ -26,14 +26,20 @@ prompt_info() {
             local -r FG_SECONDARY=${ANSI_COLORS[${SECONDARY_COLOR_NAME}]}
             local -r FG_WARNING=${ANSI_COLORS[${WARNING_COLOR_NAME}]}
             local -r FG_RESET='\e[m'
+
             local -r DIR_FORMAT="\w"
+            local -r HOST_FORMAT="\h"
+            local -r USER_FORMAT="\u"
             ;;
         zsh)
             local -r FG_PRIMARY="%F{${PRIMARY_COLOR_NAME}}"
             local -r FG_SECONDARY="%F{${SECONDARY_COLOR_NAME}}"
             local -r FG_WARNING="%F{${WARNING_COLOR_NAME}}"
             local -r FG_RESET="%f"
+
             local -r DIR_FORMAT="%~"
+            local -r HOST_FORMAT="%m"
+            local -r USER_FORMAT="%n"
             ;;
         *) exit 1 ;;
     esac 
@@ -55,10 +61,21 @@ prompt_info() {
 
     #~~~ User info ~~~#
 
-    # if (( UID != 1000 )); then 
-    #     USER_INFO="${USER} ${SEP}"
-    # fi 
-    
+    if (( UID != 1000 )); then 
+        if (( UUID == 0 )); then 
+            PROMPT+="${FG_WARNING}"
+        else 
+            PROMPT+="${FG_SECONDARY}"
+        fi
+        PROMPT+=" ${USER_FORMAT} ${SEP}${FG_RESET} "
+    fi 
+
+    #~~~ Hostname on SSH connenction ~~~#
+
+    if [ -n "${SSH_CONNECTION}" ]; then 
+        PROMPT_STR+="${FG_WARNING}󰖟 ${HOST_FORMAT} ${SEP}${FG_RESET} "
+    fi 
+
     #~~~ Virtual environment ~~~#
 
     if [ -n "${VIRTUAL_ENV}" ]; then 
@@ -109,7 +126,7 @@ prompt_info() {
 
     #~~~ Last command exit status ~~~#
 
-    if (( LAST_CMD_EXIT == 0 )); then 
+    if (( LAST_CMD_EXIT == 0 || LAST_CMD_EXIT == 130 )); then 
         PROMPT_STR+=" ${FG_PRIMARY}"
     else 
         PROMPT_STR+=" ${FG_WARNING}!"
