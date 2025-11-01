@@ -94,7 +94,7 @@ function M.setup()
 		Search = { bg = colors.yellow2, fg = colors.background_buffer }, -- last search pattern highlighting. Also used for similar items that need to stand out.
 		IncSearch = { bg = colors.yellow2, fg = colors.background_buffer }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
 		MatchParen = { fg = colors.yelow2, underline = true }, -- the character under the cursor or just before it, if it is a paired bracket, and its match.
-        CurSearch = {bg = colors.yellow1, fg = colors.background_buffer, bold = true, italic = true},
+		CurSearch = { bg = colors.yellow1, fg = colors.background_buffer, bold = true, italic = true },
 
 		Normal = { bg = colors.background_buffer, fg = colors.foreground_base }, -- normal text
 		Visual = { bg = colors.background_highlighted }, -- visual mode selection
@@ -116,10 +116,10 @@ function M.setup()
 		-- Float windows
 		NormalFloat = { bg = colors.background_buffer },
 		FloatBorder = { fg = colors.foreground_highlighted },
-    
+
 		WinBar = { link = "NormalFloat" },
 		WinBarNC = { link = "NormalFloat" },
-        WinSeparator = { bg = "None", fg = colors.foreground_faded },
+		WinSeparator = { bg = "None", fg = colors.foreground_faded },
 
 		-- Trouble
 		TroubleNormal = { link = "Normal" },
@@ -206,32 +206,6 @@ function M.setup()
 		gitcommitSelectedArrow = { link = "gitcommitSelectedFile" },
 		gitcommitUnmergedArrow = { link = "gitcommitUnmergedFile" },
 
-		-- Markdown
-		markdownBlockquote = { fg = colors.foreground_faded },
-		markdownBold = { fg = colors.red1, bold = true },
-		markdownItalic = { fg = colors.blue1, italic = true },
-		markdownBoldItalic = { fg = colors.magenta1, bold = true, italic = true },
-		markdownCode = { fg = colors.green1 },
-		markdownCodeBlock = { link = "markdownCode" },
-		markdownCodeDelimiter = { link = "markdownCode" },
-		markdownH1 = { fg = colors.magenta1, bold = true, underline = true },
-		markdownH2 = { link = "markdownH1" },
-		markdownH3 = { link = "markdownH1" },
-		markdownH4 = { link = "markdownH1" },
-		markdownH5 = { link = "markdownH1" },
-		markdownH6 = { link = "markdownH1" },
-		markdownHeadingDelimiter = { fg = colors.red1, bold = true },
-		markdownHeadingRule = { fg = colors.foreground_faded },
-		markdownId = { fg = colors.yellow1 },
-		markdownIdDeclaration = { fg = colors.blue1 },
-		markdownIdDelimiter = { link = "markdownId" },
-		markdownLinkDelimiter = { fg = colors.magenta1 },
-		markdownLinkText = { fg = colors.blue1 },
-		markdownListMarker = { fg = colors.red1 },
-		markdownOrderedListMarker = { fg = colors.red1 },
-		markdownRule = { fg = colors.foreground_faded },
-		markdownUrl = { fg = colors.cyan1, underline = true },
-
 		-- LSP Semantics Tokens
 		["@lsp.type.namespace"] = { fg = colors.red1, bold = true },
 		["@lsp.type.class"] = { link = "Structure" },
@@ -246,11 +220,74 @@ function M.setup()
 		["@lsp.typemod.variable.static"] = { fg = blend.mix(colors.yellow1, colors.magenta1, 0.5) },
 		["@lsp.typemod.function.static"] = { link = "Function" },
 
+		-- Markdown highlight
+		["@markup.heading.1.markdown"] = { fg = colors.red1, bold = true },
+		["@markup.heading.2.markdown"] = { fg = colors.magenta1, bold = true },
+		["@markup.heading.3.markdown"] = { fg = colors.yellow1, bold = true },
+		["@markup.heading.4.markdown"] = { fg = colors.cyan1, bold = true },
+		["@markup.heading.5.markdown"] = { fg = colors.blue1, bold = true },
+		["@markup.heading.6.markdown"] = { fg = colors.green1, bold = true },
+		["@markup.quote.markdown"] = { fg = colors.blue1, italic = true },
+
+		markdownBlockquote = { fg = colors.foreground_faded },
+		markdownBold = { fg = colors.red1, bold = true },
+		markdownItalic = { fg = colors.blue1, italic = true },
+		markdownBoldItalic = { fg = colors.magenta1, bold = true, italic = true },
+		markdownCode = { fg = colors.green1 },
+		markdownCodeBlock = { link = "markdownCode" },
+		markdownCodeDelimiter = { link = "markdownCode" },
+		markdownH1 = { fg = colors.red1, bold = true },
+		markdownH2 = { fg = colors.magenta1, bold = true },
+		markdownH3 = { fg = colors.yellow1, bold = true },
+		markdownH4 = { fg = colors.cyan1, bold = true },
+		markdownH5 = { fg = colors.blue1, bold = true },
+		markdownH6 = { fg = colors.green1, bold = true },
+		markdownHeadingDelimiter = { fg = colors.red1, bold = true },
+		markdownHeadingRule = { fg = colors.foreground_faded },
+		markdownId = { fg = colors.yellow1 },
+		markdownIdDeclaration = { fg = colors.blue1 },
+		markdownIdDelimiter = { link = "markdownId" },
+		markdownLinkDelimiter = { fg = colors.magenta1 },
+		markdownLinkText = { fg = colors.blue1 },
+		markdownListMarker = { fg = colors.red1 },
+		markdownOrderedListMarker = { fg = colors.red1 },
+		markdownRule = { fg = colors.foreground_faded },
+		markdownUrl = { fg = colors.cyan1, underline = true },
+
+		RenderMarkdownH1 = { link = "markdownH1" },
+		RenderMarkdownH2 = { link = "markdownH2" },
+		RenderMarkdownH3 = { link = "markdownH3" },
+		RenderMarkdownH4 = { link = "markdownH4" },
+		RenderMarkdownH5 = { link = "markdownH5" },
+		RenderMarkdownH6 = { link = "markdownH6" },
+		RenderMarkdownH1Bg = { bg = blend.mix(colors.red1, colors.background_buffer, 0.3) },
+		RenderMarkdownH2Bg = { bg = blend.mix(colors.magenta1, colors.background_buffer, 0.3) },
+		RenderMarkdownH3Bg = { bg = blend.mix(colors.yellow1, colors.background_buffer, 0.3) },
+		RenderMarkdownH4Bg = { bg = blend.mix(colors.cyan1, colors.background_buffer, 0.3) },
+		RenderMarkdownH5Bg = { bg = blend.mix(colors.blue1, colors.background_buffer, 0.3) },
+		RenderMarkdownH6Bg = { bg = blend.mix(colors.green1, colors.background_buffer, 0.3) },
+		RenderMarkdownCode = { bg = blend.mix(colors.background_line, colors.background_buffer, 0.5) },
+		RenderMarkdownCodeInline = {
+			fg = colors.foreground_faded,
+			bg = blend.darken(colors.background_buffer, 0.1),
+			italic = true,
+		},
+		RenderMarkdownQuote = { fg = colors.blue1 },
+		RenderMarkdownBullet = { fg = colors.blue1, bold = true },
+		RenderMarkdownUnchecked = { fg = colors.yellow1 },
+		RenderMarkdownChecked = { fg = colors.green1 },
+		RenderMarkdownTodo = { fg = blend.mix(colors.red1, colors.yellow1, 0.5) },
+		RenderMarkdownSuccess = { fg = colors.green1 },
+		RenderMarkdownInfo = { fg = colors.blue1 },
+		RenderMarkdownHint = { fg = colors.cyan1 },
+		RenderMarkdownWarn = { fg = colors.yellow1 },
+		RenderMarkdownError = { fg = colors.red1 },
+
 		SnacksIndent = { fg = colors.background_line },
 		SnacksIndentScope = { fg = colors.foreground_highlighted },
 
 		AvanteSidebarNormal = { link = "Normal" },
-        AvanteSidebarWinSeparator = { bg = "None", fg = colors.foreground_faded },
+		AvanteSidebarWinSeparator = { bg = "None", fg = colors.foreground_faded },
 	}
 
 	if vim.opt.diff:get() then
