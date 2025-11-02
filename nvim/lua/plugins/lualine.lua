@@ -13,7 +13,7 @@ return {
 			},
 		},
 		sections = {
-			lualine_x = { "encoding", "filetype" },
+			lualine_x = { "encoding", "filetype", "lsp_status" },
 		},
 		extensions = { "nvim-tree" },
 	},

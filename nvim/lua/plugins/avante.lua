@@ -19,6 +19,7 @@ return {
 		auto_suggestions_provider = "ollama",
 		providers = {
 			ollama = {
+				disable_tools = true,
 				endpoint = "http://127.0.0.1:11434",
 				model = "qwen2.5-coder:7b",
 				is_env_set = function()
