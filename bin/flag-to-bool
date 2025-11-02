@@ -1,4 +1,4 @@
-#!/usr/bin/env bash 
+#!/usr/bin/env sh 
 
 sed -E '
     s/\b(on|enabled|connected|yes)\b/true/g;

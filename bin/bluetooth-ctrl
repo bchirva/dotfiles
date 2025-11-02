@@ -1,7 +1,7 @@
-#!/usr/bin/env bash 
+#!/usr/bin/env sh 
 
-function main() {
-    local -r help_msg="bluetooth-ctrl
+main() {
+    help_msg="bluetooth-ctrl
         status - print json-object with bluetooth status
         power <on/off> - toggle power
         pairable <on/off> - toggle pairable
@@ -29,24 +29,24 @@ function main() {
                 remove) remove_device "$3";;
                 *) exit 2;;
             esac;;
-        -h|--help) echo -e "${help_msg}" ;;
+        -h|--help) printf '%s\n' "${help_msg}" ;;
         *) exit 2;;
     esac 
 }
 
 # Bluetooth
-function bluetooth_status() {
-    local -r status=$(bluetoothctl show)
-    local -r powered=$(grep "PowerState:" <<< "${status}" \
+bluetooth_status() {
+    status=$(bluetoothctl show)
+    powered=$(printf '%s\n' "${status}" | grep "PowerState:" \
         | awk '{print $2}' \
         | flag-to-bool )
-    local -r scanning=$(grep "Discovering:" <<< "${status}" \
+    scanning=$(printf '%s\n' "${status}" | grep "Discovering:" \
         | awk '{print $2}' \
         | flag-to-bool )
-    local -r pairable=$(grep "Pairable:" <<< "${status}" \
+    pairable=$(printf '%s\n' "${status}" | grep "Pairable:" \
         | awk '{print $2}' \
         | flag-to-bool )
-    local -r discoverable=$(grep "Discoverable:" <<< "${status}" \
+    discoverable=$(printf '%s\n' "${status}" | grep "Discoverable:" \
         | awk '{print $2}' \
         | flag-to-bool )
 
@@ -57,24 +57,24 @@ function bluetooth_status() {
         discoverable: ${discoverable} }"
 }
 
-function toggle_power() {
-    local -r mode=$1
+toggle_power() {
+    mode=$1
     case $mode in
-        "on") 
+        on) 
             if rfkill list bluetooth | grep -q "blocked: yes"; then 
                 rfkill unblock bluetooth && sleep 3
             fi 
             bluetoothctl power on;;
-        "off") bluetoothctl power off;;
+        off) bluetoothctl power off;;
         *) exit 2;;
     esac
 }
 
-function toggle_scan() {
+toggle_scan() {
     mode=$1
     case $mode in 
-        "on") bluetoothctl --timeout 5 scan on >> /dev/null ;;
-        "off") bluetoothctl scan off ;;
+        on) bluetoothctl --timeout 5 scan on >> /dev/null ;;
+        off) bluetoothctl scan off ;;
         *) exit 2;;
     esac 
 }
@@ -82,8 +82,8 @@ function toggle_scan() {
 toggle_discoverable() {
     mode=$1
     case $mode in
-        "on") bluetoothctl discoverable on ;;
-        "off") bluetoothctl discoverable off ;;
+        on) bluetoothctl discoverable on ;;
+        off) bluetoothctl discoverable off ;;
         *) exit 2;;
     esac 
 }
@@ -91,59 +91,73 @@ toggle_discoverable() {
 toggle_pairable() {
     mode=$1
     case $mode in 
-        "on") bluetoothctl pairable on ;;
-        "off") bluetoothctl pairable off ;;
+        on) bluetoothctl pairable on ;;
+        off) bluetoothctl pairable off ;;
         *) exit 2;;
     esac 
 }
 
 #Devices
-function devices_list() {
-    local -r devices=$(bluetoothctl devices \
+devices_list() {
+    devices=$(bluetoothctl devices \
         | grep "^Device")
 
-    local device_id device_info result="[]"
-    while read -r line
+    result="[]"
+    tmpfile=$(mktemp) || exit 1
+    printf '%s\n' "${devices}" > "${tmpfile}"
+    while IFS= read -r line
     do
-        device_id=$(awk '{print $2}' <<< "$line")
+        device_id=$(printf '%s\n' "${line}" \
+            | awk '{print $2}' )
         device_info=$(device_info "${device_id}")
-        if [[ -n $(jq -r '.name // empty' <<< "${device_info}") ]]; then
-            result=$(jq ". += [$(device_info "${device_id}")]" <<< "${result}")
+        if [ -n "$(printf '%s\n' "${device_info}" | jq -r '.name // empty' )" ]; then
+            result=$(printf '%s\n' "${result}" \
+                | jq ". += [$(device_info "${device_id}")]" )
         fi
-    done <<< "${devices}"
+    done < "${tmpfile}"
+    rm -f "${tmpfile}"
 
-    echo "${result}"
+    printf '%s\n' "${result}"
 }
 
-function device_info() {
-    local -r device_id=$1
+device_info() {
+    device_id=$1
 
-    local -r device_info=$(bluetoothctl info "${device_id}")
+    device_info=$(bluetoothctl info "${device_id}")
 
-    local -r name=$(grep "Name:" <<< "${device_info}" \
+    name=$(printf '%s\n' "${device_info}" \
+        | grep "Name:" \
         | awk '{start=index($0, $2); print substr($0, start)}')
-    local -r class=$(grep "Class:" <<< "${device_info}" \
+    class=$(printf '%s\n' "${device_info}" \
+        | grep "Class:" \
         | awk '{print $2}' \
         | flag-to-bool)
-    local -r icon=$(grep "Icon:" <<< "${device_info}" \
+    icon=$(printf '%s\n' "${device_info}" \
+        | grep "Icon:" \
         | awk '{print $2}' \
         | flag-to-bool)
-    local -r paired=$(grep "Paired:" <<< "${device_info}" \
+    paired=$(printf '%s\n' "${device_info}" \
+        | grep "Paired:" \
         | awk '{print $2}' \
         | flag-to-bool)
-    local -r bonded=$(grep "Bonded:" <<< "${device_info}" \
+    bonded=$(printf '%s\n' "${device_info}" \
+        | grep "Bonded:" \
         | awk '{print $2}' \
         | flag-to-bool)
-    local -r trusted=$(grep "Trusted:" <<< "${device_info}" \
+    trusted=$(printf '%s\n' "${device_info}" \
+        | grep "Trusted:" \
         | awk '{print $2}' \
         | flag-to-bool)
-    local -r blocked=$(grep "Blocked:" <<< "${device_info}" \
+    blocked=$(printf '%s\n' "${device_info}" \
+        | grep "Blocked:" \
         | awk '{print $2}' \
         | flag-to-bool)
-    local -r connected=$(grep "Connected:" <<< "${device_info}" \
+    connected=$(printf '%s\n' "${device_info}" \
+        | grep "Connected:" \
         | awk '{print $2}' \
         | flag-to-bool)
-    local -r battery=$(grep "Battery Percentage:" <<< "${device_info}" \
+    battery=$(printf '%s\n' "${device_info}" \
+        | grep "Battery Percentage:" \
         | awk '{print $4}' \
         | sed -e "s/(//g" -e "s/)//g")
     
@@ -160,28 +174,28 @@ function device_info() {
         battery: ${battery:-null} }"  
 }
 
-function connect_device() {
-    local -r device_id=$1
-    local -r device_info=$(device_info "${device_id}")
+connect_device() {
+    device_id=$1
+    device_info=$(device_info "${device_id}")
 
-    if jq -e ".trusted | not" <<< "${device_info}" > /dev/null; then 
+    if printf '%s\n' "${device_info}" | jq -e ".trusted | not" > /dev/null; then 
         bluetoothctl trust "${device_id}"
     fi 
 
-    if jq -e ".paired | not" <<< "${device_info}" > /dev/null; then 
+    if printf '%s\n' "${device_info}" | jq -e ".paired | not" > /dev/null; then 
         bluetoothctl pair "${device_id}"
     fi 
 
     bluetoothctl connect "${device_id}" 
 }
 
-function disconnect_device() {
-    local -r device_id=$1
+disconnect_device() {
+    device_id=$1
     bluetoothctl disconnect "${device_id}"
 }
 
-function remove_device() {
-    local -r device_id=$1
+remove_device() {
+    device_id=$1
     bluetoothctl remove "${device_id}"
 }
 

@@ -1,31 +1,31 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh 
 
-source ${XDG_CONFIG_HOME}/shell/theme.sh
+. "${XDG_CONFIG_HOME}/shell/theme.sh"
 
-function main() {
-    local -r help_msg="colored-icon <pango/ansi> <symbol> [#hex color]"
+main() {
+    help_msg="colored-icon <pango/ansi> <symbol> [#hex color]"
 
     case $1 in 
-        pango) pango_icon "${@:2}";;
-        ansi) ansi_icon "${@:2}";;
-        -h|--help) echo "${help_msg}";;
+        pango) shift; pango_icon "$@";;
+        ansi)  shift; ansi_icon "$@";;
+        -h|--help)  echo "${help_msg}";;
         *) exit 2;;
     esac 
 }
 
-function pango_icon() {
-    local -r icon=$1
-    local -r color="${2:-$PRIMARY_COLOR}"
-    echo -en "<span size=\"150%\" rise=\"-3pt\" color=\"${color}\">${icon} </span>"
+pango_icon() {
+    icon=$1
+    color="${2:-$PRIMARY_COLOR}"
+    printf '<span size="150%%" rise="-3pt" color="%s">%s </span>' "${color}" "${icon}"
 }
 
-function ansi_icon() {
-    local -r hex="${2:-$ACCENT_COLOR}"
-    local color="${hex#"#"}"    
-    local -r red=$((16#${color:0:2}))
-    local -r green=$((16#${color:2:2}))
-    local -r blue=$((16#${color:4:2}))
-    echo -e "\033[38;2;${red};${green};${blue}m$1\033[0m"
+ansi_icon() {
+    hex="${2:-$ACCENT_COLOR}"
+    color="${hex#"#"}"    
+    red=$(printf '%s' "$color" | cut -c1-2)
+    green=$(printf '%s' "$color" | cut -c3-4)
+    blue=$(printf '%s' "$color" | cut -c5-6)
+    printf '\033[38;2;%s;%s;%sm%s\033[0m' "${red}" "${green}" "${blue}" "${icon}"
 }
 
 main "$@"

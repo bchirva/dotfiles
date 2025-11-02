@@ -1,19 +1,19 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 WALLPAPERS_FILE="${XDG_DATA_HOME}/wallpaper"
 
-function _select_wallpapers {
-    local -r WALLPAPERS_PATH="${HOME}/Images/wallpapers/"
-    local -r selected="$(nsxiv --stdout --recursive --thumbnail --name "WALLPAPERS" "${WALLPAPERS_PATH}")"
+_select_wallpapers() {
+    WALLPAPERS_PATH="${HOME}/Images/wallpapers/"
+    selected="$(nsxiv --stdout --recursive --thumbnail --name "WALLPAPERS" "${WALLPAPERS_PATH}")"
 
-    [[ -z "${selected}" ]] && exit 
+    [ -z "${selected}" ] && exit 
 
     ln -snf "${selected}" "${WALLPAPERS_FILE}"
     _load_wallpapers
 }
 
-function _load_wallpapers {
-    if ! [[ -L "${WALLPAPERS_FILE}" && -e "${WALLPAPERS_FILE}" ]]; then 
+_load_wallpapers() {
+    if ! [ -L "${WALLPAPERS_FILE}" ] && [ -e "${WALLPAPERS_FILE}" ]; then 
         exit 1
     fi 
 
@@ -23,7 +23,7 @@ function _load_wallpapers {
     done 
 }
 
-function main {
+main() {
     case "$1" in 
         select) _select_wallpapers ;;
         load ) _load_wallpapers ;;

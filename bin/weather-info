@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-function weather_icon(){
+weather_icon(){
     case $1 in
         "01d") echo "" ;;
         "02d") echo "" ;;
@@ -24,12 +24,12 @@ function weather_icon(){
     esac
 }
 
-function weather_json() {
-    local -r weather=$(curl -s "api.openweathermap.org/data/2.5/weather?q=Yekaterinburg,ru&units=metric&appid=$OPENWEATHER_KEY")
-    local -r icon=$(weather_icon "$(jq ".weather[].icon" <<< "${weather}" \
-        | sed "s/\"//g")")
+weather_json() {
+    weather=$(curl -s "api.openweathermap.org/data/2.5/weather?q=Yekaterinburg,ru&units=metric&appid=$OPENWEATHER_KEY")
+    icon=$(weather_icon "$(printf '%s' "${weather}" | jq ".weather[].icon" | sed "s/\"//g")")
 
-    jq --arg icon "$icon" '(.main.temp | round) as $tmp | 
+    printf '%s' "${weather}" \
+        | jq --arg icon "$icon" '(.main.temp | round) as $tmp | 
         {
             temp: (if $tmp > 0 then "+" + ($tmp|tostring) else $tmp|tostring end),
             description: .weather[].main,
@@ -37,8 +37,7 @@ function weather_json() {
             icon: $icon,
             wind: .wind.speed,
             humidity: .main.humidity
-        }' <<< "${weather}"
-
+        }'
 }
 
 weather_json
