@@ -1,15 +1,16 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-source "${XDG_CONFIG_HOME}/shell/theme.sh"
+. "${XDG_CONFIG_HOME}/shell/theme.sh"
 
-function main() {
-    local -r power_options="\
-$(colored-icon pango  "${WARNING_COLOR}") Shutdown\n\
-$(colored-icon pango 󰑓 "${WARNING_COLOR}") Reboot\n\
-$(colored-icon pango  ) Lock\n\
-$(colored-icon pango 󰍃 ) Logout\n"
+main() {
+    rofi_input() {
+        printf '%s\n' "$(colored-icon pango  "${WARNING_COLOR}") Shutdown"
+        printf '%s\n' "$(colored-icon pango 󰑓 "${WARNING_COLOR}") Reboot"
+        printf '%s\n' "$(colored-icon pango  ) Lock"
+        printf '%s\n' "$(colored-icon pango 󰍃 ) Logout"
+    }
 
-    local -r variant=$(echo -en "${power_options}" \
+    variant=$(rofi_input \
         | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \

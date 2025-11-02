@@ -1,34 +1,39 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-source "${XDG_CONFIG_HOME}/shell/theme.sh"
+. "${XDG_CONFIG_HOME}/shell/theme.sh"
 
-function main() {
-    readarray -t layouts <<< "$(xkb-switch --list)"
+main() {
+    layouts=$(xkb-switch --list)
+    current_layout=$(xkb-switch -p)
+    layouts_count=$(printf '%s\n' "${layouts}" | wc -l)
 
-    rofi_input(){
-        for i in ${!layouts[*]}
-        do
-            echo -en "$(colored-icon pango  ) ${layouts[$i]}\n"
+    rofi_input() {
+        for i in $layouts; do
+            printf '%s\n' "$(colored-icon pango  ) ${i}"
         done
     }
 
-    for i in ${!layouts[*]}
+    i=0
+    for l in $layouts
     do
-        if [[ "${layouts[$i]}" == "$(xkb-switch -p)" ]]; then
-            local -r row_modifiers=(-a "${i}" -selected-row "${i}")
+        if [ "$l" = "${current_layout}" ]; then
+            row_modifiers="-a ${i} -selected-row ${i}"
         fi
+        i=$((i + 1))
     done
 
-    local -r variant=$(rofi_input \
+    # shellcheck disable=SC2086
+    variant=$(rofi_input \
         | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi"\
         -markup-rows -i -dmenu -no-custom \
         -format "i" \
         -p " Keyboard layouts:" \
-        "${row_modifiers[@]}" \
-        -l ${#layouts[@]} )
+        ${row_modifiers} \
+        -l "${layouts_count}" )
 
-    if [[ $variant ]]; then
-        xkb-switch -s "${layouts[$variant]}"
+    if [ -n "${variant}" ]; then
+        selected_layout=$(printf '%s\n' "$layouts" | sed -n "$((variant + 1))p")
+        xkb-switch -s "${selected_layout}"
     fi
 }
 

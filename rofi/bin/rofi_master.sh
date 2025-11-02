@@ -1,18 +1,18 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-source "${XDG_CONFIG_HOME}/shell/theme.sh"
+. "${XDG_CONFIG_HOME}/shell/theme.sh"
 
-function main() {
-    function rofi_entries() {
-        echo -en "$(colored-icon pango  ) Audio output\n"
-        echo -en "$(colored-icon pango  ) Audio input\n"
-        echo -en "$(colored-icon pango 󰖟 ) Network\n"
-        echo -en "$(colored-icon pango 󰂯 ) Bluetooth\n"
-        echo -en "$(colored-icon pango  ) System monitor\n"
-        echo -en "$(colored-icon pango  "${ERROR_COLOR}") Logout\n"
+main() {
+    rofi_entries() {
+        printf '%s\n' "$(colored-icon pango  ) Audio output"
+        printf '%s\n' "$(colored-icon pango  ) Audio input"
+        printf '%s\n' "$(colored-icon pango 󰖟 ) Network"
+        printf '%s\n' "$(colored-icon pango 󰂯 ) Bluetooth"
+        printf '%s\n' "$(colored-icon pango  ) System monitor"
+        printf '%s\n' "$(colored-icon pango  "${ERROR_COLOR}") Logout"
     }
 
-    local -r variant=$(rofi_entries \
+    variant=$(rofi_entries \
         | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \

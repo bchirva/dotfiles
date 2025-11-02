@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-function main() {
-    local -r input="$1"
+main() {
+    input="$1"
     rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-input.rasi" \
         -dmenu -password \
         -p " " \
