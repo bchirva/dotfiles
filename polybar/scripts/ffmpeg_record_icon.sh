@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-function main {
-    if [[ -f ${XDG_RUNTIME_DIR}/ffmpeg.record.pid ]]; then 
-        echo ""
+main() {
+    if [ -f "${XDG_RUNTIME_DIR}/ffmpeg.record.pid" ]; then 
+        printf '%s\n' ""
     else 
-        echo " "
+        printf '%s\n' " "
     fi 
 }
 

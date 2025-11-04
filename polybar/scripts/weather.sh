@@ -1,9 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-function main() {
-    local -r weather=$(weather-info)
-    jq -r '"\(.icon) \(.temp)°"' <<< "${weather}"
-}
-
-main "$@"
+weather-info | jq -r '"\(.icon) \(.temp)°"' 
 

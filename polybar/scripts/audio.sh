@@ -1,27 +1,28 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-function main () {
-    local -r operation=$1
-    local -r channel=$2
+main() {
+    operation=$1
+    channel=$2
 
     case $operation in
-        "status")
-            local -r active_status_json=$(audio-ctrl info "${channel}")
-            local -r muted=$(jq -r ".muted" <<< "${active_status_json}")
+        status)
+            active_status_json=$(audio-ctrl info "${channel}")
+            muted=$(printf '%s\n' "${active_status_json}" \
+                | jq -r ".muted" )
        
             if ${muted} ; then
                 case $channel in
-                    "output") echo "" ;;
-                    "input") echo "󰍭" ;;
+                    output) printf '%s\n' "" ;;
+                    input) printf '%s\n' "󰍭" ;;
                 esac
             else
                 case $channel in
-                    "output") echo "" ;;
-                    "input") echo "󰍬" ;;
+                    output) printf '%s\n' "" ;;
+                    input) printf '%s\n' "󰍬" ;;
                 esac
             fi
         ;;
-        "menu") rofi-audio-ctrl "${channel}" ;;
+        menu) rofi-audio-ctrl "${channel}" ;;
         *) exit 2 ;;
     esac
 }

@@ -1,13 +1,13 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-function main {
+main() {
     case "$1" in 
         status) 
-            local -r song="$(mpc --format "%title% - %artist%" current)"
-            if [[ -n "${song}" ]]; then 
-                echo "󰝚 ${song}"
+            song="$(mpc --format "%title% - %artist%" current)"
+            if [ -n "${song}" ]; then 
+                printf '%s\n' "󰝚 ${song}"
             else 
-                echo "󰝛"
+                printf '%s\n' "󰝛"
             fi
             ;;
         action) mpc toggle ;;

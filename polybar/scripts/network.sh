@@ -1,25 +1,25 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-function main(){
-    local -r operation=$1
+main() {
+    operation=$1
 
     case $operation in
-        "status") 
-            if [[ "$(network-ctrl system status)" == "true" ]]; then 
-                local -r connection_type=$(network-ctrl device list \
+        status) 
+            if [ "$(network-ctrl system status)" = "true" ]; then 
+                connection_type=$(network-ctrl device list \
                     | jq ".[] | select(.device == $(network-ctrl connection list \
                     | jq ".[0].device")).type" \
                     | sed -e "s/\"//g")
 
                 case ${connection_type} in
-                    "ethernet") echo "󰈀"; exit ;;
-                    "wifi") echo ""; exit ;;
-                    *) echo "󰌙"; exit ;;
+                    ethernet) printf '%s\n' "󰈀"; exit ;;
+                    wifi) printf '%s\n' ""; exit ;;
+                    *) printf '%s\n' "󰌙"; exit ;;
                 esac 
             fi 
-            echo "󰌙"
+            printf '%s\n' "󰌙"
         ;;
-        "menu") rofi-network-ctrl main ;;
+        menu) rofi-network-ctrl main ;;
         *) exit 2 ;;
     esac
 }
