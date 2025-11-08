@@ -39,3 +39,10 @@ dmenu.selbackground:    {primary}
 dmenu.selforeground:    {on_primary}
 dmenu.inputbackground:  {background_view}
 dmenu.inputforeground:  {foreground_base}
+
+dwm.normbgcolor:        {background_base} 
+dwm.normbordercolor:    {background_base}
+dwm.normfgcolor:        {foreground_base}
+dwm.selbgcolor:         {background_view}
+dwm.selbordercolor:     {primary}
+dwm.selfgcolor:         {primary}
