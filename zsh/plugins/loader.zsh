@@ -17,25 +17,25 @@ fi
 #       github.com/user/repo for github clone
 function def-plugin {
     local PLUGIN_REPO=${1}  # Plugin repo (if source is github)
-    local PLUGIN_PATH=      # Plugin dir in ZSH_PLUGINS_DIR
     local PLUGIN_NAME=${PLUGIN_REPO:t}
+    local PLUGIN_PATH="$ZSH_PLUGINS_DIR/${PLUGIN_NAME}"         # Plugin dir in ZSH_PLUGINS_DIR
 
     local RESET='\033[0m'
     local GREEN='\033[0;32m'
     local YELLOW='\033[0;33m'
     local CLEAR='\r\033[0K'
 
-    PLUGIN_PATH="$ZSH_PLUGINS_DIR/${PLUGIN_NAME}"   # Plugin dir in ZSH_PLUGINS_DIR
     #  Clone git repository if didn't yet
-    if [[ ! -d $PLUGIN_PATH ]]; then
+    if [ ! -d $PLUGIN_PATH ]; then
         echo -en "$YELLOW○$RESET Downloading plugin $PLUGIN_REPO from GitHub..."
-        echo -e "$CLEAR$GREEN●$RESET Plugin $PLUGIN_REPO has been successfully loaded from GitHub!"
+        git clone "${PLUGIN_REPO}" "${PLUGIN_PATH}" \
+            && echo -e "$CLEAR$GREEN●$RESET Plugin $PLUGIN_REPO has been successfully loaded!"
     fi
 
     local PLUGIN_ENTRY=
     PLUGIN_ENTRY="$PLUGIN_PATH/${PLUGIN_NAME}.plugin.zsh"
 
-    if [[ ! -e $PLUGIN_ENTRY ]]; then
+    if [ ! -e $PLUGIN_ENTRY ]; then
         local ENTRY_CANDIDATES=($PLUGIN_PATH/*.{plugin.zsh,zsh-theme,zsh,sh}(N))
         (( $#ENTRY_CANDIDATES )) || { echo >&2 "No init file '$repo'." && continue }
         ln -sf $ENTRY_CANDIDATES[1] $PLUGIN_ENTRY
@@ -43,7 +43,8 @@ function def-plugin {
 
    source $PLUGIN_ENTRY
 
-   [[ $ZSH_LOADING_DEBUG == true ]] && echo -e "$GREEN√$RESET Plugin $PLUGIN_ENTRY is loaded!"
+   [[ $ZSH_LOADING_DEBUG == true ]] \
+       && echo -e "$GREEN√$RESET Plugin $PLUGIN_ENTRY is loaded!"
 }
 
 function load-plugins {
