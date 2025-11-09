@@ -29,3 +29,4 @@ export SSH_ASKPASS=rofi-askpass
 export EDITOR="nvim"
 
 [ -f "$HOME/.private_env" ] && . "$HOME/.private_env"
+
