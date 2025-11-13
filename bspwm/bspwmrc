@@ -1,11 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
-source "${XDG_CONFIG_HOME}/shell/theme.sh"
+[ -f  "${XDG_CONFIG_HOME}/shell/theme.sh" ] \
+    && . "${XDG_CONFIG_HOME}/shell/theme.sh"
 
-"${XDG_CONFIG_HOME}"/bspwm/scripts/workspaces.sh
+[ -f "${XDG_CONFIG_HOME}"/bspwm/scripts/workspaces.sh ] \
+    && . "${XDG_CONFIG_HOME}"/bspwm/scripts/workspaces.sh
 
 dunst &
-sxhkd &
+sxhkd "${XDG_CONFIG_HOME}/sxhkd/sxhkdrc-bspwm" &
 picom -b 
 wallpapers-ctrl load 
 udiskie &
