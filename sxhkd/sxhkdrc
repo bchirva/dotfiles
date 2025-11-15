@@ -1,26 +1,59 @@
-# terminal emulator
+# Terminal emulator
 super + Return
     $TERMINAL 
 
-# launcher
-super + space
+# Launcher
+super + shift + space 
     rofi -modi drun -show drun
 
 alt + Tab
     rofi -modi window -show window
 
+#~~~~~ System control ~~~~~#
+
 super + c
     rofi-master
+
+super + ctrl + a
+    rofi-audio-ctrl output
+
+super + ctrl + m
+    rofi-audio-ctrl input
+
+super + ctrl + n
+    rofi-network-ctrl main
+
+super + ctrl + b
+    rofi-bluetooth-ctrl main
+
+super + ctrl + q
+    rofi-powermenu 
 
 super + Print
     rofi-screen-capture
 
+#~~~~~ Application start ~~~~~#
 super + p
     rofi-passwords
 
 super + m
     rofi-music
 
-super + w
+super + space ; n
+    AmneziaVPN
+
+super + space ; o
+    obsidian %U
+
+super + space ; s
+    $TERMINAL -e btm
+
+super + space ; v
+    virt-manager
+
+super + space ; w
     $BROWSER
+
+super + space ; z
+    zathura
 

@@ -24,7 +24,7 @@ main() {
         1) rofi-audio-ctrl input ;;
         2) rofi-network-ctrl main;;
         3) rofi-bluetooth-ctrl main;;
-        4) kitty -e btm ;;
+        4) $TERMINAL -e btm ;;
         5) rofi-powermenu ;;
         *) exit 2;;
     esac
