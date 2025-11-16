@@ -55,18 +55,19 @@ prompt_info() {
         arch)   PROMPT_STR+=" " ;;
         debian) PROMPT_STR+=" " ;;
         ubuntu) PROMPT_STR+=" " ;;
-        *)      PROMPT_STR+=" "
+        *)      PROMPT_STR+=" " ;;
     esac 
     PROMPT_STR+="${FG_RESET} "
 
     #~~~ User info ~~~#
 
     if (( UID != 1000 )); then 
-        if (( UUID == 0 )); then 
+        if (( UID == 0 )); then 
             PROMPT+="${FG_WARNING}"
         else 
             PROMPT+="${FG_SECONDARY}"
         fi
+
         PROMPT+=" ${USER_FORMAT} ${SEP}${FG_RESET} "
     fi 
 
