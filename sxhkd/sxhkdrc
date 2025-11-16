@@ -48,6 +48,9 @@ super + space ; o
 super + space ; s
     $TERMINAL -e btm
 
+super + space ; t
+    Telegram -- %u
+
 super + space ; v
     virt-manager
 
