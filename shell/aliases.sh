@@ -17,5 +17,3 @@ alias hl="bat -l conf --style=plain --paging=never"
 alias yayfzf="yay -Slq | fzf --multi --preview 'yay -Sii {1}' --preview-window=down:80% | xargs -ro yay -S"
 
 command -v nvim >/dev/null && alias vim="nvim"
-
-

@@ -1,26 +1,20 @@
 function _tmux_autostart() {
-    local SESSION_NAME=
-    
-    if [[ "$PWD" == "/" ]]; then
-        SESSION_NAME="root"
-    elif [[ "$PWD" == "$HOME" ]]; then
-        SESSION_NAME="home"
-    else
-        SESSION_NAME=${PWD##*/}
-    fi
-
-    if [[ -n "$SESSION_NAME" ]]; then
-        tmux new-session -s "$SESSION_NAME"
+    WORDS_FILE="/usr/share/dict/words"
+    if [ -f "$WORDS_FILE" ]; then
+        tmux new-session -s "$(shuf -n 1 "$WORDS_FILE" | sed 's/.*/\L&/g')" 
     else
         tmux new-session
     fi
 }
 
-export PATH="${HOME}/.config/tmux/plugins/tmuxifier/bin:${PATH}"
-eval "$(tmuxifier init -)"
+if command -v tmux >/dev/null ; then 
+	export PATH="${HOME}/.config/tmux/plugins/tmuxifier/bin:${PATH}"
 
-if [[ -z "$TMUX" && -z "$VIM" ]]; then
-    if ! tmux has-session 2>/dev/null; then
-        _tmux_autostart 
+    if command -v tmuxifier >/dev/null; then
+    	eval "$(tmuxifier init -)"
     fi
+
+    if [ -z "$TMUX" ] && [ -z "$VIM" ] && [ -z "$SSH_CONNECTION" ] && [ -n "$DISPLAY" ]; then
+		_tmux_autostart 
+	fi
 fi
