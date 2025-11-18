@@ -6,13 +6,14 @@ main() {
 
     case $operation in
         status)
-            active_status_json=$(audio-ctrl info "${channel}")
-            muted=$(printf '%s\n' "${active_status_json}" \
-                | jq -r ".muted" )
+            active_status=$(audio-ctrl list "$channel" \
+                | grep "$(audio-ctrl id "$channel")")
+            muted=$(printf '%s\n' "${active_status}" \
+                | cut -f 4)
        
             if ${muted} ; then
                 case $channel in
-                    output) printf '%s\n' "" ;;
+                    output) printf '%s\n' "󰝟" ;;
                     input) printf '%s\n' "󰍭" ;;
                 esac
             else

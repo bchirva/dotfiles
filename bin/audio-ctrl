@@ -2,19 +2,19 @@
 
 main() {
     help_msg="audio-ctrl
-        list <input/output> - print json-list of available devices
-        info <input/output> - print json-object with active device properties
+        list <input/output> - print available devices
+        id <input/output> - print active device id 
         choose <input/output> <id> - choose active device
-        set <input/output> <args> 
-            -m - toggle mute
-            -v <volume level> - change volume (in %)"
+        mute <input/output> - toggle mute for active device
+        volume <input/output> - change volume level (in %) for active device"
 
     case $1 in 
         list) device_list "$2";; 
-        info) active_device_info "$2";; 
-        choose) shift; change_active_device "$@";;
-        set) shift; change_active_device_settings "$@";;
-        -h|--help) printf '%s\n' "${help_msg}";;
+        id) active_device_id "$2";; 
+        choose) change_active_device "$2" "$3";;
+        mute) set_device_mute "$2" ;;
+        volume) set_device_volume "$2" "$3" ;;
+        -h|--help) printf '%s\n' "$help_msg";;
         *) exit 2;;
     esac
 }
@@ -37,70 +37,52 @@ device_list() {
         *) exit 2
     esac
 
-    json_array="[]"
-
-    i=0
-    count=$(printf '%s\n' "$device_list" | grep -c "$device_id")
-    while [ "$i" -lt "$count" ]; do
+    device_idx=1 
+    device_port_idx=1
+    device_count=$(printf '%s\n' "$device_list" | grep -c "$device_id")
+   
+    while [ "$device_idx" -le "$device_count" ]; do
         if [ "$device_type" = "input" ]; then
             monitor_of_sink=$(printf '%s\n' "$device_list" \
-                | grep -e "Monitor of Sink" \
-                | head -n $((i + 1)) \
-                | tail -n 1 \
-                | awk '{print $4}')
+                | grep "Monitor of Sink" \
+                | sed -n "${device_idx}{s/^\s*//; s/^\([^ ]* \)\{3\}//; p}")
 
             if [ "$monitor_of_sink" != "n/a" ]; then
-                i=$((i + 1))
+                device_idx=$((device_idx + 1))
                 continue
             fi
         fi
 
         id=$(printf '%s\n' "$device_list" \
-            | grep -e "Name:" \
-            | head -n $((i + 1)) \
-            | tail -n 1 \
-            | awk '{print $2}')
+            | grep "Name:" \
+            | sed -n "${device_idx}{s/^\s*//; s/^[^ ]* //; p}") 
 
-        device=$(printf '%s\n' "$device_list" \
-            | grep -e 'Active Port' \
-            | head -n $((i + 1)) \
-            | tail -n 1 \
-            | awk '{print $3}')
+        port=$(printf '%s\n' "$device_list" \
+            | grep "Active Port" \
+            | sed -n "${device_port_idx}{s/^\s*//; s/^\([^ ]* \)\{2\}//; p}")
 
         name=$(printf '%s\n' "$device_list" \
-            | grep -e "$device" \
-            | head -n 1 \
-            | cut -d ':' -f 2 \
-            | cut -d '(' -f 1 \
-            | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//')
+            | grep "$port" \
+            | sed -n "1{s/^\s*//; s/^[^ ]* //; s/ (.*$// p}")
 
         volume=$($get_volume_cmd "$id" \
-            | awk '{print $5}' \
-            | sed 's/%//')
+            | sed -n '1{s/^\([^ ]* \)\{4\}//; s/%.*$//; p}')
 
         muted=$($get_muted_cmd "$id" \
-            | awk '{print $2}' \
-            | flag-to-bool)
-
-        json_array=$(printf '%s\n' "$json_array" \
-            | jq ". += [{id: \"$id\", port: \"$device\", name: \"$name\", volume: $volume, muted: $muted}]")
-
-        i=$((i + 1))
+            | sed 's/^[^ ]* //; s/yes/true/; s/no/false/')
+       
+        device_idx=$((device_idx + 1)) && device_port_idx=$((device_port_idx + 1))
+        printf '%s\t%s\t%s\t%s\n' "$id" "$name" "$volume" "$muted"
     done
-
-    printf '%s\n' "$json_array"
 }
 
-active_device_info() {
+active_device_id() {
     device_type=$1
-
     case $device_type in
-        output) id=$(pactl get-default-sink) ;;
-        input)  id=$(pactl get-default-source) ;;
+        output) pactl get-default-sink ;;
+        input)  pactl get-default-source ;;
         *) exit 2 
     esac
-
-    device_list "${device_type}" | jq ".[] | select(.id == \"${id}\")"
 }
 
 change_active_device() {
@@ -123,44 +105,31 @@ change_active_device() {
 
     $set_active_device_cmd "${device_id}"
 
-    i=0
-    channels_count=$(printf '%s\n' "$channels" | wc -l)
-    while [ "$i" -lt "$channels_count" ]; do
-        channel_id=$(printf '%s\n' "$channels" \
-            | sed -n "$((i + 1))p" \
-            | awk '{print $1}')
-
+    printf '%s\n' "$channels" | while IFS= read -r line; do 
+        channel_id="$(printf '%s\n' "$line" | cut -f 1)"
         $move_channel_to_device_cmd "$channel_id" "$device_id"
-        i=$((i + 1))
-    done
+    done 
 }
 
-change_active_device_settings() {
+set_device_volume() {
+    device_type=$1
+    volume_level=$2
+
+    case $device_type in
+    output) pactl set-sink-volume   "$(pactl get-default-sink)"   "${volume_level}%" ;;
+    input)  pactl set-source-volume "$(pactl get-default-source)" "${volume_level}%" ;;
+    *) exit 2 ;;
+    esac
+}
+
+set_device_mute() {
     device_type=$1
 
     case $device_type in
-    output)
-        id=$(pactl get-default-sink)
-        set_volume_cmd='pactl set-sink-volume'
-        set_muted_cmd='pactl set-sink-mute'
-    ;;
-    input)
-        id=$(pactl get-default-source)
-        set_volume_cmd='pactl set-source-volume'
-        set_muted_cmd='pactl set-source-mute'
-    ;;
-    *) exit 2
+    output) pactl set-sink-mute   "$(pactl get-default-sink)"   toggle ;;
+    input)  pactl set-source-mute "$(pactl get-default-source)" toggle ;;
+    *) exit 2 ;;
     esac
-
-    shift
-    while getopts v:m PARAMS
-    do
-        case "${PARAMS}" in
-            v) $set_volume_cmd "${id}" "${OPTARG}%" ;;
-            m) $set_muted_cmd "${id}" toggle ;;
-            *) exit 2 ;;
-        esac
-    done
 }
 
 main "$@"
