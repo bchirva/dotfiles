@@ -5,16 +5,16 @@ main() {
 
     case $operation in
         status) 
-            if [ "$(network-ctrl system status)" = "true" ]; then 
-                connection_type=$(network-ctrl device list \
-                    | jq ".[] | select(.device == $(network-ctrl connection list \
-                    | jq ".[0].device")).type" \
-                    | sed -e "s/\"//g")
+            if "$(network-ctrl system status)" ; then 
+                active_device=$(network-ctrl connection list \
+                    | sed -n "1{s/\s.*$// ; p}")
+                device_type=$(network-ctrl device list \
+                    | sed -n "/^$active_device/{s/^[^\t]*\t// ; s/\t.*$// ; p}") 
 
-                case ${connection_type} in
+                case $device_type in
                     ethernet) printf '%s\n' "󰈀"; exit ;;
-                    wifi) printf '%s\n' ""; exit ;;
-                    *) printf '%s\n' "󰌙"; exit ;;
+                    wifi)     printf '%s\n' ""; exit ;;
+                    *)        printf '%s\n' "󰌙"; exit ;;
                 esac 
             fi 
             printf '%s\n' "󰌙"
