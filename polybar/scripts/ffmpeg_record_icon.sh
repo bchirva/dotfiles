@@ -1,11 +1,26 @@
 #!/usr/bin/env sh
 
-main() {
-    if [ -f "${XDG_RUNTIME_DIR}/ffmpeg.record.pid" ]; then 
-        printf '%s\n' ""
-    else 
-        printf '%s\n' " "
-    fi 
-}
+RECORD_PID_FILE="${XDG_RUNTIME_DIR}/ffmpeg.record.pid"
 
-main "$@"
+case $1 in 
+    icon)
+        if [ -f "$RECORD_PID_FILE" ]; then 
+            printf '%s\n' ""
+        else 
+            printf '%s\n' " "
+        fi 
+        ;;
+    stop)
+        if [ -f "$RECORD_PID_FILE" ]; then 
+            ffmpeg_pid="$(head -n 1 "$RECORD_PID_FILE")"
+            kill -INT "${ffmpeg_pid}" 
+            wait "${ffmpeg_pid}"
+            notify-send -u normal -i record-desktop "Screen recording has finished" "Record saved in $(tail -n 1 "$RECORD_PID_FILE")"
+            rm "$RECORD_PID_FILE"
+            exit 0
+        fi 
+        ;;
+
+    *) exit 2
+esac 
+
