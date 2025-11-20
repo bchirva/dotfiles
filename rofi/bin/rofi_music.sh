@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "${XDG_CONFIG_HOME}/shell/theme.sh"
+source "$XDG_CONFIG_HOME/shell/theme.sh"
 
 function escape_pango {
     echo "$1" | sed \
@@ -18,20 +18,20 @@ function main {
 
     local rofi_input
     local line_idx=0
-    if [[ -n "${queue}" ]] ; then
+    if [ -n "$queue" ] ; then
 
-        if [[ "${state_opt}" == "playing" ]]; then 
+        if [ "$state_opt" = "playing" ]; then 
             local -r play_line="$(colored-icon 󰏤 ) Pause\n"
         else 
             local -r play_line+="$(colored-icon 󰐊 ) Play\n"
         fi
 
-        if [[ -n "${current_track}" ]]; then 
+        if [ -n "$current_track" ]; then 
             rofi_input+="$(colored-icon 󰒮 ) Previous track\n"
             local -r prev_line_idx=$(( line_idx ))
             (( line_idx+=1))
 
-            rofi_input+="${play_line}"
+            rofi_input+="$play_line"
             local -r play_line_idx=$(( line_idx ))
             (( line_idx+=1))
 
@@ -39,14 +39,14 @@ function main {
             local -r next_line_idx=$(( line_idx ))
             (( line_idx+=1))
 
-            IFS=':' read -r artist album title <<< "${current_track}"
-            local -r rofi_message="<b>$(escape_pango "${title}")</b>"$'\n'"<i>(󰀄 ${artist} / 󰀥 ${album})</i>"
+            IFS=':' read -r artist album title <<< "$current_track"
+            local -r rofi_message="<b>$(escape_pango "$title")</b>"$'\n'"<i>(󰀄 $artist / 󰀥 $album)</i>"
         else 
-            rofi_input+="${play_line}"
+            rofi_input+="$play_line"
             local -r play_line_idx=$(( line_idx ))
             (( line_idx+=1 ))
 
-            local -r rofi_message="Playlist is stopped"$'\n'"$(wc -l <<< "${queue}") tracks in queue"
+            local -r rofi_message="Playlist is stopped"$'\n'"$(wc -l <<< "$queue") tracks in queue"
             local -r prev_line_idx=-1 next_line_idx=-1
         fi
 
@@ -71,29 +71,29 @@ function main {
     (( line_idx+=1 ))
 
     local highlight_rows=()
-    [[ "${repeat_opt}" == "on" ]] && highlight_rows+=( "${repeat_line_idx}" )
-    [[ "${random_opt}" == "on" ]] && highlight_rows+=( "${random_line_idx}" )
-    [[ "${consume_opt}" == "on" ]] && highlight_rows+=( "${consume_line_idx}" )
+    [ "$repeat_opt" == "on" ] && highlight_rows+=( "$repeat_line_idx" )
+    [ "$random_opt" == "on" ] && highlight_rows+=( "$random_line_idx" )
+    [ "$consume_opt" == "on" ] && highlight_rows+=( "$consume_line_idx" )
     if (( play_line_idx != -1 )); then 
         local -r selected_play_line=(-selected-row $(( play_line_idx)) )
     fi 
     local -r row_modifiers=(-a "$(IFS=","; echo "${highlight_rows[*]}")" "${selected_play_line[@]}")
 
-    local -r variant=$(echo -en "${rofi_input}" | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
+    local -r variant=$(echo -en "$rofi_input" | rofi -config "$XDG_CONFIG_HOME/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format "i" \
         -p "󰎄 Music:" \
-        -mesg "${rofi_message}" \
+        -mesg "$rofi_message" \
         "${row_modifiers[@]}" \
-        -l ${line_idx})
+        -l $line_idx)
 
-    if [[ -z "${variant}" ]]; then 
+    if [ -z "$variant" ]; then 
         exit 1
     fi
 
-    case "${variant}" in 
+    case "$variant" in 
     $(( play_line_idx )) )
-        if [[ "${state_opt}" == "playing" ]]; then 
+        if [ "$state_opt" = "playing" ]; then 
             mpc pause
         else 
             mpc play
@@ -102,27 +102,28 @@ function main {
     $(( playlist_line_idx )) )
         local -r MAX_PLAYLIST_LINES=15
         local -r playlist_tracks="$(mpc --format "%title% <i>(%artist% - %album%)</i>" playlist)"
-        local -r playlist_size=$(grep -cv '^$' <<< "${playlist_tracks}")
+        local -r playlist_size=$(grep -cv '^$' <<< "$playlist_tracks")
         local -r current_playlist_position=$(( $(mpc status "%songpos%") - 1 ))
 
         local rofi_input_playlist=""
         while read -r line 
         do 
-            if [[ -n "${line}" ]]; then 
-                rofi_input_playlist+="$(colored-icon 󰝚 ) ${line}\n"
+            if [ -n "$line" ]; then 
+                rofi_input_playlist+="$(colored-icon 󰝚 ) $line\n"
             fi
-        done <<< "${playlist_tracks}"
+        done <<< "$playlist_tracks"
 
-        local -r variant_track=$(echo -en "${rofi_input_playlist}" | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-wide-column.rasi" \
+        local -r variant_track=$(echo -en "$rofi_input_playlist" \
+            | rofi -config "$XDG_CONFIG_HOME/rofi/dmenu-wide-column.rasi" \
             -markup-rows -i -dmenu -no-custom \
             -format "i" \
             -p "󰎄 Playlist" \
-            -a "${current_playlist_position}" \
-            -selected-row "${current_playlist_position}" \
+            -a "$current_playlist_position" \
+            -selected-row "$current_playlist_position" \
             -l $(( playlist_size > MAX_PLAYLIST_LINES ? MAX_PLAYLIST_LINES : playlist_size ))
         )
 
-        if [[ -n ${variant_track} ]]; then 
+        if [ -n "$variant_track" ]; then 
             mpc play $(( variant_track + 1 ))
         fi 
     ;;

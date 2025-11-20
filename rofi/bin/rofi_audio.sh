@@ -32,7 +32,7 @@ function main() {
         rofi_input+="$mute_icon Unmute\n"
         message+=" <i>(muted)</i>"
     else 
-        rofi_input+="${mute_icon} Mute\n"
+        rofi_input+="$mute_icon Mute\n"
     fi 
 
     while read -r line; do 
@@ -48,7 +48,7 @@ function main() {
     fi
 
     local -r variant=$(echo -en "$rofi_input" \
-        | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
+        | rofi -config "$XDG_CONFIG_HOME/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
         -p "$device_icon Audio:" \

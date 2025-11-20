@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-source "${XDG_CONFIG_HOME}/shell/theme.sh"
+source "$XDG_CONFIG_HOME/shell/theme.sh"
 
 function main() {
-    local -r colorschemes_dir="$(dirname "$(readlink -f "${XDG_CONFIG_HOME}/rofi/colors.rasi")")/.."
+    local -r colorschemes_dir="$(dirname "$(readlink -f "$XDG_CONFIG_HOME/rofi/colors.rasi")")/.."
 
     readarray -t schemes <<< "$(ls -1 "${colorschemes_dir}" \
         | sed -e 's/\///g' -e '/active/d')"
@@ -18,31 +18,31 @@ function main() {
     local -r active_scheme=$(ls -l "${colorschemes_dir}/active" | awk '{print $NF}')
     for i in ${!schemes[*]}
     do
-        if [[ "${schemes[$i]}" == "${active_scheme}" ]]; then
-            local -r row_modifiers=(-a "${i}" -selected-row "${i}")
+        if [ "${schemes[$i]}" = "$active_scheme" ]; then
+            local -r row_modifiers=(-a "$i" -selected-row "$i")
         fi
     done
 
     local -r variant=$(rofi_input \
-        | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
+        | rofi -config "$XDG_CONFIG_HOME/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format "i" \
         -p " Colorshemes:" \
         "${row_modifiers[@]}" \
         -l ${#schemes[@]} )
 
-    if [[ $variant ]]; then
+    if [ -n "$variant" ]; then
         local -r new_scheme=${schemes[$variant]}
 
-        rm "${colorschemes_dir}/active"
-        ln -srf "${colorschemes_dir}/${new_scheme}" "${colorschemes_dir}/active"
+        rm "$colorschemes_dir/active"
+        ln -srf "$colorschemes_dir/$new_scheme" "$colorschemes_dir/active"
 
         xrdb -merge ~/.Xresources
 
         local -r processes=(eww polybar dunst)
         for process in "${processes[@]}"; do 
-            if pgrep "${process}"; then 
-                killall "${process}"
+            if pgrep "$process"; then 
+                killall "$process"
             fi 
         done 
 

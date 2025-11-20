@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-. "${XDG_CONFIG_HOME}/shell/theme.sh"
+. "$XDG_CONFIG_HOME/shell/theme.sh"
 
 main() {
     rofi_entries() {
@@ -9,11 +9,11 @@ main() {
         printf '%s\n' "$(colored-icon 󰖟 ) Network"
         printf '%s\n' "$(colored-icon 󰂯 ) Bluetooth"
         printf '%s\n' "$(colored-icon  ) System monitor"
-        printf '%s\n' "$(colored-icon  "${ERROR_COLOR}") Logout"
+        printf '%s\n' "$(colored-icon  "$ERROR_COLOR") Logout"
     }
 
     variant=$(rofi_entries \
-        | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
+        | rofi -config "$XDG_CONFIG_HOME/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
         -p " Control Center" \
