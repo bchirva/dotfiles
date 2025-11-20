@@ -2,30 +2,6 @@
 
 . "${XDG_CONFIG_HOME}/shell/theme.sh"
 
-main() {
-    help_msg="colored-icon <pango/ansi> <symbol> [#hex color]"
-
-    case $1 in 
-        pango) shift; pango_icon "$@";;
-        ansi)  shift; ansi_icon "$@";;
-        -h|--help)  echo "${help_msg}";;
-        *) exit 2;;
-    esac 
-}
-
-pango_icon() {
-    icon=$1
-    color="${2:-$PRIMARY_COLOR}"
-    printf '<span size="150%%" rise="-3pt" color="%s">%s </span>' "${color}" "${icon}"
-}
-
-ansi_icon() {
-    hex="${2:-$ACCENT_COLOR}"
-    color="${hex#"#"}"    
-    red=$(printf '%s' "$color" | cut -c1-2)
-    green=$(printf '%s' "$color" | cut -c3-4)
-    blue=$(printf '%s' "$color" | cut -c5-6)
-    printf '\033[38;2;%s;%s;%sm%s\033[0m' "${red}" "${green}" "${blue}" "${icon}"
-}
-
-main "$@"
+icon=$1
+color="${2:-$PRIMARY_COLOR}"
+printf '<span size="150%%" rise="-3pt" color="%s">%s </span>' "$color" "$icon"

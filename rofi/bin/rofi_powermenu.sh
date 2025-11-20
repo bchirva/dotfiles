@@ -4,10 +4,10 @@
 
 main() {
     rofi_input() {
-        printf '%s\n' "$(colored-icon pango  "${WARNING_COLOR}") Shutdown"
-        printf '%s\n' "$(colored-icon pango 󰑓 "${WARNING_COLOR}") Reboot"
-        printf '%s\n' "$(colored-icon pango  ) Lock"
-        printf '%s\n' "$(colored-icon pango 󰍃 ) Logout"
+        printf '%s\n' "$(colored-icon  "${WARNING_COLOR}") Shutdown"
+        printf '%s\n' "$(colored-icon 󰑓 "${WARNING_COLOR}") Reboot"
+        printf '%s\n' "$(colored-icon  ) Lock"
+        printf '%s\n' "$(colored-icon 󰍃 ) Logout"
     }
 
     variant=$(rofi_input \

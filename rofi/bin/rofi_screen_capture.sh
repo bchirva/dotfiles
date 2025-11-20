@@ -18,7 +18,7 @@ select_screen() {
 
     rofi_input=$(printf '%s\n' "$screens" \
         | while read -r line; do 
-            printf '%s\n' "$(colored-icon pango 󰍹 ) $line"
+            printf '%s\n' "$(colored-icon 󰍹 ) $line"
         done)
 
     variant_screen=$(printf '%s\n' "$rofi_input" \
@@ -35,10 +35,10 @@ select_screen() {
 }
 
 rofi_str="\
-$(colored-icon pango 󰇀 ) Shot focused window
-$(colored-icon pango 󰍹 ) Shot whole screen
-$(colored-icon pango 󰒉 ) Shot selected area or window
-$(colored-icon pango  ) Record screen"
+$(colored-icon 󰇀 ) Shot focused window
+$(colored-icon 󰍹 ) Shot whole screen
+$(colored-icon 󰒉 ) Shot selected area or window
+$(colored-icon  ) Record screen"
 
 variant=$(printf '%s\n' "${rofi_str}" \
     | rofi -config "$XDG_CONFIG_HOME/rofi/dmenu-single-column.rasi" \

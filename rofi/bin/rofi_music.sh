@@ -21,13 +21,13 @@ function main {
     if [[ -n "${queue}" ]] ; then
 
         if [[ "${state_opt}" == "playing" ]]; then 
-            local -r play_line="$(colored-icon pango 󰏤 ) Pause\n"
+            local -r play_line="$(colored-icon 󰏤 ) Pause\n"
         else 
-            local -r play_line+="$(colored-icon pango 󰐊 ) Play\n"
+            local -r play_line+="$(colored-icon 󰐊 ) Play\n"
         fi
 
         if [[ -n "${current_track}" ]]; then 
-            rofi_input+="$(colored-icon pango 󰒮 ) Previous track\n"
+            rofi_input+="$(colored-icon 󰒮 ) Previous track\n"
             local -r prev_line_idx=$(( line_idx ))
             (( line_idx+=1))
 
@@ -35,7 +35,7 @@ function main {
             local -r play_line_idx=$(( line_idx ))
             (( line_idx+=1))
 
-            rofi_input+="$(colored-icon pango 󰒭 ) Next track\n"
+            rofi_input+="$(colored-icon 󰒭 ) Next track\n"
             local -r next_line_idx=$(( line_idx ))
             (( line_idx+=1))
 
@@ -50,7 +50,7 @@ function main {
             local -r prev_line_idx=-1 next_line_idx=-1
         fi
 
-        rofi_input+="$(colored-icon pango 󰲸 ) Current playlist\n"
+        rofi_input+="$(colored-icon 󰲸 ) Current playlist\n"
         local -r playlist_line_idx=$(( line_idx ))
         (( line_idx+=1))
     else 
@@ -58,15 +58,15 @@ function main {
         local -r play_line_idx=-1 prev_line_idx=-1 next_line_idx=-1 playlist_line_idx=-1
     fi 
 
-    rofi_input+="$(colored-icon pango 󰑖 ) Repeat\n"
+    rofi_input+="$(colored-icon 󰑖 ) Repeat\n"
     local -r repeat_line_idx=$(( line_idx ))
     (( line_idx+=1 ))
 
-    rofi_input+="$(colored-icon pango 󰒟 ) Random\n"
+    rofi_input+="$(colored-icon 󰒟 ) Random\n"
     local -r random_line_idx=$(( line_idx ))
     (( line_idx+=1 ))
 
-    rofi_input+="$(colored-icon pango  ) Consume\n"
+    rofi_input+="$(colored-icon  ) Consume\n"
     local -r consume_line_idx=$(( line_idx ))
     (( line_idx+=1 ))
 
@@ -109,7 +109,7 @@ function main {
         while read -r line 
         do 
             if [[ -n "${line}" ]]; then 
-                rofi_input_playlist+="$(colored-icon pango 󰝚 ) ${line}\n"
+                rofi_input_playlist+="$(colored-icon 󰝚 ) ${line}\n"
             fi
         done <<< "${playlist_tracks}"
 

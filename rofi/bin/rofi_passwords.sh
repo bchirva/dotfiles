@@ -27,22 +27,22 @@ function main() {
     local -r passwords_count=$(grep -cv '^$' <<< "${passwords}")
 
     local rofi_input 
-    rofi_input="$(colored-icon pango  "${WARNING_COLOR}" ) Add password\n"
+    rofi_input="$(colored-icon  "${WARNING_COLOR}" ) Add password\n"
 
     if (( passwords_count > 0 )); then 
-        rofi_input+="$(colored-icon pango   "${WARNING_COLOR}" ) Remove password\n"
+        rofi_input+="$(colored-icon   "${WARNING_COLOR}" ) Remove password\n"
         local -r remove_password_line=1
     fi
 
     if pass git status 2>/dev/null \
         && pass git remote -v 2>/dev/null | grep "origin" ; then 
-        rofi_input+="$(colored-icon pango  "${WARNING_COLOR}" ) Sync from git\n"
+        rofi_input+="$(colored-icon  "${WARNING_COLOR}" ) Sync from git\n"
         local -r sync_git_line=1
     fi
 
     local -r usb_drives=$(usb-available)
     if [[ -n "${usb_drives}" ]] && (( passwords_count > 0 )); then 
-        rofi_input+="$(colored-icon pango 󰕓 "${WARNING_COLOR}" ) Sync to USB\n"
+        rofi_input+="$(colored-icon 󰕓 "${WARNING_COLOR}" ) Sync to USB\n"
         local -r sync_usb_line=1
     fi
 
@@ -51,7 +51,7 @@ function main() {
         while read -r line 
         do 
             if [[ -n "${line}" ]]; then 
-                rofi_input_passwords+="$(colored-icon pango  ) ${line}\n"
+                rofi_input_passwords+="$(colored-icon  ) ${line}\n"
             fi
         done <<< "${passwords}"
     fi
@@ -131,7 +131,7 @@ function main() {
 
             local -r selected_service="$(sed -n "$(( variant_remove + 1))p" <<< "${passwords}")"
             
-            case $(echo -en "$(colored-icon pango 󰜺 ) Cancel \n$(colored-icon pango  "${ERROR_COLOR}" ) Remove\n" \
+            case $(echo -en "$(colored-icon 󰜺 ) Cancel \n$(colored-icon  "${ERROR_COLOR}") Remove\n" \
                     | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
                     -markup-rows -i -dmenu -no-custom \
                     -format 'i' \
@@ -175,7 +175,7 @@ function main() {
             while read -r line 
             do 
                 if [[ -n "${line}" ]]; then 
-                    rofi_input_usb+="$(colored-icon pango 󰕓 ) ${line}\n"
+                    rofi_input_usb+="$(colored-icon 󰕓 ) ${line}\n"
                 fi
             done <<< "${usb_drives}"
 
@@ -243,7 +243,7 @@ function main() {
                 copy_onetime_password
             else
                 local -r variant_password_type=$( \
-                    echo -en "$(colored-icon pango  ) Password\n$(colored-icon pango 󰀠 ) One-time password\n" \
+                    echo -en "$(colored-icon  ) Password\n$(colored-icon 󰀠 ) One-time password\n" \
                     | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
                     -markup-rows -i -dmenu -no-custom \
                     -format 'i' \

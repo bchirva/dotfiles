@@ -7,7 +7,7 @@ function main_menu {
 
     local rofi_input="" rofi_message="" wifi_available=0
     if $total_status; then 
-        rofi_input="$(colored-icon pango 󰖟 ) Network: <b>On</b>\n"
+        rofi_input="$(colored-icon 󰖟 ) Network: <b>On</b>\n"
 
         local -r devices_list=$(network-ctrl device list)
         local -r active_connections=$(network-ctrl connection list)
@@ -31,17 +31,17 @@ function main_menu {
             connection=$(sed -n "/^${device_name}/p"<<< "$active_connections")
             [ -n "$connection" ] && connection="($connection)"
 
-            rofi_input+="$(colored-icon pango "$device_icon") ${device_name}: <b>$(sed "s/true/On/ ; s/false/Off/" <<< "$device_status")</b> <i>$connection</i>\n"
+            rofi_input+="$(colored-icon "$device_icon") ${device_name}: <b>$(sed "s/true/On/ ; s/false/Off/" <<< "$device_status")</b> <i>$connection</i>\n"
         done <<< "$devices_list"
 
         if cut -f 2 <<< "$devices_list" | grep -q "wifi"; then
-            rofi_input+="$(colored-icon pango 󱛆 ) WiFi networks menu\n"
+            rofi_input+="$(colored-icon 󱛆 ) WiFi networks menu\n"
             wifi_available=1
         fi
 
-        rofi_input+="$(colored-icon pango 󰑓 ) Restart NetworkManager service\n"
+        rofi_input+="$(colored-icon 󰑓 ) Restart NetworkManager service\n"
     else
-        rofi_input="$(colored-icon pango 󰪎 ) Network: <b>Off</b>\n"
+        rofi_input="$(colored-icon 󰪎 ) Network: <b>Off</b>\n"
         rofi_message="Network disabled"
     fi
 
@@ -116,10 +116,10 @@ function wifi_menu {
             connection="@$connection"
         fi 
 
-        rofi_input+="$(colored-icon pango "$wifi_signal_icon") $wifi_ssid <i>($wifi_security)</i> <b>$connection</b>\n"
+        rofi_input+="$(colored-icon "$wifi_signal_icon") $wifi_ssid <i>($wifi_security)</i> <b>$connection</b>\n"
     done <<< "$wifi_list"
 
-    rofi_input+="$(colored-icon pango 󰑓 ) Rescan WiFi networks\n"
+    rofi_input+="$(colored-icon 󰑓 ) Rescan WiFi networks\n"
 
     if [ -z "$rofi_message" ]; then 
         rofi_message="No connection"; 

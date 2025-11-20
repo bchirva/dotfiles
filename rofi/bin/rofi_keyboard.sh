@@ -9,7 +9,7 @@ main() {
 
     rofi_input() {
         for i in $layouts; do
-            printf '%s\n' "$(colored-icon pango  ) ${i}"
+            printf '%s\n' "$(colored-icon  ) ${i}"
         done
     }
 

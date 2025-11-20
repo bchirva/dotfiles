@@ -11,7 +11,7 @@ function main() {
     function rofi_input(){
         for i in ${!schemes[*]} 
         do
-            echo -en "$(colored-icon pango  ) ${schemes[$i]}\n"
+            echo -en "$(colored-icon  ) ${schemes[$i]}\n"
         done
     }
 
