@@ -17,30 +17,28 @@ super + c
 super + ctrl + a
     rofi-audio-ctrl output
 
+super + ctrl + b
+    rofi-bluetooth-ctrl main
+
 super + ctrl + m
     rofi-audio-ctrl input
 
 super + ctrl + n
     rofi-network-ctrl main
 
-super + ctrl + b
-    rofi-bluetooth-ctrl main
-
 super + ctrl + q
     rofi-powermenu 
+
+super + ctrl + v
+    AmneziaVPN
+
+#~~~~~ Application start ~~~~~#
 
 super + Print
     rofi-screen-capture
 
-#~~~~~ Application start ~~~~~#
 super + p
     rofi-passwords
-
-super + m
-    rofi-music
-
-super + space ; n
-    AmneziaVPN
 
 super + space ; o
     obsidian %U
@@ -60,3 +58,15 @@ super + space ; w
 super + space ; z
     zathura
 
+#~~~~~ Music ~~~~~#
+super + m ; m
+    rofi-music
+
+super + m ; space
+    mpc toggle
+
+super + m ; n
+    mpc next
+
+super + m ; p
+    mpc prev
