@@ -3,25 +3,21 @@
 main() {
     window_manager="$1"
     polybar_config="${XDG_CONFIG_HOME}/polybar/config_${window_manager}.ini"
-    eww_cmd="eww open --toggle %s --arg monitor_name=\"%s\""
 
     monitor_name="" 
     bar=""
 
-    xrandr | grep "\bconnected\b" | while IFS= read -r line; do
-        monitor_name=$(echo "${line}" | awk '{print $1}')
+    xrandr | grep "\<connected\>" | while IFS= read -r line; do
+        monitor_name=$(echo "${line}" | cut -d ' ' -f 2)
 
-        if printf '%s' "${line}" | grep -q "\bprimary\b"; then 
+        if printf '%s' "$line" | grep -q "\<primary\>"; then 
             bar="mainbar"
         else 
             bar="auxbar"
         fi
 
         # shellcheck disable=SC2059
-        MONITOR="${monitor_name}" \
-        EWW_CONTROL_CMD="$(printf "${eww_cmd}" "control_center" "${monitor_name}")" \
-        EWW_STATUS_CMD="$(printf "${eww_cmd}" "status_monitor" "${monitor_name}")" \
-        polybar -c "${polybar_config}" "${bar}" & 
+        MONITOR="$monitor_name" polybar -c "$polybar_config" "$bar" & 
     done
 }
 

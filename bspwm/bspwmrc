@@ -6,13 +6,11 @@
 [ -f "${XDG_CONFIG_HOME}"/bspwm/scripts/workspaces.sh ] \
     && . "${XDG_CONFIG_HOME}"/bspwm/scripts/workspaces.sh
 
-dunst &
+picom -b
+xrdb -load "${XDG_CONFIG_HOME}/X11/Xresources"
 sxhkd "${XDG_CONFIG_HOME}/sxhkd/sxhkdrc-bspwm" &
-picom -b 
-wallpapers-ctrl load 
-udiskie &
-eww daemon
 launch-polybar bspwm
+wallpapers-ctrl load
 
 bspc config window_gap           4
 bspc config split_ratio          0.5
