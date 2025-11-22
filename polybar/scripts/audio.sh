@@ -4,26 +4,35 @@ main() {
     operation=$1
     channel=$2
 
+    case "$channel" in 
+        output) channel="sink" ;;
+        input)  channel="source" ;;
+        *) exit 1 ;;
+    esac 
+
     case $operation in
         status)
-            active_status=$(audio-ctrl list "$channel" \
-                | grep "$(audio-ctrl id "$channel")")
-            muted=$(printf '%s\n' "${active_status}" \
-                | cut -f 4)
-       
-            if ${muted} ; then
+            active_device_id="$(pactl "get-default-${channel}")"
+            device_mute="$(pactl "get-${channel}-mute" "$active_device_id" \
+                | sed "s/^[^ ]* // ; s/yes/true/ ; s/no/false/")"
+
+            if "$device_mute" ; then
                 case $channel in
-                    output) printf '%s\n' "󰝟" ;;
-                    input) printf '%s\n' "󰍭" ;;
+                    sink)   printf '%s\n' "󰝟" ;;
+                    source) printf '%s\n' "󰍭" ;;
                 esac
             else
+                device_volume="$(pactl "get-${channel}-volume" "$active_device_id" \
+                    | grep -o "[0-9]*%" \
+                    | head -n 1)"
+
                 case $channel in
-                    output) printf '%s\n' "" ;;
-                    input) printf '%s\n' "󰍬" ;;
+                    sink)   printf '%s\n' " $device_volume" ;;
+                    source) printf '%s\n' "󰍬 $device_volume" ;;
                 esac
             fi
         ;;
-        menu) rofi-audio-ctrl "${channel}" ;;
+        menu) rofi-audio-ctrl "$channel" ;;
         *) exit 2 ;;
     esac
 }
