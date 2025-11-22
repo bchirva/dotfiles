@@ -16,8 +16,8 @@ print_network_icon() {
             | cut -d ':' -f 2)"
 
         case "$device_type" in
-            ethernet) printf '%s\n' "󰈀" ;;
-            wifi)     printf '%s\n' "" ;;
+            ethernet) printf '%s\n' "󰈀 $(printf '%s\n' "$active_device" | cut -d ':' -f 1)" ;;
+            wifi)     printf '%s\n' " $(printf '%s\n' "$active_device" | cut -d ':' -f 4)" ;;
             *)        printf '%s\n' "󰌙" ;;
         esac 
     else 

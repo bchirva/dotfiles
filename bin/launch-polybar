@@ -8,7 +8,7 @@ main() {
     bar=""
 
     xrandr | grep "\<connected\>" | while IFS= read -r line; do
-        monitor_name=$(echo "${line}" | cut -d ' ' -f 2)
+        monitor_name=$(printf '%s\n' "$line" | cut -d ' ' -f 1)
 
         if printf '%s' "$line" | grep -q "\<primary\>"; then 
             bar="mainbar"
