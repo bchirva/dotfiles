@@ -7,30 +7,30 @@ function main_menu {
 
     local rofi_message rofi_input
     if jq -e ".powered" <<< "${total_status}" > /dev/null; then 
-        rofi_input="${rofi_input}$(colored-icon ) Power: <b>On</b>\n"
+        rofi_input="${rofi_input}$(colored-pango-icon ) Power: <b>On</b>\n"
     else 
-        rofi_input="${rofi_input}$(colored-icon 󰅖) Power: <b>Off</b>\n"
+        rofi_input="${rofi_input}$(colored-pango-icon 󰅖) Power: <b>Off</b>\n"
     fi 
 
     if jq -e ".pairable" <<< "${total_status}" > /dev/null; then 
-        rofi_input="${rofi_input}$(colored-icon ) Pairable: <b>On</b>\n"
+        rofi_input="${rofi_input}$(colored-pango-icon ) Pairable: <b>On</b>\n"
     else 
-        rofi_input="${rofi_input}$(colored-icon 󰅖) Pairable: <b>Off</b>\n"
+        rofi_input="${rofi_input}$(colored-pango-icon 󰅖) Pairable: <b>Off</b>\n"
     fi 
 
     if jq -e ".discoverable" <<< "${total_status}" > /dev/null; then 
-        rofi_input="${rofi_input}$(colored-icon ) Discoverable: <b>On</b>\n"
+        rofi_input="${rofi_input}$(colored-pango-icon ) Discoverable: <b>On</b>\n"
     else 
-        rofi_input="${rofi_input}$(colored-icon 󰅖) Discoverable: <b>Off</b>\n"
+        rofi_input="${rofi_input}$(colored-pango-icon 󰅖) Discoverable: <b>Off</b>\n"
     fi 
 
     # if jq -e ".scanning" <<< "$TOTAL_STATUS" > /dev/null; then 
-    #     ROFI_INPUT="${ROFI_INPUT}$(colored-icon ) Scanning: <b>On</b>\n"
+    #     ROFI_INPUT="${ROFI_INPUT}$(colored-pango-icon ) Scanning: <b>On</b>\n"
     # else 
-    #     ROFI_INPUT="${ROFI_INPUT}$(colored-icon 󰅖) Scanning: <b>Off</b>\n"
+    #     ROFI_INPUT="${ROFI_INPUT}$(colored-pango-icon 󰅖) Scanning: <b>Off</b>\n"
     # fi 
     
-    rofi_input+="$(colored-icon 󰂳) Bluetooth devices menu\n"
+    rofi_input+="$(colored-pango-icon 󰂳) Bluetooth devices menu\n"
 
     local -r connected_devices=$(jq "[.[] | select(.connected == true)] | length" <<< "$(bluetooth-ctrl device list)")
 
@@ -102,10 +102,10 @@ function devices_menu() {
             connection=""
         fi
 
-        rofi_input="${rofi_input}$(colored-icon "${device_icon}") ${device_name} <b>$connection</b>\n"
+        rofi_input="${rofi_input}$(colored-pango-icon "${device_icon}") ${device_name} <b>$connection</b>\n"
     done
 
-    rofi_input="${rofi_input}$(colored-icon 󰑓 ) Scan for devices\n"
+    rofi_input="${rofi_input}$(colored-pango-icon 󰑓 ) Scan for devices\n"
 
     local -r variant=$(echo -en "${rofi_input}" \
         | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \

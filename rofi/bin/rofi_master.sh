@@ -4,12 +4,12 @@
 
 main() {
     rofi_entries() {
-        printf '%s\n' "$(colored-icon  ) Audio output"
-        printf '%s\n' "$(colored-icon  ) Audio input"
-        printf '%s\n' "$(colored-icon 󰖟 ) Network"
-        printf '%s\n' "$(colored-icon 󰂯 ) Bluetooth"
-        printf '%s\n' "$(colored-icon  ) System monitor"
-        printf '%s\n' "$(colored-icon  "$ERROR_COLOR") Logout"
+        printf '%s\n' "$(colored-pango-icon  ) Audio output"
+        printf '%s\n' "$(colored-pango-icon  ) Audio input"
+        printf '%s\n' "$(colored-pango-icon 󰖟 ) Network"
+        printf '%s\n' "$(colored-pango-icon 󰂯 ) Bluetooth"
+        printf '%s\n' "$(colored-pango-icon  ) System monitor"
+        printf '%s\n' "$(colored-pango-icon  "$ERROR_COLOR") Logout"
     }
 
     variant=$(rofi_entries \

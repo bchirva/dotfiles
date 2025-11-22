@@ -8,7 +8,7 @@ select_screen() {
 
     rofi_input=$(printf '%s\n' "$screens" \
         | while read -r line; do 
-            printf '%s\n' "$(colored-icon 󰍹 ) $line"
+            printf '%s\n' "$(colored-pango-icon 󰍹 ) $line"
         done)
 
     variant_screen=$(printf '%s\n' "$rofi_input" \
@@ -36,10 +36,10 @@ main() {
     notification_cmd='notify-send -u normal -i accessories-screenshot "Screenshot" "saved in $f"'
 
     rofi_input=$(printf '%s\n%s\n%s\n%s\n' \
-        "$(colored-icon 󰇀 ) Shot focused window" \
-        "$(colored-icon 󰍹 ) Shot whole screen" \
-        "$(colored-icon 󰒉 ) Shot selected area or window" \
-        "$(colored-icon  ) Record screen")
+        "$(colored-pango-icon 󰇀 ) Shot focused window" \
+        "$(colored-pango-icon 󰍹 ) Shot whole screen" \
+        "$(colored-pango-icon 󰒉 ) Shot selected area or window" \
+        "$(colored-pango-icon  ) Record screen")
 
     variant=$(printf '%s\n' "$rofi_input" \
         | rofi -config "$XDG_CONFIG_HOME/rofi/dmenu-single-column.rasi" \

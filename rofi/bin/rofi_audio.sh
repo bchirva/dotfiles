@@ -8,15 +8,15 @@ function main() {
     case $device_type in
         "output")   
             local -r device_icon=""
-            local -r volume_up_icon="$(colored-icon 󰝝 )"
-            local -r volume_down_icon="$(colored-icon 󰝞 )"
-            local -r mute_icon="$(colored-icon 󰝟 )"
+            local -r volume_up_icon="$(colored-pango-icon 󰝝 )"
+            local -r volume_down_icon="$(colored-pango-icon 󰝞 )"
+            local -r mute_icon="$(colored-pango-icon 󰝟 )"
             ;;
         "input")    
             local -r device_icon=""
-            local -r volume_up_icon="$(colored-icon 󰢴 )"
-            local -r volume_down_icon="$(colored-icon 󰢳 )"
-            local -r mute_icon="$(colored-icon  )"
+            local -r volume_up_icon="$(colored-pango-icon 󰢴 )"
+            local -r volume_down_icon="$(colored-pango-icon 󰢳 )"
+            local -r mute_icon="$(colored-pango-icon  )"
             ;;
         *) exit 2 ;;
     esac
@@ -36,7 +36,7 @@ function main() {
     fi 
 
     while read -r line; do 
-        rofi_input+="$(colored-icon $device_icon) $(cut -f 2 <<< "$line")\n"
+        rofi_input+="$(colored-pango-icon $device_icon) $(cut -f 2 <<< "$line")\n"
     done <<< "$device_list"
 
     local -r active_device_idx="$(grep -n "$active_device" <<< "$device_list" | cut -d ':' -f 1)"
