@@ -1,47 +1,51 @@
 #!/usr/bin/env bash 
 
+if ! command -v nmcli > /dev/null ; then 
+    exit 1
+fi
+
 source "${XDG_CONFIG_HOME}/shell/theme.sh"
 
 function main_menu {
-    local -r total_status=$(network-ctrl system status)
+    local -r total_status=$(nmcli networking \
+        | sed "s/\<enabled\>/true/; s/\<disabled\>/false/")
 
     local rofi_input="" rofi_message="" wifi_available=0
     if $total_status; then 
-        rofi_input="$(colored-icon 󰖟 ) Network: <b>On</b>\n"
+        rofi_input="$(colored-pango-icon 󰖟 ) Network: <b>On</b>\n"
 
-        local -r devices_list=$(network-ctrl device list)
-        local -r active_connections=$(network-ctrl connection list)
- 
-        if [ -n "$active_connections" ]; then
-            local -r active_device=$(sed -n "1{s/\s.*$// ; p}" <<< "$active_connections")
-            local -r active_connection=$(sed -n "1{s/^.*\s// ; p}" <<< "$active_connections")
-            rofi_message="Connected to <b>$active_connection</b> on <b>$active_device</b>"
+        local -r device_list="$(nmcli -g DEVICE,TYPE,STATE,CONNECTION device \
+            | grep -Ev ":(loopback|bridge|tun|unavailable|wifi-p2p):")"
+        local -r active_connection="$(grep -m 1 -E ":connected:" <<< "$device_list")"
+
+        if [ -n "$active_connection" ]; then
+            IFS=':' read -r active_device _ _ connection_name <<< "$active_connection"
+            rofi_message="Connected to <b>$connection_name</b> on <b>$active_device</b>"
         fi 
 
         while read -r line; do 
-            device_name=$(cut -f 1 <<< "$line")
-            device_status=$(cut -f 3 <<< "$line")
+            IFS=':' read -r device_name device_type connection_status connection_name <<< "$line"
+            connection_status="$(sed -e 's/\<connected\>/true/' -e 's/\<disconnected\>/false/' <<< "$connection_status")"
             
-            case $(cut -f 2 <<< "$line") in
-                ethernet) $device_status && device_icon="󰈁" || device_icon="󰈂" ;;
-                wifi)     $device_status && device_icon="󰖩" || device_icon="󰖪" ;;
+            case "$device_type" in
+                ethernet) $connection_status && device_icon="󰈁" || device_icon="󰈂" ;;
+                wifi)     $connection_status && device_icon="󰖩" || device_icon="󰖪" ;;
                 *) exit ;;
             esac 
 
-            connection=$(sed -n "/^${device_name}/p"<<< "$active_connections")
-            [ -n "$connection" ] && connection="($connection)"
+            [ -n "$connection_name" ] && connection_name="($connection_name)"
 
-            rofi_input+="$(colored-icon "$device_icon") ${device_name}: <b>$(sed "s/true/On/ ; s/false/Off/" <<< "$device_status")</b> <i>$connection</i>\n"
-        done <<< "$devices_list"
+            rofi_input+="$(colored-pango-icon "$device_icon") $device_name: <b>$(sed "s/true/On/ ; s/false/Off/" <<< "$connection_status")</b> <i>$connection_name</i>\n"
+        done <<< "$device_list"
 
-        if cut -f 2 <<< "$devices_list" | grep -q "wifi"; then
-            rofi_input+="$(colored-icon 󱛆 ) WiFi networks menu\n"
+        if cut -d ':' -f 2 <<< "$device_list" | grep -q "wifi"; then
+            rofi_input+="$(colored-pango-icon 󱛆 ) WiFi networks menu\n"
             wifi_available=1
         fi
 
-        rofi_input+="$(colored-icon 󰑓 ) Restart NetworkManager service\n"
+        rofi_input+="$(colored-pango-icon 󰑓 ) Restart NetworkManager service\n"
     else
-        rofi_input="$(colored-icon 󰪎 ) Network: <b>Off</b>\n"
+        rofi_input="$(colored-pango-icon 󰪎 ) Network: <b>Off</b>\n"
         rofi_message="Network disabled"
     fi
 
@@ -49,7 +53,7 @@ function main_menu {
         rofi_message="No connection"; 
     fi
 
-    local -r devices_count=$(wc -l <<< "$devices_list")
+    local -r devices_count=$(wc -l <<< "$device_list")
     local -r variant=$(echo -en "$rofi_input" \
         | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
@@ -64,15 +68,15 @@ function main_menu {
 
     if (( variant == 0)); then 
         toggle_to=$(sed "s/true/off/ ; s/false/on/" <<< "$total_status")
-        network-ctrl system toggle "$toggle_to"
+        nmcli networking "$toggle_to"
         if ! $total_status; then
             sleep 3
             main_menu 
         fi
     elif (( variant <= devices_count )); then
-        network-ctrl device toggle \
-            "$(sed -n "${variant}{s/\s.*$// ; p}" <<< "$devices_list")" \
-            "$(sed -n "${variant}{s/^\([^ ]*\s\)\{2\}// ; s/true/On/ ; s/false/Off/ ; p}" <<< "$devices_list")"
+        IFS=':' read -r selected_device _ device_action _ <<< "$(head -n 1 <<< "$device_list")"
+        device_action=$(sed "s/\<connected\>/disconnect/; s/\<disconnected\>/connect/" <<< "$device_action")
+        nmcli device "$device_action" "$selected_device" 
     elif (( variant == $((devices_count + 1)) )); then
         wifi_menu
     elif (( variant == $((devices_count + 2)) )); then
@@ -86,18 +90,17 @@ function wifi_menu {
     local -r KNOWN_WIFI_ICONS=( "󰤯" "󰤟" "󰤢" "󰤥" "󰤨" )
     local -r LOCKED_WIFI_ICONS=( "󰤬" "󰤡" "󰤤" "󰤧" "󰤪" )
 
-    local -r wifi_list=$(network-ctrl wifi list)
-    local -r active_connections=$(network-ctrl connection list)
+    local -r known_ssid_list=$(nmcli -g NAME,TYPE connection | grep ":.*wireless")
+    local -r wifi_list=$(nmcli -t -f SSID,SIGNAL,SECURITY,DEVICE,ACTIVE device wifi list \
+        | grep -v "^:")
 
     local rofi_input="" rofi_message=""
-    local wifi_ssid="" wifi_security="" wifi_signal="" wifi_signal_icon="" connection
+    local wifi_ssid="" wifi_security="" wifi_signal="" wifi_signal_icon="" wifi_device="" wifi_active="" connection=""
 
     while read -r line; do 
-        wifi_ssid=$(cut -f 1 <<< "$line")
-        wifi_security=$(cut -f 2 <<< "$line")
-        wifi_signal=$(cut -f 3 <<< "$line")
-        ssid_known=$(cut -f 4 <<< "$line")
+        IFS=':' read -r wifi_ssid wifi_signal wifi_security wifi_device wifi_active <<< "$line"
 
+        grep -q "^${wifi_ssid}" <<< "$known_ssid_list" && ssid_known="true" || ssid_known="false"
         if   (( wifi_signal <= 12 )); then 
             $ssid_known && wifi_signal_icon=${KNOWN_WIFI_ICONS[0]} || wifi_signal_icon=${LOCKED_WIFI_ICONS[0]} 
         elif (( wifi_signal <= 37 )); then 
@@ -110,16 +113,17 @@ function wifi_menu {
             $ssid_known && wifi_signal_icon=${KNOWN_WIFI_ICONS[4]} || wifi_signal_icon=${LOCKED_WIFI_ICONS[4]} 
         fi
 
-        connection=$(sed -n "/$wifi_ssid/{s/\s.*$// ; p}" <<< "$active_connections" )
-        if [ -n "$connection" ]; then 
-            rofi_message="Connected to <b>$wifi_ssid</b> on <b>$connection</b>"
-            connection="@$connection"
+        wifi_active="$(sed "s/yes/true/; s/no/false/" <<< "$wifi_active")"
+        connection=""
+        if $wifi_active ; then 
+            rofi_message="Connected to <b>$wifi_ssid</b> on <b>$wifi_device</b>"
+            connection="@$wifi_device"
         fi 
 
-        rofi_input+="$(colored-icon "$wifi_signal_icon") $wifi_ssid <i>($wifi_security)</i> <b>$connection</b>\n"
+        rofi_input+="$(colored-pango-icon "$wifi_signal_icon") $wifi_ssid <i>($wifi_security)</i> <b>$connection</b>\n"
     done <<< "$wifi_list"
 
-    rofi_input+="$(colored-icon 󰑓 ) Rescan WiFi networks\n"
+    rofi_input+="$(colored-pango-icon 󰑓 ) Rescan WiFi networks\n"
 
     if [ -z "$rofi_message" ]; then 
         rofi_message="No connection"; 
@@ -132,7 +136,7 @@ function wifi_menu {
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
         -p " WiFi:" \
-        -mesg "${rofi_message}" \
+        -mesg "$rofi_message" \
         -l $((wifi_count + 1)) )
 
     if [ ! "${variant}" ]; then 
@@ -143,18 +147,23 @@ function wifi_menu {
         wifi_menu
     elif (( variant <= wifi_count )); then
         local -r selected_network=$(sed -n "$((variant + 1))p" <<< "$wifi_list")
-        local -r selected_ssid=$(cut -f 1 <<< "$selected_network")
+        local -r selected_ssid=$(cut -d ':' -f 1 <<< "$selected_network")
 
-        if [ -n "$(sed -n "/${selected_ssid}/{s/\s.*$// ; p}" <<< "$active_connections")" ]; then
-            network-ctrl wifi disconnect "$selected_ssid"
-        elif "$(cut -f 4 <<< "$wifi_list")"; then 
-            network-ctrl wifi connect "$selected_ssid"
+        echo "$selected_network"
+        echo "$selected_ssid"
+
+        if grep -q "^$selected_ssid" <<< "$known_ssid_list" ; then 
+            if "$(sed "s/^\([^:]*:\)*//; s/yes/true/; s/no/false/" <<< "$selected_network" )"; then 
+                nmcli connection down "$selected_ssid"
+            else "$(cut -f 4 <<< "$wifi_list")"
+                nmcli connection up "$selected_ssid"
+            fi
         else 
             local -r ssid_password=$(rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-input.rasi" \
                 -dmenu -password \
                 -p " " \
                 -mesg "Password for WiFi network <b>$selected_ssid</b>" )
-            network-ctrl wifi connect "$selected_ssid" "$ssid_password"
+            nmcli device wifi connect "$selected_ssid" "$ssid_password"
         fi 
     fi
 }
