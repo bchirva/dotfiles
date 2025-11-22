@@ -1,5 +1,9 @@
 #!/usr/bin/env sh
 
+if ! command -v xkb-switch > /dev/null ; then 
+    exit 1
+fi
+
 . "$XDG_CONFIG_HOME/shell/theme.sh"
 
 main() {
@@ -8,14 +12,13 @@ main() {
     layouts_count=$(printf '%s\n' "$layouts" | wc -l)
 
     rofi_input() {
-        for i in $layouts; do
-            printf '%s\n' "$(colored-pango-icon  ) $i"
+        for l in $layouts; do
+            printf '%s\n' "$(colored-pango-icon  ) $l"
         done
     }
 
     i=0
-    for l in $layouts
-    do
+    for l in $layouts; do
         if [ "$l" = "$current_layout" ]; then
             row_modifiers="-a $i -selected-row $i"
         fi

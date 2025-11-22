@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if ! command -v pactl > /dev/null ; then
+    exit 1
+fi
+
 function main() {
     local device_type=$1
 

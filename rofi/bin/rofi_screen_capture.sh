@@ -86,7 +86,6 @@ main() {
             fi 
 
             screen="$(select_screen)"
-
             if [ -z "$screen" ]; then 
                 exit 
             fi

@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if ! command -v bluetoothctl > /dev/null ; then 
+    exit 1
+fi
+
 source "${XDG_CONFIG_HOME}/shell/theme.sh"
 
 function main_menu {

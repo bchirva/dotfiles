@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if ! command -v mpc > /dev/null ; then 
+    exit 1
+fi
+
 source "$XDG_CONFIG_HOME/shell/theme.sh"
 
 function escape_pango {
@@ -71,9 +75,9 @@ function main {
     (( line_idx+=1 ))
 
     local highlight_rows=()
-    [ "$repeat_opt" == "on" ] && highlight_rows+=( "$repeat_line_idx" )
-    [ "$random_opt" == "on" ] && highlight_rows+=( "$random_line_idx" )
-    [ "$consume_opt" == "on" ] && highlight_rows+=( "$consume_line_idx" )
+    [ "$repeat_opt"  = "on" ] && highlight_rows+=( "$repeat_line_idx" )
+    [ "$random_opt"  = "on" ] && highlight_rows+=( "$random_line_idx" )
+    [ "$consume_opt" = "on" ] && highlight_rows+=( "$consume_line_idx" )
     if (( play_line_idx != -1 )); then 
         local -r selected_play_line=(-selected-row $(( play_line_idx)) )
     fi 

@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+if ! command -v pass > /dev/null ; then 
+    exit 1
+fi
+
 source "$XDG_CONFIG_HOME/shell/theme.sh"
 
 function usb-available() {
@@ -7,15 +11,15 @@ function usb-available() {
 
     for disk in $(lsblk -dn -o NAME,TRAN \
         | awk '$2=="usb" {print $1}'); do
-        for part in $(lsblk -ln -o NAME,TYPE /dev/"${disk}" \
+        for part in $(lsblk -ln -o NAME,TYPE "/dev/$disk" \
             | awk '$2=="part" {print $1}'); do
-            mountpoint="$(lsblk -no MOUNTPOINT /dev/"${part}")"
-            if [[ -n "${mountpoint}" ]]; then 
+            mountpoint="$(lsblk -no MOUNTPOINT "/dev/$part")"
+            if [ -n "${mountpoint}" ]; then 
                 output="${output}${mountpoint}\n"
             fi
         done
     done
-    echo -en "${output}"
+    echo -en "$output"
 }
 
 function main() {  
@@ -65,7 +69,7 @@ function main() {
         -p " Passwords:" \
         -l $(( rows_count > MAX_PASSWORD_LINES ? MAX_PASSWORD_LINES : rows_count  )) )
 
-    if [ ! "$variant" ]; then
+    if [ -z "$variant" ]; then
         exit;
     fi 
 
