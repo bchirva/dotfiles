@@ -5,19 +5,31 @@ main() {
 
     case $operation in 
         status)
-            if bluetooth-ctrl status \
-                | jq -e ".powered" > /dev/null; then
-                if [ "$(bluetooth-ctrl device list \
-                    | jq "[.[] | select(.connected == true)] | length" )" \
-                    -gt 0 ]
-                then 
-                    printf '%s\n' "󰂱"
+            if "$(bluetoothctl show \
+                | sed "s/^\s*// ; s/yes/true/; s/no/false/" \
+                | grep "Powered:" \
+                | cut -d ' ' -f 2)"; then 
+
+                connected_count=0
+                for device_id in $(bluetoothctl devices \
+                    | grep "^Device:" \
+                    | cut -d ' ' -f 2); do 
+
+                    if bluetoothctl info "$device_id" \
+                        | grep -q "Connected: yes"; then 
+
+                        connected_count=$((connected_count + 1))
+                    fi
+                done 
+
+                if [ "$connected_count" -gt 0 ]; then
+                    printf '%s\n' "󰂱 $connected_count"
                 else 
                     printf '%s\n' "󰂯"
-                fi 
+                fi
             else 
                 printf '%s\n' "󰂲"; 
-            fi
+            fi 
         ;;
         menu) rofi-bluetooth-ctrl main;;
         *) exit 2;;

@@ -1,7 +1,0 @@
-#!/usr/bin/env sh 
-
-sed -E '
-    s/\b(on|enabled|connected|yes)\b/true/g;
-    s/\b(off|disabled|disconnected|no)\b/false/g
-    '
-
