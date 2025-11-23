@@ -50,6 +50,9 @@ super + space ; t
     Telegram -- %u
 
 super + space ; v
+    rofi-virtmanager
+
+super + space ; shift + v
     virt-manager
 
 super + space ; w
