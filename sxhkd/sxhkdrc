@@ -15,16 +15,16 @@ super + c
     rofi-master
 
 super + ctrl + a
-    rofi-audio-ctrl output
+    rofi-audio output
 
 super + ctrl + b
-    rofi-bluetooth-ctrl main
+    rofi-bluetooth main
 
 super + ctrl + m
-    rofi-audio-ctrl input
+    rofi-audio input
 
 super + ctrl + n
-    rofi-network-ctrl main
+    rofi-network main
 
 super + ctrl + q
     rofi-powermenu 

@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+case "$BLOCK_BUTTON" in 
+    1) killall gsimplecal; gsimplecal & ;;
+esac
+
+printf '%s\n' " $(date '+%H:%M')"
+
+

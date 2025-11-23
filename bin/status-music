@@ -1,1 +1,17 @@
-../polybar/scripts/music.sh
+#!/usr/bin/env sh
+
+if ! command -v mpc >/dev/null; then 
+    printf '\0'
+    exit 0
+fi
+
+case "$BLOCK_BUTTON" in 
+    1) mpc toggle ;;
+esac
+
+song="$(mpc --format "%title% - %artist%" current)"
+if [ -n "${song}" ]; then 
+    printf '%s\n' "󰝚 ${song}"
+else 
+    printf '\0'
+fi

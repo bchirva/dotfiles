@@ -2,15 +2,8 @@
 
 RECORD_PID_FILE="${XDG_RUNTIME_DIR}/ffmpeg.record.pid"
 
-case $1 in 
-    icon)
-        if [ -f "$RECORD_PID_FILE" ]; then 
-            printf '%s\n' ""
-        else 
-            printf '\0'
-        fi 
-        ;;
-    stop)
+case "$BLOCK_BUTTON" in 
+    1)
         if [ -f "$RECORD_PID_FILE" ]; then 
             ffmpeg_pid="$(head -n 1 "$RECORD_PID_FILE")"
             kill -INT "${ffmpeg_pid}" 
@@ -20,7 +13,10 @@ case $1 in
             exit 0
         fi 
         ;;
+esac
 
-    *) exit 2
-esac 
-
+if [ -f "$RECORD_PID_FILE" ]; then 
+    printf '%s\n' " "
+else 
+    printf '\0'
+fi 

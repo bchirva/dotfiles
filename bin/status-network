@@ -1,1 +1,29 @@
-../polybar/scripts/network.sh
+#!/usr/bin/env sh
+
+if ! command -v nmcli > /dev/null; then 
+    printf '\0'
+    exit 0
+fi
+
+case "$BLOCK_BUTTON" in 
+    1) rofi-network main ;;
+esac
+
+network_status="$(nmcli networking \
+    | sed "s/\<enabled\>/true/; s/\<disabled\>/false/")"
+
+if $network_status ; then 
+    active_device=$(nmcli -g DEVICE,TYPE,STATE,CONNECTION device \
+        | grep -Ev ":(loopback|bridge|tun|unavailable|unmanaged|wifi-p2p):" \
+        | grep -m 1 ":connected:")
+    device_type="$(printf '%s\n' "$active_device" \
+        | cut -d ':' -f 2)"
+
+    case "$device_type" in
+        ethernet) printf '%s\n' "󰈀 $(printf '%s\n' "$active_device" | cut -d ':' -f 1)" ;;
+        wifi)     printf '%s\n' " $(printf '%s\n' "$active_device" | cut -d ':' -f 4)" ;;
+        *)        printf '%s\n' "󰌙" ;;
+    esac 
+else 
+    printf '%s\n' "󰌙"
+fi 

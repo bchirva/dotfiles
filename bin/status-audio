@@ -1,1 +1,40 @@
-../polybar/scripts/audio.sh
+#!/usr/bin/env sh
+
+if ! command -v pactl >/dev/null; then 
+    printf '\0'
+    exit 0
+fi
+
+case "$1" in 
+    output) channel="sink" ;;
+    input)  channel="source" ;;
+    *) exit 1 ;;
+esac 
+
+case "$BLOCK_BUTTON" in 
+    1) rofi-audio "$channel" ;;
+    3) pactl set-"$channel"-mute   "$(pactl get-default-"$channel")" toggle ;;
+    4) pactl set-"$channel"-volume "$(pactl get-default-"$channel")" "+5%";;
+    5) pactl set-"$channel"-volume "$(pactl get-default-"$channel")" "-5%";;
+esac
+
+active_device_id="$(pactl "get-default-${channel}")"
+device_mute="$(pactl "get-${channel}-mute" "$active_device_id" \
+    | sed "s/^[^ ]* // ; s/yes/true/ ; s/no/false/")"
+
+if "$device_mute" ; then
+    case $channel in
+        sink)   printf '%s\n' "󰝟" ;;
+        source) printf '%s\n' "󰍭" ;;
+    esac
+else
+    device_volume="$(pactl "get-${channel}-volume" "$active_device_id" \
+        | grep -o "[0-9]*%" \
+        | head -n 1)"
+
+    case $channel in
+        sink)   printf '%s\n' "󰕾 $device_volume" ;;
+        source) printf '%s\n' "󰍬 $device_volume" ;;
+    esac
+fi
+
