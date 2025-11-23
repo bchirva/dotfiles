@@ -43,6 +43,6 @@ dmenu.inputforeground:  {foreground_base}
 dwm.normbgcolor:        {background_base} 
 dwm.normbordercolor:    {background_base}
 dwm.normfgcolor:        {foreground_base}
-dwm.selbgcolor:         {background_view}
+dwm.selbgcolor:         {background_base}
 dwm.selbordercolor:     {primary}
 dwm.selfgcolor:         {primary}

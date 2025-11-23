@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 
 if ! command -v jq >/dev/null || [ -z "$OPENWEATHER_KEY" ] ; then 
-    echo " "
-    exit 1
+    printf '\0'
+    exit 0
 fi
 
 weather_icon(){

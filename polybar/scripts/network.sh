@@ -1,7 +1,8 @@
 #!/usr/bin/env sh
 
 if ! command -v nmcli > /dev/null; then 
-    exit 1
+    printf '\0'
+    exit 0
 fi
 
 print_network_icon() {

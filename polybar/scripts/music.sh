@@ -1,5 +1,10 @@
 #!/usr/bin/env sh
 
+if ! command -v mpc >/dev/null; then 
+    printf '\0'
+    exit 0
+fi
+
 main() {
     case "$1" in 
         status) 
@@ -7,7 +12,7 @@ main() {
             if [ -n "${song}" ]; then 
                 printf '%s\n' "󰝚 ${song}"
             else 
-                printf '%s\n' "󰝛"
+                printf '\0'
             fi
             ;;
         action) mpc toggle ;;

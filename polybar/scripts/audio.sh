@@ -1,5 +1,10 @@
 #!/usr/bin/env sh
 
+if ! command -v pactl >/dev/null; then 
+    printf '\0'
+    exit 0
+fi
+
 main() {
     operation=$1
     channel=$2

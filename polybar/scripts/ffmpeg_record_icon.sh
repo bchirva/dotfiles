@@ -7,7 +7,7 @@ case $1 in
         if [ -f "$RECORD_PID_FILE" ]; then 
             printf '%s\n' ""
         else 
-            printf '%s\n' " "
+            printf '\0'
         fi 
         ;;
     stop)
