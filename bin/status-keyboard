@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+if ! command -v xkb-switch > /dev/null ; then 
+    printf '\0'
+    exit 0
+fi
+
+case "$BLOCK_BUTTON" in 
+    1) xkb-switch -n ;;
+esac
+
+printf '%s\n' "󰌌 $(xkb-switch -p)"
