@@ -40,14 +40,23 @@ super + Print
 super + p
     rofi-passwords
 
+super + space ; b
+    brave
+
+super + space ; i
+    inkscape
+
+super + space ; g
+    gimp
+
 super + space ; o
-    obsidian %U
+    obsidian
 
 super + space ; s
     $TERMINAL -e btm
 
 super + space ; t
-    Telegram -- %u
+    Telegram
 
 super + space ; v
     rofi-virtmanager
