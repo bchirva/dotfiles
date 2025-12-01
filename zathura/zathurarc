@@ -1,6 +1,7 @@
 include themerc
 set recolor true
 set recolor-keephue true
+set recolor-reverse-video true
 font "VictorMono Nerd Font 12"
 
 
