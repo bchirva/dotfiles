@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+[ -f "$XDG_CONFIG_HOME/x11/Xresources" ] && xrdb -load "$XDG_CONFIG_HOME/x11/Xresources"
+[ -f "$XDG_CONFIG_HOME/x11/xprofile" ] && . "$XDG_CONFIG_HOME/x11/xprofile"
+
+# dunst &
+# sxhkd &
+# picom -b & 
+# wallpapers-ctrl load 
+# udiskie &
+
+exec bspwm 
