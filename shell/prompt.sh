@@ -50,90 +50,90 @@ prompt_info() {
 
     #~~~ System logo ~~~#
 
-    PROMPT_STR+="${FG_PRIMARY}"
+    PROMPT_STR+="$FG_PRIMARY"
     case "$( awk -F '=' '/^ID=/{print $2}' /etc/os-release )" in
         arch)   PROMPT_STR+=" " ;;
         debian) PROMPT_STR+=" " ;;
         ubuntu) PROMPT_STR+=" " ;;
         *)      PROMPT_STR+=" " ;;
     esac 
-    PROMPT_STR+="${FG_RESET} "
+    PROMPT_STR+="$FG_RESET "
 
     #~~~ User info ~~~#
 
     if (( UID != 1000 )); then 
         if (( UID == 0 )); then 
-            PROMPT+="${FG_WARNING}"
+            PROMPT+="$FG_WARNING"
         else 
-            PROMPT+="${FG_SECONDARY}"
+            PROMPT+="$FG_SECONDARY"
         fi
 
-        PROMPT+=" ${USER_FORMAT} ${SEP}${FG_RESET} "
+        PROMPT+=" $USER_FORMAT $SEP$FG_RESET "
     fi 
 
     #~~~ Hostname on SSH connenction ~~~#
 
-    if [ -n "${SSH_CONNECTION}" ]; then 
-        PROMPT_STR+="${FG_WARNING}󰖟 ${HOST_FORMAT} ${SEP}${FG_RESET} "
+    if [ -n "$SSH_CONNECTION" ]; then 
+        PROMPT_STR+="$FG_WARNING󰖟 $HOST_FORMAT $SEP$FG_RESET "
     fi 
 
     #~~~ Virtual environment ~~~#
 
-    if [ -n "${VIRTUAL_ENV}" ]; then 
-        PROMPT_STR+="${FG_SECONDARY} $(basename "${VIRTUAL_ENV}") ($(python3 --version | awk '{print $NF}')) ${SEP}${FG_RESET} "
+    if [ -n "$VIRTUAL_ENV" ]; then 
+        PROMPT_STR+="$FG_SECONDARY $(basename "$VIRTUAL_ENV") ($(python3 --version | awk '{print $NF}')) $SEP$FG_RESET "
     fi
 
     #~~~ Readonly marker ~~~#
 
     if [ -d . ] && [ ! -w . ]; then 
-        local -r READONLY_MARKER="${FG_WARNING} 󰉐 ${FG_RESET}"
+        local -r READONLY_MARKER="$FG_WARNING 󰉐 $FG_RESET"
     fi
 
     #~~~ Git repository or PWD info ~~~#
 
-    PROMPT_STR+="${FG_PRIMARY}"
+    PROMPT_STR+="$FG_PRIMARY"
     if [[ $(git status 2>/dev/null; echo $?) != 128 ]]; then
         local GIT_PATH="" GIT_INFO=""
 
         GIT_PATH="$(basename "$(git rev-parse --show-toplevel)")"
 
         local -r repo_path=$(git rev-parse --show-prefix | sed 's:/$::')
-        if [ -n "${repo_path}" ]; then 
-            GIT_PATH+="/${repo_path}"
+        if [ -n "$repo_path" ]; then 
+            GIT_PATH+="/$repo_path"
         fi
         
         local -r git_head="$(git status --branch 2>/dev/null | head -n 1 | awk '{print $NF}')"
-        GIT_INFO=" ${FG_SECONDARY}${SEP}  ${git_head}"
+        GIT_INFO=" $FG_SECONDARY$SEP  $git_head"
 
         local -r git_tag=$(git tag --points-at 2>/dev/null)
-        if [[ -n "${git_tag}" ]]; then 
-            if [[ "${git_tag}" != "${git_head}" ]]; then 
-                GIT_INFO+="$(echo "${git_tag}" | xargs -n1 printf '  %s')"
+        if [ -n "$git_tag" ]; then 
+            if [ "$git_tag" != "$git_head" ]; then 
+                GIT_INFO+="$(echo "$git_tag" | xargs -n1 printf '  %s')"
             else 
                 GIT_INFO+=" "
             fi
         fi
 
-        if [[ -n "$(git status --short 2>/dev/null)" ]]; then 
-            GIT_INFO+=" ${FG_WARNING}(~)"
+        if [ -n "$(git status --short 2>/dev/null)" ]; then 
+            GIT_INFO+=" $FG_WARNING(~)"
         fi
-        GIT_INFO+="${FG_RESET}"
+        GIT_INFO+="$FG_RESET"
 
-        PROMPT_STR+="${GIT_PATH}${READONLY_MARKER}${GIT_INFO}"
+        PROMPT_STR+="$GIT_PATH$READONLY_MARKER$GIT_INFO"
     else 
-        PROMPT_STR+="${DIR_FORMAT}${READONLY_MARKER}"
+        PROMPT_STR+="$DIR_FORMAT$READONLY_MARKER"
     fi
-    PROMPT_STR+="${FG_RESET}"
+    PROMPT_STR+="$FG_RESET"
 
     #~~~ Last command exit status ~~~#
 
     if (( LAST_CMD_EXIT == 0 || LAST_CMD_EXIT == 130 )); then 
-        PROMPT_STR+=" ${FG_PRIMARY}"
+        PROMPT_STR+=" $FG_PRIMARY"
     else 
-        PROMPT_STR+=" ${FG_WARNING}!"
+        PROMPT_STR+=" $FG_WARNING!"
     fi
-    PROMPT_STR+="${SEP}${FG_RESET} "
+    PROMPT_STR+="$SEP$FG_RESET "
     
-    printf '%s' "${PROMPT_STR}"
+    printf '%s' "$PROMPT_STR"
 }
 

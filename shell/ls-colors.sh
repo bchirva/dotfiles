@@ -1,4 +1,4 @@
-source ${XDG_CONFIG_HOME}/shell/theme.sh
+source "$XDG_CONFIG_HOME/shell/theme.sh"
 
 eval "$(dircolors - <<EOF
 COLORTERM ?*

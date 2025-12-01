@@ -1,5 +1,5 @@
 function man {
-    source ${XDG_CONFIG_HOME}/shell/theme.sh
+    source "$XDG_CONFIG_HOME/shell/theme.sh"
 
     LESS_TERMCAP_me=$'\e[00m' \
     LESS_TERMCAP_ue=$'\e[00m' \

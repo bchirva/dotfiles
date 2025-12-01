@@ -1,14 +1,14 @@
 #**********# Common shell settings #**********#
 
-source ${XDG_CONFIG_HOME}/shell/aliases.sh
-source ${XDG_CONFIG_HOME}/shell/ssh-agent-autostart.sh
-source ${XDG_CONFIG_HOME}/shell/tmux-autostart.sh
-source ${XDG_CONFIG_HOME}/shell/ls-colors.sh
-source ${XDG_CONFIG_HOME}/shell/man-colors.sh
+source $XDG_CONFIG_HOME/shell/aliases.sh
+source $XDG_CONFIG_HOME/shell/ssh-agent-autostart.sh
+source $XDG_CONFIG_HOME/shell/tmux-autostart.sh
+source $XDG_CONFIG_HOME/shell/ls-colors.sh
+source $XDG_CONFIG_HOME/shell/man-colors.sh
 
 #**********# Zsh history settings #**********#
 
-HISTFILE=${HOME}/.cache/zsh/zsh_history
+HISTFILE=$XDG_CACHE_HOME/zsh/zsh_history
 HISTSIZE=5000
 SAVEHIST=5000
 setopt share_history
@@ -20,7 +20,7 @@ setopt hist_find_no_dups
 #**********# Zsh completion settings #**********#
 
 autoload -Uz colors && colors
-autoload -Uz compinit && compinit -d ${HOME}/.cache/zsh/compdump
+autoload -Uz compinit && compinit -d $HOME/.cache/zsh/compdump
 fpath+=($ZDOTDIR/plugins/completions)
 setopt menu_complete
 zstyle ':completion:*' menu select
@@ -30,7 +30,7 @@ zstyle ':completion:*' verbose yes
 #**********# Prompt #**********#
 
 setopt prompt_subst
-source ${XDG_CONFIG_HOME}/shell/prompt.sh
+source $XDG_CONFIG_HOME/shell/prompt.sh
 PROMPT='$(prompt_info zsh)'
 
 #**********# Zsh plugins #**********#
@@ -43,7 +43,7 @@ load-plugins \
 
 command -v fzf >/dev/null && load-plugins "https://github.com/Aloxaf/fzf-tab"
 
-zsh-defer source ${XDG_CONFIG_HOME}/shell/version_managers.sh
+zsh-defer source $XDG_CONFIG_HOME/shell/version_managers.sh
 
 source <(fzf --zsh)
 
