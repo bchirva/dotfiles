@@ -4,12 +4,10 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 prompt_info() {  
     local -r LAST_CMD_EXIT=$?
-    
     local -r SEP="󰄾"
-    local PROMPT_STR=""
-
+    
     local -r ACTIVE_SHELL="${1:-bash}"
-    case "${ACTIVE_SHELL}" in 
+    case "$ACTIVE_SHELL" in 
         bash) 
             declare -A ANSI_COLORS=(
                 [black]='\e[0;30m'
@@ -22,9 +20,9 @@ prompt_info() {
                 [white]='\e[0;37m'
                 )
             
-            local -r FG_PRIMARY=${ANSI_COLORS[${PRIMARY_COLOR_NAME}]}
-            local -r FG_SECONDARY=${ANSI_COLORS[${SECONDARY_COLOR_NAME}]}
-            local -r FG_WARNING=${ANSI_COLORS[${WARNING_COLOR_NAME}]}
+            local -r FG_PRIMARY=${ANSI_COLORS[$PRIMARY_COLOR_NAME]}
+            local -r FG_SECONDARY=${ANSI_COLORS[$SECONDARY_COLOR_NAME]}
+            local -r FG_WARNING=${ANSI_COLORS[$WARNING_COLOR_NAME]}
             local -r FG_RESET='\e[m'
 
             local -r DIR_FORMAT="\w"
@@ -32,9 +30,9 @@ prompt_info() {
             local -r USER_FORMAT="\u"
             ;;
         zsh)
-            local -r FG_PRIMARY="%F{${PRIMARY_COLOR_NAME}}"
-            local -r FG_SECONDARY="%F{${SECONDARY_COLOR_NAME}}"
-            local -r FG_WARNING="%F{${WARNING_COLOR_NAME}}"
+            local -r FG_PRIMARY="%F{$PRIMARY_COLOR_NAME}"
+            local -r FG_SECONDARY="%F{$SECONDARY_COLOR_NAME}"
+            local -r FG_WARNING="%F{$WARNING_COLOR_NAME}"
             local -r FG_RESET="%f"
 
             local -r DIR_FORMAT="%~"
@@ -46,6 +44,7 @@ prompt_info() {
 
     #~~~ New line ~~~#
 
+    local PROMPT_STR=""
     PROMPT_STR+=$'\n'
 
     #~~~ System logo ~~~#
@@ -114,8 +113,9 @@ prompt_info() {
             fi
         fi
 
-        if [ -n "$(git status --short 2>/dev/null)" ]; then 
-            GIT_INFO+=" $FG_WARNING(~)"
+        local -r git_changes=$(git status --short 2>/dev/null | wc -l)
+        if (( git_changes > 0 )) ; then 
+            GIT_INFO+=" $FG_WARNING~$git_changes"
         fi
         GIT_INFO+="$FG_RESET"
 
