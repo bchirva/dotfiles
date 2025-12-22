@@ -16,8 +16,13 @@ set notification-error-bg "{warning}"
 set notification-error-fg "{on_warning}"
 
 set highlight-color "{foreground_base}"
-set highlight-fg "{foreground_highlighted}"
 set highlight-active-color "{primary}"
+set highlight-fg "{foreground_highlighted}"
+
+set index-bg "{background_base}"
+set index-fg "{foreground_base}"
+set index-active-bg "{primary}"
+set index-active-fg "{on_primary}"
 
 set recolor-lightcolor "{background_view}"
 set recolor-darkcolor "{foreground_base}"
