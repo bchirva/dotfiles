@@ -49,5 +49,8 @@ return {
 			{ "<leader>q", group = "Tests..." },
 			{ "<leader>u", group = "Utilities..." },
 		})
+
+        vim.keymap.set("i", "<C-a>", "<C-o>^", {silent = true})
+        vim.keymap.set("i", "<C-e>", "<C-o>$", {silent = true})
 	end,
 }
