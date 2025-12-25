@@ -93,6 +93,12 @@ border  = {{ fg = "{primary}" }}
 title   = {{}}
 hovered = {{ fg = "magenta", underline = true }}
 
+[tabs]
+active = {{ fg = "{on_primary}", bg = "{primary}" }}
+inactive = {{ fg = "{foreground_base}", bg = "{background_view}" }}
+sep_inner = {{ open = "", close = "" }}
+sep_outer = {{ open = "", close = "" }}
+
 [help]
 on      = {{ fg = "{primary}", bold = true }}
 run     = {{ fg = "{primary}", italic = true }}
