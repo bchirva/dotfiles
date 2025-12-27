@@ -1,0 +1,12 @@
+polkit.addRule(function(action, subject) {
+    if (action.id !== "org.freedesktop.systemd1.manage-units") {
+        return;
+    }
+    if (subject.isInGroup("sing-box") &&
+        action.lookup("unit") &&
+        action.lookup("unit").startsWith("sing-box@") &&
+        action.lookup("unit").endsWith(".service"))
+    {
+        return polkit.Result.YES;
+    }
+});

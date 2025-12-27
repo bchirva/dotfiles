@@ -10,12 +10,13 @@ function main_menu {
     local -r total_status=$(nmcli networking \
         | sed "s/\<enabled\>/true/; s/\<disabled\>/false/")
 
-    local rofi_input="" rofi_message="" wifi_available=0
+    local rofi_input="" rofi_message="" idx=1
     if $total_status; then 
         rofi_input="$(colored-pango-icon 󰖟 ) Network: <b>On</b>\n"
 
         local -r device_list="$(nmcli -g DEVICE,TYPE,STATE,CONNECTION device \
             | grep -Ev ":(loopback|bridge|tun|unavailable|wifi-p2p):")"
+        local -r devices_count=$(wc -l <<< "$device_list")
         local -r active_connection="$(grep -m 1 -E ":connected:" <<< "$device_list")"
 
         if [ -n "$active_connection" ]; then
@@ -37,13 +38,23 @@ function main_menu {
 
             rofi_input+="$(colored-pango-icon "$device_icon") $device_name: <b>$(sed "s/true/On/ ; s/false/Off/" <<< "$connection_status")</b> <i>$connection_name</i>\n"
         done <<< "$device_list"
+        idx=$((devices_count + 1))
 
         if cut -d ':' -f 2 <<< "$device_list" | grep -q "wifi"; then
             rofi_input+="$(colored-pango-icon 󱛆 ) WiFi networks menu\n"
-            wifi_available=1
+            local -r wifi_idx=$idx
+            (( idx+=1 ))
+        fi
+
+        if command -v sing-box >/dev/null; then
+            rofi_input+="$(colored-pango-icon 󰒃) Proxy\n"
+            local -r proxy_idx=$idx
+            (( idx+=1 ))
         fi
 
         rofi_input+="$(colored-pango-icon 󰑓 ) Restart NetworkManager service\n"
+        local -r restart_idx=$idx
+        (( idx+=1 ))
     else
         rofi_input="$(colored-pango-icon 󰪎 ) Network: <b>Off</b>\n"
         rofi_message="Network disabled"
@@ -53,37 +64,95 @@ function main_menu {
         rofi_message="No connection"; 
     fi
 
-    local -r devices_count=$(wc -l <<< "$device_list")
     local -r variant=$(echo -en "$rofi_input" \
         | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
         -p "󰖟 Network:" \
         -mesg "${rofi_message}" \
-        -l $((2 + devices_count + wifi_available)) )
+        -l "$idx" )
 
     if [ -z "${variant}" ]; then
         exit;
     fi
 
-    if (( variant == 0)); then 
-        toggle_to=$(sed "s/true/off/ ; s/false/on/" <<< "$total_status")
-        nmcli networking "$toggle_to"
-        if ! $total_status; then
-            sleep 3
-            main_menu 
+    case $variant in 
+        0)
+            toggle_to=$(sed "s/true/off/ ; s/false/on/" <<< "$total_status")
+            nmcli networking "$toggle_to"
+            if ! $total_status; then
+                sleep 3
+                main_menu 
+            fi
+            ;;
+        $((wifi_idx)) )   wifi_menu ;;
+        $((proxy_idx)) )   proxy_menu ;;
+        $((restart_idx)) ) pkexec systemctl restart NetworkManager ;;
+        *) 
+            IFS=':' read -r selected_device _ device_action _ <<< "$(head -n 1 <<< "$device_list")"
+            device_action=$(sed "s/\<connected\>/disconnect/; s/\<disconnected\>/connect/" <<< "$device_action")
+            nmcli device "$device_action" "$selected_device" 
+            ;;
+    esac 
+}
+
+function proxy_menu {
+    local -r SERVICE_NAME="sing-box@${USER}.service"
+    local -r SING_BOX_CONFIG="$XDG_CONFIG_HOME/sing-box/config.json"
+    local -r CLIENT_CONFIGS=( "$(find "$XDG_CONFIG_HOME/sing-box/clients/" -maxdepth 1 \( -type f -o -type l \) -name "*.json" )" ) 
+
+    local rofi_input="" rofi_message="" toggle_line=0 row_modifiers=()
+
+    if [ -L "$SING_BOX_CONFIG" ]; then 
+        local -r ACTIVE_PROXY=$(readlink "$SING_BOX_CONFIG")
+    fi 
+
+    if systemctl -q is-active "$SERVICE_NAME" >/dev/null ; then 
+        rofi_input+="$(colored-pango-icon ) Turn off\n"
+    else 
+        rofi_message="Proxy is off."
+        if [ -e "$SING_BOX_CONFIG" ] && sing-box check -c "$SING_BOX_CONFIG" ; then 
+            rofi_input+="$(colored-pango-icon ) Turn on\n"
         fi
-    elif (( variant <= devices_count )); then
-        IFS=':' read -r selected_device _ device_action _ <<< "$(head -n 1 <<< "$device_list")"
-        device_action=$(sed "s/\<connected\>/disconnect/; s/\<disconnected\>/connect/" <<< "$device_action")
-        nmcli device "$device_action" "$selected_device" 
-    elif (( variant == $((devices_count + 1)) )); then
-        wifi_menu
-    elif (( variant == $((devices_count + 2)) )); then
-        pkexec systemctl restart NetworkManager
-    else
-        exit
     fi
+     
+    if [ -n "$rofi_input" ]; then 
+        toggle_line=1
+    fi
+
+    for client in "${CLIENT_CONFIGS[@]}"; do
+        if [ "$ACTIVE_PROXY" == "$client" ]; then 
+            row_modifiers=( -a "$(grep -n "$ACTIVE_PROXY" <<< "${CLIENT_CONFIGS[@]}" | cut -d ':' -f 1)" )
+            rofi_message="Active proxy client: $(basename "$ACTIVE_PROXY")"
+        fi 
+
+        rofi_input+="$(colored-pango-icon 󰒃) $(basename "$client")\n"
+    done 
+
+    local -r variant=$(echo -en "$rofi_input" \
+        | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
+        -markup-rows -i -dmenu -no-custom \
+        -format 'i' \
+        -p "󰙁 Proxy:" \
+        -mesg "$rofi_message" \
+        "${row_modifiers[@]}" \
+        -l $(( $(wc -l <<< "${CLIENT_CONFIGS[@]}") + toggle_line )) )
+
+    if [ -z "$variant" ]; then
+        exit 1
+    fi
+    if (( variant == 0 )) && (( toggle_line == 1 )); then 
+        if systemctl -q is-active "$SERVICE_NAME" >/dev/null ; then 
+            systemctl stop "$SERVICE_NAME"
+        else 
+            systemctl start "$SERVICE_NAME"
+        fi
+    else 
+        local -r selected_client="$(sed -n "$((variant - toggle_line + 1))p" <<< "${CLIENT_CONFIGS[@]}")"
+        ln -sf "$selected_client" "$SING_BOX_CONFIG"
+        systemctl restart "$SERVICE_NAME"
+    fi 
+
 }
 
 function wifi_menu {
@@ -172,6 +241,7 @@ function main() {
     case $1 in
         "main") main_menu ;;
         "wifi") wifi_menu ;;
+        "proxy") proxy_menu ;;
         *) exit 2 ;;
     esac
 }

@@ -23,14 +23,14 @@ super + ctrl + b
 super + ctrl + m
     rofi-audio-ctrl input
 
-super + ctrl + n
-    rofi-network-ctrl main
-
 super + ctrl + q
     rofi-powermenu 
 
 super + ctrl + v
-    AmneziaVPN
+    rofi-network-ctrl proxy 
+
+super + ctrl + w
+    rofi-network-ctrl main
 
 #~~~~~ Application start ~~~~~#
 

@@ -1,0 +1,25 @@
+[Unit]
+Description=sing-box proxy
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=%i
+
+Environment=HOME=/home/%i
+
+ExecStart=/usr/bin/sing-box run -c /home/%i/.config/sing-box/config.json
+Restart=on-failure
+RestartSec=1
+
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+
+NoNewPrivileges=no
+PrivateTmp=yes
+ProtectHome=read-only
+
+[Install]
+WantedBy=multi-user.target
+
