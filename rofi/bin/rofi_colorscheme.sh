@@ -5,8 +5,7 @@ source "$XDG_CONFIG_HOME/shell/theme.sh"
 function main() {
     local -r colorschemes_dir="$(dirname "$(readlink -f "$XDG_CONFIG_HOME/rofi/colors.rasi")")/.."
 
-    readarray -t schemes <<< "$(ls -1 "${colorschemes_dir}" \
-        | sed -e 's/\///g' -e '/active/d')"
+    readarray -t schemes <<< "$(find "$colorschemes_dir" -maxdepth 1 -mindepth 1 -type d -printf '%f\n')"
 
     function rofi_input(){
         for i in ${!schemes[*]} 
@@ -15,7 +14,7 @@ function main() {
         done
     }
 
-    local -r active_scheme=$(ls -l "${colorschemes_dir}/active" | awk '{print $NF}')
+    local -r active_scheme=$(readlink "$colorschemes_dir/active")
     for i in ${!schemes[*]}
     do
         if [ "${schemes[$i]}" = "$active_scheme" ]; then
@@ -39,7 +38,7 @@ function main() {
 
         xrdb -merge ~/.Xresources
 
-        local -r processes=(eww polybar dunst)
+        local -r processes=(polybar dunst)
         for process in "${processes[@]}"; do 
             if pgrep "$process"; then 
                 killall "$process"
