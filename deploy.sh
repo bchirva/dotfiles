@@ -73,12 +73,13 @@ if $LINK_BIN || $ALL ; then
 fi
 
 printf '%s\n' "Symlink dotfiles..."
-for dot in "${DOTFILES[@]}"; do 
+for dot in "${SELECTED_ENTRIES[@]}"; do 
+    DOTFILES_DIR=${XDG_CONFIG_HOME:-$HOME/.config}
     symlink="" backup="" i=1
 
-    if [ -f "$dot" ]; then 
+    if [ -f "$PWD/$dot" ]; then 
         symlink="$HOME/.$dot"
-    elif [ -d "$dot" ]; then 
+    elif [ -d "$PWD/$dot" ]; then 
         symlink="$DOTFILES_DIR/$dot"
     else 
         continue 
@@ -102,7 +103,7 @@ for dot in "${DOTFILES[@]}"; do
     fi
 
     printf '%s\n' "Create symlink for $dot in $symlink"
-    ln -snf "$DOTFILES_DIR/$dot" "$symlink"
+    ln -snf "$PWD/$dot" "$symlink"
 done
 
 if $GUI_THEME || $ALL ; then
