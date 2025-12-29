@@ -99,9 +99,9 @@ function main_menu {
 function proxy_menu {
     local -r SERVICE_NAME="sing-box@${USER}.service"
     local -r SING_BOX_CONFIG="$XDG_CONFIG_HOME/sing-box/config.json"
-    local -r CLIENT_CONFIGS=( "$(find "$XDG_CONFIG_HOME/sing-box/clients/" -maxdepth 1 \( -type f -o -type l \) -name "*.json" )" ) 
+    readarray -t CLIENT_CONFIGS <<< "$(find "$XDG_CONFIG_HOME/sing-box/clients/" -maxdepth 1 \( -type f -o -type l \) -name "*.json" )"
 
-    local rofi_input="" rofi_message="" toggle_line=0 row_modifiers=()
+    local rofi_input="" rofi_message="" toggle_line=0 row_modifiers=() idx=0
 
     if [ -L "$SING_BOX_CONFIG" ]; then 
         local -r ACTIVE_PROXY=$(readlink "$SING_BOX_CONFIG")
@@ -112,21 +112,36 @@ function proxy_menu {
     else 
         rofi_message="Proxy is off."
         if [ -e "$SING_BOX_CONFIG" ] && sing-box check -c "$SING_BOX_CONFIG" ; then 
-            rofi_input+="$(colored-pango-icon ) Turn on\n"
+            rofi_input+="$(colored-pango-icon 󰒃) Turn on\n"
         fi
     fi
      
     if [ -n "$rofi_input" ]; then 
         toggle_line=1
+        idx=1
     fi
 
     for client in "${CLIENT_CONFIGS[@]}"; do
         if [ "$ACTIVE_PROXY" == "$client" ]; then 
-            row_modifiers=( -a "$(grep -n "$ACTIVE_PROXY" <<< "${CLIENT_CONFIGS[@]}" | cut -d ':' -f 1)" )
-            rofi_message="Active proxy client: $(basename "$ACTIVE_PROXY")"
+            row_modifiers=( -a "$idx" )
+
+            if systemctl -q is-active "$SERVICE_NAME" >/dev/null ; then 
+                rofi_message="<b>Connected via:</b> "
+            else 
+                rofi_message="<b>Ready to connect via:</b> "
+            fi 
+            rofi_message+="$(basename "$ACTIVE_PROXY")"
         fi 
 
-        rofi_input+="$(colored-pango-icon 󰒃) $(basename "$client")\n"
+        if head -n 1 "$client" \
+            | grep -qE "^\s*(//|/\*)"
+        then 
+            rofi_input+="$(head -n 1 "$client" \
+                | sed "s/^\s*\/\///g ; s/^\s*\/\*//g ; s/\*\///g; s/^\s*//; s/\s*$//" )\n"
+        else 
+            rofi_input+="$(colored-pango-icon 󰒃) $(basename "$client")\n"
+        fi
+        (( idx += 1 ))
     done 
 
     local -r variant=$(echo -en "$rofi_input" \
@@ -136,7 +151,7 @@ function proxy_menu {
         -p "󰙁 Proxy:" \
         -mesg "$rofi_message" \
         "${row_modifiers[@]}" \
-        -l $(( $(wc -l <<< "${CLIENT_CONFIGS[@]}") + toggle_line )) )
+        -l $(( "${#CLIENT_CONFIGS[@]}" + toggle_line )) )
 
     if [ -z "$variant" ]; then
         exit 1
@@ -148,7 +163,7 @@ function proxy_menu {
             systemctl start "$SERVICE_NAME"
         fi
     else 
-        local -r selected_client="$(sed -n "$((variant - toggle_line + 1))p" <<< "${CLIENT_CONFIGS[@]}")"
+        local -r selected_client="${CLIENT_CONFIGS[$((variant - toggle_line))]}"
         ln -sf "$selected_client" "$SING_BOX_CONFIG"
         systemctl restart "$SERVICE_NAME"
     fi 
