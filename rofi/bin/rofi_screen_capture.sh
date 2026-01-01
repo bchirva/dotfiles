@@ -35,10 +35,11 @@ main() {
     # shellcheck disable=2016
     notification_cmd='notify-send -u normal -i accessories-screenshot "Screenshot" "saved in $f"'
 
-    rofi_input=$(printf '%s\n%s\n%s\n%s\n' \
+    rofi_input=$(printf '%s\n%s\n%s\n%s\n%s\n' \
         "$(colored-pango-icon 󰇀 ) Shot focused window" \
         "$(colored-pango-icon 󰍹 ) Shot whole screen" \
         "$(colored-pango-icon 󰒉 ) Shot selected area or window" \
+        "$(colored-pango-icon 󰐳 ) Scan QR-code" \
         "$(colored-pango-icon  ) Record screen")
 
     variant=$(printf '%s\n' "$rofi_input" \
@@ -46,7 +47,7 @@ main() {
         -markup-rows -no-custom -i -dmenu \
         -format "i" \
         -p "󰹑 Screen capture:" \
-        -l 4)
+        -l 5)
 
     if [ -z "$variant" ]; then
         exit 1
@@ -75,6 +76,20 @@ main() {
                 -e "$clipboard_cmd & $notification_cmd"
             ;;
         3)
+            sleep 0.5
+            qr_code="$(scrot -s - | zbarimg --raw -q -)"
+            return_code=$?
+
+            if [ -n "$qr_code" ] && [ $return_code -eq 0 ]; then 
+                printf '%s' "$qr_code" | xclip -selection clipboard
+                notify-send -u normal -i "qreator" "QR scanner" "QR code scanned and copied to clipboard"
+            elif [ $return_code -eq 4 ]; then 
+                notify-send -u critical -i "qreator" "QR scanner" "No QR code detected in selected area"
+            else
+                notify-send -u critical -i "qreator" "QR scanner" "Failed to scan QR code"
+            fi 
+            ;;
+        4)
             if [ -f "$record_pid_file" ]; then 
                 ffmpeg_pid="$(head -n 1 "$record_pid_file")"
                 kill -INT "${ffmpeg_pid}" 
