@@ -7,6 +7,7 @@ export XDG_RUNTIME_DIR=/run/user/$UID
 export XDG_STATE_HOME=$HOME/.local/state
 
 export CARGO_HOME=$XDG_DATA_HOME/cargo
+export CUDA_CACHE_PATH=$XDG_CACHE_HOME/nv
 export CONAN_HOME=$XDG_DATA_HOME/conan2
 export DEVPOD_HOME=$XDG_CACHE_HOME/devpod
 export DOCKER_CONFIG=$XDG_DATA_HOME/docker
@@ -23,8 +24,13 @@ export PYTHONPYCACHEPREFIX=$XDG_CACHE_HOME/python
 export PYTHONUSERBASE=$XDG_DATA_HOME/python
 export PYTHON_HISTORY=$XDG_STATE_HOME/python_history
 export RUSTUP_HOME=$XDG_DATA_HOME/rustup
+export TERMINFO=$XDG_DATA_HOME/terminfo
+export TERMINFO_DIRS=$XDG_DATA_HOME/terminfo:/usr/share/terminfo
 export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
 export SSH_ASKPASS=rofi-askpass
+export TEXMFCONFIG=$XDG_CONFIG_HOME/texlive/texmf-config
+export TEXMFVAR=$XDG_CACHE_HOME/texlive/texmf-var
+export WGETRC="$XDG_CONFIG_HOME/wgetrc"
 
 export EDITOR="nvim"
 

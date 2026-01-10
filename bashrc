@@ -10,4 +10,6 @@ source "${XDG_CONFIG_HOME}/shell/ls-colors.sh"
 source "${XDG_CONFIG_HOME}/shell/man-colors.sh"
 source "${XDG_CONFIG_HOME}/shell/prompt.sh"
 
+export HISTFILE=$XDG_CACHE_HOME/bash/bash_history
+
 PROMPT_COMMAND='PS1=$(prompt_info bash)'
