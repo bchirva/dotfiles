@@ -134,33 +134,23 @@ function main() {
                 -l $(( passwords_count > MAX_PASSWORD_LINES ? MAX_PASSWORD_LINES : passwords_count  )) )
 
             local -r selected_service="$(sed -n "$(( variant_remove + 1))p" <<< "$passwords")"
-            
-            case $(echo -en "$(colored-pango-icon 󰜺 ) Cancel \n$(colored-pango-icon  "$ERROR_COLOR") Remove\n" \
-                    | rofi -config "$XDG_CONFIG_HOME/rofi/dmenu-single-column.rasi" \
-                    -markup-rows -i -dmenu -no-custom \
-                    -format 'i' \
-                    -p " Confirm:" \
-                    -mesg "Remove password for <b>$selected_service</b>?" \
-                    -l 2) in 
-                0) exit ;;
-                1) 
-                    if pass rm -f "$selected_service"; then 
-                        notify-send -u normal -i password-manager \
-                            "Password removed" \
-                            "Password for $selected_service has been removed from the store"
+           
+            if rofi_confirm "$(colored-pango-icon  "$ERROR_COLOR") Remove" "Remove password for <b>$selected_service</b>?"; then 
+                if pass rm -f "$selected_service"; then 
+                    notify-send -u normal -i password-manager \
+                        "Password removed" \
+                        "Password for $selected_service has been removed from the store"
 
-                        if (( sync_git_line )); then
-                            if ! pass git push origin master ; then 
-                                notify-send -u critical -i password-manager \
-                                    "Password synchronization failed" \
-                                    "Password for $password_service was generated, but failed to push to remote Git repository"
-                            fi
-                        fi 
+                    if (( sync_git_line )); then
+                        if ! pass git push origin master ; then 
+                            notify-send -u critical -i password-manager \
+                                "Password synchronization failed" \
+                                "Password for $selected_service was deleted, but failed to push to remote Git repository"
+                        fi
+                    fi 
 
-                    fi
-                    ;;
-                *) exit 1 ;;
-                esac 
+                fi
+            fi
         ;;
         $(( idx_git)) ) 
             if pass git pull origin master ; then 

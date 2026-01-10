@@ -18,8 +18,10 @@ main() {
         -l 4 )
 
     case $variant in
-        0) systemctl poweroff ;;
-        1) systemctl reboot ;;
+        0) rofi_confirm "$(colored-pango-icon  "$WARNING_COLOR") Shutdown" \
+            && systemctl poweroff ;;
+        1) rofi_confirm "$(colored-pango-icon 󰑓 "$WARNING_COLOR") Reboot" \
+            && systemctl reboot ;;
         2) loginctl lock-session "$XDG_SESSION_ID" ;;
         3)
             if pgrep openbox > /dev/null ; then
