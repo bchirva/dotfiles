@@ -109,10 +109,10 @@ footer  = {{ fg = "{background_base}", bg = "{foreground_base}" }}
 [filetype]
 rules = [
 	# Special files
-	{{ name = "*", fg = "{foreground_base}" }},
-    {{ name = "*", is = "link", italic = true }},
-	{{ name = "*", is = "orphan", bg = "red" }},
-	{{ name = "*", is = "exec"  , fg = "{warning_name}" }},
-	{{ name = "*/", fg = "{primary}" }}
+	{{ url = "*", fg = "{foreground_base}" }},
+    {{ url = "*", is = "link", italic = true }},
+	{{ url = "*", is = "orphan", bg = "red" }},
+	{{ url = "*", is = "exec"  , fg = "{warning_name}" }},
+	{{ url = "*/", fg = "{primary}" }}
 ]
 
