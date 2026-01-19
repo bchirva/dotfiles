@@ -17,5 +17,8 @@ return {
 			},
 		},
 	},
+    keys = {
+		{ "<leader>um", "<cmd>RenderMarkdown toggle<CR>", desc = "Render markdown" },
+    },
 	ft = { "markdown", "Avante" },
 }
