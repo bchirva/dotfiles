@@ -43,6 +43,9 @@ super + p
 super + space ; b
     brave
 
+super + space; e
+    rofi-emoji
+
 super + space ; i
     inkscape
 
