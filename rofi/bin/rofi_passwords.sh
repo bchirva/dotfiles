@@ -4,6 +4,8 @@ if ! command -v pass > /dev/null ; then
     exit 1
 fi
 
+PASSWORDS_DIR=${PASSWORD_STORE_DIR:-$HOME/.password-store}
+
 source "$XDG_CONFIG_HOME/shell/theme.sh"
 
 function usb-available() {
@@ -24,8 +26,8 @@ function usb-available() {
 
 function main() {  
     local -r MAX_PASSWORD_LINES=15
-    local -r passwords=$(find "${PASSWORD_STORE_DIR:-$HOME/.password-store}" -type f -name '*.gpg' \
-        | sed -e "s|^${PASSWORD_STORE_DIR:-$HOME/.password-store}/||" \
+    local -r passwords=$(find "$PASSWORDS_DIR" -type f -name '*.gpg' \
+        | sed -e "s|^$PASSWORDS_DIR/||" \
               -e 's|\.gpg$||' \
               -e '/^$/d')
     local -r passwords_count=$(grep -cv '^$' <<< "${passwords}")
@@ -182,7 +184,7 @@ function main() {
 
             local -r usb_selected_mount=$(sed -n "$(( variant_usb + 1 ))p" <<< "$usb_drives")
 
-            if rsync -av --delete "$HOME/.password-store/" "$usb_selected_mount/password-store/" ; then 
+            if rsync -av --delete "$PASSWORDS_DIR" "$usb_selected_mount/password-store/" ; then 
                 notify-send -u normal -i password-manager \
                     "Password backup complete" \
                     "Password store has been backed up to USB drive $usb_selected_mount"
