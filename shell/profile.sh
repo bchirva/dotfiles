@@ -31,6 +31,7 @@ export SSH_ASKPASS=rofi-askpass
 export TEXMFCONFIG=$XDG_CONFIG_HOME/texlive/texmf-config
 export TEXMFVAR=$XDG_CACHE_HOME/texlive/texmf-var
 export WGETRC="$XDG_CONFIG_HOME/wgetrc"
+export XCURSOR_PATH="$XCURSOR_PATH:$XDG_DATA_HOME/icons"
 
 export EDITOR="nvim"
 
