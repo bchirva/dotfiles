@@ -8,6 +8,7 @@ source $XDG_CONFIG_HOME/shell/man-colors.sh
 
 #**********# Zsh history settings #**********#
 
+[ -d "$XDG_CACHE_HOME/zsh" ] || mkdir -p "$XDG_CACHE_HOME/zsh"
 HISTFILE=$XDG_CACHE_HOME/zsh/zsh_history
 HISTSIZE=5000
 SAVEHIST=5000
