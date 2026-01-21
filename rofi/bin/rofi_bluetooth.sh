@@ -8,7 +8,7 @@ source "${XDG_CONFIG_HOME}/shell/theme.sh"
 
 function main_menu {
     local -r total_status=$(bluetoothctl show \
-        | sed "s/^\s*//; s/yes/true/; s/no/false/")
+        | sed "s/^[[:space:]]*//; s/yes/true/; s/no/false/")
 
     local -r powered="$(grep "^Powered:" <<< "$total_status" | cut -d ' ' -f 2)"
     local -r pairable="$(grep "^Pairable:" <<< "$total_status" | cut -d ' ' -f 2)"
@@ -76,7 +76,7 @@ function devices_menu() {
     local device_info="" device_name="" device_icon="" battery="" battery_span="" connected_devices=0
     for device_id in $device_id_list; do
         device_info=$(bluetoothctl info "$device_id" \
-            | sed "s/^\s*//; s/yes/true/; s/no/false/")
+            | sed "s/^[[:space:]]*//; s/yes/true/; s/no/false/")
 
         device_name=$(grep "^Name:" <<< "$device_info" \
             | cut -d ' ' -f 2-)

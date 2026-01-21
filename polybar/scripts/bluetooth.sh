@@ -6,7 +6,7 @@ main() {
     case $operation in 
         status)
             if "$(bluetoothctl show \
-                | sed "s/^\s*// ; s/yes/true/; s/no/false/" \
+                | sed "s/^[[:space:]]*// ; s/yes/true/; s/no/false/" \
                 | grep "Powered:" \
                 | cut -d ' ' -f 2)"; then 
 

@@ -134,10 +134,10 @@ function proxy_menu {
         fi 
 
         if head -n 1 "$client" \
-            | grep -qE "^\s*(//|/\*)"
+            | grep -qE "^[[:space:]]*(//|/\*)"
         then 
             rofi_input+="$(head -n 1 "$client" \
-                | sed "s/^\s*\/\///g ; s/^\s*\/\*//g ; s/\*\///g; s/^\s*//; s/\s*$//" )\n"
+                | sed "s/^[[:space:]]*\/\///g ; s/^[[:space:]]*\/\*//g ; s/\*\///g; s/^[[:space:]]*//; s/[[:space:]]*$//" )\n"
         else 
             rofi_input+="$(colored-pango-icon 󰒃) $(basename "$client")\n"
         fi
