@@ -20,21 +20,19 @@ c.url.searchengines = {
 config.bind("<Ctrl-j>", "completion-item-focus --history next", mode="command")
 config.bind("<Ctrl-k>", "completion-item-focus --history prev", mode="command")
 config.bind(";v", "hint links spawn mpv --ytdl-raw-options=cookies-from-browser=brave {hint-url}")
-config.bind("zt", "config-cycle tabs.show always never")
+config.bind("zz", "config-cycle tabs.show always never")
 config.bind("zs", "config-cycle statusbar.show always in-mode")
 config.bind("zf", "fullscreen")
-config.bind("zz", "config-cycle tabs.show never; config-cycle statusbar.show in-mode")
-config.bind("zn", "config-cycle tabs.show always; config-cycle statusbar.show always")
-
 
 # UI
 c.fonts.tabs.selected = "bold"
 c.tabs.position = "left"
 c.tabs.padding = {"top": 8, "bottom": 8, "left": 4, "right": 4}
-# c.tabs.show = "always"
+c.tabs.show = "always"
 c.statusbar.padding = {"bottom": 4, "top": 4, "left": 4, "right": 4}
-# c.statusbar.show = "always"
+c.statusbar.show = "in-mode"
 c.scrolling.smooth = True
+
 
 c.colors.webpage.darkmode.enabled = True
 config.source("theme.py")
