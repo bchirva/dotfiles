@@ -14,7 +14,8 @@ c.url.searchengines = {
     "yx": "https://ya.ru/search/?text={}",
     "rt": "https://rutracker.org/forum/tracker.php?nm={}",
 }
-# c.url.default_page = "https://duckduckgo.com"
+c.url.default_page = "qute://bookmarks"
+c.url.start_pages = ["qute://bookmarks"]
 
 # Keybindings
 config.bind("<Ctrl-j>", "completion-item-focus --history next", mode="command")
@@ -23,6 +24,7 @@ config.bind(";v", "hint links spawn mpv --ytdl-raw-options=cookies-from-browser=
 config.bind("zz", "config-cycle tabs.show always never")
 config.bind("zs", "config-cycle statusbar.show always in-mode")
 config.bind("zf", "fullscreen")
+config.bind("gh", "home")
 
 # UI
 c.fonts.tabs.selected = "bold"
