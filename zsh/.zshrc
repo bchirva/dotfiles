@@ -20,9 +20,10 @@ setopt hist_find_no_dups
 
 #**********# Zsh completion settings #**********#
 
+fpath+=($ZDOTDIR/plugins/completions)
+
 autoload -Uz colors && colors
 autoload -Uz compinit && compinit -d $HOME/.cache/zsh/compdump
-fpath+=($ZDOTDIR/plugins/completions)
 setopt menu_complete
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
