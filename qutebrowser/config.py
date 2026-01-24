@@ -8,11 +8,11 @@ c.auto_save.session = False
 
 c.url.searchengines = {
     "DEFAULT": "https://duckduckgo.com/?q={}",
-    "aw": "https://wiki.archlinux.org/?search={}",
-    "gh": "https://github.com/search?q={}&type=repositories&s=stars&o=desc",
-    "yt": "https://www.youtube.com/results?search_query={}",
-    "yx": "https://ya.ru/search/?text={}",
-    "rt": "https://rutracker.org/forum/tracker.php?nm={}",
+    "@aw": "https://wiki.archlinux.org/?search={}",
+    "@gh": "https://github.com/search?q={}&type=repositories&s=stars&o=desc",
+    "@rt": "https://rutracker.org/forum/tracker.php?nm={}",
+    "@yt": "https://www.youtube.com/results?search_query={}",
+    "@yx": "https://ya.ru/search/?text={}",
 }
 c.url.default_page = "qute://bookmarks"
 c.url.start_pages = ["qute://bookmarks"]
@@ -34,7 +34,6 @@ c.tabs.show = "always"
 c.statusbar.padding = {"bottom": 4, "top": 4, "left": 4, "right": 4}
 c.statusbar.show = "in-mode"
 c.scrolling.smooth = True
-
 
 c.colors.webpage.darkmode.enabled = True
 config.source("theme.py")
