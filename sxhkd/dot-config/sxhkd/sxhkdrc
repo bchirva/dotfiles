@@ -2,6 +2,9 @@
 super + Return
     $TERMINAL 
 
+super + w
+    $BROWSER
+
 # Launcher
 super + shift + space 
     rofi -modi drun -show drun
@@ -46,6 +49,9 @@ super + space ; b
 super + space; e
     rofi-emoji
 
+super + space; f
+    pcmanfm
+
 super + space ; i
     inkscape
 
@@ -66,9 +72,6 @@ super + space ; v
 
 super + space ; shift + v
     virt-manager
-
-super + space ; w
-    $BROWSER
 
 super + space ; z
     zathura
