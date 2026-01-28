@@ -1,0 +1,19 @@
+color normal default default
+
+color index_flags   {warning}           default
+color index_date    {secondary}         default
+color index_author  {primary}           default
+color index_subject {foreground_base}   default
+color indicator     {primary}           {background_view} 
+
+color header {primary} default
+color header {warning} default "^Subject"
+color status {primary} {background_view}
+
+color sidebar_indicator {on_primary}    {primary} 
+color sidebar_highlight {primary}       default
+color sidebar_divider   default         default
+color sidebar_flagged   {warning}       default
+color sidebar_new       {secondary}     default
+
+color body {warning} default "(https?)://[^[:space:]]+"

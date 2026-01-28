@@ -1,7 +1,13 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-./deploy.sh \
+python3 ./colorschemes/build_colorscheme.py --all
+if [ ! -e "$PWD/colorschemes/build/active" ]; then
+    ln -sf "$PWD/colorschemes/build/onedark" "$PWD/colorschemes/build/active"
+fi
+
+stow -S \
     bat \
+    bash \
     bottom \
     fzf \
     git \
@@ -11,8 +17,5 @@
     shell \
     tmux \
     yazi \
-    zsh \
-    bash_profile \
-    bashrc \
-    zshenv
+    zsh
 

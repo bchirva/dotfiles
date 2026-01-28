@@ -1,0 +1,87 @@
+# Terminal emulator
+super + Return
+    $TERMINAL 
+
+# Launcher
+super + shift + space 
+    rofi -modi drun -show drun
+
+alt + Tab
+    rofi -modi window -show window
+
+#~~~~~ System control ~~~~~#
+
+super + c
+    rofi-master
+
+super + ctrl + a
+    rofi-audio output
+
+super + ctrl + b
+    rofi-bluetooth main
+
+super + ctrl + m
+    rofi-audio input
+
+super + ctrl + q
+    rofi-powermenu 
+
+super + ctrl + v
+    rofi-network proxy 
+
+super + ctrl + w
+    rofi-network main
+
+#~~~~~ Application start ~~~~~#
+
+super + Print
+    rofi-screen-capture
+
+super + p
+    rofi-passwords
+
+super + space ; b
+    brave
+
+super + space; e
+    rofi-emoji
+
+super + space ; i
+    inkscape
+
+super + space ; g
+    gimp
+
+super + space ; o
+    obsidian
+
+super + space ; s
+    $TERMINAL -e btm
+
+super + space ; t
+    Telegram
+
+super + space ; v
+    rofi-virtmanager
+
+super + space ; shift + v
+    virt-manager
+
+super + space ; w
+    $BROWSER
+
+super + space ; z
+    zathura
+
+#~~~~~ Music ~~~~~#
+super + m ; m
+    rofi-music
+
+super + m ; space
+    mpc toggle
+
+super + m ; n
+    mpc next
+
+super + m ; p
+    mpc prev
