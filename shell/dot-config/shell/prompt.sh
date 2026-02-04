@@ -58,22 +58,22 @@ prompt_info() {
     esac 
     PROMPT_STR+="$FG_RESET "
 
-    #~~~ User info ~~~#
-
-    if (( UID != 1000 )); then 
-        if (( UID == 0 )); then 
-            PROMPT+="$FG_WARNING"
-        else 
-            PROMPT+="$FG_SECONDARY"
-        fi
-
-        PROMPT+=" $USER_FORMAT $SEP$FG_RESET "
-    fi 
-
     #~~~ Hostname on SSH connenction ~~~#
 
     if [ -n "$SSH_CONNECTION" ]; then 
         PROMPT_STR+="$FG_WARNING󰖟 $HOST_FORMAT $SEP$FG_RESET "
+    fi 
+
+    #~~~ User info ~~~#
+
+    if (( UID != 1000 )); then 
+        if (( UID == 0 )); then 
+            PROMPT_STR+="$FG_WARNING"
+        else 
+            PROMPT_STR+="$FG_SECONDARY"
+        fi
+
+        PROMPT_STR+=" $USER_FORMAT $SEP$FG_RESET "
     fi 
 
     #~~~ Virtual environment ~~~#
