@@ -62,21 +62,21 @@ prompt_info() {
             PROMPT_STR+="$FG_SECONDARY"
         fi
 
-        PROMPT_STR+=" $USER_FORMAT $SEP$FG_RESET"
+        PROMPT_STR+=" $USER_FORMAT $SEP$FG_RESET "
     fi 
 
     #~~~ Virtual environment ~~~#
 
     if [ -n "$VIRTUAL_ENV" ]; then 
-        PROMPT_STR+="$FG_SECONDARY  $(basename "$VIRTUAL_ENV") ($(python3 --version | awk '{print $NF}')) $SEP$FG_RESET "
+        PROMPT_STR+="${FG_SECONDARY} $(basename "$VIRTUAL_ENV") ($(python3 --version | awk '{print $NF}')) $SEP$FG_RESET "
     fi
 
     #~~~ Working directory readonly marker ~~~#
 
     if [ -d . ] && [ ! -w . ]; then 
-        PROMPT_STR+="$FG_WARNING 󰉐 $FG_RESET"
+        PROMPT_STR+="${FG_WARNING}󰉐 $FG_RESET"
     else 
-        PROMPT_STR+="$FG_PRIMARY 󰉋 $FG_RESET"
+        PROMPT_STR+="${FG_PRIMARY}󰉋 $FG_RESET"
     fi
 
     #~~~ Git repository or PWD info ~~~#
