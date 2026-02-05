@@ -3,8 +3,8 @@
 [ -f  "${XDG_CONFIG_HOME}/shell/theme.sh" ] \
     && . "${XDG_CONFIG_HOME}/shell/theme.sh"
 
-[ -f "${XDG_CONFIG_HOME}"/bspwm/scripts/workspaces.sh ] \
-    && . "${XDG_CONFIG_HOME}"/bspwm/scripts/workspaces.sh
+command -v bspwm-workspaces > /dev/null \
+    && bspwm-workspaces 
 
 picom -b
 xrdb -load "${XDG_CONFIG_HOME}/X11/Xresources"

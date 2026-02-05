@@ -33,7 +33,7 @@ main() {
 
     case $operation in
         status) print_network_icon   ;;
-        menu) rofi-network-ctrl main ;;
+        menu) rofi-network main ;;
         *) exit 2 ;;
     esac
 }

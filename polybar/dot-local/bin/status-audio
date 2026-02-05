@@ -32,7 +32,7 @@ main() {
                 esac
             fi
         ;;
-        menu) rofi-audio-ctrl "$channel" ;;
+        menu) rofi-audio "$channel" ;;
         *) exit 2 ;;
     esac
 }

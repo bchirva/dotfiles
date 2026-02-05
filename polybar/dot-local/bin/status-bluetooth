@@ -31,7 +31,7 @@ main() {
                 printf '%s\n' "󰂲"; 
             fi 
         ;;
-        menu) rofi-bluetooth-ctrl main;;
+        menu) rofi-bluetooth main;;
         *) exit 2;;
     esac
 }
