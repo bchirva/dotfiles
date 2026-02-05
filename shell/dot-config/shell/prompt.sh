@@ -47,22 +47,11 @@ prompt_info() {
     local PROMPT_STR=""
     PROMPT_STR+=$'\n'
 
-    #~~~ System logo ~~~#
-
-    PROMPT_STR+="$FG_PRIMARY"
-    case "$( awk -F '=' '/^ID=/{print $2}' /etc/os-release )" in
-        arch)   PROMPT_STR+=" " ;;
-        debian) PROMPT_STR+=" " ;;
-        ubuntu) PROMPT_STR+=" " ;;
-        *)      PROMPT_STR+=" " ;;
-    esac 
-    PROMPT_STR+="$FG_RESET "
-
     #~~~ Hostname on SSH connenction ~~~#
 
     if [ -n "$SSH_CONNECTION" ]; then 
         PROMPT_STR+="$FG_WARNING󰖟 $HOST_FORMAT $SEP$FG_RESET "
-    fi 
+    fi
 
     #~~~ User info ~~~#
 
@@ -73,19 +62,21 @@ prompt_info() {
             PROMPT_STR+="$FG_SECONDARY"
         fi
 
-        PROMPT_STR+=" $USER_FORMAT $SEP$FG_RESET "
+        PROMPT_STR+=" $USER_FORMAT $SEP$FG_RESET"
     fi 
 
     #~~~ Virtual environment ~~~#
 
     if [ -n "$VIRTUAL_ENV" ]; then 
-        PROMPT_STR+="$FG_SECONDARY $(basename "$VIRTUAL_ENV") ($(python3 --version | awk '{print $NF}')) $SEP$FG_RESET "
+        PROMPT_STR+="$FG_SECONDARY  $(basename "$VIRTUAL_ENV") ($(python3 --version | awk '{print $NF}')) $SEP$FG_RESET "
     fi
 
-    #~~~ Readonly marker ~~~#
+    #~~~ Working directory readonly marker ~~~#
 
     if [ -d . ] && [ ! -w . ]; then 
-        local -r READONLY_MARKER="$FG_WARNING 󰉐 $FG_RESET"
+        PROMPT_STR+="$FG_WARNING 󰉐 $FG_RESET"
+    else 
+        PROMPT_STR+="$FG_PRIMARY 󰉋 $FG_RESET"
     fi
 
     #~~~ Git repository or PWD info ~~~#
@@ -119,9 +110,9 @@ prompt_info() {
         fi
         GIT_INFO+="$FG_RESET"
 
-        PROMPT_STR+="$GIT_PATH$READONLY_MARKER$GIT_INFO"
+        PROMPT_STR+="$GIT_PATH$GIT_INFO"
     else 
-        PROMPT_STR+="$DIR_FORMAT$READONLY_MARKER"
+        PROMPT_STR+="$DIR_FORMAT"
     fi
     PROMPT_STR+="$FG_RESET"
 
