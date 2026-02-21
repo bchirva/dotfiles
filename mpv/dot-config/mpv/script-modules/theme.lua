@@ -1,1 +1,1 @@
-../../colorschemes/build/active/lua-module.lua
+../../../../colorschemes/build/active/lua-module.lua
