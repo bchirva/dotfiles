@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+main() {
+    operation=$1
+
+    case $operation in
+        status)
+            news_count=$(newsboat -x print-unread | cut -d ' ' -f 1)
+
+            if [ "$news_count" -ne 0 ]; then 
+                printf '%s\n' " $news_count"
+            else 
+                printf '\n'
+            fi
+            ;;
+        view) $TERMINAL -e newsboat ;;
+        *) exit 2 ;;
+    esac
+}
+
+main "$@"
