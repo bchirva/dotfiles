@@ -90,7 +90,7 @@ prompt_info() {
     #~~~ Git repository or PWD info ~~~#
 
     PROMPT_STR+="$FG_PRIMARY"
-    if [[ $(git status 2>/dev/null; echo $?) != 128 ]]; then
+    if git rev-parse --is-inside-work-tree >/dev/null 2>&1 ; then
         local GIT_PATH="" GIT_INFO=""
 
         GIT_PATH="$(basename "$(git rev-parse --show-toplevel)")"
@@ -99,14 +99,18 @@ prompt_info() {
         if [ -n "$repo_path" ]; then 
             GIT_PATH+="/$repo_path"
         fi
-        
-        local -r git_head="$(git status --branch 2>/dev/null | head -n 1 | awk '{print $NF}')"
-        GIT_INFO=" $FG_SECONDARY$SEP  $git_head"
+
+        GIT_INFO=" $FG_SECONDARY$SEP"
+
+        local -r git_head="$(git symbolic-ref --quiet --short HEAD 2>/dev/null)"
+        if [ -n "$git_head" ]; then 
+            GIT_INFO+="  $git_head"
+        fi 
 
         local -r git_tag=$(git tag --points-at 2>/dev/null)
         if [ -n "$git_tag" ]; then 
             if [ "$git_tag" != "$git_head" ]; then 
-                GIT_INFO+="$(echo "$git_tag" | xargs -n1 printf '  %s')"
+                GIT_INFO+="$(printf '%s' "$git_tag" | xargs -n1 printf '  %s')"
             else 
                 GIT_INFO+=" "
             fi
