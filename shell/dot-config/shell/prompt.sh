@@ -47,11 +47,19 @@ prompt_info() {
     local PROMPT_STR=""
     PROMPT_STR+=$'\n'
 
-    #~~~ Hostname on SSH connenction ~~~#
+    #~~~ Hostname on SSH connection ~~~#
 
     if [ -n "$SSH_CONNECTION" ]; then 
-        PROMPT_STR+="$FG_WARNING󰖟 $HOST_FORMAT $SEP$FG_RESET "
+        PROMPT_STR+="${FG_WARNING}󰖟 $HOST_FORMAT $SEP$FG_RESET "
     fi
+
+    #~~~ In Docker container ~~~#
+
+    if [ -e /.dockerenv ] || grep -qi "docker" /proc/1/cgroup ; then 
+        CONTAINER_LABEL="$(hostname)"
+        [ -n "$DEVPOD_WORKSPACE_ID" ] && CONTAINER_LABEL="$DEVPOD_WORKSPACE_ID"
+        PROMPT_STR+="${FG_SECONDARY} $CONTAINER_LABEL $SEP$FG_RESET "
+    fi 
 
     #~~~ User info ~~~#
 
