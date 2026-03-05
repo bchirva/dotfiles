@@ -5,7 +5,9 @@ return {
 	},
 	opts = {},
 	keys = {
-		{ "<leader>ff", require("telescope.builtin").find_files, desc = "Find files" },
+		{ "<leader>ff", function ()
+            require("telescope.builtin").find_files({ hidden = true })
+        end, desc = "Find files" },
 		{ "<leader>fg", require("telescope.builtin").live_grep, desc = "Find text via grep" },
 		{ "<leader>fb", require("telescope.builtin").buffers, desc = "Find buffer" },
 		{ "<leader>fh", require("telescope.builtin").help_tags, desc = "Help tags" },
