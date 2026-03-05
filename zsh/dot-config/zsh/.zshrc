@@ -65,6 +65,8 @@ bindkey '^f'  forward-char
 
 bindkey '[3~' delete-char
 bindkey '[P'  delete-char
+bindkey 'd'   delete-word
+bindkey '^?'  backward-delete-word
 
 autoload edit-command-line && zle -N edit-command-line
 bindkey -M vicmd '^e' edit-command-line
