@@ -111,7 +111,7 @@ function M.setup()
 		Question = { fg = colors.cyan1 }, -- hit-enter prompt and yes/no questions
 		QuickFixLine = { bg = colors.cyan1, fg = colors.background_buffer }, -- Current quickfix item in the quickfix window.
 		Title = { fg = colors.green1 }, -- titles for output from ":set all", ":autocmd" etc.
-		Directory = { fg = colors.blue1 }, -- directory names (and other special names in listings)
+		Directory = { fg = colors.primary }, -- directory names (and other special names in listings)
 
 		-- Float windows
 		NormalFloat = { bg = colors.background_buffer },
@@ -127,19 +127,15 @@ function M.setup()
 		TroubleIndent = { link = "Normal" },
 
 		-- NvimTree
-		NvimTreeNormal = { link = "Normal" },
-		NvimTreeWinSeparator = { bg = colors.background_buffer },
-		NvimTreeNormalNC = { bg = colors.background_buffer, fg = colors.foreground_base },
-		NvimTreeRootFolder = { fg = colors.blue2, bold = true },
+		-- NvimTreeWinSeparator = { bg = colors.background_buffer },
 		NvimTreeGitDirty = { fg = colors.yellow1 },
 		NvimTreeGitNew = { fg = colors.green1 },
 		NvimTreeGitDeleted = { fg = colors.red1 },
-		NvimTreeOpenedFile = { bg = colors.background_highlight },
-		NvimTreeSpecialFile = { fg = colors.magenta1, underline = true },
 		NvimTreeIndentMarker = { fg = colors.foreground_highlighted },
-		NvimTreeImageFile = {},
-		NvimTreeSymlink = { fg = colors.cyan1 },
-		NvimTreeFolderIcon = { fg = colors.blue1 },
+		NvimTreeSymlink = { fg = colors.secondary },
+        NvimTreeExecFile = { fg = colors.warning },
+		NvimTreeFolderIcon = { fg = colors.primary },
+		NvimTreeRootFolder = { fg = colors.primary, bold = true },
 
 		-- LSP Completion
 		CmpItemAbbr = { link = "Tag" },
