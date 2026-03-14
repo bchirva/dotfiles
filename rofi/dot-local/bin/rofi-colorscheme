@@ -36,7 +36,7 @@ function main() {
         rm "$colorschemes_dir/active"
         ln -srf "$colorschemes_dir/$new_scheme" "$colorschemes_dir/active"
 
-        xrdb -merge ~/.Xresources
+        xrdb -merge ${HOME}/.Xresources
 
         local -r processes=(polybar dunst)
         for process in "${processes[@]}"; do 

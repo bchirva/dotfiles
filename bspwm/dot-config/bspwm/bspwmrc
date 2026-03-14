@@ -6,11 +6,8 @@
 command -v bspwm-workspaces > /dev/null \
     && bspwm-workspaces 
 
-picom -b
-xrdb -load "${XDG_CONFIG_HOME}/X11/Xresources"
 sxhkd "${XDG_CONFIG_HOME}/sxhkd/sxhkdrc-bspwm" &
 launch-polybar bspwm
-wallpapers-ctrl load
 
 bspc config window_gap           4
 bspc config split_ratio          0.5

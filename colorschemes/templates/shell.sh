@@ -2,6 +2,7 @@ BACKGROUND_COLOR="{background_base}"
 PRIMARY_COLOR="{primary}"
 SECONDARY_COLOR="{secondary}"
 WARNING_COLOR="{warning}"
+WIDGET_COLOR="{background_view}"
 
 PRIMARY_COLOR_NAME="{primary_name}"
 SECONDARY_COLOR_NAME="{secondary_name}"
