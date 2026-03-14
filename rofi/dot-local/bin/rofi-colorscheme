@@ -51,6 +51,9 @@ function main() {
         if pgrep bspwm > /dev/null ; then
             bspc wm -r
         fi
+        if pgrep -x dwm > /dev/null; then 
+            kill -HUP $(pgrep -x dwm)
+        fi
     fi
 }
 
