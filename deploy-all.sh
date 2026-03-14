@@ -9,7 +9,6 @@ stow -S \
     bash \
     bat \
     bottom \
-    bspwm \
     dunst \
     fzf \
     git \
@@ -21,7 +20,6 @@ stow -S \
     nvim \
     picom \
     polkit \
-    polybar \
     qutebrowser \
     rmpc \
     rofi \
