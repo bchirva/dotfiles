@@ -1,0 +1,57 @@
+#!/usr/bin/env sh
+
+if ! command -v spt >/dev/null; then 
+    exit 1
+fi
+
+SPT_STATUS_FILE="$XDG_RUNTIME_DIR/spt/status"
+SPT_PID="$(pidof spt)"
+SIGRTMIN=34
+
+rofi_input() {
+    if [ -n "$SPT_PID" ]; then 
+        if grep -q "paused" "$SPT_STATUS_FILE"; then
+            printf '%s\n' "$(colored-pango-icon 󰐊 ) Start timer" 
+        else 
+            printf '%s\n' "$(colored-pango-icon 󰏤 ) Pause timer" 
+        fi 
+
+        printf '%s\n' "$(colored-pango-icon 󰒭 ) Skip timer" 
+        printf '%s\n' "$(colored-pango-icon 󰜉 ) Restart timer" 
+        printf '%s\n' "$(colored-pango-icon 󱎘 ) Kill timer" 
+    else 
+        printf '%s\n' "$(colored-pango-icon 󱫠 ) Start timer" 
+    fi 
+}
+
+main() {
+    row_count=1
+    [ -n "$SPT_PID" ] && row_count=4
+
+    variant=$(rofi_input \
+        | rofi -config "$XDG_CONFIG_HOME/rofi/dmenu-single-column.rasi" \
+        -markup-rows -i -dmenu -no-custom \
+        -format 'i' \
+        -p " Pomodoro Timer:" \
+        -l "$row_count")
+
+    if [ -z "$variant" ]; then
+        exit 1
+    fi 
+
+    case "$variant" in 
+        0) 
+            if [ -z "$SPT_PID" ]; then 
+                spt &
+            else 
+                kill -$((SIGRTMIN+1)) "$SPT_PID"
+            fi
+            ;;
+        1) kill -$((SIGRTMIN+2)) "$SPT_PID" ;;
+        2) kill -$((SIGRTMIN+3)) "$SPT_PID" ;;
+        3) rofi-confirm "$(colored-pango-icon 󱎘 ) Kill timer" && kill "$SPT_PID" ;;
+        *) exit 1 ;;
+    esac 
+}
+
+main "$@"

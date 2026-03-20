@@ -61,6 +61,9 @@ super + space ; g
 super + space ; o
     obsidian
 
+super + space ; p
+    rofi-pomodoro
+
 super + space ; s
     $TERMINAL -e btm
 
@@ -79,6 +82,9 @@ super + space ; z
 #~~~~~ Music ~~~~~#
 super + m ; m
     rofi-music
+
+super + m; Return
+    $TERMINAL -e rmpc
 
 super + m ; space
     mpc toggle
