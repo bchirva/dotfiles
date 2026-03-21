@@ -1,0 +1,1 @@
+@hourly command -v newsboat > /dev/null && newsboat -x reload

@@ -1,3 +1,4 @@
 --target=$HOME
 --dotfiles
 --ignore=^colorschemes/.*
+--ignore=^cron/.*
