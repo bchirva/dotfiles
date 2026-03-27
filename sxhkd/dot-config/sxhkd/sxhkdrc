@@ -41,7 +41,7 @@ super + Print
     rofi-screen-capture
 
 super + p
-    rofi-passwords
+    rofi-pomodoro
 
 super + space ; b
     brave
@@ -61,8 +61,8 @@ super + space ; g
 super + space ; o
     obsidian
 
-super + space ; p
-    rofi-pomodoro
+super + space; p
+    rofi-passwords
 
 super + space ; s
     $TERMINAL -e btm
