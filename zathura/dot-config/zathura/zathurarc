@@ -3,6 +3,3 @@ set recolor true
 set recolor-keephue true
 set recolor-reverse-video true
 font "VictorMono Nerd Font 12"
-
-map j feedkeys "<C-Down>"
-map k feedkeys "<C-Up>"
