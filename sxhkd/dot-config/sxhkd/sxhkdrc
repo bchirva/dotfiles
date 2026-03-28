@@ -70,6 +70,9 @@ super + space ; s
 super + space ; t
     Telegram
 
+super + space ; u
+    rofi-utils
+
 super + space ; v
     rofi-virtmanager
 
@@ -80,6 +83,7 @@ super + space ; z
     zathura
 
 #~~~~~ Music ~~~~~#
+
 super + m ; m
     rofi-music
 

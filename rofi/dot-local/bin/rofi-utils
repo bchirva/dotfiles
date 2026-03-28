@@ -1,0 +1,64 @@
+#!/usr/bin/env sh
+
+rofi_input=""
+idx=0
+
+weather_idx=$idx
+rofi_input="${rofi_input}$(colored-pango-icon  ) Weather
+" 
+idx=$((idx + 1))
+
+if command -v newsboat >/dev/null; then 
+    news_idx=$idx
+    rofi_input="${rofi_input}$(colored-pango-icon  ) News
+"
+    idx=$((idx + 1))
+fi
+
+if command -v neomutt >/dev/null; then 
+    mail_idx=$idx
+    rofi_input="${rofi_input}$(colored-pango-icon 󰇮 ) Mail 
+"
+    idx=$((idx + 1))
+fi
+
+if command -v btm >/dev/null; then
+    system_idx=$idx
+    rofi_input="${rofi_input}$(colored-pango-icon  ) System monitor
+"
+    idx=$((idx + 1))
+fi
+
+theme_idx=$idx
+rofi_input="${rofi_input}$(colored-pango-icon  ) Colorschemes
+"
+idx=$((idx + 1))
+
+if command -v nsxiv >/dev/null; then
+    wallpaper_idx=$idx
+    rofi_input="${rofi_input}$(colored-pango-icon 󰸉 ) Wallpapers 
+"
+    idx=$((idx + 1))
+fi
+
+variant=$(printf '%s' "$rofi_input" \
+    | rofi -config "$XDG_CONFIG_HOME/rofi/dmenu-single-column.rasi" \
+    -markup-rows -i -dmenu -no-custom \
+    -format 'i' \
+    -p "󱓞 Utils" \
+    -l $idx)
+
+if [ -z "$variant" ]; then
+    exit 1
+fi
+
+case "$variant" in 
+    "$weather_idx") $TERMINAL -e bash -c "curl wttr.in/$(basename "$(readlink /etc/localtime)"); read" ;;
+    "$news_idx")    $TERMINAL -e newsboat ;;
+    "$mail_idx")    $TERMINAL -e neomutt ;;
+    "$system_idx")  $TERMINAL -e btm ;;
+    "$theme_idx")   rofi-colorscheme ;;
+    "$wallpaper_idx") wallpapers-ctrl select ;;
+    *) exit 1 ;;
+esac 
+
