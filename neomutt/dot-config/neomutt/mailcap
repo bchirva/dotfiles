@@ -1,0 +1,8 @@
+text/plain; cat %s; copiousoutput
+text/html; w3m -I %{charset} -O utf-8 -dump %s; nametemplate=%s.html; copiousoutput;
+image/*; nsxiv %s ;
+video/*; setsid mpv --quiet %s &; copiousoutput
+audio/*; mpv %s ;
+application/pdf; zathura %s ;
+application/pgp-encrypted; gpg -d '%s'; copiousoutput;
+application/pgp-keys; gpg --import '%s'; copiousoutput;
