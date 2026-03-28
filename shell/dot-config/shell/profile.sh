@@ -16,6 +16,7 @@ export FZF_DEFAULT_OPTS_FILE=$XDG_CONFIG_HOME/fzf/fzfrc
 export GOMODCACHE=$XDG_CACHE_HOME/go/mod
 export GOPATH=$XDG_DATA_HOME/go
 export MACHINE_STORAGE_PATH=$XDG_DATA_HOME/docker/docker-machine
+export NOTMUCH_CONFIG=$XDG_CONFIG_HOME/notmuch/config
 export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
 export NVM_DIR=$XDG_DATA_HOME/nvm
 export PASSWORD_STORE_DIR=$XDG_DATA_HOME/password-store
