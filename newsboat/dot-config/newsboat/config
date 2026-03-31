@@ -7,4 +7,10 @@ bind-key G end
 bind-key n next-unread
 bind-key N prev-unread
 
+datetime-format "%d-%m-%Y %H:%M"
+
+articlelist-title-format "%T @ %U: %u/%t articles %?F? matching filter '%F'&?"
+feedlist-title-format "%?F?Feeds&Your feeds?: %u unread from %t total%?F? matching filter '%F'&?%?T? - tag '%T'&?"
+itemview-title-format "Article '%T'" 
+
 include colors
