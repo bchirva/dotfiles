@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Version=1.0
-Name=Colorscheme Selector
-Comment=Select desktop environment and terminal colorscheme
-Exec=/bin/bash -c "rofi-colorscheme"
-Icon=preferences-color
-Terminal=false

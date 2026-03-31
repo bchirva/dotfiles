@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Version=1.0
-Name=Wallpapers Selector
-Comment=Select desktop background image
-Exec=/bin/bash -c "wallpapers-ctrl select"
-Icon=preferences-desktop-wallpaper
-Terminal=false
