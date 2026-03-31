@@ -17,3 +17,6 @@ dwmblocks &
 picom -b & 
 sxhkd &
 wallpapers-ctrl load 
+
+cron-update-rss &
+cron-update-email &
