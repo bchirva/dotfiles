@@ -34,11 +34,10 @@ st.tabspaces:			4
 st.chscale:			    1.0
 st.cwscale:			    1.0
 
-dmenu.font :            Hack Nerd Font:pixelsize=16:antialias=true:autohint=true
-dmenu.selbackground:    {primary}
-dmenu.selforeground:    {on_primary}
-dmenu.inputbackground:  {background_view}
-dmenu.inputforeground:  {foreground_base}
+dmenu.font:             Hack Nerd Font:pixelsize=16:antialias=true:autohint=true
+dmenu.accent:           {primary}
+dmenu.accentalt:        {secondary}
+dmenu.backgroundalt:    {background_view}
 
 dwm.normbgcolor:        {background_base} 
 dwm.normbordercolor:    {background_base}
