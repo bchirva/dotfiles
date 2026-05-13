@@ -25,7 +25,7 @@ local M = {{
     yellow_alt = "{yellow_bright}",
     cyan_alt = "{cyan_bright}",
     magenta_alt = "{magenta_bright}",
-    white_alt = "{white_alt}",
+    white_alt = "{white_bright}",
 
     primary = "{primary}",
     on_primary = "{on_primary}",

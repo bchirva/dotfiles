@@ -15,9 +15,9 @@ set notification-warning-fg "{on_secondary}"
 set notification-error-bg "{warning}"
 set notification-error-fg "{on_warning}"
 
-set highlight-color "{foreground_base}"
+set highlight-color "{secondary}"
 set highlight-active-color "{primary}"
-set highlight-fg "{foreground_highlighted}"
+set highlight-fg "{background_base}"
 
 set index-bg "{background_base}"
 set index-fg "{foreground_base}"
