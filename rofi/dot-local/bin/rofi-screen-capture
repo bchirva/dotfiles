@@ -89,8 +89,25 @@ main() {
                 ffmpeg_pid="$(head -n 1 "$record_pid_file")"
                 kill -INT "${ffmpeg_pid}" 
                 wait "${ffmpeg_pid}"
+                sleep 0.5
+
+                record_file="$(tail -n 1 "$record_pid_file")"
+                record_name=$(rofi -config "$XDG_CONFIG_HOME/rofi/dmenu-input.rasi" \
+                    -dmenu \
+                    -p " Record name:")
+
+                if [ -n "$record_name" ]; then 
+                    record_name="${records_path}/${record_name}.mp4"
+                    ffmpeg -i "$record_file" -c copy "$record_name"
+                    rm "$record_file"
+                else 
+                    record_name="${records_path}/$(basename "$record_file")"
+                    mv "$record_file" "$record_name"
+                fi 
+
                 notify-send -u normal -i record-desktop "Screen recording has finished" \
-                    "Record saved in $(tail -n 1 "$record_pid_file")"
+                    "Record saved in $record_name"
+
                 rm "$record_pid_file"
                 exit 0
             fi 
@@ -114,7 +131,8 @@ main() {
             codecs="-c:v libx264"
             formats="-pix_fmt yuv420p"
             extra=""
-            record_path="$records_path/record_$(date +$timestamp_format).mkv"
+            # record_path="$records_path/record_$(date +$timestamp_format).mkv"
+            record_path="$XDG_RUNTIME_DIR/ffmpeg.record_$(date +$timestamp_format).mkv"
 
             if "$(pactl get-source-mute @DEFAULT_SOURCE@ | sed 's/^[^ ]* // ; s/yes/false/ ; s/no/true/' )" ; then 
                 inputs="${inputs} -f pulse -ac 2 -i default"
@@ -127,7 +145,7 @@ main() {
             ffmpeg $inputs $codecs $formats $extra $record_path &
 
             printf '%s\n%s\n' "$!" "$record_path" > "$record_pid_file"
-            notify-send -u normal -i record-desktop "Screen $screen is recording" "Record will be saved in $record_path"
+            notify-send -u normal -i record-desktop "Screen $screen is recording"
             ;;
         *) exit ;;
     esac
