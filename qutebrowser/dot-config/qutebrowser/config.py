@@ -13,6 +13,7 @@ c.url.searchengines = {
     "@rt": "https://rutracker.org/forum/tracker.php?nm={}",
     "@yt": "https://www.youtube.com/results?search_query={}",
     "@yx": "https://ya.ru/search/?text={}",
+    "@wk": "https://wikipedia.org/w/index.php?search={}",
 }
 c.url.default_page = "qute://bookmarks"
 c.url.start_pages = ["qute://bookmarks"]
