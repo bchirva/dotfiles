@@ -1,7 +1,6 @@
 vim.pack.add({
     "https://github.com/mfussenegger/nvim-dap",
     "https://github.com/rcarriga/nvim-dap-ui",
-    "https://github.com/nvim-neotest/nvim-nio"
 })
 
 local dap = require("dap")
@@ -23,9 +22,9 @@ dap.listeners.before.event_exited.dapui_config = function()
 end
 
 for name, type in vim.fs.dir(vim.fn.stdpath("config") .. "/lua/dap") do
-  if type == "file" and name:match("%.lua$") then
-    require("dap." .. name:gsub("%.lua$", ""))
-  end
+    if type == "file" and name:match("%.lua$") then
+        require("dap." .. name:gsub("%.lua$", ""))
+    end
 end
 
 vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "DAP breakpoint" })
