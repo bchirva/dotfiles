@@ -1,0 +1,19 @@
+[Unit]
+Description=Llama.cpp service
+Wants=network-online.target
+After=syslog.target network.target local-fs.target remote-fs.target nss-lookup.target
+
+[Service]
+ExecStart=/usr/bin/llama-server 
+Environment="LLAMA_ARG_MODELS_DIR=%h/.local/share/llama.cpp/models"
+Environment="LLAMA_ARG_MODELS_MAX=1"
+Environment="LLAMA_ARG_PORT=12741"
+Environment="LLAMA_ARG_CTX_SIZE=32768"
+
+WorkingDirectory=%h/.local/share/llama.cpp
+Restart=on-failure
+ExecReload=/bin/kill -s HUP $MAINPID
+
+[Install]
+WantedBy=default.target
+
