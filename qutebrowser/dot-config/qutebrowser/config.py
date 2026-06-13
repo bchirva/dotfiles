@@ -21,7 +21,7 @@ c.url.start_pages = ["qute://bookmarks"]
 # Keybindings
 config.bind("<Ctrl-j>", "completion-item-focus --history next", mode="command")
 config.bind("<Ctrl-k>", "completion-item-focus --history prev", mode="command")
-config.bind(";v", "hint links spawn mpv --ytdl-raw-options=cookies-from-browser=brave {hint-url}")
+config.bind(";v", "hint links spawn --detach mpv --ytdl-raw-options=cookies-from-browser=brave {hint-url}")
 config.bind("zz", "config-cycle tabs.show always never")
 config.bind("zs", "config-cycle statusbar.show always in-mode")
 config.bind("zf", "fullscreen")
