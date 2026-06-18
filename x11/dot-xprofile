@@ -16,6 +16,7 @@ dunst &
 dwmblocks &
 picom -b & 
 sxhkd &
+transmission-daemon &
 wallpapers-ctrl load 
 
 cron-update-rss &

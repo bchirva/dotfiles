@@ -1,0 +1,44 @@
+#!/usr/bin/env sh
+
+TORRENTS="$@"
+[ -z "$TORRENTS" ] && exit 1
+
+DIR_ICON=""
+DOWNLOAD_DIR="$(find $HOME -maxdepth 3 -type d \( -path '*/.*' -prune \) -o -type d -printf '%P\n' \
+    | sed '1d' \
+    | while IFS= read -r dir; do printf '%s %s\n' "$DIR_ICON" "$dir"; done \
+    | dmenu -i -p "󰉍 DOWNLOAD PATH:" \
+    | cut -d ' ' -f 2-)"
+
+if [ -z "$DOWNLOAD_DIR" ]; then
+    exit 1
+fi 
+
+case "$DOWNLOAD_DIR" in 
+    /*) ;;
+    *) DOWNLOAD_DIR="$HOME/$DOWNLOAD_DIR" ;;
+esac 
+
+DOWNLOAD_ICON="transmission"
+PARENT_DIR="$(dirname "$DOWNLOAD_DIR")"
+if [ ! -e "$PARENT_DIR" ] && ! mkdir -p "$PARENT_DIR" ; then
+    notify-send -u critical -i "$DOWNLOAD_ICON" \
+        "Download failed" \
+        "Path ${DOWNLOAD_DIR} doesn't exist and cannot be created" 
+    exit 1
+fi
+
+if ! pgrep -f "transmission-daemon" >/dev/null; then 
+    transmission-daemon &
+    while ! transmission-remote --list >/dev/null; do 
+        sleep 1
+    done
+fi 
+
+transmission-remote \
+    --add "$TORRENTS" \
+    --download-dir "$DOWNLOAD_DIR" \
+    --torrent-done-script "torrent-notify" \
+    && notify-send -u normal -i "$DOWNLOAD_ICON" \
+        "Download started" \
+        "Download $TORRENTS into $DOWNLOAD_DIR"

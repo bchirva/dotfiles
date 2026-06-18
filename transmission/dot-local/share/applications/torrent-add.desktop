@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=torrent-add
+GenericName=Torrent
+Exec=/usr/bin/env torrent-add %U
+MimeType=x-scheme-handler/magnet;application/x-bittorrent
+NoDisplay=true
+Icon=downloader
