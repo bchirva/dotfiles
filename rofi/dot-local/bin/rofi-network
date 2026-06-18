@@ -247,7 +247,7 @@ function wifi_menu {
                 -dmenu -password \
                 -p " " \
                 -mesg "Password for WiFi network <b>$selected_ssid</b>" )
-            nmcli device wifi connect "$selected_ssid" "$ssid_password"
+            nmcli device wifi connect "$selected_ssid" password "$ssid_password"
         fi 
     fi
 }
