@@ -36,8 +36,6 @@ vim.opt.completeopt = { "menu", "menuone", "noselect", "preview" }
 
 -- Theme --
 
--- require("highlights")
--- require("theme")
 require("theme/builtin").setup()
 
 -- Plugins --
