@@ -8,12 +8,14 @@ c.auto_save.session = False
 
 c.url.searchengines = {
     "DEFAULT": "https://duckduckgo.com/?q={}",
-    "@aw": "https://wiki.archlinux.org/?search={}",
+    "@arch": "https://wiki.archlinux.org/?search={}",
     "@gh": "https://github.com/search?q={}&type=repositories&s=stars&o=desc",
     "@rt": "https://rutracker.org/forum/tracker.php?nm={}",
     "@yt": "https://www.youtube.com/results?search_query={}",
     "@yx": "https://ya.ru/search/?text={}",
-    "@wk": "https://wikipedia.org/w/index.php?search={}",
+    "@wiki": "https://wikipedia.org/w/index.php?search={}",
+    "@cpp": "https://cppreference.com/index.php?search={}",
+    "@fb": "https://www.flibusta.is/booksearch?ask={}"
 }
 c.url.default_page = "qute://bookmarks"
 c.url.start_pages = ["qute://bookmarks"]
@@ -57,4 +59,3 @@ c.editor.command = [
     "+startinsert",
     "+call cursor({line}, {column})",
 ]
-
