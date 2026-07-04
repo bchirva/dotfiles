@@ -131,21 +131,23 @@ main() {
             codecs="-c:v libx264"
             formats="-pix_fmt yuv420p"
             extra=""
-            # record_path="$records_path/record_$(date +$timestamp_format).mkv"
             record_path="$XDG_RUNTIME_DIR/ffmpeg.record_$(date +$timestamp_format).mkv"
 
             if "$(pactl get-source-mute @DEFAULT_SOURCE@ | sed 's/^[^ ]* // ; s/yes/false/ ; s/no/true/' )" ; then 
-                inputs="${inputs} -f pulse -ac 2 -i default"
+                inputs="${inputs} -f pulse -i $(pactl get-default-source)"
+                inputs="${inputs} -f pulse -i $(pactl get-default-sink).monitor"
                 codecs="${codecs} -c:a aac"
                 formats="${formats} -b:a 128k"
-                extra="${extra} -preset ultrafast -threads 0"
+                extra="${extra} -preset ultrafast -threads 0 -filter_complex [1:a][2:a]amix=inputs=2:duration=longest:normalize=0[a] -map 0:v -map [a]"
             fi 
-            
+           
             sleep 0.5
             ffmpeg $inputs $codecs $formats $extra $record_path &
 
-            printf '%s\n%s\n' "$!" "$record_path" > "$record_pid_file"
-            notify-send -u normal -i record-desktop "Screen $screen is recording"
+            if [ $? -eq 0 ]; then 
+                printf '%s\n%s\n' "$!" "$record_path" > "$record_pid_file"
+                notify-send -u normal -i record-desktop "Screen $screen is recording"
+            fi
             ;;
         *) exit ;;
     esac
