@@ -8,14 +8,20 @@ c.auto_save.session = False
 
 c.url.searchengines = {
     "DEFAULT": "https://duckduckgo.com/?q={}",
-    "@arch": "https://wiki.archlinux.org/?search={}",
-    "@gh": "https://github.com/search?q={}&type=repositories&s=stars&o=desc",
-    "@rt": "https://rutracker.org/forum/tracker.php?nm={}",
+    "@wiki": "https://wikipedia.org/w/index.php?search={}",
     "@yt": "https://www.youtube.com/results?search_query={}",
     "@yx": "https://ya.ru/search/?text={}",
-    "@wiki": "https://wikipedia.org/w/index.php?search={}",
+    # Downloads
+    "@fb": "https://www.flibusta.is/booksearch?ask={}",
+    "@rt": "https://rutracker.org/forum/tracker.php?nm={}",
+    # IT
+    "@arch": "https://wiki.archlinux.org/?search={}",
     "@cpp": "https://cppreference.com/index.php?search={}",
-    "@fb": "https://www.flibusta.is/booksearch?ask={}"
+    "@gh": "https://github.com/search?q={}&type=repositories&s=stars&o=desc",
+    "@npm": "https://www.npmjs.com/search?q={}",
+    "@pip": "https://pypi.org/search/?q={}",
+    # Others
+    "@oz": "https://ozon.ru/search/?text={}",
 }
 c.url.default_page = "qute://bookmarks"
 c.url.start_pages = ["qute://bookmarks"]
@@ -42,7 +48,7 @@ c.colors.webpage.darkmode.enabled = True
 config.source("theme.py")
 
 # Privacy
-config.set("content.webgl", False, "*")
+config.set("content.webgl", False)
 config.set("content.canvas_reading", False)
 config.set("content.geolocation", False)
 config.set("content.webrtc_ip_handling_policy", "default-public-interface-only")
@@ -50,10 +56,7 @@ config.set("content.cookies.accept", "all")
 config.set("content.cookies.store", True)
 
 c.editor.command = [
-    "kitty",
-    "--single-instance",
-    "-T",
-    "auxiliary text edit",
+    "st",
     "nvim",
     "{file}",
     "+startinsert",
