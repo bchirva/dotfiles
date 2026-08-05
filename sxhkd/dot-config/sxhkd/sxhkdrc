@@ -98,3 +98,7 @@ super + m ; n
 
 super + m ; p
     mpc prev
+
+#~~~~~ Help ~~~~~#
+super + slash
+    menu-sxhkd
