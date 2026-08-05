@@ -38,7 +38,7 @@ fi
 transmission-remote \
     --add "$TORRENTS" \
     --download-dir "$DOWNLOAD_DIR" \
-    --torrent-done-script "torrent-notify" \
+    --torrent-done-script "$HOME/.local/bin/torrent-notify" \
     && notify-send -u normal -i "$DOWNLOAD_ICON" \
         "Download started" \
         "Download $TORRENTS into $DOWNLOAD_DIR"

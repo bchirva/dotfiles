@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 
-command -v notify-send >/dev/null && pgrep dunst >/dev/null && \
-    notify-send -u normal -i "transmission" \
-        "Download finished" \
-        "$TR_TORRENT_NAME has been downloaded into $TR_TORRENT_DIR"
+notify-send -u normal -i "transmission" \
+    "Download finished" \
+    "$TR_TORRENT_NAME has been downloaded into $TR_TORRENT_DIR"
