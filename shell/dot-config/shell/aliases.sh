@@ -18,8 +18,3 @@ alias yazi="TERM='xterm-kitty' yazi"
 alias yz="yazi"
 
 command -v nvim >/dev/null && alias vim="nvim"
-
-manpdf() {
-    echo "$@"
-    command -v zathura >/dev/null && man -Tpdf "$@" | zathura -
-}
