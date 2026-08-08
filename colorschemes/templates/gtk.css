@@ -24,19 +24,19 @@
 @define-color color-foreground-bright       {foreground.bright};
 @define-color color-foreground-dim          {foreground.dim};
 
-@define-color primary-base                  {primary.base};
+@define-color primary                       {primary.base};
 @define-color primary-bright                {primary.bright};
 @define-color primary-dim                   {primary.dim};
 @define-color primary-background            {primary.background};
 @define-color primary-foreground            {primary.foreground};
 
-@define-color secondary-base                {secondary.base};
+@define-color secondary                     {secondary.base};
 @define-color secondary-bright              {secondary.bright};
 @define-color secondary-dim                 {secondary.dim};
 @define-color secondary-background          {secondary.background};
 @define-color secondary-foreground          {secondary.foreground};
 
-@define-color warning-base                  {warning.base};
+@define-color warning                       {warning.base};
 @define-color warning-bright                {warning.bright};
 @define-color warning-dim                   {warning.dim};
 @define-color warning-background            {warning.background};

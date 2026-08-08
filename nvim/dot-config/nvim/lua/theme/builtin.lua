@@ -258,11 +258,11 @@ function M.setup()
         -- ["@markup.underline"] = {},            -- underlined text (only for literal underline markup!)
         ["@markup.heading"] = { fg = colors.red, bold = true },
         ["@markup.heading.1"] = { fg = colors.red, bold = true },
-        ["@markup.heading.2"] = { fg = colors.magenta, bold = true },
-        ["@markup.heading.3"] = { fg = colors.yellow, bold = true },
-        ["@markup.heading.4"] = { fg = colors.cyan, bold = true },
-        ["@markup.heading.5"] = { fg = colors.blue, bold = true },
-        ["@markup.heading.6"] = { fg = colors.green, bold = true },
+        ["@markup.heading.2"] = { fg = colors.rose, bold = true },
+        ["@markup.heading.3"] = { fg = colors.magenta, bold = true },
+        ["@markup.heading.4"] = { fg = colors.orange, bold = true },
+        ["@markup.heading.5"] = { fg = colors.yellow, bold = true },
+        ["@markup.heading.6"] = { fg = colors.violet, bold = true },
         ["@markup.quote"] = { fg = colors.blue, italic = true },
         -- ["@markup.math"] = {},                 -- math environments (e.g. `$ ... $` in LaTeX)
         -- ["@markup.link"] = {},                 -- text references, footnotes, citations, etc.
