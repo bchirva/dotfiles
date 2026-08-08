@@ -45,10 +45,10 @@ button {
 }
 
 button.normal {
-    background-color:   @color-background-view;
+    background-color:   @color-background-bright;
 }
 
 button.selected {
-    background-color:   @color-primary;
-    color:              @color-on-primary;
+    background-color:   @color-primary-base;
+    color:              @color-primary-background;
 }

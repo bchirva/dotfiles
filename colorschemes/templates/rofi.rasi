@@ -7,38 +7,39 @@ color-blue:                 {blue};
 color-magenta:              {magenta};
 color-cyan:                 {cyan};
 color-white:                {white};
-color-black-bright:         {black_bright};
-color-red-bright:           {red_bright};
-color-green-bright:         {green_bright};
-color-yellow-bright:        {yellow_bright};
-color-blue-bright:          {blue_bright};
-color-magenta-bright:       {magenta_bright};
-color-cyan-bright:          {cyan_bright};
-color-white-bright:         {white_bright};
+color-black-bright:         {black.bright};
+color-red-bright:           {red.bright};
+color-green-bright:         {green.bright};
+color-yellow-bright:        {yellow.bright};
+color-blue-bright:          {blue.bright};
+color-magenta-bright:       {magenta.bright};
+color-cyan-bright:          {cyan.bright};
+color-white-bright:         {white.bright};
 
-color-background-base:          {background_base};
-color-background-view:          {background_view};
-color-background-focused:       {primary}80;
-color-background-highlighted:   {foreground_base}40;
+color-background-base:          {background.base};
+color-background-bright:        {background.bright};
+color-background-brightest:     {background.brightest};
+color-background-dim:           {background.dim};
 
-color-foreground-base:          {foreground_base};
-color-foreground-highlighted:   {foreground_highlighted};
-color-foreground-faded:         {foreground_faded};
+color-foreground-base:          {foreground.base};
+color-foreground-bright:        {foreground.bright};
+color-foreground-dim:           {foreground.dim};
 
-color-primary:                  {primary};
-color-primary-focused:          {primary_focused};
-color-primary-highlighted:      {primary_highlighted};
-color-on-primary:               {on_primary};
+color-primary-base:             {primary.base};
+color-primary-bright:           {primary.bright};
+color-primary-dim:              {primary.dim};
+color-primary-background:       {primary.background};
+color-primary-foreground:       {primary.foreground};
 
-color-secondary:                {secondary};
-color-secondary-focused:        {secondary_focused};
-color-secondary-highlighted:    {secondary_highlighted};
-color-on-secondary:             {on_secondary};
+color-secondary-base:           {secondary.base};
+color-secondary-bright:         {secondary.bright};
+color-secondary-dim:            {secondary.dim};
+color-secondary-background:     {secondary.background};
+color-secondary-foreground:     {secondary.foreground};
 
-color-warning:                  {warning};
-color-warning-focused:          {warning_focused};
-color-warning-highlighted:      {warning_highlighted};
-color-on-warning:               {on_warning};
-
+color-warning-base:             {warning.base};
+color-warning-bright:           {warning.bright};
+color-warning-dim:              {warning.dim};
+color-warning-background:       {warning.background};
+color-warning-foreground:       {warning.foreground};
 }}
-

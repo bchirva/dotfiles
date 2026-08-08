@@ -1,6 +1,6 @@
-*.foreground:   {foreground_base}
-*.background:   {background_base}
-*.cursorColor:  {foreground_highlighted} 
+*.foreground:   {foreground.base}
+*.background:   {background.base}
+*.cursorColor:  {foreground.bright}
 
 *.color0:       {black}
 *.color1:       {red}
@@ -11,22 +11,22 @@
 *.color6:       {cyan}
 *.color7:       {white}
 
-*.color8:       {black_bright}
-*.color9:       {red_bright}
-*.color10:      {green_bright}
-*.color11:      {yellow_bright}
-*.color12:      {blue_bright}
-*.color13:      {magenta_bright}
-*.color14:      {cyan_bright}
-*.color15:      {white_bright}
+*.color8:       {black.bright}
+*.color9:       {red.bright}
+*.color10:      {green.bright}
+*.color11:      {yellow.bright}
+*.color12:      {blue.bright}
+*.color13:      {magenta.bright}
+*.color14:      {cyan.bright}
+*.color15:      {white.bright}
 
-Nsxiv.window.foreground: {primary}
-Nsxiv.mark.foreground: {primary}
+Nsxiv.window.foreground: {primary.base}
+Nsxiv.mark.foreground: {primary.base}
 Nsxiv.bar.font: xft:Hack:size=14:style=Regular 
 
 st.font:                Hack Nerd Font:pixelsize=16:antialias=true:autohint=true
 st.bold_font:			0
-st.cursorColor:			{primary}
+st.cursorColor:			{primary.base}
 st.termname:			xterm-256color
 st.shell:			    /bin/sh
 st.bellvolume:			100
@@ -35,13 +35,13 @@ st.chscale:			    1.0
 st.cwscale:			    1.0
 
 dmenu.font:             Hack Nerd Font:pixelsize=16:antialias=true:autohint=true
-dmenu.accent:           {primary}
-dmenu.accentalt:        {secondary}
-dmenu.backgroundalt:    {background_view}
+dmenu.accent:           {primary.base}
+dmenu.accentalt:        {secondary.base}
+dmenu.backgroundalt:    {background.bright}
 
-dwm.normbgcolor:        {background_base} 
-dwm.normbordercolor:    {background_base}
-dwm.normfgcolor:        {foreground_base}
-dwm.selbgcolor:         {background_view}
-dwm.selbordercolor:     {primary}
-dwm.selfgcolor:         {primary}
+dwm.normbgcolor:        {background.base}
+dwm.normbordercolor:    {background.base}
+dwm.normfgcolor:        {foreground.base}
+dwm.selbgcolor:         {background.bright}
+dwm.selbordercolor:     {primary.base}
+dwm.selfgcolor:         {primary.base}

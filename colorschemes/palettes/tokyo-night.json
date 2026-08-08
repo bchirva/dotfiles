@@ -1,14 +1,12 @@
 {
-  "normal": {
-    "black": "#24283b",
-    "white": "#c0caf5",
-    "red": "#f7768e",
-    "green": "#9ece6a",
-    "blue": "#7aa2f7",
-    "yellow": "#e0af68",
-    "cyan": "#73daca",
-    "magenta": "#bb9af7"
-  },
+  "black": "#24283b",
+  "white": "#c0caf5",
+  "red": "#f7768e",
+  "green": "#9ece6a",
+  "blue": "#7aa2f7",
+  "yellow": "#e0af68",
+  "cyan": "#73daca",
+  "magenta": "#bb9af7",
   "roles": {
     "primary": "magenta",
     "secondary": "cyan",

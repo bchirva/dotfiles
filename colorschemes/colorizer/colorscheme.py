@@ -4,67 +4,71 @@ from dataclasses import dataclass
 from typing import Any
 
 from .color_blend import bright, dim, mix_color
-from .consts import ANSI_COLOR_CODES, ThemeStyle
+from .consts import ANSI_COLOR_CODES, ANSI_COLOR_NAMES, ThemeStyle
 
 # pylint: disable=missing-function-docstring,missing-class-docstring
 
 @dataclass
+class Color:
+    base: str
+    bright: str | None = None
+
+    def __format__(self, format_spec: str) -> str:
+        return format(self.base, format_spec)
+
+
+@dataclass
+class Foreground:
+    base: str
+    bright: str
+    dim: str
+
+
+@dataclass
+class Background:
+    base: str
+    bright: str
+    brightest: str
+    dim: str
+
+
+@dataclass
+class Role:
+    base: str
+    bright: str
+    dim: str
+    background: str
+    foreground: str
+    ansi: int
+    name: str
+
+
+@dataclass
 class Colorscheme:
-    black: str
-    white: str
-    red: str
-    green: str
-    blue: str
-    yellow: str
-    cyan: str
-    magenta: str
-
-    black_bright: str
-    white_bright: str
-    red_bright: str
-    green_bright: str
-    blue_bright: str
-    yellow_bright: str
-    cyan_bright: str
-    magenta_bright: str
-
-    background_base: str
-    background_view: str
-    background_focused: str
-    background_highlighted: str
-    background_faded: str
-
-    foreground_base: str
-    foreground_highlighted: str
-    foreground_faded: str
-
-    primary: str
-    primary_focused: str
-    primary_highlighted: str
-    on_primary: str
-    primary_name: str
-    primary_ansi: int
-
-    secondary: str
-    secondary_focused: str
-    secondary_highlighted: str
-    on_secondary: str
-    secondary_name: str
-    secondary_ansi: int
-
-    warning: str
-    warning_focused: str
-    warning_highlighted: str
-    on_warning: str
-    warning_name: str
-    warning_ansi: int
+    black: Color
+    white: Color
+    red: Color
+    green: Color
+    blue: Color
+    yellow: Color
+    cyan: Color
+    magenta: Color
+    orange: Color
+    yellowgreen: Color
+    cyangreen: Color
+    azure: Color
+    violet: Color
+    rose: Color
+    foreground: Foreground
+    background: Background
+    primary: Role
+    secondary: Role
+    warning: Role
 
     @classmethod
     def from_json(cls, json_data: dict[str, Any]) -> "Colorscheme":
         variant: ThemeStyle = ThemeStyle(json_data["variant"])
 
-        normal_colors_json = json_data["normal"]
-        bright_colors_json = json_data.get("bright", {})
         color_names = [
             "black",
             "white",
@@ -76,60 +80,68 @@ class Colorscheme:
             "magenta",
         ]
 
-        def get_bright(color_name: str) -> str:
-            return bright_colors_json.get(
-                color_name, bright(normal_colors_json[color_name], variant, 0.3)
-            )
-
-        normal_colors = {name: normal_colors_json[name] for name in color_names}
-        bright_colors = {f"{name}_bright": get_bright(name) for name in color_names}
+        base_colors = {name: json_data[name] for name in color_names}
+        intermediate_colors = {
+            "orange": mix_color(base_colors["red"], base_colors["yellow"], 0.5),
+            "yellowgreen": mix_color(base_colors["yellow"], base_colors["green"], 0.5),
+            "cyangreen": mix_color(base_colors["green"], base_colors["cyan"], 0.5),
+            "azure": mix_color(base_colors["cyan"], base_colors["blue"], 0.5),
+            "violet": mix_color(base_colors["blue"], base_colors["magenta"], 0.5),
+            "rose": mix_color(base_colors["magenta"], base_colors["red"], 0.5),
+        }
+        colors = {
+            name: Color(color)
+            for name, color in {**base_colors, **intermediate_colors}.items()
+        }
+        colors["black"].bright = bright(base_colors["black"], variant, 0.3)
+        colors["white"].bright = bright(base_colors["white"], variant, 0.3)
+        colors["red"].bright = intermediate_colors["rose"]
+        colors["green"].bright = intermediate_colors["yellowgreen"]
+        colors["blue"].bright = intermediate_colors["azure"]
+        colors["yellow"].bright = intermediate_colors["orange"]
+        colors["cyan"].bright = intermediate_colors["cyangreen"]
+        colors["magenta"].bright = intermediate_colors["violet"]
 
         background_base = ""
         foreground_base = ""
         match variant:
             case ThemeStyle.LIGHT:
-                background_base = normal_colors["white"]
-                foreground_base = normal_colors["black"]
+                background_base = base_colors["white"]
+                foreground_base = base_colors["black"]
             case ThemeStyle.DARK:
-                background_base = normal_colors["black"]
-                foreground_base = normal_colors["white"]
+                background_base = base_colors["black"]
+                foreground_base = base_colors["white"]
 
-        background_view = mix_color(background_base, foreground_base, 0.9)
-        background_focused = mix_color(background_base, foreground_base, 0.8)
-        background_highlighted = mix_color(background_base, foreground_base, 0.7)
-        background_faded = dim(background_base, variant, 0.9)
+        background = Background(
+            base=background_base,
+            bright=bright(background_base, variant, 0.1),
+            brightest=bright(background_base, variant, 0.2),
+            dim=dim(background_base, variant, 0.1),
+        )
+        foreground = Foreground(
+            base=foreground_base,
+            bright=bright(foreground_base, variant, 0.2),
+            dim=dim(foreground_base, variant, 0.2),
+        )
 
-        foreground_highlighted = bright(foreground_base, variant, 0.2)
-        foreground_faded = mix_color(foreground_base, background_base, 0.8)
-
-        def resolve_role(name: str) -> dict[str, Any]:
+        def resolve_role(name: str) -> Role:
             role_color_name = json_data["roles"][name]
-            color = normal_colors[role_color_name]
-            return {
-                f"{name}": color,
-                f"{name}_focused": mix_color(color, foreground_base, 0.9),
-                f"{name}_highlighted": mix_color(color, foreground_base, 0.8),
-                f"on_{name}": mix_color(background_base, color, 0.9),
-                f"{name}_name": role_color_name,
-                f"{name}_ansi": ANSI_COLOR_CODES[role_color_name],
-            }
-
-        special_colors = {
-            **resolve_role("primary"),
-            **resolve_role("secondary"),
-            **resolve_role("warning"),
-        }
+            color = colors[role_color_name].base
+            return Role(
+                base=color,
+                bright=mix_color(color, foreground.base, 0.9),
+                dim=mix_color(color, background.base, 0.9),
+                background=mix_color(background.base, color, 0.9),
+                foreground=mix_color(foreground.base, color, 0.9),
+                ansi=ANSI_COLOR_CODES[role_color_name],
+                name=ANSI_COLOR_NAMES[role_color_name],
+            )
 
         return cls(
-            **normal_colors,
-            **bright_colors,
-            background_base=background_base,
-            background_view=background_view,
-            background_focused=background_focused,
-            background_highlighted=background_highlighted,
-            background_faded=background_faded,
-            foreground_base=foreground_base,
-            foreground_highlighted=foreground_highlighted,
-            foreground_faded=foreground_faded,
-            **special_colors,
+            **colors,
+            background=background,
+            foreground=foreground,
+            primary=resolve_role("primary"),
+            secondary=resolve_role("secondary"),
+            warning=resolve_role("warning"),
         )

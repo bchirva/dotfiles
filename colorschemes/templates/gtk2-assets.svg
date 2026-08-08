@@ -47,14 +47,14 @@
     <linearGradient
        id="color-text">
       <stop
-         stop-color="{foreground_base}"
+         stop-color="{foreground.base}"
          offset="1"
          id="stop4" />
     </linearGradient>
     <linearGradient
        id="color-text-disabled">
       <stop
-         stop-color="{foreground_base}"
+         stop-color="{foreground.base}"
          stop-opacity=".5"
          offset="1"
          id="stop7" />
@@ -62,7 +62,7 @@
     <linearGradient
        id="color-text-secondary">
       <stop
-         stop-color="{foreground_base}"
+         stop-color="{foreground.base}"
          stop-opacity=".7"
          offset="1"
          id="stop10" />
@@ -70,7 +70,7 @@
     <linearGradient
        id="color-text-secondary-disabled">
       <stop
-         stop-color="{foreground_base}"
+         stop-color="{foreground.base}"
          stop-opacity=".3"
          offset="1"
          id="stop13" />
@@ -78,7 +78,7 @@
     <linearGradient
        id="color-track-disabled">
       <stop
-         stop-color="{foreground_base}"
+         stop-color="{foreground.base}"
          stop-opacity=".12"
          offset="1"
          id="stop16" />
@@ -86,21 +86,21 @@
     <linearGradient
        id="color-background">
       <stop
-         stop-color="{background_base}"
+         stop-color="{background.base}"
          offset="1"
          id="stop25" />
     </linearGradient>
     <linearGradient
        id="color-base">
       <stop
-         stop-color="{background_view}"
+         stop-color="{background.bright}"
          offset="1"
          id="stop28" />
     </linearGradient>
     <linearGradient
        id="color-frame">
       <stop
-         stop-color="{foreground_base}"
+         stop-color="{foreground.base}"
          stop-opacity=".15"
          offset="1"
          id="stop31" />
@@ -998,7 +998,7 @@
     <linearGradient
        id="color-primary">
       <stop
-         stop-color="{primary}"
+         stop-color="{primary.base}"
          offset="1"
          id="stop22" />
     </linearGradient>
@@ -1896,7 +1896,7 @@
          y="44"
          rx="6"
          ry="6"
-         style="opacity:0.05;fill:{primary}" />
+         style="opacity:0.05;fill:{primary.base}" />
       <path
          id="path2356"
          style="opacity:1;fill:url(#linearGradient2364);fill-opacity:1.0"
@@ -2732,7 +2732,7 @@
       <path
          d="m 296,122 c -5.52,0 -10,4.48 -10,10 0,5.52 4.48,10 10,10 5.52,0 10,-4.48 10,-10 0,-5.52 -4.48,-10 -10,-10 z m 0,18 c -4.42,0 -8,-3.58 -8,-8 0,-4.42 3.58,-8 8,-8 4.42,0 8,3.58 8,8 0,4.42 -3.58,8 -8,8 z"
          id="path3334"
-         style="opacity:0.65;fill:{foreground_base}" />
+         style="opacity:0.65;fill:{foreground.base}" />
     </g>
     <g
        id="radio-unchecked-hover"
@@ -2749,7 +2749,7 @@
       <path
          d="m 324,122 c -5.52,0 -10,4.48 -10,10 0,5.52 4.48,10 10,10 5.52,0 10,-4.48 10,-10 0,-5.52 -4.48,-10 -10,-10 z m 0,18 c -4.42,0 -8,-3.58 -8,-8 0,-4.42 3.58,-8 8,-8 4.42,0 8,3.58 8,8 0,4.42 -3.58,8 -8,8 z"
          id="path3361"
-         style="opacity:0.65;fill:{foreground_base}" />
+         style="opacity:0.65;fill:{foreground.base}" />
     </g>
     <g
        id="checkbox-unchecked-disabled"
@@ -2766,7 +2766,7 @@
       <path
          d="m 296,206 c -5.52,0 -10,4.48 -10,10 0,5.52 4.48,10 10,10 5.52,0 10,-4.48 10,-10 0,-5.52 -4.48,-10 -10,-10 z m 0,18 c -4.42,0 -8,-3.58 -8,-8 0,-4.42 3.58,-8 8,-8 4.42,0 8,3.58 8,8 0,4.42 -3.58,8 -8,8 z"
          id="path1221"
-         style="opacity:0.25;fill:{foreground_base}" />
+         style="opacity:0.25;fill:{foreground.base}" />
     </g>
     <g
        id="radio-unchecked-disabled"
@@ -2783,7 +2783,7 @@
       <path
          d="m 324,206 c -5.52,0 -10,4.48 -10,10 0,5.52 4.48,10 10,10 5.52,0 10,-4.48 10,-10 0,-5.52 -4.48,-10 -10,-10 z m 0,18 c -4.42,0 -8,-3.58 -8,-8 0,-4.42 3.58,-8 8,-8 4.42,0 8,3.58 8,8 0,4.42 -3.58,8 -8,8 z"
          id="path1223"
-         style="opacity:0.25;fill:{foreground_base}" />
+         style="opacity:0.25;fill:{foreground.base}" />
     </g>
     <g
        id="menu-checkbox-unchecked-disabled"
@@ -2791,7 +2791,7 @@
       <path
          d="m 356,208 a 8,8 0 0 0 -8,8 8,8 0 0 0 8,8 8,8 0 0 0 8,-8 8,8 0 0 0 -8,-8 z m 0,2 a 6,6 0 0 1 6,6 6,6 0 0 1 -6,6 6,6 0 0 1 -6,-6 6,6 0 0 1 6,-6 z"
          id="path2146"
-         style="opacity:0.25;fill:{foreground_base}" />
+         style="opacity:0.25;fill:{foreground.base}" />
     </g>
     <g
        id="menu-radio-unchecked-disabled"
@@ -2799,7 +2799,7 @@
       <path
          d="m 380,208 a 8,8 0 0 0 -8,8 8,8 0 0 0 8,8 8,8 0 0 0 8,-8 8,8 0 0 0 -8,-8 z m 0,2 a 6,6 0 0 1 6,6 6,6 0 0 1 -6,6 6,6 0 0 1 -6,-6 6,6 0 0 1 6,-6 z"
          id="path2148"
-         style="opacity:0.25;fill:{foreground_base}" />
+         style="opacity:0.25;fill:{foreground.base}" />
     </g>
     <g
        id="checkbox-unchecked"
@@ -2816,7 +2816,7 @@
       <path
          d="m 296,122 c -5.52,0 -10,4.48 -10,10 0,5.52 4.48,10 10,10 5.52,0 10,-4.48 10,-10 0,-5.52 -4.48,-10 -10,-10 z m 0,18 c -4.42,0 -8,-3.58 -8,-8 0,-4.42 3.58,-8 8,-8 4.42,0 8,3.58 8,8 0,4.42 -3.58,8 -8,8 z"
          id="path2223"
-         style="opacity:0.5;fill:{foreground_base}" />
+         style="opacity:0.5;fill:{foreground.base}" />
     </g>
     <g
        id="radio-unchecked"
@@ -2833,7 +2833,7 @@
       <path
          d="m 324,122 c -5.52,0 -10,4.48 -10,10 0,5.52 4.48,10 10,10 5.52,0 10,-4.48 10,-10 0,-5.52 -4.48,-10 -10,-10 z m 0,18 c -4.42,0 -8,-3.58 -8,-8 0,-4.42 3.58,-8 8,-8 4.42,0 8,3.58 8,8 0,4.42 -3.58,8 -8,8 z"
          id="path2229"
-         style="opacity:0.5;fill:{foreground_base}" />
+         style="opacity:0.5;fill:{foreground.base}" />
     </g>
     <g
        id="menu-checkbox-unchecked"
@@ -2841,7 +2841,7 @@
       <path
          d="m 356,124 a 8,8 0 0 0 -8,8 8,8 0 0 0 8,8 8,8 0 0 0 8,-8 8,8 0 0 0 -8,-8 z m 0,2 a 6,6 0 0 1 6,6 6,6 0 0 1 -6,6 6,6 0 0 1 -6,-6 6,6 0 0 1 6,-6 z"
          id="path2233"
-         style="opacity:0.5;fill:{foreground_base}" />
+         style="opacity:0.5;fill:{foreground.base}" />
     </g>
     <g
        id="menu-radio-unchecked"
@@ -2849,7 +2849,7 @@
       <path
          d="m 380,124 a 8,8 0 0 0 -8,8 8,8 0 0 0 8,8 8,8 0 0 0 8,-8 8,8 0 0 0 -8,-8 z m 0,2 a 6,6 0 0 1 6,6 6,6 0 0 1 -6,6 6,6 0 0 1 -6,-6 6,6 0 0 1 6,-6 z"
          id="path2237"
-         style="opacity:0.5;fill:{foreground_base}" />
+         style="opacity:0.5;fill:{foreground.base}" />
     </g>
     <g
        id="checkbox-unchecked-active"
@@ -2866,7 +2866,7 @@
       <path
          d="m 296,122 c -5.52,0 -10,4.48 -10,10 0,5.52 4.48,10 10,10 5.52,0 10,-4.48 10,-10 0,-5.52 -4.48,-10 -10,-10 z m 0,18 c -4.42,0 -8,-3.58 -8,-8 0,-4.42 3.58,-8 8,-8 4.42,0 8,3.58 8,8 0,4.42 -3.58,8 -8,8 z"
          id="path2261"
-         style="opacity:0.8;fill:{foreground_base}" />
+         style="opacity:0.8;fill:{foreground.base}" />
     </g>
     <g
        id="radio-unchecked-active"
@@ -2883,7 +2883,7 @@
       <path
          d="m 324,122 c -5.52,0 -10,4.48 -10,10 0,5.52 4.48,10 10,10 5.52,0 10,-4.48 10,-10 0,-5.52 -4.48,-10 -10,-10 z m 0,18 c -4.42,0 -8,-3.58 -8,-8 0,-4.42 3.58,-8 8,-8 4.42,0 8,3.58 8,8 0,4.42 -3.58,8 -8,8 z"
          id="path2267"
-         style="opacity:0.8;fill:{foreground_base}" />
+         style="opacity:0.8;fill:{foreground.base}" />
     </g>
     <g
        id="flat-button"
@@ -2896,7 +2896,7 @@
          y="-20"
          rx="6"
          ry="6"
-         style="opacity:0.01;fill:{foreground_base}" />
+         style="opacity:0.01;fill:{foreground.base}" />
     </g>
     <g
        id="flat-button-hover"
@@ -2909,7 +2909,7 @@
          y="12"
          rx="6"
          ry="6"
-         style="opacity:0.1;fill:{foreground_base}" />
+         style="opacity:0.1;fill:{foreground.base}" />
     </g>
     <g
        id="flat-button-active"
@@ -2922,7 +2922,7 @@
          y="44"
          rx="6"
          ry="6"
-         style="opacity:0.2;fill:{foreground_base}" />
+         style="opacity:0.2;fill:{foreground.base}" />
     </g>
     <g
        id="flat-button-disabled"
@@ -2935,7 +2935,7 @@
          y="76"
          rx="6"
          ry="6"
-         style="opacity:0.01;fill:{foreground_base}" />
+         style="opacity:0.01;fill:{foreground.base}" />
     </g>
     <g
        id="button"
@@ -2948,7 +2948,7 @@
          y="-20"
          rx="6"
          ry="6"
-         style="opacity:0.05;fill:{foreground_base}" />
+         style="opacity:0.05;fill:{foreground.base}" />
     </g>
     <g
        id="button-hover"
@@ -2961,7 +2961,7 @@
          y="12"
          rx="6"
          ry="6"
-         style="opacity:0.1;fill:{foreground_base}" />
+         style="opacity:0.1;fill:{foreground.base}" />
     </g>
     <g
        id="button-active"
@@ -2974,7 +2974,7 @@
          y="44"
          rx="6"
          ry="6"
-         style="opacity:0.2;fill:{foreground_base}" />
+         style="opacity:0.2;fill:{foreground.base}" />
     </g>
     <g
        id="button-disabled"
@@ -2987,7 +2987,7 @@
          y="76"
          rx="6"
          ry="6"
-         style="opacity:0.03;fill:{foreground_base}" />
+         style="opacity:0.03;fill:{foreground.base}" />
     </g>
     <g
        id="entry"
@@ -3000,7 +3000,7 @@
          y="-20"
          rx="6"
          ry="6"
-         style="opacity:0.05;fill:{foreground_base}" />
+         style="opacity:0.05;fill:{foreground.base}" />
     </g>
     <g
        id="entry-disabled"
@@ -3013,7 +3013,7 @@
          y="76"
          rx="6"
          ry="6"
-         style="opacity:0.03;fill:{foreground_base}" />
+         style="opacity:0.03;fill:{foreground.base}" />
     </g>
     <g
        id="entry-hover"
@@ -3026,10 +3026,10 @@
          y="12"
          rx="6"
          ry="6"
-         style="opacity:0.05;fill:{foreground_base}" />
+         style="opacity:0.05;fill:{foreground.base}" />
       <path
          id="rect2335"
-         style="opacity:0.35;fill:{foreground_base}"
+         style="opacity:0.35;fill:{foreground.base}"
          d="m 414,12 c -3.324,0 -6,2.676 -6,6 v 16 c 0,3.324 2.676,6 6,6 h 36 c 3.324,0 6,-2.676 6,-6 V 18 c 0,-3.324 -2.676,-6 -6,-6 z m 0,2 h 36 c 2.216,0 4,1.784 4,4 v 16 c 0,2.216 -1.784,4 -4,4 h -36 c -2.216,0 -4,-1.784 -4,-4 V 18 c 0,-2.216 1.784,-4 4,-4 z" />
     </g>
     <g
@@ -3043,7 +3043,7 @@
          y="-20"
          rx="0"
          ry="0"
-         style="opacity:0.05;fill:{foreground_base}" />
+         style="opacity:0.05;fill:{foreground.base}" />
     </g>
     <g
        id="entry-background-disabled"
@@ -3056,7 +3056,7 @@
          y="76"
          rx="0"
          ry="0"
-         style="opacity:0.03;fill:{foreground_base}" />
+         style="opacity:0.03;fill:{foreground.base}" />
     </g>
     <use
        x="0"

@@ -84,7 +84,7 @@
        height="200"
        fill="url(#linearGradient1041)"
        id="rect135"
-       style="fill:{background_base};fill-opacity:1"
+       style="fill:{background.base};fill-opacity:1"
        y="0" />
   </g>
   <g
@@ -101,7 +101,7 @@
          fill="url(#color-surface-dark)"
          xlink:href="#base-selectionmode-checkbox"
          id="use177"
-         style="fill:{background_view};fill-opacity:1"
+         style="fill:{background.bright};fill-opacity:1"
          x="0"
          y="0" />
     </g>
@@ -114,7 +114,7 @@
          fill="url(#linearGradient1073)"
          xlink:href="#base-selectionmode-checkbox"
          id="use180"
-         style="fill:{primary};fill-opacity:1"
+         style="fill:{primary.base};fill-opacity:1"
          x="0"
          y="0" />
       <use
@@ -123,7 +123,7 @@
          fill="url(#color-on-primary-light)"
          xlink:href="#base-selectionmode-checkmark"
          id="use182"
-         style="fill:{background_base};fill-opacity:0.87"
+         style="fill:{background.base};fill-opacity:0.87"
          x="0"
          y="0" />
     </g>
@@ -144,7 +144,7 @@
            transform="rotate(45,12,12)"
            d="m 6,6 h 6 a 6,6 0 1 1 -6,6 z"
            id="path1819"
-           style="fill:{background_base};fill-opacity:1;stroke:{primary};stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers" />
+           style="fill:{background.base};fill-opacity:1;stroke:{primary.base};stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers" />
       </g>
     </g>
     <g
@@ -164,7 +164,7 @@
            transform="rotate(45,12,12)"
            d="m 6,6 h 6 a 6,6 0 1 1 -6,6 z"
            id="path1827"
-           style="fill:{background_base};fill-opacity:1;stroke:{primary};stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.30000001;paint-order:stroke fill markers" />
+           style="fill:{background.base};fill-opacity:1;stroke:{primary.base};stroke-width:4;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.30000001;paint-order:stroke fill markers" />
       </g>
     </g>
     <use

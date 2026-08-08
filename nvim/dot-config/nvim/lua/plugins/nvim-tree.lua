@@ -11,7 +11,7 @@ local colors = require("theme/colors")
 require("theme/highlight").set(
     {
         NvimTreeSymlink    = { italic = true },
-        NvimTreeExecFile   = { fg = colors.warning },
-        NvimTreeFolderIcon = { fg = colors.primary },
+        NvimTreeExecFile   = { fg = colors.warning_base },
+        NvimTreeFolderIcon = { fg = colors.primary_base },
     }
 )

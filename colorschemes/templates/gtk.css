@@ -6,36 +6,38 @@
 @define-color color-magenta                 {magenta};
 @define-color color-cyan                    {cyan};
 @define-color color-white                   {white};
-@define-color color-black-bright            {black_bright};
-@define-color color-red-bright              {red_bright};
-@define-color color-green-bright            {green_bright};
-@define-color color-yellow-bright           {yellow_bright};
-@define-color color-blue-bright             {blue_bright};
-@define-color color-magenta-bright          {magenta_bright};
-@define-color color-cyan-bright             {cyan_bright};
-@define-color color-white-bright            {white_bright};
+@define-color color-black-bright            {black.bright};
+@define-color color-red-bright              {red.bright};
+@define-color color-green-bright            {green.bright};
+@define-color color-yellow-bright           {yellow.bright};
+@define-color color-blue-bright             {blue.bright};
+@define-color color-magenta-bright          {magenta.bright};
+@define-color color-cyan-bright             {cyan.bright};
+@define-color color-white-bright            {white.bright};
 
-@define-color color-background-base         {background_base};
-@define-color color-background-view         {background_view};
-@define-color color-background-focused      {background_focused};
-@define-color color-background-highlighted  {background_highlighted};
+@define-color color-background-base         {background.base};
+@define-color color-background-bright       {background.bright};
+@define-color color-background-brightest    {background.brightest};
+@define-color color-background-dim          {background.dim};
 
-@define-color color-foreground-base         {foreground_base};
-@define-color color-foreground-highlighted  {foreground_highlighted};
-@define-color color-foreground-faded        {foreground_faded};
+@define-color color-foreground-base         {foreground.base};
+@define-color color-foreground-bright       {foreground.bright};
+@define-color color-foreground-dim          {foreground.dim};
 
-@define-color primary                       {primary};
-@define-color primary-focused               {primary_focused};
-@define-color primary-highlighted           {primary_highlighted};
-@define-color on-primary                    {on_primary};
+@define-color primary-base                  {primary.base};
+@define-color primary-bright                {primary.bright};
+@define-color primary-dim                   {primary.dim};
+@define-color primary-background            {primary.background};
+@define-color primary-foreground            {primary.foreground};
 
-@define-color secondary                     {secondary};
-@define-color secondary-focused             {secondary_focused};
-@define-color secondary-highlighted         {secondary_highlighted};
-@define-color on-secondary                  {on_secondary};
+@define-color secondary-base                {secondary.base};
+@define-color secondary-bright              {secondary.bright};
+@define-color secondary-dim                 {secondary.dim};
+@define-color secondary-background          {secondary.background};
+@define-color secondary-foreground          {secondary.foreground};
 
-@define-color warning                       {warning};
-@define-color warning-focused               {warning_focused};
-@define-color warning-highlighted           {warning_highlighted};
-@define-color on-warning                    {on_warning};
-
+@define-color warning-base                  {warning.base};
+@define-color warning-bright                {warning.bright};
+@define-color warning-dim                   {warning.dim};
+@define-color warning-background            {warning.background};
+@define-color warning-foreground            {warning.foreground};

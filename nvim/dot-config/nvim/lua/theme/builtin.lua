@@ -15,20 +15,20 @@ function M.setup()
     vim.g.terminal_color_6 = colors.cyan
     vim.g.terminal_color_7 = colors.white
 
-    vim.g.terminal_color_8 = colors.black_alt
-    vim.g.terminal_color_9 = colors.red_alt
-    vim.g.terminal_color_10 = colors.green_alt
-    vim.g.terminal_color_11 = colors.yellow_alt
-    vim.g.terminal_color_12 = colors.blue_alt
-    vim.g.terminal_color_13 = colors.magenta_alt
-    vim.g.terminal_color_14 = colors.cyan_alt
-    vim.g.terminal_color_15 = colors.white_alt
+    vim.g.terminal_color_8 = colors.black_bright
+    vim.g.terminal_color_9 = colors.red_bright
+    vim.g.terminal_color_10 = colors.green_bright
+    vim.g.terminal_color_11 = colors.yellow_bright
+    vim.g.terminal_color_12 = colors.blue_bright
+    vim.g.terminal_color_13 = colors.magenta_bright
+    vim.g.terminal_color_14 = colors.cyan_bright
+    vim.g.terminal_color_15 = colors.white_bright
 
     local rules = {
         -- highlight-groups
-        Normal                   = { bg = colors.bg_buffer, fg = colors.fg_text },
+        Normal                   = { bg = colors.background_base, fg = colors.foreground_base },
         NormalNC                 = { link = "Normal" },
-        Visual                   = { bg = colors.bg_focused },
+        Visual                   = { bg = colors.background_brightest },
         VisualNOS                = { link = "Visual" },
 
         Cursor                   = { reverse = true, bold = true },
@@ -36,14 +36,14 @@ function M.setup()
         CursorIM                 = { link = "Cursor" },
         TermCursor               = { link = "Cursor" },
 
-        StatusLine               = { bg = colors.bg_line },
+        StatusLine               = { bg = colors.background_bright },
         StatusLineNC             = { link = "StatusLine" },
         StatusLineTerm           = { link = "StatusLine" },
         StatusLineTermNC         = { link = "StatusLine" },
-        TabLine                  = { bg = colors.bg_line },
+        TabLine                  = { bg = colors.background_bright },
         TabLineFill              = { link = "TabLine" },
-        TabLineSel               = { fg = colors.primary, bold = true },
-        LineNr                   = { bg = colors.bg_line, fg = colors.fg_text },
+        TabLineSel               = { fg = colors.primary_base, bold = true },
+        LineNr                   = { bg = colors.background_bright, fg = colors.foreground_base },
         LineNrAbove              = { link = "LineNr" },
         LineNrBelow              = { link = "LineNr" },
         CursorLineNr             = { link = "LineNr" },
@@ -53,13 +53,13 @@ function M.setup()
         CursorLineSign           = { link = "LineNr" },
         ColorColumn              = {},
         CursorColumn             = {},
-        CursorLine               = { bg = colors.bg_line },
+        CursorLine               = { bg = colors.background_bright },
 
         OkMsg                    = { fg = colors.green },
         WarningMsg               = { fg = colors.yellow },
         ErrorMsg                 = { fg = colors.red },
         StderrMsg                = { fg = colors.red, bold = true },
-        StdoutMsg                = { fg = colors.fg_text },
+        StdoutMsg                = { fg = colors.foreground_base },
 
         DiffAdd                  = { fg = colors.green },
         DiffChange               = { fg = colors.yellow },
@@ -67,47 +67,47 @@ function M.setup()
         DiffText                 = { fg = colors.yellow },
         DiffTextAdd              = { fg = colors.green },
 
-        EndOfBuffer              = { fg = colors.fg_faded },
+        EndOfBuffer              = { fg = colors.foreground_dim },
         Conceal                  = {},
         WinSeparator             = {},
-        Folded                   = { fg = colors.fg_faded, underline = true },
+        Folded                   = { fg = colors.foreground_dim, underline = true },
         Whitespace               = {},
-        SpecialKey               = { fg = colors.fg_faded },
-        Directory                = { fg = colors.primary },
+        SpecialKey               = { fg = colors.foreground_dim },
+        Directory                = { fg = colors.primary_base },
 
         Search                   = {
-            fg = colors.primary,
+            fg = colors.primary_base,
             bold = true,
             italic = true,
             underline = true
         },
         CurSearch                = {
-            bg = colors.primary,
-            fg = colors.bg_buffer,
+            bg = colors.primary_base,
+            fg = colors.background_base,
             bold = true,
             italic = true
         },
         IncSearch                = { link = "Search" },
         Substitute               = { link = "Search" },
 
-        MatchParen               = { fg = colors.primary, bold = true, italic = true },
+        MatchParen               = { fg = colors.primary_base, bold = true, italic = true },
         ModeMsg                  = {},
         MsgArea                  = {},
         MsgSeparator             = {},
         MoreMsg                  = {},
-        NonText                  = { fg = colors.fg_faded },
+        NonText                  = { fg = colors.foreground_dim },
 
         NormalFloat              = { link = "Normal" },
-        FloatBorder              = { fg = colors.fg_faded },
-        FloatTitle               = { fg = colors.primary, bold = true },
-        FloatFooter              = { fg = colors.secondary, italic = true },
+        FloatBorder              = { fg = colors.foreground_dim },
+        FloatTitle               = { fg = colors.primary_base, bold = true },
+        FloatFooter              = { fg = colors.secondary_base, italic = true },
 
         Pmenu                    = {},
-        PmenuSel                 = { bg = colors.primary, fg = colors.bg_buffer, bold = true },
-        PmenuThumb               = { bg = colors.primary },
+        PmenuSel                 = { bg = colors.primary_base, fg = colors.background_base, bold = true },
+        PmenuThumb               = { bg = colors.primary_base },
         PmenuMatch               = { link = "Search" },
         PmenuMatchSel            = { link = "CurSearch" },
-        PmenuBorder              = { fg = colors.fg_faded },
+        PmenuBorder              = { fg = colors.foreground_dim },
 
         ComplMatchIns            = {},
         PreInsert                = {},
@@ -121,7 +121,7 @@ function M.setup()
         SpellCap                 = { fg = colors.yellow },
         SpellLocal               = { fg = colors.blue },
         SpellRare                = { fg = colors.magenta },
-        Title                    = { fg = colors.primary, bold = true },
+        Title                    = { fg = colors.primary_base, bold = true },
         WildMenu                 = {},
         WinBar                   = {},
         WinBarNC                 = {},
@@ -131,7 +131,7 @@ function M.setup()
         Tooltip                  = {},
 
         -- group-names
-        Comment                  = { fg = colors.fg_faded, italic = true },
+        Comment                  = { fg = colors.foreground_dim, italic = true },
         SpecialComment           = { fg = colors.green, italic = true },
 
         Constant                 = { fg = colors.red },
@@ -268,11 +268,11 @@ function M.setup()
         -- ["@markup.link"] = {},                 -- text references, footnotes, citations, etc.
         -- ["@markup.link.label"] = {},           -- link, reference descriptions
         -- ["@markup.link.url"] = {},             -- URL-style links
-        ["@markup.raw"] = { bg = colors.bg_focused },                -- literal or verbatim text (e.g. inline code)
+        ["@markup.raw"] = { bg = colors.background_brightest },                -- literal or verbatim text (e.g. inline code)
         ["@markup.raw.block"] = { link = "@markup.raw" },            -- literal or verbatim text as a stand-alone block
         ["@markup.list"] = { fg = colors.magenta, bold = true },     -- list markers
         ["@markup.list.checked"] = { fg = colors.green },            -- checked todo-style list markers
-        ["@markup.list.unchecked"] = { fg = colors.fg_highlighted }, -- unchecked todo-style list markers
+        ["@markup.list.unchecked"] = { fg = colors.foreground_bright }, -- unchecked todo-style list markers
         -- ["@diff.plus"] = {},                   -- added text (for diff files)
         -- ["@diff.minus"] = {},                  -- deleted text (for diff files)
         -- ["@diff.delta"] = {},                  -- changed text (for diff files)
@@ -297,14 +297,14 @@ function M.setup()
         ["@lsp.type.namespace"] = { fg = colors.red, bold = true }, -- Identifiers that declare or reference a namespace, module, or package
         -- ["@lsp.type.number"] = {},        -- Tokens that represent a number literal
         -- ["@lsp.type.operator"] = {},      -- Tokens that represent an operator
-        ["@lsp.type.parameter"] = { fg = colors.fg_highlighted, italic = true }, -- Identifiers that declare or reference a function or method parameters
+        ["@lsp.type.parameter"] = { fg = colors.foreground_bright, italic = true }, -- Identifiers that declare or reference a function or method parameters
         -- ["@lsp.type.property"] = {},      -- Identifiers that declare or reference a member property, member field, or member variable
         -- ["@lsp.type.regexp"] = {},        -- Tokens that represent a regular expression literal
         -- ["@lsp.type.string"] = {},        -- Tokens that represent a string literal
         -- ["@lsp.type.struct"] = {},        -- Identifiers that declare or reference a struct type
         -- ["@lsp.type.type"] = {},          -- Identifiers that declare or reference a type that is not covered above
         -- ["@lsp.type.typeParameter"] = {}, -- Identifiers that declare or reference a type parameter
-        ["@lsp.type.variable"] = { fg = colors.fg_text }, -- Identifiers that declare or reference a local or global variable
+        ["@lsp.type.variable"] = { fg = colors.foreground_base }, -- Identifiers that declare or reference a local or global variable
         -- ["@lsp.mod.abstract"] = {},       -- Types and member functions that are abstract
         -- ["@lsp.mod.async"] = {},          -- Functions that are marked async
         -- ["@lsp.mod.declaration"] = {},    -- Declarations of symbols

@@ -33,7 +33,7 @@ window {
     background-color:   transparent;
     border:             3px solid;
     border-radius:      @corner-radius;
-    border-color:       @color-primary;
+    border-color:       @color-primary-base;
 }
 
 mainbox {
@@ -53,19 +53,19 @@ prompt {
     vertical-align:     0.5;
     padding:            0 0.5em;
     background-color:   inherit;
-    text-color:         @color-primary;
+    text-color:         @color-primary-base;
     text-transform:     bold uppercase; 
 }
 
 entry {
     enabled:            true;
-    background-color:   @color-background-view; 
+    background-color:   @color-background-bright;
     padding:            @items-padding;
     border-radius:      @corner-radius;
     text-color:         @color-foreground-base;
     cursor:             text;
     placeholder:        "Search:";
-    placeholder-color:  @color-foreground-faded;
+    placeholder-color:  @color-foreground-dim;
 }
 
 listview {
@@ -77,7 +77,7 @@ listview {
 
     spacing:            @items-spacing;
     padding:            0.3em;
-    background-color:   @color-background-view;
+    background-color:   @color-background-bright;
 }
 
 element {
@@ -110,37 +110,36 @@ element alternate.normal {
 
 element normal.urgent,
 element alternate.urgent {
-    background-color:   @color-warning;
-    text-color:         @color-on-warning;
+    background-color:   @color-warning-base;
+    text-color:         @color-warning-background;
 }
 
 element normal.active,
 element alternate.active {
-    background-color:   @color-background-highlighted;
-    text-color:         @color-foreground-highlighted;
+    background-color:   @color-background-brightest;
+    text-color:         @color-foreground-bright;
 }
 
 element selected.normal,
 element selected.urgent, 
 element selected.active {
-    background-color:   @color-background-focused;
-    text-color:         @color-on-primary;
+    background-color:   @color-background-brightest;
+    text-color:         @color-primary-base;
 }
 
 scrollbar {
     width:              0.2em;
-    background-color:   @color-background-focused;
-    handle-color:       @color-primary;
+    background-color:   @color-background-brightest;
+    handle-color:       @color-primary-base;
     handle-width:       @items-spacing;
 }
 
 message {
     padding:            0.5em;
-    background-color:   @color-background-view;
+    background-color:   @color-background-bright;
 }
 
 textbox {
     background-color:   inherit;
     horizontal-align:   0.5;
 }
-

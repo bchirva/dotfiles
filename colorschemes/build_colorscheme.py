@@ -48,7 +48,7 @@ def main(params: dict[str, Any]):
                 print(f"{ANSI_CLEAR_LINE}Generate GTK assets for {palette.split('.')[0]}")
                 render_gtk_assets(ROOT_DIR, palette_name)
 
-            ansi_color_begin = f"\033[{ colorscheme_dict.primary_ansi   }m"
+            ansi_color_begin = f"\033[{colorscheme_dict.primary.ansi}m"
             print(
                 f"{ANSI_CLEAR_LINE}{ansi_color_begin} {palette.split('.')[0]}{ANSI_RESET_COLOR} colorscheme generated"
             )
