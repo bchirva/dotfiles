@@ -139,7 +139,7 @@ class Colorscheme:
         foreground = Foreground(
             base=foreground_base,
             bright=bright(foreground_base, theme_type, 0.1),
-            dim=dim(foreground_base, theme_type, 0.1),
+            dim=dim(foreground_base, theme_type, 0.2),
         )
 
         bright_color_names = {

@@ -28,7 +28,7 @@ function M.setup()
         -- highlight-groups
         Normal                   = { bg = colors.background_base, fg = colors.foreground_base },
         NormalNC                 = { link = "Normal" },
-        Visual                   = { bg = colors.background_brightest },
+        Visual                   = { bg = colors.accent_background },
         VisualNOS                = { link = "Visual" },
 
         Cursor                   = { reverse = true, bold = true },
@@ -43,7 +43,7 @@ function M.setup()
         TabLine                  = { bg = colors.background_bright },
         TabLineFill              = { link = "TabLine" },
         TabLineSel               = { fg = colors.accent, bold = true },
-        LineNr                   = { bg = colors.background_bright, fg = colors.foreground_base },
+        LineNr                   = { bg = colors.background, fg = colors.foreground_dim },
         LineNrAbove              = { link = "LineNr" },
         LineNrBelow              = { link = "LineNr" },
         CursorLineNr             = { link = "LineNr" },
