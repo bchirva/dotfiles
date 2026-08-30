@@ -4,8 +4,8 @@
 
 main() {
     rofi_input() {
-        printf '%s\n' "$(colored-pango-icon  "$WARNING_COLOR") Shutdown"
-        printf '%s\n' "$(colored-pango-icon 󰑓 "$WARNING_COLOR") Reboot"
+        printf '%s\n' "$(colored-pango-icon  "$ERROR_COLOR") Shutdown"
+        printf '%s\n' "$(colored-pango-icon 󰑓 "$ERROR_COLOR") Reboot"
         printf '%s\n' "$(colored-pango-icon  ) Lock"
     }
 
@@ -17,9 +17,9 @@ main() {
         -l 3 )
 
     case $variant in
-        0) rofi-confirm "$(colored-pango-icon  "$WARNING_COLOR") Shutdown" \
+        0) rofi-confirm "$(colored-pango-icon  "$ERROR_COLOR") Shutdown" \
             && systemctl poweroff ;;
-        1) rofi-confirm "$(colored-pango-icon 󰑓 "$WARNING_COLOR") Reboot" \
+        1) rofi-confirm "$(colored-pango-icon 󰑓 "$ERROR_COLOR") Reboot" \
             && systemctl reboot ;;
         2) loginctl lock-session "$XDG_SESSION_ID" ;;
     esac
