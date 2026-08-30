@@ -8,3 +8,4 @@ qutebrowser/**/quickmarks
 qutebrowser/**/bookmarks/
 qutebrowser/**/autoconfig.yml
 newsboat/**/urls
+yazi/**/package.toml
