@@ -3,7 +3,7 @@ gtk-color-scheme = "text_color:{foreground.base}\nbase_color:{background.base}"
 # Foreground/background
 gtk-color-scheme = "fg_color:{foreground.base}\nbg_color:{background.base}"
 # Selected foreground/background
-gtk-color-scheme = "selected_fg_color:{foreground.base}\nselected_bg_color:{primary.base}"
+gtk-color-scheme = "selected_fg_color:{foreground.base}\nselected_bg_color:{accent.base}"
 # Titlebar foreground/background
 gtk-color-scheme = "titlebar_fg_color:{foreground.base}\ntitlebar_bg_color:{background.bright}"
 # Menus
@@ -11,4 +11,4 @@ gtk-color-scheme = "menu_color:{background.brightest}"
 # Tooltips foreground/background
 gtk-color-scheme = "tooltip_fg_color:{foreground.base}\ntooltip_bg_color:{background.brightest}"
 # Links
-gtk-color-scheme = "link_color:{primary.base}\nvisited_link_color:{secondary.base}"
+gtk-color-scheme = "link_color:{accent.base}\nvisited_link_color:{accent.foreground}"

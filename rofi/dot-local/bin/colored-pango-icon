@@ -3,5 +3,5 @@
 . "${XDG_CONFIG_HOME}/shell/theme.sh"
 
 icon=$1
-color="${2:-$PRIMARY_COLOR}"
+color="${2:-$ACCENT_COLOR}"
 printf '<span size="150%%" rise="-3pt" color="%s">%s </span>' "$color" "$icon"

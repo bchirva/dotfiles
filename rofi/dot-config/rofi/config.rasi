@@ -33,14 +33,14 @@ inputbar {
 mode-switcher {
     width:              100%;
     spacing:            @items-spacing;
-    background-color:   @color-background-base;
+    background-color:   @color-background;
 }
 
 button {
     expand:             true;
     padding:            @items-padding;
     cursor:             pointer;
-    text-color:         @color-foreground-base;
+    text-color:         @color-foreground;
     text-transform:     bold;
 }
 
@@ -49,6 +49,6 @@ button.normal {
 }
 
 button.selected {
-    background-color:   @color-primary-base;
-    color:              @color-primary-background;
+    background-color:   @color-accent;
+    color:              @color-accent-constrast;
 }

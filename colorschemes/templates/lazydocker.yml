@@ -2,11 +2,11 @@ gui:
   returnImmediately: true
   theme:
     activeBorderColor:
-      - "{primary.base}"
+      - "{accent.base}"
       - bold
     inactiveBorderColor:
       - "{foreground.base}"
     selectedLineBgColor:
       - "{background.brightest}"
     optionsTextColor:
-      - "{primary.base}"
+      - "{accent.base}"

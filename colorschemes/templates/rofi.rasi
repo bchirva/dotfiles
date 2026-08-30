@@ -16,30 +16,41 @@ color-magenta-bright:       {magenta.bright};
 color-cyan-bright:          {cyan.bright};
 color-white-bright:         {white.bright};
 
-color-background-base:          {background.base};
+color-background:               {background.base};
 color-background-bright:        {background.bright};
 color-background-brightest:     {background.brightest};
-color-background-dim:           {background.dim};
 
-color-foreground-base:          {foreground.base};
+color-foreground:               {foreground.base};
 color-foreground-bright:        {foreground.bright};
 color-foreground-dim:           {foreground.dim};
 
-color-primary-base:             {primary.base};
-color-primary-bright:           {primary.bright};
-color-primary-dim:              {primary.dim};
-color-primary-background:       {primary.background};
-color-primary-foreground:       {primary.foreground};
+color-accent:                         {accent.base};
+color-accent-bright:                  {accent.bright};
+color-accent-contrast:                {accent.contrast};
+color-accent-background:              {accent.background};
+color-accent-foreground:              {accent.foreground};
 
-color-secondary-base:           {secondary.base};
-color-secondary-bright:         {secondary.bright};
-color-secondary-dim:            {secondary.dim};
-color-secondary-background:     {secondary.background};
-color-secondary-foreground:     {secondary.foreground};
+color-info:                           {info.base};
+color-info-bright:                    {info.bright};
+color-info-contrast:                  {info.contrast};
+color-info-background:                {info.background};
+color-info-foreground:                {info.foreground};
 
-color-warning-base:             {warning.base};
-color-warning-bright:           {warning.bright};
-color-warning-dim:              {warning.dim};
-color-warning-background:       {warning.background};
-color-warning-foreground:       {warning.foreground};
+color-success:                        {success.base};
+color-success-bright:                 {success.bright};
+color-success-contrast:               {success.contrast};
+color-success-background:             {success.background};
+color-success-foreground:             {success.foreground};
+
+color-warning:                        {warning.base};
+color-warning-bright:                 {warning.bright};
+color-warning-contrast:               {warning.contrast};
+color-warning-background:             {warning.background};
+color-warning-foreground:             {warning.foreground};
+
+color-error:                          {error.base};
+color-error-bright:                   {error.bright};
+color-error-contrast:                 {error.contrast};
+color-error-background:               {error.background};
+color-error-foreground:               {error.foreground};
 }}

@@ -7,10 +7,6 @@
   "yellow": "#d8a657",
   "cyan": "#89b482",
   "magenta": "#d3869b",
-  "roles": {
-    "primary": "yellow",
-    "secondary": "green",
-    "warning": "red"
-  },
-  "variant": "dark"
+  "type": "dark",
+  "accent": "yellow"
 }

@@ -12,25 +12,25 @@
     modal_background_color: None,
     tab_bar: (
         enabled: true,
-        active_style: (fg: "{background.base}", bg: "{primary.base}", modifiers: "Bold"),
+        active_style: (fg: "{background.base}", bg: "{accent.base}", modifiers: "Bold"),
         inactive_style: (),
     ),
-    highlighted_item_style: (fg: "{primary.base}", modifiers: "Bold"),
-    current_item_style: (fg: "{background.base}", bg: "{primary.base}", modifiers: "Bold"),
-    borders_style: (fg: "{primary.base}"),
-    highlight_border_style: (fg: "{primary.base}"),
+    highlighted_item_style: (fg: "{accent.base}", modifiers: "Bold"),
+    current_item_style: (fg: "{background.base}", bg: "{accent.base}", modifiers: "Bold"),
+    borders_style: (fg: "{accent.base}"),
+    highlight_border_style: (fg: "{accent.base}"),
     symbols: (song: "🎵", dir: "📁", marker: " "),
     progress_bar: (
         symbols: ["█", "", " "],
         track_style: (fg: "{background.bright}"),
-        elapsed_style: (fg: "{primary.base}"),
-        thumb_style: (fg: "{primary.base}", bg: "{background.bright}"),
+        elapsed_style: (fg: "{accent.base}"),
+        thumb_style: (fg: "{accent.base}", bg: "{background.bright}"),
     ),
     scrollbar: (
         symbols: ["│", "█", "▲", "▼"],
         track_style: (),
         ends_style: (),
-        thumb_style: (fg: "{primary.base}"),
+        thumb_style: (fg: "{accent.base}"),
     ),
     song_table_format: [
         (
@@ -107,9 +107,9 @@
         rows: [
             (
                 left: [
-                    (kind: Text("["), style: (fg: "{secondary.base}", modifiers: "Bold")),
-                    (kind: Property(Status(StateV2(playing_label: "Playing", paused_label: "Paused", stopped_label: "Stopped"))), style: (fg: "{secondary.base}", modifiers: "Bold")),
-                    (kind: Text("]"), style: (fg: "{secondary.base}", modifiers: "Bold"))
+                    (kind: Text("["), style: (fg: "{info.base}", modifiers: "Bold")),
+                    (kind: Property(Status(StateV2(playing_label: "Playing", paused_label: "Paused", stopped_label: "Stopped"))), style: (fg: "{info.base}", modifiers: "Bold")),
+                    (kind: Text("]"), style: (fg: "{info.base}", modifiers: "Bold"))
                 ],
                 center: [
                     (kind: Property(Song(Title)), style: (modifiers: "Bold"),
@@ -117,7 +117,7 @@
                     )
                 ],
                 right: [
-                    (kind: Property(Widget(Volume)), style: (fg: "{primary.base}"))
+                    (kind: Property(Widget(Volume)), style: (fg: "{accent.base}"))
                 ]
             ),
             (
@@ -130,8 +130,8 @@
                     (kind: Text(" kbps)"))
                 ],
                 center: [
-                    (kind: Property(Song(Artist)), style: (fg: "{secondary.base}", modifiers: "Bold"),
-                        default: (kind: Text("Unknown"), style: (fg: "{secondary.base}", modifiers: "Bold"))
+                    (kind: Property(Song(Artist)), style: (fg: "{info.base}", modifiers: "Bold"),
+                        default: (kind: Text("Unknown"), style: (fg: "{info.base}", modifiers: "Bold"))
                     ),
                     (kind: Text(" - ")),
                     (kind: Property(Song(Album)),
@@ -159,4 +159,3 @@
         ),
     ],
 )
-

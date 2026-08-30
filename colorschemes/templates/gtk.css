@@ -15,29 +15,40 @@
 @define-color color-cyan-bright             {cyan.bright};
 @define-color color-white-bright            {white.bright};
 
-@define-color color-background-base         {background.base};
+@define-color color-background              {background.base};
 @define-color color-background-bright       {background.bright};
 @define-color color-background-brightest    {background.brightest};
-@define-color color-background-dim          {background.dim};
 
-@define-color color-foreground-base         {foreground.base};
+@define-color color-foreground              {foreground.base};
 @define-color color-foreground-bright       {foreground.bright};
 @define-color color-foreground-dim          {foreground.dim};
 
-@define-color primary                       {primary.base};
-@define-color primary-bright                {primary.bright};
-@define-color primary-dim                   {primary.dim};
-@define-color primary-background            {primary.background};
-@define-color primary-foreground            {primary.foreground};
+@define-color accent                        {accent.base};
+@define-color accent-bright                 {accent.bright};
+@define-color accent-contrast               {accent.contrast};
+@define-color accent-background             {accent.background};
+@define-color accent-foreground             {accent.foreground};
 
-@define-color secondary                     {secondary.base};
-@define-color secondary-bright              {secondary.bright};
-@define-color secondary-dim                 {secondary.dim};
-@define-color secondary-background          {secondary.background};
-@define-color secondary-foreground          {secondary.foreground};
+@define-color info                          {info.base};
+@define-color info-bright                   {info.bright};
+@define-color info-contrast                 {info.contrast};
+@define-color info-background               {info.background};
+@define-color info-foreground               {info.foreground};
+
+@define-color success                       {success.base};
+@define-color success-bright                {success.bright};
+@define-color success-contrast              {success.contrast};
+@define-color success-background            {success.background};
+@define-color success-foreground            {success.foreground};
 
 @define-color warning                       {warning.base};
 @define-color warning-bright                {warning.bright};
-@define-color warning-dim                   {warning.dim};
+@define-color warning-contrast              {warning.contrast};
 @define-color warning-background            {warning.background};
 @define-color warning-foreground            {warning.foreground};
+
+@define-color error                         {error.base};
+@define-color error-bright                  {error.bright};
+@define-color error-contrast                {error.contrast};
+@define-color error-background              {error.background};
+@define-color error-foreground              {error.foreground};

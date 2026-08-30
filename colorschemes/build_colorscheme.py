@@ -40,7 +40,7 @@ def main(params: dict[str, Any]):
                 os.mkdir(colorscheme_build_dir)
 
             colorscheme_dict: Colorscheme = Colorscheme.from_json(
-                json.load(palette_file)
+                json.load(palette_file), palette_name
             )
             build_color_dotfiles(ROOT_DIR, palette_name, colorscheme_dict)
 
@@ -48,7 +48,7 @@ def main(params: dict[str, Any]):
                 print(f"{ANSI_CLEAR_LINE}Generate GTK assets for {palette.split('.')[0]}")
                 render_gtk_assets(ROOT_DIR, palette_name)
 
-            ansi_color_begin = f"\033[{colorscheme_dict.primary.ansi}m"
+            ansi_color_begin = f"\033[{colorscheme_dict.accent.ansi}m"
             print(
                 f"{ANSI_CLEAR_LINE}{ansi_color_begin} {palette.split('.')[0]}{ANSI_RESET_COLOR} colorscheme generated"
             )

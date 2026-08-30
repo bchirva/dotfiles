@@ -1,6 +1,6 @@
 """Color blending functions"""
 
-from .consts import ANSI_COLOR_CODES, ThemeStyle
+from .consts import ANSI_COLOR_CODES, ThemeType
 
 # pylint: disable=missing-function-docstring
 
@@ -28,19 +28,19 @@ def darken(hex_color: str, ratio: float) -> str:
     return mix_color(hex_color, "#000000", 1 - ratio)
 
 
-def bright(hex_color: str, theme: ThemeStyle, ratio: float) -> str:
+def bright(hex_color: str, theme: ThemeType, ratio: float) -> str:
     match theme:
-        case ThemeStyle.LIGHT:
+        case ThemeType.LIGHT:
             return darken(hex_color, ratio)
-        case ThemeStyle.DARK:
+        case ThemeType.DARK:
             return lighten(hex_color, ratio)
 
 
-def dim(hex_color: str, theme: ThemeStyle, ratio: float) -> str:
+def dim(hex_color: str, theme: ThemeType, ratio: float) -> str:
     match theme:
-        case ThemeStyle.LIGHT:
+        case ThemeType.LIGHT:
             return lighten(hex_color, ratio)
-        case ThemeStyle.DARK:
+        case ThemeType.DARK:
             return darken(hex_color, ratio)
 
 

@@ -1,7 +1,7 @@
 gui:
   theme:
     activeBorderColor:
-      - '{primary.base}'
+      - '{accent.base}'
       - bold
     inactiveBorderColor:
       - '{foreground.base}'
@@ -9,7 +9,7 @@ gui:
       - '{warning.base}'
       - bold
     optionsTextColor:
-      - '{secondary.base}'
+      - '{info.base}'
     selectedLineBgColor:
       - '{background.brightest}'
     inactiveViewSelectedLineBgColor:

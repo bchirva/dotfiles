@@ -1,0 +1,117 @@
+.theme-dark,
+.theme-light {{
+    --color-base-00: {background.base};
+    --color-base-05: {background.bright};
+    --color-base-10: {background.bright};
+    --color-base-20: {background.bright};
+    --color-base-25: {background.bright};
+    --color-base-30: {background.brightest};
+    --color-base-35: {foreground.dim};
+    --color-base-40: {foreground.dim};
+    --color-base-50: {foreground.dim};
+    --color-base-60: {foreground.base};
+    --color-base-70: {foreground.bright};
+    --color-base-100: {foreground.base};
+
+    --color-red: {red};
+    --color-green: {green};
+    --color-orange: {orange};
+    --color-yellow: {yellow};
+    --color-cyan: {cyan};
+    --color-blue: {blue};
+    --color-purple: {magenta};
+    --color-pink: {rose};
+
+    --background-primary: {background.base};
+    --background-primary-alt: {background.bright};
+    --background-secondary: {background.bright};
+    --background-secondary-alt: {background.bright};
+    --background-modifier-hover: {background.brightest};
+    --background-modifier-active-hover: {background.brightest};
+    --background-modifier-border: {foreground.dim};
+    --background-modifier-border-hover: {accent.base};
+    --background-modifier-form-field: {background.bright};
+    --background-modifier-form-field-highlighted: {background.brightest};
+    --background-modifier-success: {success.base};
+    --background-modifier-error: {error.base};
+    --background-modifier-error-hover: {error.bright};
+
+    --text-normal: {foreground.base};
+    --text-muted: {foreground.dim};
+    --text-faint: {foreground.dim};
+    --text-accent: {accent.base};
+    --text-accent-hover: {accent.bright};
+    --text-on-accent: {background.base};
+    --text-error: {error.base};
+    --text-warning: {warning.base};
+    --text-success: {success.base};
+    --text-selection: {accent.background};
+    --text-highlight-bg: {yellow};
+    --text-highlight-bg-active: {orange};
+
+    --interactive-normal: {background.bright};
+    --interactive-hover: {background.brightest};
+    --interactive-accent: {accent.base};
+    --interactive-accent-hover: {accent.bright};
+    --interactive-success: {success.base};
+    --interactive-warning: {warning.base};
+    --interactive-error: {error.base};
+    --scrollbar-thumb-bg: {foreground.dim};
+    --scrollbar-active-thumb-bg: {accent.base};
+    --nav-item-color-hover: {foreground.base};
+    --nav-item-color-active: {accent.base};
+    --nav-item-background-hover: {background.brightest};
+    --nav-item-background-active: {accent.background};
+    --icon-color: {foreground.base};
+    --icon-color-active: {accent.base};
+    --icon-color-focused: {accent.base};
+    --icon-color-hover: {accent.bright};
+    --titlebar-background: {background.bright};
+    --titlebar-background-focused: {background.brightest};
+
+    --h1-color: {red};
+    --h2-color: {rose};
+    --h3-color: {magenta};
+    --h4-color: {orange};
+    --h5-color: {yellow};
+    --h6-color: {violet};
+    --strong-color: {red};
+    --em-color: {blue};
+    --quote-color: {blue};
+    --list-marker-color: {orange};
+    --list-marker-color-collapsed: {orange};
+    --link-color: {accent.base};
+    --link-color-hover: {accent.bright};
+    --link-external-color: {info.base};
+    --link-unresolved-color: {red};
+
+    --code-normal: {foreground.base};
+    --code-background: {background.brightest};
+    --code-value: {orange};
+    --code-comment: {foreground.dim};
+    --code-function: {blue};
+    --code-keyword: {magenta};
+    --code-operator: {magenta};
+    --code-string: {green};
+    --code-number: {blue};
+    --code-property: {orange};
+    --code-punctuation: {foreground.base};
+    --code-tag: {yellow};
+    --code-type: {yellow};
+    --code-block-background: {background.brightest};
+    --code-block-border-color: {foreground.dim};
+    --code-block-line-number-color: {foreground.dim};
+    --code-block-line-number-color-active: {foreground.base};
+
+    --callout-default: {info.base};
+    --callout-info: {info.base};
+    --callout-success: {success.base};
+    --callout-warning: {warning.base};
+    --callout-error: {error.base};
+    --diff-added: {green};
+    --diff-added-border: {green};
+    --diff-modified: {yellow};
+    --diff-modified-border: {yellow};
+    --diff-removed: {red};
+    --diff-removed-border: {red};
+}}

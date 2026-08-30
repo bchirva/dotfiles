@@ -21,8 +21,8 @@ configuration {
     border:             0;
     border-radius:      @corner-radius;
 
-    background-color:   @color-background-base;
-    text-color:         @color-foreground-base;
+    background-color:   @color-background;
+    text-color:         @color-foreground;
     font:               "Hack Nerd Font 12";
 }
 
@@ -33,7 +33,7 @@ window {
     background-color:   transparent;
     border:             3px solid;
     border-radius:      @corner-radius;
-    border-color:       @color-primary-base;
+    border-color:       @color-accent;
 }
 
 mainbox {
@@ -46,14 +46,14 @@ inputbar {
     enabled:            true;
     spacing:            @items-spacing;
     border-radius:      @corner-radius;
-    background-color:   @color-background-base;
+    background-color:   @color-background;
 }
 
 prompt {
     vertical-align:     0.5;
     padding:            0 0.5em;
     background-color:   inherit;
-    text-color:         @color-primary-base;
+    text-color:         @color-accent;
     text-transform:     bold uppercase; 
 }
 
@@ -62,7 +62,7 @@ entry {
     background-color:   @color-background-bright;
     padding:            @items-padding;
     border-radius:      @corner-radius;
-    text-color:         @color-foreground-base;
+    text-color:         @color-foreground;
     cursor:             text;
     placeholder:        "Search:";
     placeholder-color:  @color-foreground-dim;
@@ -105,13 +105,13 @@ element-icon {
 element normal.normal,
 element alternate.normal {
     background-color:   transparent;
-    text-color:         @color-foreground-base;
+    text-color:         @color-foreground;
 }
 
 element normal.urgent,
 element alternate.urgent {
-    background-color:   @color-warning-base;
-    text-color:         @color-warning-background;
+    background-color:   @color-error;
+    text-color:         @color-error-contrast;
 }
 
 element normal.active,
@@ -124,13 +124,13 @@ element selected.normal,
 element selected.urgent, 
 element selected.active {
     background-color:   @color-background-brightest;
-    text-color:         @color-primary-base;
+    text-color:         @color-accent;
 }
 
 scrollbar {
     width:              0.2em;
     background-color:   @color-background-brightest;
-    handle-color:       @color-primary-base;
+    handle-color:       @color-accent;
     handle-width:       @items-spacing;
 }
 

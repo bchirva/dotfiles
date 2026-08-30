@@ -92,8 +92,8 @@ button.text.color={foreground.base}
 disabled.text.color={foreground.dim}
 tooltip.text.color={foreground.base}
 highlight.text.color={background.base}
-link.color={primary.base}
-link.visited.color={secondary.base}
+link.color={accent.base}
+link.visited.color={accent.foreground}
 progress.indicator.text.color={foreground.base}
 
 [Hacks]

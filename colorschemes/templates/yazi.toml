@@ -1,5 +1,5 @@
 [mgr]
-cwd = {{ fg = "{primary.base}" }}
+cwd = {{ fg = "{accent.base}" }}
 
 hovered         = {{ reversed = true }}
 preview_hovered = {{ underline = true }}
@@ -7,10 +7,10 @@ preview_hovered = {{ underline = true }}
 find_keyword  = {{ fg = "red", bold = true, italic = true, underline = true }}
 find_position = {{ bg = "reset", bold = true, italic = true }}
 
-marker_copied   = {{ fg = "{secondary.base}",  bg = "{secondary.base}" }}
-marker_cut      = {{ fg = "{warning.base}",    bg = "{warning.base}" }}
-marker_marked   = {{ fg = "{primary.base}",   bg = "{primary.base}" }}
-marker_selected = {{ fg = "{primary.base}", bg = "{primary.base}" }}
+marker_copied   = {{ fg = "{success.base}", bg = "{success.base}" }}
+marker_cut      = {{ fg = "{warning.base}", bg = "{warning.base}" }}
+marker_marked   = {{ fg = "{accent.base}",  bg = "{accent.base}" }}
+marker_selected = {{ fg = "{accent.base}", bg = "{accent.base}" }}
 
 tab_active   = {{ reversed = true }}
 tab_inactive = {{}}
@@ -28,8 +28,8 @@ sep_left = {{ open = "", close = "»" }}
 sep_right = {{ open = "«", close = "" }}
 
 [mode]
-normal_main = {{ fg = "{primary.base}", bg = "reset", bold = true }}
-normal_alt  = {{ fg = "{primary.base}", bg = "reset" }}
+normal_main = {{ fg = "{accent.base}", bg = "reset", bold = true }}
+normal_alt  = {{ fg = "{accent.base}", bg = "reset" }}
 select_main = {{ fg = "red", bg = "reset", bold = true }}
 select_alt  = {{ fg = "red", bg = "reset" }}
 unset_main = {{ fg = "red", bg = "reset", bold = true }}
@@ -42,8 +42,8 @@ perm_write = {{ fg = "red" }}
 perm_exec  = {{ fg = "cyan" }}
 
 progress_label  = {{ bold = true }}
-progress_normal = {{ fg = "{primary.base}", bg = "{background.base}" }}
-progress_error  = {{ fg = "red", bg = "{background.base}" }}
+progress_normal = {{ fg = "{accent.base}", bg = "{background.base}" }}
+progress_error  = {{ fg = "{error.base}", bg = "{background.base}" }}
 
 [which]
 cols            = 3
@@ -55,8 +55,8 @@ separator       = "  "
 separator_style = {{ fg = "darkgray" }}
 
 [confirm]
-border     = {{ fg = "{primary.base}" }}
-title      = {{ fg = "{primary.base}" }}
+border     = {{ fg = "{accent.base}" }}
+title      = {{ fg = "{accent.base}" }}
 content    = {{}}
 list       = {{}}
 btn_yes    = {{ reversed = true }}
@@ -64,44 +64,44 @@ btn_no     = {{}}
 btn_labels = [ "  [Y]es  ", "  (N)o  " ]
 
 [spot]
-border = {{ fg = "{primary.base}" }}
-title  = {{ fg = "{primary.base}" }}
+border = {{ fg = "{accent.base}" }}
+title  = {{ fg = "{accent.base}" }}
 
 [notify]
-title_info  = {{ fg = "{primary.base}" }}
-title_warn  = {{ fg = "yellow" }}
-title_error = {{ fg = "red" }}
+title_info  = {{ fg = "{info.base}" }}
+title_warn  = {{ fg = "{warning.base}" }}
+title_error = {{ fg = "{error.base}" }}
 
 [pick]
-border   = {{ fg = "{primary.base}" }}
+border   = {{ fg = "{accent.base}" }}
 active   = {{ fg = "magenta", bold = true }}
 inactive = {{}}
 
 [input]
-border   = {{ fg = "{primary.base}" }}
+border   = {{ fg = "{accent.base}" }}
 title    = {{}}
 value    = {{}}
 selected = {{ reversed = true }}
 
 [completion]
-border   = {{ fg = "{primary.base}" }}
+border   = {{ fg = "{accent.base}" }}
 active   = {{ reversed = true }}
 inactive = {{}}
 
 [tasks]
-border  = {{ fg = "{primary.base}" }}
+border  = {{ fg = "{accent.base}" }}
 title   = {{}}
 hovered = {{ fg = "magenta", underline = true }}
 
 [tabs]
-active = {{ fg = "{primary.background}", bg = "{primary.base}" }}
+active = {{ fg = "{accent.background}", bg = "{accent.base}" }}
 inactive = {{ fg = "{foreground.base}", bg = "{background.bright}" }}
 sep_inner = {{ open = "", close = "" }}
 sep_outer = {{ open = "", close = "" }}
 
 [help]
-on      = {{ fg = "{primary.base}", bold = true }}
-run     = {{ fg = "{primary.base}", italic = true }}
+on      = {{ fg = "{accent.base}", bold = true }}
+run     = {{ fg = "{accent.base}", italic = true }}
 desc    = {{}}
 hovered = {{ reversed = true }}
 footer  = {{ fg = "{background.base}", bg = "{foreground.base}" }}
@@ -111,8 +111,7 @@ rules = [
 	# Special files
 	{{ url = "*", fg = "{foreground.base}" }},
     {{ url = "*", is = "link", italic = true }},
-	{{ url = "*", is = "orphan", bg = "red" }},
-	{{ url = "*", is = "exec"  , fg = "{warning.name}" }},
-	{{ url = "*/", fg = "{primary.base}" }}
+	{{ url = "*", is = "orphan", bg = "{error.base}" }},
+	{{ url = "*", is = "exec"  , fg = "{error.base}" }},
+	{{ url = "*/", fg = "{accent.base}" }}
 ]
-

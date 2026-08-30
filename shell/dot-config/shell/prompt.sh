@@ -9,20 +9,9 @@ prompt_info() {
     local -r ACTIVE_SHELL="${1:-bash}"
     case "$ACTIVE_SHELL" in 
         bash) 
-            declare -A ANSI_COLORS=(
-                [black]='\e[0;30m'
-                [red]='\e[0;31m'
-                [green]='\e[0;32m'
-                [yellow]='\e[0;33m'
-                [blue]='\e[0;34m'
-                [magenta]='\e[0;35m'
-                [cyan]='\e[0;36m'
-                [white]='\e[0;37m'
-                )
-            
-            local -r FG_PRIMARY=${ANSI_COLORS[$PRIMARY_COLOR_NAME]}
-            local -r FG_SECONDARY=${ANSI_COLORS[$SECONDARY_COLOR_NAME]}
-            local -r FG_WARNING=${ANSI_COLORS[$WARNING_COLOR_NAME]}
+            local -r FG_ACCENT="\e[0;${ACCENT_COLOR_ANSI}m"
+            local -r FG_INFO="\e[0;${INFO_COLOR_ANSI}m"
+            local -r FG_ALERT="\e[0;${ERROR_COLOR_ANSI}m"
             local -r FG_RESET='\e[m'
 
             local -r DIR_FORMAT="\w"
@@ -30,10 +19,10 @@ prompt_info() {
             local -r USER_FORMAT="\u"
             ;;
         zsh)
-            local -r FG_PRIMARY="%F{$PRIMARY_COLOR_NAME}"
-            local -r FG_SECONDARY="%F{$SECONDARY_COLOR_NAME}"
-            local -r FG_WARNING="%F{$WARNING_COLOR_NAME}"
-            local -r FG_RESET="%f"
+            local -r FG_ACCENT=$'%{\e[0;'${ACCENT_COLOR_ANSI}$'m%}'
+            local -r FG_INFO=$'%{\e[0;'${INFO_COLOR_ANSI}$'m%}'
+            local -r FG_ALERT=$'%{\e[0;'${ERROR_COLOR_ANSI}$'m%}'
+            local -r FG_RESET=$'%{\e[m%}'
 
             local -r DIR_FORMAT="%~"
             local -r HOST_FORMAT="%m"
@@ -50,7 +39,7 @@ prompt_info() {
     #~~~ Hostname on SSH connection ~~~#
 
     if [ -n "$SSH_CONNECTION" ]; then 
-        PROMPT_STR+="${FG_WARNING}󰖟 $HOST_FORMAT $SEP$FG_RESET "
+        PROMPT_STR+="${FG_ALERT}󰖟 $HOST_FORMAT $SEP$FG_RESET "
     fi
 
     #~~~ In Docker container ~~~#
@@ -58,16 +47,16 @@ prompt_info() {
     if [ -e /.dockerenv ] || grep -qi "docker" /proc/1/cgroup ; then 
         CONTAINER_LABEL="$(hostname)"
         [ -n "$DEVPOD_WORKSPACE_ID" ] && CONTAINER_LABEL="$DEVPOD_WORKSPACE_ID"
-        PROMPT_STR+="${FG_SECONDARY} $CONTAINER_LABEL $SEP$FG_RESET "
+        PROMPT_STR+="${FG_INFO} $CONTAINER_LABEL $SEP$FG_RESET "
     fi 
 
     #~~~ User info ~~~#
 
     if (( UID != 1000 )); then 
         if (( UID == 0 )); then 
-            PROMPT_STR+="$FG_WARNING"
+            PROMPT_STR+="$FG_ALERT"
         else 
-            PROMPT_STR+="$FG_SECONDARY"
+            PROMPT_STR+="$FG_INFO"
         fi
 
         PROMPT_STR+=" $USER_FORMAT $SEP$FG_RESET "
@@ -76,20 +65,20 @@ prompt_info() {
     #~~~ Virtual environment ~~~#
 
     if [ -n "$VIRTUAL_ENV" ]; then 
-        PROMPT_STR+="${FG_SECONDARY} $(basename "$VIRTUAL_ENV") ($(python3 --version | awk '{print $NF}')) $SEP$FG_RESET "
+        PROMPT_STR+="${FG_INFO} $(basename "$VIRTUAL_ENV") ($(python3 --version | awk '{print $NF}')) $SEP$FG_RESET "
     fi
 
     #~~~ Working directory readonly marker ~~~#
 
     if [ -d . ] && [ ! -w . ]; then 
-        PROMPT_STR+="${FG_WARNING}󰉐 $FG_RESET"
+        PROMPT_STR+="${FG_ALERT}󰉐 $FG_RESET"
     else 
-        PROMPT_STR+="${FG_PRIMARY}󰉋 $FG_RESET"
+        PROMPT_STR+="${FG_ACCENT}󰉋 $FG_RESET"
     fi
 
     #~~~ Git repository or PWD info ~~~#
 
-    PROMPT_STR+="$FG_PRIMARY"
+    PROMPT_STR+="$FG_ACCENT"
     if git rev-parse --is-inside-work-tree >/dev/null 2>&1 ; then
         local GIT_PATH="" GIT_INFO=""
 
@@ -100,7 +89,7 @@ prompt_info() {
             GIT_PATH+="/$repo_path"
         fi
 
-        GIT_INFO=" $FG_SECONDARY$SEP"
+        GIT_INFO=" $FG_INFO$SEP"
 
         local -r git_head="$(git symbolic-ref --quiet --short HEAD 2>/dev/null)"
         if [ -n "$git_head" ]; then 
@@ -118,7 +107,7 @@ prompt_info() {
 
         local -r git_changes=$(git status --short 2>/dev/null | wc -l)
         if (( git_changes > 0 )) ; then 
-            GIT_INFO+=" $FG_WARNING~$git_changes"
+            GIT_INFO+=" $FG_ALERT~$git_changes"
         fi
         GIT_INFO+="$FG_RESET"
 
@@ -131,12 +120,11 @@ prompt_info() {
     #~~~ Last command exit status ~~~#
 
     if (( LAST_CMD_EXIT == 0 || LAST_CMD_EXIT == 130 )); then 
-        PROMPT_STR+=" $FG_PRIMARY"
+        PROMPT_STR+=" $FG_ACCENT"
     else 
-        PROMPT_STR+=" $FG_WARNING!"
+        PROMPT_STR+=" $FG_ALERT!"
     fi
     PROMPT_STR+="$SEP$FG_RESET "
     
     printf '%s' "$PROMPT_STR"
 }
-
