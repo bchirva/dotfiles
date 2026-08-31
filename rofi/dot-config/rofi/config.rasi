@@ -50,5 +50,5 @@ button.normal {
 
 button.selected {
     background-color:   @color-accent;
-    color:              @color-accent-constrast;
+    color:              @color-accent-contrast;
 }
