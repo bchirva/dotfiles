@@ -1,6 +1,6 @@
 *.foreground:   {foreground.base}
 *.background:   {background.base}
-*.cursorColor:  {foreground.bright}
+*.cursorColor:  {accent.base}
 
 *.color0:       {black}
 *.color1:       {red}
@@ -26,7 +26,6 @@ Nsxiv.bar.font: xft:Hack:size=14:style=Regular
 
 st.font:                Hack Nerd Font:pixelsize=16:antialias=true:autohint=true
 st.bold_font:			0
-st.cursorColor:			{accent.base}
 st.termname:			xterm-256color
 st.shell:			    /bin/sh
 st.bellvolume:			100
@@ -34,14 +33,9 @@ st.tabspaces:			4
 st.chscale:			    1.0
 st.cwscale:			    1.0
 
-dmenu.font:             Hack Nerd Font:pixelsize=16:antialias=true:autohint=true
-dmenu.accent:           {accent.base}
-dmenu.accentalt:        {info.base}
-dmenu.backgroundalt:    {background.bright}
-
-dwm.normbgcolor:        {background.base}
-dwm.normbordercolor:    {background.base}
-dwm.normfgcolor:        {foreground.base}
-dwm.selbgcolor:         {background.bright}
-dwm.selbordercolor:     {accent.base}
-dwm.selfgcolor:         {accent.base}
+*.accent: {accent.base}
+*.accentbg: {accent.background}
+*.accentfg: {accent.foreground}
+*.accentcontrast: {accent.contrast}
+*.foregrounddim: {foreground.dim}
+*.backgroundbright: {background.bright}
