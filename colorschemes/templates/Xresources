@@ -20,9 +20,18 @@
 *.color14:      {cyan.bright}
 *.color15:      {white.bright}
 
+*.accent: {accent.base}
+*.accentbg: {accent.background}
+*.accentfg: {accent.foreground}
+*.accentcontrast: {accent.contrast}
+*.foregrounddim: {foreground.dim}
+*.backgroundbright: {background.bright}
+
 Nsxiv.window.foreground: {accent.base}
 Nsxiv.mark.foreground: {accent.base}
 Nsxiv.bar.font: xft:Hack:size=14:style=Regular 
+
+dmenu.font:             Hack Nerd Font:pixelsize=16:antialias=true:autohint=true                                           │
 
 st.font:                Hack Nerd Font:pixelsize=16:antialias=true:autohint=true
 st.bold_font:			0
@@ -32,10 +41,3 @@ st.bellvolume:			100
 st.tabspaces:			4
 st.chscale:			    1.0
 st.cwscale:			    1.0
-
-*.accent: {accent.base}
-*.accentbg: {accent.background}
-*.accentfg: {accent.foreground}
-*.accentcontrast: {accent.contrast}
-*.foregrounddim: {foreground.dim}
-*.backgroundbright: {background.bright}
