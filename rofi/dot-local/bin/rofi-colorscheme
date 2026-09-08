@@ -52,10 +52,10 @@ function main() {
             bspc wm -r
         fi
         if pgrep -x dwm > /dev/null; then 
-            pkill -HUP dwm
+            pkill -x -HUP dwm
         fi
         if pgrep -x dwmblocks > /dev/null; then 
-            pkill -USR1 dwmblocks
+            pkill -x -USR1 dwmblocks
         fi
     fi
 }
