@@ -1,0 +1,181 @@
+#!/usr/bin/env sh
+
+BASE_CONFIG="$XDG_CONFIG_HOME/mihomo/config.yaml"
+PRIVATE_CONFIG="$XDG_CONFIG_HOME/mihomo/config.private.yaml"
+MIHOMO_RUNTIME_DIR="/run/mihomo-$(id -un)"
+MIHOMO_SOCKET="$MIHOMO_RUNTIME_DIR/mihomo.sock"
+
+print-help() {
+    printf ""
+}
+
+add-subscription() {
+    name="$(rofi -config "$XDG_CONFIG_HOME/rofi/dmenu-input.rasi" \
+            -dmenu \
+            -mesg "Enter service or app name for new password" \
+            -p "󰌕 provider name")"
+
+    if [ -z "$name" ]; then
+        exit 1
+    fi
+
+    url="$(rofi -config "$XDG_CONFIG_HOME/rofi/dmenu-input.rasi" \
+            -dmenu \
+            -mesg "Enter service or app name for new password" \
+            -p "󰖟 subscription url")"
+
+    if [ -z "$url" ]; then
+        exit 1
+    fi
+
+    subscription=$(curl -fsSL -A 'mihomo' "$url")
+    if [ $? -ne 0 ]; then
+        echo "failed to download subscription" >&2
+        exit 1
+    fi
+
+    if ! printf '%s\n' "$subscription" | yq -e '.proxies | type == "array" and length > 0' >/dev/null; then
+        echo "subscription does not contain proxies" >&2
+        exit 1
+    fi
+
+    if [ -r "$PRIVATE_CONFIG" ]; then
+        private_config=$(yq --yaml-output '.' "$PRIVATE_CONFIG")
+        if [ $? -ne 0 ]; then
+            echo "failed to read private config" >&2
+            exit 1
+        fi
+    fi
+
+    if [ -z "$private_config" ]; then
+        private_config='{}'
+    fi
+
+    if printf '%s\n' "$private_config" | yq -e ".[proxy-providers][$name] != null" >/dev/null
+    then
+        echo "provider already exists: $name" >&2
+        exit 1
+    fi
+
+    result_yaml=$(printf '%s\n' "$private_config" | yq --yaml-output --arg name "$name" --arg url "$url" '
+        .["proxy-providers"] //= {} |
+        .["proxy-providers"][$name] = {
+            "type": "http",
+            "url": $url,
+            "interval": 3600
+        }')
+    if [ $? -ne 0 ]; then
+        echo "failed to update private config" >&2
+        exit 1
+    fi
+
+    printf '%s\n' "$result_yaml" > "$PRIVATE_CONFIG"
+    if [ $? -ne 0 ]; then
+        echo "failed to write private config" >&2
+        exit 1
+    fi
+}
+
+select-proxy() {
+    providers=$(curl -fsS \
+        --unix-socket "$MIHOMO_SOCKET" \
+        'http://localhost/providers/proxies')
+    if [ $? -ne 0 ]; then
+        echo "failed to get proxy providers" >&2
+        exit 1
+    fi
+
+    vpn=$(curl -fsS \
+        --unix-socket "$MIHOMO_SOCKET" \
+        'http://localhost/proxies/VPN')
+    if [ $? -ne 0 ]; then
+        echo "failed to get VPN proxies" >&2
+        exit 1
+    fi
+
+    if [ -r "$PRIVATE_CONFIG" ]; then
+        subscription_providers=$(yq -c '."proxy-providers" // {} | keys' "$PRIVATE_CONFIG")
+        if [ $? -ne 0 ]; then
+            echo "failed to get subscription providers" >&2
+            exit 1
+        fi
+    else
+        subscription_providers='[]'
+    fi
+
+    proxies=$(jq -cn \
+        --argjson providers "$providers" \
+        --argjson subscription_providers "$subscription_providers" \
+        --argjson vpn "$vpn" '
+        [
+            {provider: "DIRECT", name: "DIRECT", type: ""},
+            (
+                $providers.providers
+                | to_entries[]
+                | select(.key as $name | $subscription_providers | index($name))
+                | . as $provider
+                | $provider.value.proxies[]
+                | select(.name as $name | $vpn.all | index($name))
+                | {provider: $provider.key, name: .name, type: (.type // "")}
+            )
+        ]')
+    if [ $? -ne 0 ]; then
+        echo "failed to build proxy list" >&2
+        exit 1
+    fi
+
+    proxy_count=$(printf '%s\n' "$proxies" | jq -r 'length')
+    if [ $? -ne 0 ] || [ "$proxy_count" -eq 0 ]; then
+        echo "VPN does not contain provider proxies" >&2
+        exit 1
+    fi
+
+    menu_entries=$(printf '%s\n' "$proxies" | jq -r '
+        .[] | "[\(.provider)] \(.name)" +
+        if .type == "" then "" else " <i>(\(.type))</i>" end')
+    if [ $? -ne 0 ]; then
+        echo "failed to format proxy list" >&2
+        exit 1
+    fi
+
+    current_name=$(printf '%s\n' "$vpn" | jq -r '.now // empty')
+    if [ $? -ne 0 ]; then
+        echo "failed to get current proxy selection" >&2
+        exit 1
+    fi
+
+    current_index=$(printf '%s\n' "$proxies" | jq -r "map(.name) | index(\"$current_name\") // 0")
+    if [ $? -ne 0 ]; then
+        echo "failed to find current proxy selection" >&2
+        exit 1
+    fi
+
+    variant=$(printf '%s\n' "$menu_entries" \
+        | rofi -config "$XDG_CONFIG_HOME/rofi/dmenu-wide-column.rasi" \
+            -i -dmenu -no-custom \
+            -markup-rows \
+            -selected-row "$current_index" -a "$current_index" \
+            -format i \
+            -p "󱂇 proxy connection")
+
+    if [ -z "$variant" ]; then
+        exit 0
+    fi
+
+    curl -fsS -X PUT \
+        --unix-socket "$MIHOMO_SOCKET" \
+        -H 'Content-Type: application/json' \
+        -d "$(printf '%s\n' "$proxies" | jq -c ".[$variant] | {name}")" \
+        'http://localhost/proxies/VPN'
+    if [ $? -ne 0 ]; then
+        echo "failed to select proxy" >&2
+        exit 1
+    fi
+}
+
+case "$1" in 
+    --add) add-subscription "$2" "$3" ;;
+    --select) select-proxy ;;
+    -h|--help) print-help ;;
+    *) print-help ; exit 2 ;;
+esac

@@ -97,77 +97,56 @@ function main_menu {
 }
 
 function proxy_menu {
-    local -r SERVICE_NAME="sing-box@${USER}.service"
-    local -r SING_BOX_CONFIG="$XDG_CONFIG_HOME/sing-box/config.json"
-    readarray -t CLIENT_CONFIGS <<< "$(find "$XDG_CONFIG_HOME/sing-box/clients/" -maxdepth 1 \( -type f -o -type l \) -name "*.json" )"
+    local -r SERVICE_NAME="mihomo@${USER}.service"
 
-    local rofi_input="" rofi_message="" toggle_line=0 row_modifiers=() idx=0
+    local rofi_input="" len=0
+    
+    if systemctl -q is-active "$SERVICE_NAME" >/dev/null; then
+        srv=true
+    else
+        srv=false
+    fi
 
-    if [ -L "$SING_BOX_CONFIG" ]; then 
-        local -r ACTIVE_PROXY=$(readlink "$SING_BOX_CONFIG")
-    fi 
-
-    if systemctl -q is-active "$SERVICE_NAME" >/dev/null ; then 
+    if $srv; then 
         rofi_input+="$(colored-pango-icon ) Turn off\n"
+        len=3
     else 
-        rofi_message="Proxy is off."
-        if [ -e "$SING_BOX_CONFIG" ] && sing-box check -c "$SING_BOX_CONFIG" ; then 
-            rofi_input+="$(colored-pango-icon 󰒃) Turn on\n"
-        fi
+        rofi_input+="$(colored-pango-icon 󰒃) Turn on\n"
+        len=2
     fi
      
-    if [ -n "$rofi_input" ]; then 
-        toggle_line=1
-        idx=1
+    rofi_input+="$(colored-pango-icon  ) Add subscription\n"
+
+    if $srv; then 
+        rofi_input+="$(colored-pango-icon  ) Select proxy\n"
     fi
-
-    for client in "${CLIENT_CONFIGS[@]}"; do
-        if [ "$ACTIVE_PROXY" == "$client" ]; then 
-            row_modifiers=( -a "$idx" )
-
-            if systemctl -q is-active "$SERVICE_NAME" >/dev/null ; then 
-                rofi_message="<b>Connected via:</b> "
-            else 
-                rofi_message="<b>Ready to connect via:</b> "
-            fi 
-            rofi_message+="$(basename "$ACTIVE_PROXY")"
-        fi 
-
-        if head -n 1 "$client" \
-            | grep -qE "^[[:space:]]*(//|/\*)"
-        then 
-            rofi_input+="$(head -n 1 "$client" \
-                | sed "s/^[[:space:]]*\/\///g ; s/^[[:space:]]*\/\*//g ; s/\*\///g; s/^[[:space:]]*//; s/[[:space:]]*$//" )\n"
-        else 
-            rofi_input+="$(colored-pango-icon 󰒃) $(basename "$client")\n"
-        fi
-        (( idx += 1 ))
-    done 
 
     local -r variant=$(echo -en "$rofi_input" \
         | rofi -config "${XDG_CONFIG_HOME}/rofi/dmenu-single-column.rasi" \
         -markup-rows -i -dmenu -no-custom \
         -format 'i' \
         -p "󰙁 Proxy:" \
-        -mesg "$rofi_message" \
-        "${row_modifiers[@]}" \
-        -l $(( "${#CLIENT_CONFIGS[@]}" + toggle_line )) )
+        -l "$len" )
 
     if [ -z "$variant" ]; then
         exit 1
     fi
-    if (( variant == 0 )) && (( toggle_line == 1 )); then 
-        if systemctl -q is-active "$SERVICE_NAME" >/dev/null ; then 
-            systemctl stop "$SERVICE_NAME"
-        else 
-            systemctl start "$SERVICE_NAME"
-        fi
-    else 
-        local -r selected_client="${CLIENT_CONFIGS[$((variant - toggle_line))]}"
-        ln -sf "$selected_client" "$SING_BOX_CONFIG"
-        systemctl restart "$SERVICE_NAME"
-    fi 
 
+    case $variant in 
+        0) 
+            if $srv; then 
+                systemctl stop "$SERVICE_NAME"
+            else 
+                systemctl start "$SERVICE_NAME"
+            fi ;;
+        1) 
+            rofi-mihomo --add
+            if $srv; then 
+                systemctl restart "$SERVICE_NAME"
+            fi ;;
+        2) rofi-mihomo --select ;;
+        *) exit 1 ;;
+    esac 
 }
 
 function wifi_menu {

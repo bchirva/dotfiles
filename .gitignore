@@ -9,3 +9,4 @@ qutebrowser/**/bookmarks/
 qutebrowser/**/autoconfig.yml
 newsboat/**/urls
 yazi/**/package.toml
+mihomo/**/config.private.yaml

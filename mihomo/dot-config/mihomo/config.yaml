@@ -1,0 +1,60 @@
+mode: rule
+log-level: info
+allow-lan: false
+
+profile:
+  store-selected: true
+
+dns:
+  enable: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  respect-rules: true
+  default-nameserver:
+    - 1.1.1.1
+    - 1.0.0.1
+    - 8.8.8.8
+    - 8.8.4.4
+  proxy-server-nameserver:
+    - 1.1.1.1
+    - 8.8.8.8
+  nameserver:
+    - https://cloudflare-dns.com/dns-query
+    - https://dns.google/dns-query
+
+tun:
+  enable: true
+  stack: mixed
+  auto-route: true
+  auto-detect-interface: true
+  dns-hijack:
+    - any:53
+  route-exclude-address:
+    - 0.0.0.0/8
+    - 10.0.0.0/8
+    - 100.64.0.0/10
+    - 127.0.0.0/8
+    - 169.254.0.0/16
+    - 172.16.0.0/12
+    - 192.0.0.0/24
+    - 192.0.2.0/24
+    - 192.88.99.0/24
+    - 192.168.0.0/16
+    - 198.51.100.0/24
+    - 203.0.113.0/24
+    - 224.0.0.0/3
+    - ::/127
+    - fc00::/7
+    - fe80::/10
+    - ff00::/8
+  mtu: 1500
+
+proxy-groups:
+  - name: VPN
+    type: select
+    empty-fallback: DIRECT
+    proxies:
+      - DIRECT
+
+rules:
+  - MATCH,VPN

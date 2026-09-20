@@ -1,0 +1,40 @@
+[Unit]
+Description=Mihomo proxy for %i
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=%i
+
+StateDirectory=mihomo-%i
+StateDirectoryMode=0700
+RuntimeDirectory=mihomo-%i
+RuntimeDirectoryMode=0700
+
+ExecStartPre=/bin/sh -c 'exec "$HOME/.local/bin/mihomo-merge-configs"'
+
+ExecStartPre=/bin/sh -c '\
+    exec /usr/local/bin/mihomo \
+        -t \
+        -d "$STATE_DIRECTORY" \
+        -f "$RUNTIME_DIRECTORY/config.yaml"'
+
+ExecStart=/bin/sh -c '\
+    exec /usr/local/bin/mihomo \
+        -d "$STATE_DIRECTORY" \
+        -f "$RUNTIME_DIRECTORY/config.yaml" \
+        -ext-ctl-unix "$RUNTIME_DIRECTORY/mihomo.sock"'
+
+ExecReload=/bin/kill -HUP $MAINPID
+
+Restart=on-failure
+RestartSec=1
+
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_RAW
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_RAW
+
+PrivateTmp=yes
+ProtectHome=read-only
+
+[Install]

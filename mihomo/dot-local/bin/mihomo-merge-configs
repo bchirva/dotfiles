@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+
+BASE_CONFIG="$HOME/.config/mihomo/config.yaml"
+PRIVATE_CONFIG="$HOME/.config/mihomo/config.private.yaml"
+OUTPUT_CONFIG="$RUNTIME_DIRECTORY/config.yaml"
+
+if [ -r "$PRIVATE_CONFIG" ]; then
+    private=$(yq -c '.' "$PRIVATE_CONFIG")
+fi
+if [ -z "$private" ]; then
+    private='{}'
+fi
+
+JQ_SCRIPT='
+    . * $private |
+
+    ($private["proxy-providers"] // {} | keys) as $providers |
+    ($private.proxies // [] | map(.name)) as $proxies |
+
+    (.["proxy-groups"][] | select(.name == "VPN")) |= (
+        if ($providers | length) > 0 then
+            .use = $providers
+        else 
+            del(.use)
+        end |
+
+        .proxies = (["DIRECT"] + $proxies)
+    )'
+
+RESULT="$(yq '.' "$BASE_CONFIG" | jq --argjson private "$private" "$JQ_SCRIPT" | yq --yaml-output '.')" 
+printf '%s\n' "$RESULT" > "$OUTPUT_CONFIG"
