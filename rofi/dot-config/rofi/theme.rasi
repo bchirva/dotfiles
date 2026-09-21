@@ -123,8 +123,8 @@ element alternate.active {
 element selected.normal,
 element selected.urgent, 
 element selected.active {
-    background-color:   @color-background-brightest;
-    text-color:         @color-accent;
+    background-color:   @color-accent-background;
+    text-color:         @color-accent-foreground;
 }
 
 scrollbar {
