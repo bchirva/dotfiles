@@ -109,7 +109,7 @@ function proxy_menu {
 
     if $srv; then 
         rofi_input+="$(colored-pango-icon ) Turn off\n"
-        len=3
+        len=4
     else 
         rofi_input+="$(colored-pango-icon 󰒃) Turn on\n"
         len=2
@@ -119,6 +119,7 @@ function proxy_menu {
 
     if $srv; then 
         rofi_input+="$(colored-pango-icon  ) Select proxy\n"
+        rofi_input+="$(colored-pango-icon  ) Ping &amp; select proxy\n"
     fi
 
     local -r variant=$(echo -en "$rofi_input" \
@@ -145,6 +146,7 @@ function proxy_menu {
                 systemctl restart "$SERVICE_NAME"
             fi ;;
         2) rofi-mihomo --select ;;
+        3) rofi-mihomo --select --ping ;;
         *) exit 1 ;;
     esac 
 }

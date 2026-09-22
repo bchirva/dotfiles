@@ -5,6 +5,8 @@ PRIVATE_CONFIG="$XDG_CONFIG_HOME/mihomo/config.private.yaml"
 MIHOMO_RUNTIME_DIR="/run/mihomo-$(id -un)"
 MIHOMO_SOCKET="$MIHOMO_RUNTIME_DIR/mihomo.sock"
 
+. "${XDG_CONFIG_HOME}/shell/theme.sh"
+
 print-help() {
     printf ""
 }
@@ -77,11 +79,17 @@ add-subscription() {
 }
 
 select-proxy() {
+    DELAY_LIMIT=5000
+
+    case "$1" in 
+        -p|--ping) PING=true ;;
+        *) PING=false ;;
+    esac
+
     providers=$(curl -fsS \
         --unix-socket "$MIHOMO_SOCKET" \
         'http://localhost/providers/proxies')
     if [ $? -ne 0 ]; then
-        echo "failed to get proxy providers" >&2
         exit 1
     fi
 
@@ -89,14 +97,12 @@ select-proxy() {
         --unix-socket "$MIHOMO_SOCKET" \
         'http://localhost/proxies/VPN')
     if [ $? -ne 0 ]; then
-        echo "failed to get VPN proxies" >&2
         exit 1
     fi
 
     if [ -r "$PRIVATE_CONFIG" ]; then
         subscription_providers=$(yq -c '."proxy-providers" // {} | keys' "$PRIVATE_CONFIG")
         if [ $? -ne 0 ]; then
-            echo "failed to get subscription providers" >&2
             exit 1
         fi
     else
@@ -119,36 +125,57 @@ select-proxy() {
                 | {provider: $provider.key, name: .name, type: (.type // "")}
             )
         ]')
-    if [ $? -ne 0 ]; then
-        echo "failed to build proxy list" >&2
-        exit 1
-    fi
+    [ $? -ne 0 ] && exit 1
 
     proxy_count=$(printf '%s\n' "$proxies" | jq -r 'length')
-    if [ $? -ne 0 ] || [ "$proxy_count" -eq 0 ]; then
-        echo "VPN does not contain provider proxies" >&2
-        exit 1
-    fi
+    [ "$proxy_count" -eq 0 ] && exit 1
 
-    menu_entries=$(printf '%s\n' "$proxies" | jq -r '
-        .[] | "[\(.provider)] \(.name)" +
-        if .type == "" then "" else " <i>(\(.type))</i>" end')
-    if [ $? -ne 0 ]; then
-        echo "failed to format proxy list" >&2
-        exit 1
+    if $PING; then
+        delays=$(curl -fsS -G \
+            --unix-socket "$MIHOMO_SOCKET" \
+            --data-urlencode 'url=https://www.gstatic.com/generate_204' \
+            --data-urlencode "timeout=$DELAY_LIMIT" \
+            'http://localhost/group/VPN/delay')
+        if ! printf '%s\n' "$delays" | jq -e 'type == "object"' >/dev/null; then
+            delays='{}'
+        fi
+
+        proxies=$(printf '%s\n' "$proxies" | jq \
+            --argjson delays "$delays" '
+            map(
+                if .name == "DIRECT" then .
+                else . + {delay: ($delays[.name] // null)}
+                end
+            )
+            | [.[] | select(.name == "DIRECT")]
+            + ([.[] | select(.name != "DIRECT")]
+               | sort_by([if .delay == null then 1 else 0 end, (.delay // 0)]))')
+        [ $? -ne 0 ] && exit 1
+
+        menu_entries=$(printf '%s\n' "$proxies" | jq -r \
+            --arg success_color "$SUCCESS_COLOR" \
+            --arg warning_color "$WARNING_COLOR" \
+            --arg error_color "$ERROR_COLOR" '
+            .[] | "[\(.provider)] \(.name)" +
+            if .type == "" then "" else " <i>(\(.type))</i>" end +
+            if .name == "DIRECT" then ""
+            elif .delay == null then " <span color=\"\($error_color)\">-</span>"
+            elif .delay < 400 then " <span color=\"\($success_color)\">\(.delay)ms</span>"
+            elif .delay < 800 then " <span color=\"\($warning_color)\">\(.delay)ms</span>"
+            else " <span color=\"\($error_color)\">\(.delay)ms</span>"
+            end')
+        [ $? -ne 0 ] && exit 1
+    else 
+        menu_entries=$(printf '%s\n' "$proxies" | jq -r '
+            .[] | "[\(.provider)] \(.name)" +
+            if .type == "" then "" else " <i>(\(.type))</i>" end')
+        [ $? -ne 0 ] && exit 1
     fi
 
     current_name=$(printf '%s\n' "$vpn" | jq -r '.now // empty')
-    if [ $? -ne 0 ]; then
-        echo "failed to get current proxy selection" >&2
-        exit 1
-    fi
+    [ -z "$current_name" ] && exit 1
 
     current_index=$(printf '%s\n' "$proxies" | jq -r "map(.name) | index(\"$current_name\") // 0")
-    if [ $? -ne 0 ]; then
-        echo "failed to find current proxy selection" >&2
-        exit 1
-    fi
 
     variant=$(printf '%s\n' "$menu_entries" \
         | rofi -config "$XDG_CONFIG_HOME/rofi/dmenu-wide-column.rasi" \
@@ -167,15 +194,11 @@ select-proxy() {
         -H 'Content-Type: application/json' \
         -d "$(printf '%s\n' "$proxies" | jq -c ".[$variant] | {name}")" \
         'http://localhost/proxies/VPN'
-    if [ $? -ne 0 ]; then
-        echo "failed to select proxy" >&2
-        exit 1
-    fi
 }
 
 case "$1" in 
-    --add) add-subscription "$2" "$3" ;;
-    --select) select-proxy ;;
+    --add) shift; add-subscription "$@" ;;
+    --select) shift; select-proxy "$@" ;;
     -h|--help) print-help ;;
     *) print-help ; exit 2 ;;
 esac
