@@ -47,6 +47,10 @@ tun:
     - fc00::/7
     - fe80::/10
     - ff00::/8
+  fake-ip-filter:
+    - "+.lan"
+    - "+.local"
+    - "+.home"
   mtu: 1500
 
 proxy-groups:
@@ -57,4 +61,7 @@ proxy-groups:
       - DIRECT
 
 rules:
+  - DOMAIN-SUFFIX,ru,DIRECT
+  - DOMAIN-SUFFIX,su,DIRECT
+  - DOMAIN-SUFFIX,xn--p1ai,DIRECT
   - MATCH,VPN
