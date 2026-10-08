@@ -14,8 +14,7 @@ print-help() {
 add-subscription() {
     name="$(rofi -config "$XDG_CONFIG_HOME/rofi/dmenu-input.rasi" \
             -dmenu \
-            -mesg "Enter service or app name for new password" \
-            -p "󰌕 provider name")"
+            -p "󰌕 provider")"
 
     if [ -z "$name" ]; then
         exit 1
@@ -23,8 +22,7 @@ add-subscription() {
 
     url="$(rofi -config "$XDG_CONFIG_HOME/rofi/dmenu-input.rasi" \
             -dmenu \
-            -mesg "Enter service or app name for new password" \
-            -p "󰖟 subscription url")"
+            -p "󰖟 url")"
 
     if [ -z "$url" ]; then
         exit 1

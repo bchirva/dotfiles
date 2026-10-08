@@ -3,7 +3,7 @@
 window {
     location:   center;
     anchor:     center;
-    width:      350px;
+    width:      500px;
 }
 
 mainbox {
