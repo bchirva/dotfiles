@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+
+LLAMA_ARG_PORT=12741
+LLAMA_ARG_CTX_SIZE=131072
+
+for cmd in fzf llama-server llama-cli; do
+    if ! command -v "$cmd" >/dev/null; then
+        exit 1
+    fi
+done
+
+SELECTED="$(llama-cli --cache-list \
+    | sed '1d; s/^\s*[0-9]*\. //' \
+    | fzf --prompt "llama.cpp model: ")"
+
+if [ -z "$SELECTED" ]; then
+    exit 1
+fi
+ 
+llama-server \
+    --offline \
+    -hf "$SELECTED" \
+    --port "$LLAMA_ARG_PORT" \
+    --ctx-size "$LLAMA_ARG_CTX_SIZE"
+
