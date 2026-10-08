@@ -76,6 +76,9 @@ super + space ; u
 super + space ; v
     rofi-virtmanager
 
+super + space ; w
+    librewolf
+
 super + space ; shift + v
     virt-manager
 
