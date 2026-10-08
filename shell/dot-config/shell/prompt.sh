@@ -94,6 +94,8 @@ prompt_info() {
         local -r git_head="$(git symbolic-ref --quiet --short HEAD 2>/dev/null)"
         if [ -n "$git_head" ]; then 
             GIT_INFO+="  $git_head"
+        else
+            GIT_INFO+="  $(git rev-parse --short HEAD 2>/dev/null)"
         fi 
 
         local -r git_tag=$(git tag --points-at 2>/dev/null)
