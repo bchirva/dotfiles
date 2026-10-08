@@ -1,0 +1,9 @@
+{
+  "llamaServerUrl": "http://127.0.0.1:12741",
+  "lastChangelogVersion": "0.84.1",
+  "packages": [
+    "npm:pi-llama-cpp"
+  ],
+  "defaultProvider": "llama-server",
+  "theme": "Quartz"
+}
