@@ -11,8 +11,8 @@ Execute a persisted plan while keeping the plan file as the source of truth.
 
 If the user has not already chosen a mode and subagents are available, ask once:
 
-- **Current context** — execute the plan here
-- **Subagent** — delegate each plan step to a fresh subagent
+1. **Current context** — execute the plan here
+2. **Subagent** — delegate each plan step to a fresh subagent
 
 If subagents are unavailable, use the current context.
 

@@ -16,6 +16,7 @@ Understand the task before implementing it.
 5. If multiple reasonable technical solutions exist, present their relevant trade-offs and recommend one
 6. Summarize the understood goal, constraints, and expected outcome
 7. Produce a concise implementation plan
+8. When plan is complete - write it down with `plan-fixture` skill
 
 ## Rules
 
