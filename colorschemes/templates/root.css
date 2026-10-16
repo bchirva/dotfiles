@@ -1,0 +1,56 @@
+:root {{
+    --color-black:                  {black};
+    --color-red:                    {red};
+    --color-green:                  {green};
+    --color-yellow:                 {yellow};
+    --color-blue:                   {blue};
+    --color-magenta:                {magenta};
+    --color-cyan:                   {cyan};
+    --color-white:                  {white};
+    --color-black-bright:           {black.bright};
+    --color-red-bright:             {red.bright};
+    --color-green-bright:           {green.bright};
+    --color-yellow-bright:          {yellow.bright};
+    --color-blue-bright:            {blue.bright};
+    --color-magenta-bright:         {magenta.bright};
+    --color-cyan-bright:            {cyan.bright};
+    --color-white-bright:           {white.bright};
+
+    --color-background:             {background.base};
+    --color-background-bright:      {background.bright};
+    --color-background-brightest:   {background.brightest};
+
+    --color-foreground:             {foreground.base};
+    --color-foreground-bright:      {foreground.bright};
+    --color-foreground-dim:         {foreground.dim};
+
+    --accent:                       {accent.base};
+    --accent-bright:                {accent.bright};
+    --accent-contrast:              {accent.contrast};
+    --accent-background:            {accent.background};
+    --accent-foreground:            {accent.foreground};
+
+    --info:                         {info.base};
+    --info-bright:                  {info.bright};
+    --info-contrast:                {info.contrast};
+    --info-background:              {info.background};
+    --info-foreground:              {info.foreground};
+
+    --success:                      {success.base};
+    --success-bright:               {success.bright};
+    --success-contrast:             {success.contrast};
+    --success-background:           {success.background};
+    --success-foreground:           {success.foreground};
+
+    --warning:                      {warning.base};
+    --warning-bright:               {warning.bright};
+    --warning-contrast:             {warning.contrast};
+    --warning-background:           {warning.background};
+    --warning-foreground:           {warning.foreground};
+
+    --error:                        {error.base};
+    --error-bright:                 {error.bright};
+    --error-contrast:               {error.contrast};
+    --error-background:             {error.background};
+    --error-foreground:             {error.foreground};
+}}

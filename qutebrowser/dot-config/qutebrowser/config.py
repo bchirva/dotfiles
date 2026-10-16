@@ -2,6 +2,9 @@
 # pyright: reportUndefinedVariable=false
 # pylint: disable=undefined-variable
 
+import glob
+import pathlib
+
 # General
 config.load_autoconfig(False)
 c.auto_save.session = False
@@ -44,8 +47,14 @@ c.statusbar.padding = {"bottom": 4, "top": 4, "left": 4, "right": 4}
 c.statusbar.show = "in-mode"
 c.scrolling.smooth = True
 
-c.colors.webpage.darkmode.enabled = True
 config.source("theme.py")
+
+config_root = pathlib.Path.home() / ".config/qutebrowser"
+c.content.user_stylesheets = [
+    str(config_root / "css/root.css"),
+    *glob.glob(str(config_root / "css/domain/*.css")),
+    str(config_root / 'css/theme.css'),
+]
 
 # Privacy
 config.set("content.webgl", False)
