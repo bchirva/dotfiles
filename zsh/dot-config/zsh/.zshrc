@@ -6,6 +6,7 @@ source $XDG_CONFIG_HOME/shell/ssh-agent-autostart.sh
 source $XDG_CONFIG_HOME/shell/tmux-autostart.sh
 source $XDG_CONFIG_HOME/shell/ls-colors.sh
 source $XDG_CONFIG_HOME/shell/man-colors.sh
+source $XDG_CONFIG_HOME/shell/theme.sh
 
 #**********# Zsh history settings #**********#
 
@@ -38,6 +39,8 @@ source $XDG_CONFIG_HOME/shell/prompt.sh
 PROMPT='$(prompt_info zsh)'
 
 #**********# Zsh plugins #**********#
+
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=${FOREGROUND_DIM_COLOR}"
 
 source $ZDOTDIR/plugins/loader.zsh
 load-plugins \

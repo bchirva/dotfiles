@@ -1,5 +1,8 @@
 BACKGROUND_COLOR="{background.base}"
 BACKGROUND_BRIGHT_COLOR="{background.bright}"
+FOREGROUND_COLOR="{foreground.base}"
+FOREGROUND_DIM_COLOR="{foreground.dim}"
+
 ACCENT_COLOR="{accent.base}"
 INFO_COLOR="{info.base}"
 SUCCESS_COLOR="{success.base}"
