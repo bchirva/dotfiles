@@ -53,6 +53,15 @@ tun:
     - "+.home"
   mtu: 1500
 
+geodata-mode: true
+geo-auto-update: true
+geo-update-interval: 24
+geox-url:
+  geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat"
+  geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+
+find-process-mode: always
+
 proxy-groups:
   - name: VPN
     type: select
@@ -61,7 +70,13 @@ proxy-groups:
       - DIRECT
 
 rules:
+  - PROCESS-NAME,transmission-daemon,DIRECT
+  - GEOIP,private,DIRECT,no-resolve
+
   - DOMAIN-SUFFIX,ru,DIRECT
   - DOMAIN-SUFFIX,su,DIRECT
   - DOMAIN-SUFFIX,xn--p1ai,DIRECT
+  - GEOSITE,category-ru,DIRECT
+  - GEOIP,RU,DIRECT
+
   - MATCH,VPN
