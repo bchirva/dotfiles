@@ -5,6 +5,7 @@
 import argparse
 import json
 import os
+import random
 import sys
 from typing import Any
 
@@ -14,6 +15,30 @@ from colorizer.consts import ANSI_CLEAR_LINE, ANSI_RESET_COLOR
 from colorizer.render_svg import render_gtk_assets
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+def ensure_active_colorscheme(build_dir: str):
+    active_link = os.path.join(build_dir, "active")
+    active_target = os.path.realpath(active_link)
+
+    if os.path.islink(active_link) and os.path.isdir(active_target):
+        if os.path.dirname(active_target) == build_dir:
+            return
+
+    if os.path.lexists(active_link):
+        print(f"Warning: {active_link} already exists and will not be changed")
+        return
+
+    colorscheme_dirs = [
+        entry.name
+        for entry in os.scandir(build_dir)
+        if entry.name != "active" and entry.is_dir()
+    ]
+    if not colorscheme_dirs:
+        print("Warning: no colorscheme build directories available for active link")
+        return
+
+    os.symlink(random.choice(colorscheme_dirs), active_link)
 
 
 def main(params: dict[str, Any]):
@@ -26,8 +51,9 @@ def main(params: dict[str, Any]):
             for name in params["select"].split(",")
         ]
 
-    if not os.path.isdir(os.path.join(ROOT_DIR, "build")):
-        os.mkdir(os.path.join(ROOT_DIR, "build"))
+    build_dir = os.path.join(ROOT_DIR, "build")
+    if not os.path.isdir(build_dir):
+        os.mkdir(build_dir)
 
     for palette in palettes_list:
         with open(
@@ -35,7 +61,7 @@ def main(params: dict[str, Any]):
         ) as palette_file:
 
             palette_name = palette.split(".")[0]
-            colorscheme_build_dir: str = os.path.join(ROOT_DIR, "build", palette_name)
+            colorscheme_build_dir: str = os.path.join(build_dir, palette_name)
             if not os.path.isdir(colorscheme_build_dir):
                 os.mkdir(colorscheme_build_dir)
 
@@ -53,6 +79,7 @@ def main(params: dict[str, Any]):
                 f"{ANSI_CLEAR_LINE}{ansi_color_begin} {palette.split('.')[0]}{ANSI_RESET_COLOR} colorscheme generated"
             )
 
+    ensure_active_colorscheme(build_dir)
     print("Done!")
 
 
